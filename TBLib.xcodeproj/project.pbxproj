@@ -38,6 +38,7 @@
 		B323347520405D3E00C0F20E /* libtdnet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B323344F204046C100C0F20E /* libtdnet.a */; };
 		B323347620405D3E00C0F20E /* libtdsqlite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B3233446204046C100C0F20E /* libtdsqlite.a */; };
 		B323347720405D3E00C0F20E /* libtdutils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B323344A204046C100C0F20E /* libtdutils.a */; };
+		B33B98892044823C000712A6 /* libutil.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B33B98872044823C000712A6 /* libutil.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,8 @@
 		B323346420405C3300C0F20E /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = lib/lib/libcrypto.a; sourceTree = "<group>"; };
 		B323346520405C3300C0F20E /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = lib/lib/libssl.a; sourceTree = "<group>"; };
 		B323346820405CA500C0F20E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		B33B98872044823C000712A6 /* libutil.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libutil.tbd; path = usr/lib/libutil.tbd; sourceTree = SDKROOT; };
+		B33B988A2044956F000712A6 /* Keys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Keys.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +104,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B33B98892044823C000712A6 /* libutil.tbd in Frameworks */,
 				B3233421203F066200C0F20E /* TBLib.framework in Frameworks */,
 				B323346A20405D2A00C0F20E /* libz.tbd in Frameworks */,
 				B323346C20405D3E00C0F20E /* libcrypto.a in Frameworks */,
@@ -146,6 +150,7 @@
 				B323341A203F066200C0F20E /* TBLib.h */,
 				B323345A2040479E00C0F20E /* Test.h */,
 				B323345B2040479E00C0F20E /* Test.m */,
+				B33B988A2044956F000712A6 /* Keys.h */,
 				B323341B203F066200C0F20E /* Info.plist */,
 			);
 			path = TBLib;
@@ -164,6 +169,7 @@
 		B32334312040427900C0F20E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B33B98872044823C000712A6 /* libutil.tbd */,
 				B323346820405CA500C0F20E /* libz.tbd */,
 				B323346420405C3300C0F20E /* libcrypto.a */,
 				B323346520405C3300C0F20E /* libssl.a */,
@@ -433,7 +439,7 @@
 		B323342C203F066200C0F20E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -462,7 +468,7 @@
 		B323342D203F066200C0F20E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
