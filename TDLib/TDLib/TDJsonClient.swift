@@ -10,14 +10,18 @@ import Foundation
 import libtdjson_static
 
 public class TDJsonClient {
-    let client = td_json_client_create()
+    private let queue = DispatchQueue(label: "tdjsonclient", qos: .userInitiated)
     
-    let event: (String, TDJsonClient) -> Void
+    private let client = td_json_client_create()
+    
+    private let event: (String, TDJsonClient) -> Void
+    
+    public private(set) var isListing = true
     
     public init(event: @escaping (String, TDJsonClient) -> Void) {
         self.event = event
-        DispatchQueue.global().async {
-            while true {
+        self.queue.async {
+            while self.isListing {
                 if let event = td_json_client_receive(self.client, 10) {
                     self.event(String(cString: event), self)
                 }
@@ -31,7 +35,21 @@ public class TDJsonClient {
         }
     }
     
+    public func execute(_ query: String) -> String? {
+        return query.withCString { cString in
+            if let result = td_json_client_execute(self.client, cString) {
+                return String(cString: result)
+            }
+            return nil
+        }
+    }
+    
+    public func stopListing() {
+        self.isListing = false
+    }
+    
     deinit {
-        td_json_client_destroy(client)
+        self.stopListing()
+        td_json_client_destroy(self.client)
     }
 }

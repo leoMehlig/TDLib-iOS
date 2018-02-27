@@ -67,3 +67,5 @@ fastlane/screenshots
 fastlane/test_output
 .DS_Store
 /TBLib/Keys.h
+
+TDLib/lib/
