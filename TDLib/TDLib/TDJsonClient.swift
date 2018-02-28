@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import libtdjson_static
+import libtdjson
 
 public class TDJsonClient {
     private let queue = DispatchQueue(label: "tdjsonclient", qos: .userInitiated)

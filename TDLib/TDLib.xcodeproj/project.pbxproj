@@ -7,27 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B333EAD720475105009E65A1 /* libtdcore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EACB20475104009E65A1 /* libtdcore.a */; };
+		B333EAD820475105009E65A1 /* libtdsqlite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EACC20475104009E65A1 /* libtdsqlite.a */; };
+		B333EAD920475105009E65A1 /* libtdtl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EACD20475104009E65A1 /* libtdtl.a */; };
+		B333EADA20475105009E65A1 /* libtdactor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EACE20475104009E65A1 /* libtdactor.a */; };
+		B333EADB20475105009E65A1 /* libtdjson_private.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EACF20475104009E65A1 /* libtdjson_private.a */; };
+		B333EADC20475105009E65A1 /* libtdnet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EAD020475104009E65A1 /* libtdnet.a */; };
+		B333EADD20475105009E65A1 /* libtdutils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EAD120475104009E65A1 /* libtdutils.a */; };
+		B333EADE20475105009E65A1 /* libmemprof.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EAD220475104009E65A1 /* libmemprof.a */; };
+		B333EADF20475105009E65A1 /* libtdjson_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EAD320475104009E65A1 /* libtdjson_static.a */; };
+		B333EAE020475105009E65A1 /* libtddb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EAD420475104009E65A1 /* libtddb.a */; };
+		B333EAE120475105009E65A1 /* libtdc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EAD520475104009E65A1 /* libtdc.a */; };
+		B333EAE220475105009E65A1 /* libtdclient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EAD620475104009E65A1 /* libtdclient.a */; };
+		B333EAEA204753F5009E65A1 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EAE8204753F4009E65A1 /* libcrypto.a */; };
+		B333EAEB204753F5009E65A1 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EAE9204753F4009E65A1 /* libssl.a */; };
 		B33B98A52044C237000712A6 /* TDLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B33B989B2044C237000712A6 /* TDLib.framework */; };
 		B33B98AA2044C237000712A6 /* TDLibTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33B98A92044C237000712A6 /* TDLibTests.swift */; };
 		B33B98AC2044C237000712A6 /* TDLib.h in Headers */ = {isa = PBXBuildFile; fileRef = B33B989E2044C237000712A6 /* TDLib.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B33B98CD2044C273000712A6 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B33B98CC2044C273000712A6 /* libc++.tbd */; };
 		B33B98CF2044C282000712A6 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B33B98CE2044C282000712A6 /* libz.tbd */; };
 		B33B98D12044C37B000712A6 /* TDJsonClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33B98D02044C37B000712A6 /* TDJsonClient.swift */; };
-		B33B99392044C7A4000712A6 /* tdjson_export.h in Headers */ = {isa = PBXBuildFile; fileRef = B33B98D82044C7A4000712A6 /* tdjson_export.h */; };
-		B33B993A2044C7A4000712A6 /* td_json_client.h in Headers */ = {isa = PBXBuildFile; fileRef = B33B98D92044C7A4000712A6 /* td_json_client.h */; };
-		B34B0C712045F0EC002EF419 /* libtdsqlite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B34B0C662045F0E7002EF419 /* libtdsqlite.a */; };
-		B34B0C722045F0EC002EF419 /* libtdactor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B34B0C672045F0E7002EF419 /* libtdactor.a */; };
-		B34B0C732045F0EC002EF419 /* libtddb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B34B0C682045F0E7002EF419 /* libtddb.a */; };
-		B34B0C752045F0EC002EF419 /* libtdcore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B34B0C6A2045F0EA002EF419 /* libtdcore.a */; };
-		B34B0C762045F0EC002EF419 /* libtdnet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B34B0C6B2045F0EB002EF419 /* libtdnet.a */; };
-		B34B0C772045F0EC002EF419 /* libtdjson_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B34B0C6C2045F0EB002EF419 /* libtdjson_static.a */; };
-		B34B0C782045F0EC002EF419 /* libtdtl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B34B0C6D2045F0EB002EF419 /* libtdtl.a */; };
-		B34B0C792045F0EC002EF419 /* libtdutils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B34B0C6E2045F0EB002EF419 /* libtdutils.a */; };
-		B34B0C7A2045F0EC002EF419 /* libtdclient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B34B0C6F2045F0EB002EF419 /* libtdclient.a */; };
-		B34B0C7B2045F0EC002EF419 /* libtdjson_private.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B34B0C702045F0EC002EF419 /* libtdjson_private.a */; };
-		B34B0C7E2045F17E002EF419 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B34B0C7C2045F17D002EF419 /* libcrypto.a */; };
-		B34B0C7F2045F17E002EF419 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B34B0C7D2045F17E002EF419 /* libssl.a */; };
-		B34B0C802045F68F002EF419 /* libmemprof.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B34B0C692045F0E7002EF419 /* libmemprof.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +40,21 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B333EACB20475104009E65A1 /* libtdcore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdcore.a; path = libs/build/td/libs/libtdcore.a; sourceTree = "<group>"; };
+		B333EACC20475104009E65A1 /* libtdsqlite.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdsqlite.a; path = libs/build/td/libs/libtdsqlite.a; sourceTree = "<group>"; };
+		B333EACD20475104009E65A1 /* libtdtl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdtl.a; path = libs/build/td/libs/libtdtl.a; sourceTree = "<group>"; };
+		B333EACE20475104009E65A1 /* libtdactor.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdactor.a; path = libs/build/td/libs/libtdactor.a; sourceTree = "<group>"; };
+		B333EACF20475104009E65A1 /* libtdjson_private.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdjson_private.a; path = libs/build/td/libs/libtdjson_private.a; sourceTree = "<group>"; };
+		B333EAD020475104009E65A1 /* libtdnet.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdnet.a; path = libs/build/td/libs/libtdnet.a; sourceTree = "<group>"; };
+		B333EAD120475104009E65A1 /* libtdutils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdutils.a; path = libs/build/td/libs/libtdutils.a; sourceTree = "<group>"; };
+		B333EAD220475104009E65A1 /* libmemprof.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmemprof.a; path = libs/build/td/libs/libmemprof.a; sourceTree = "<group>"; };
+		B333EAD320475104009E65A1 /* libtdjson_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdjson_static.a; path = libs/build/td/libs/libtdjson_static.a; sourceTree = "<group>"; };
+		B333EAD420475104009E65A1 /* libtddb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtddb.a; path = libs/build/td/libs/libtddb.a; sourceTree = "<group>"; };
+		B333EAD520475104009E65A1 /* libtdc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdc.a; path = libs/build/td/libs/libtdc.a; sourceTree = "<group>"; };
+		B333EAD620475104009E65A1 /* libtdclient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdclient.a; path = libs/build/td/libs/libtdclient.a; sourceTree = "<group>"; };
+		B333EAE32047510E009E65A1 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; name = module.modulemap; path = libs/module.modulemap; sourceTree = "<group>"; };
+		B333EAE8204753F4009E65A1 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "libs/build/OpenSSL-for-iPhone/lib/libcrypto.a"; sourceTree = "<group>"; };
+		B333EAE9204753F4009E65A1 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = "libs/build/OpenSSL-for-iPhone/lib/libssl.a"; sourceTree = "<group>"; };
 		B33B989B2044C237000712A6 /* TDLib.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TDLib.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B33B989E2044C237000712A6 /* TDLib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TDLib.h; sourceTree = "<group>"; };
 		B33B989F2044C237000712A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -50,22 +64,6 @@
 		B33B98CC2044C273000712A6 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		B33B98CE2044C282000712A6 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		B33B98D02044C37B000712A6 /* TDJsonClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDJsonClient.swift; sourceTree = "<group>"; };
-		B33B98D82044C7A4000712A6 /* tdjson_export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tdjson_export.h; sourceTree = "<group>"; };
-		B33B98D92044C7A4000712A6 /* td_json_client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = td_json_client.h; sourceTree = "<group>"; };
-		B33B99362044C7A4000712A6 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
-		B34B0C662045F0E7002EF419 /* libtdsqlite.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtdsqlite.a; sourceTree = "<group>"; };
-		B34B0C672045F0E7002EF419 /* libtdactor.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtdactor.a; sourceTree = "<group>"; };
-		B34B0C682045F0E7002EF419 /* libtddb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtddb.a; sourceTree = "<group>"; };
-		B34B0C692045F0E7002EF419 /* libmemprof.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libmemprof.a; sourceTree = "<group>"; };
-		B34B0C6A2045F0EA002EF419 /* libtdcore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtdcore.a; sourceTree = "<group>"; };
-		B34B0C6B2045F0EB002EF419 /* libtdnet.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtdnet.a; sourceTree = "<group>"; };
-		B34B0C6C2045F0EB002EF419 /* libtdjson_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtdjson_static.a; sourceTree = "<group>"; };
-		B34B0C6D2045F0EB002EF419 /* libtdtl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtdtl.a; sourceTree = "<group>"; };
-		B34B0C6E2045F0EB002EF419 /* libtdutils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtdutils.a; sourceTree = "<group>"; };
-		B34B0C6F2045F0EB002EF419 /* libtdclient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtdclient.a; sourceTree = "<group>"; };
-		B34B0C702045F0EC002EF419 /* libtdjson_private.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtdjson_private.a; sourceTree = "<group>"; };
-		B34B0C7C2045F17D002EF419 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
-		B34B0C7D2045F17E002EF419 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,21 +71,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B333EAEB204753F5009E65A1 /* libssl.a in Frameworks */,
+				B333EADB20475105009E65A1 /* libtdjson_private.a in Frameworks */,
 				B33B98CF2044C282000712A6 /* libz.tbd in Frameworks */,
-				B34B0C752045F0EC002EF419 /* libtdcore.a in Frameworks */,
-				B34B0C712045F0EC002EF419 /* libtdsqlite.a in Frameworks */,
+				B333EAD820475105009E65A1 /* libtdsqlite.a in Frameworks */,
+				B333EAD920475105009E65A1 /* libtdtl.a in Frameworks */,
+				B333EAE220475105009E65A1 /* libtdclient.a in Frameworks */,
+				B333EADA20475105009E65A1 /* libtdactor.a in Frameworks */,
+				B333EAE020475105009E65A1 /* libtddb.a in Frameworks */,
+				B333EAE120475105009E65A1 /* libtdc.a in Frameworks */,
+				B333EADD20475105009E65A1 /* libtdutils.a in Frameworks */,
+				B333EAD720475105009E65A1 /* libtdcore.a in Frameworks */,
 				B33B98CD2044C273000712A6 /* libc++.tbd in Frameworks */,
-				B34B0C732045F0EC002EF419 /* libtddb.a in Frameworks */,
-				B34B0C7F2045F17E002EF419 /* libssl.a in Frameworks */,
-				B34B0C7B2045F0EC002EF419 /* libtdjson_private.a in Frameworks */,
-				B34B0C7E2045F17E002EF419 /* libcrypto.a in Frameworks */,
-				B34B0C722045F0EC002EF419 /* libtdactor.a in Frameworks */,
-				B34B0C782045F0EC002EF419 /* libtdtl.a in Frameworks */,
-				B34B0C762045F0EC002EF419 /* libtdnet.a in Frameworks */,
-				B34B0C772045F0EC002EF419 /* libtdjson_static.a in Frameworks */,
-				B34B0C7A2045F0EC002EF419 /* libtdclient.a in Frameworks */,
-				B34B0C802045F68F002EF419 /* libmemprof.a in Frameworks */,
-				B34B0C792045F0EC002EF419 /* libtdutils.a in Frameworks */,
+				B333EAEA204753F5009E65A1 /* libcrypto.a in Frameworks */,
+				B333EADE20475105009E65A1 /* libmemprof.a in Frameworks */,
+				B333EADC20475105009E65A1 /* libtdnet.a in Frameworks */,
+				B333EADF20475105009E65A1 /* libtdjson_static.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,48 +144,23 @@
 			children = (
 				B33B98CE2044C282000712A6 /* libz.tbd */,
 				B33B98CC2044C273000712A6 /* libc++.tbd */,
-				B33B98D32044C7A4000712A6 /* lib */,
+				B333EAD220475104009E65A1 /* libmemprof.a */,
+				B333EACE20475104009E65A1 /* libtdactor.a */,
+				B333EAD520475104009E65A1 /* libtdc.a */,
+				B333EAD620475104009E65A1 /* libtdclient.a */,
+				B333EACB20475104009E65A1 /* libtdcore.a */,
+				B333EAD420475104009E65A1 /* libtddb.a */,
+				B333EACF20475104009E65A1 /* libtdjson_private.a */,
+				B333EAD320475104009E65A1 /* libtdjson_static.a */,
+				B333EAD020475104009E65A1 /* libtdnet.a */,
+				B333EACC20475104009E65A1 /* libtdsqlite.a */,
+				B333EACD20475104009E65A1 /* libtdtl.a */,
+				B333EAD120475104009E65A1 /* libtdutils.a */,
+				B333EAE8204753F4009E65A1 /* libcrypto.a */,
+				B333EAE9204753F4009E65A1 /* libssl.a */,
+				B333EAE32047510E009E65A1 /* module.modulemap */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		B33B98D32044C7A4000712A6 /* lib */ = {
-			isa = PBXGroup;
-			children = (
-				B33B98D42044C7A4000712A6 /* include */,
-				B33B992B2044C7A4000712A6 /* lib */,
-			);
-			path = lib;
-			sourceTree = "<group>";
-		};
-		B33B98D42044C7A4000712A6 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				B33B98D82044C7A4000712A6 /* tdjson_export.h */,
-				B33B98D92044C7A4000712A6 /* td_json_client.h */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		B33B992B2044C7A4000712A6 /* lib */ = {
-			isa = PBXGroup;
-			children = (
-				B33B99362044C7A4000712A6 /* module.modulemap */,
-				B34B0C692045F0E7002EF419 /* libmemprof.a */,
-				B34B0C672045F0E7002EF419 /* libtdactor.a */,
-				B34B0C6F2045F0EB002EF419 /* libtdclient.a */,
-				B34B0C6A2045F0EA002EF419 /* libtdcore.a */,
-				B34B0C682045F0E7002EF419 /* libtddb.a */,
-				B34B0C702045F0EC002EF419 /* libtdjson_private.a */,
-				B34B0C6C2045F0EB002EF419 /* libtdjson_static.a */,
-				B34B0C6B2045F0EB002EF419 /* libtdnet.a */,
-				B34B0C662045F0E7002EF419 /* libtdsqlite.a */,
-				B34B0C6D2045F0EB002EF419 /* libtdtl.a */,
-				B34B0C6E2045F0EB002EF419 /* libtdutils.a */,
-				B34B0C7C2045F17D002EF419 /* libcrypto.a */,
-				B34B0C7D2045F17E002EF419 /* libssl.a */,
-			);
-			path = lib;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -197,8 +171,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B33B98AC2044C237000712A6 /* TDLib.h in Headers */,
-				B33B993A2044C7A4000712A6 /* td_json_client.h in Headers */,
-				B33B99392044C7A4000712A6 /* tdjson_export.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -454,16 +426,19 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/lib/include/**";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/libs/build/OpenSSL-for-iPhone/include";
 				INFOPLIST_FILE = TDLib/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/lib/lib";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/libs/build/td/libs",
+					"$(PROJECT_DIR)/libs/build/OpenSSL-for-iPhone/lib",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.leomehlig.TDLib;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "$(PROJECT_DIR)/lib/**";
+				SWIFT_INCLUDE_PATHS = "$(PROJECT_DIR)/**";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -486,16 +461,19 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/lib/include/**";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/libs/build/OpenSSL-for-iPhone/include";
 				INFOPLIST_FILE = TDLib/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/lib/lib";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/libs/build/td/libs",
+					"$(PROJECT_DIR)/libs/build/OpenSSL-for-iPhone/lib",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.leomehlig.TDLib;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "$(PROJECT_DIR)/lib/**";
+				SWIFT_INCLUDE_PATHS = "$(PROJECT_DIR)/**";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
