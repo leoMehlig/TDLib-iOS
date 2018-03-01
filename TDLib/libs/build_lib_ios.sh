@@ -26,5 +26,5 @@ mkdir libs
 cd libs
 for lib_path in libtdclient.a sqlite/libtdsqlite.a tdtl/libtdtl.a libtdcore.a tdactor/libtdactor.a tdutils/libtdutils.a libmemprof.a libtdjson_private.a tddb/libtddb.a libtdc.a libtdjson_static.a tdnet/libtdnet.a
 do
-lipo -create -output ${lib_path#*/} "../build_os/$lib_path" "../build_sim/$lib_path"
+    lipo -create -output ${lib_path#*/} "../build_os/$lib_path" "../build_sim/$lib_path"
 done
