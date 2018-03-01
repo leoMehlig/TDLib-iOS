@@ -181,7 +181,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B33B98AF2044C237000712A6 /* Build configuration list for PBXNativeTarget "TDLib" */;
 			buildPhases = (
-				B333EAEC204808E2009E65A1 /* Cmake */,
 				B33B98962044C237000712A6 /* Sources */,
 				B33B98972044C237000712A6 /* Frameworks */,
 				B33B98982044C237000712A6 /* Headers */,
@@ -269,23 +268,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		B333EAEC204808E2009E65A1 /* Cmake */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = Cmake;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ ! -f \"$PROJECT_DIR/libs/build/td/libs/libtdjson_static.a\" ]\nthen\n    cd \"$PROJECT_DIR/libs\"\n    sh ./build_lib_ios.sh\nfi";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B33B98962044C237000712A6 /* Sources */ = {
