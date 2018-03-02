@@ -27,6 +27,7 @@
 		B33B98CD2044C273000712A6 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B33B98CC2044C273000712A6 /* libc++.tbd */; };
 		B33B98CF2044C282000712A6 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B33B98CE2044C282000712A6 /* libz.tbd */; };
 		B33B98D12044C37B000712A6 /* TDJsonClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33B98D02044C37B000712A6 /* TDJsonClient.swift */; };
+		B369571A20497A5100BBC779 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B369571920497A5100BBC779 /* libstdc++.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,18 +41,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		B333EACB20475104009E65A1 /* libtdcore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdcore.a; path = libs/build/td/libs/libtdcore.a; sourceTree = "<group>"; };
-		B333EACC20475104009E65A1 /* libtdsqlite.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdsqlite.a; path = libs/build/td/libs/libtdsqlite.a; sourceTree = "<group>"; };
-		B333EACD20475104009E65A1 /* libtdtl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdtl.a; path = libs/build/td/libs/libtdtl.a; sourceTree = "<group>"; };
-		B333EACE20475104009E65A1 /* libtdactor.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdactor.a; path = libs/build/td/libs/libtdactor.a; sourceTree = "<group>"; };
-		B333EACF20475104009E65A1 /* libtdjson_private.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdjson_private.a; path = libs/build/td/libs/libtdjson_private.a; sourceTree = "<group>"; };
-		B333EAD020475104009E65A1 /* libtdnet.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdnet.a; path = libs/build/td/libs/libtdnet.a; sourceTree = "<group>"; };
-		B333EAD120475104009E65A1 /* libtdutils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdutils.a; path = libs/build/td/libs/libtdutils.a; sourceTree = "<group>"; };
-		B333EAD220475104009E65A1 /* libmemprof.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmemprof.a; path = libs/build/td/libs/libmemprof.a; sourceTree = "<group>"; };
-		B333EAD320475104009E65A1 /* libtdjson_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdjson_static.a; path = libs/build/td/libs/libtdjson_static.a; sourceTree = "<group>"; };
-		B333EAD420475104009E65A1 /* libtddb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtddb.a; path = libs/build/td/libs/libtddb.a; sourceTree = "<group>"; };
-		B333EAD520475104009E65A1 /* libtdc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdc.a; path = libs/build/td/libs/libtdc.a; sourceTree = "<group>"; };
-		B333EAD620475104009E65A1 /* libtdclient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdclient.a; path = libs/build/td/libs/libtdclient.a; sourceTree = "<group>"; };
+		B333EACB20475104009E65A1 /* libtdcore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdcore.a; path = libs/build/tdlibs/libtdcore.a; sourceTree = "<group>"; };
+		B333EACC20475104009E65A1 /* libtdsqlite.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdsqlite.a; path = libs/build/tdlibs/libtdsqlite.a; sourceTree = "<group>"; };
+		B333EACD20475104009E65A1 /* libtdtl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdtl.a; path = libs/build/tdlibs/libtdtl.a; sourceTree = "<group>"; };
+		B333EACE20475104009E65A1 /* libtdactor.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdactor.a; path = libs/build/tdlibs/libtdactor.a; sourceTree = "<group>"; };
+		B333EACF20475104009E65A1 /* libtdjson_private.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdjson_private.a; path = libs/build/tdlibs/libtdjson_private.a; sourceTree = "<group>"; };
+		B333EAD020475104009E65A1 /* libtdnet.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdnet.a; path = libs/build/tdlibs/libtdnet.a; sourceTree = "<group>"; };
+		B333EAD120475104009E65A1 /* libtdutils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdutils.a; path = libs/build/tdlibs/libtdutils.a; sourceTree = "<group>"; };
+		B333EAD220475104009E65A1 /* libmemprof.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmemprof.a; path = libs/build/tdlibs/libmemprof.a; sourceTree = "<group>"; };
+		B333EAD320475104009E65A1 /* libtdjson_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdjson_static.a; path = libs/build/tdlibs/libtdjson_static.a; sourceTree = "<group>"; };
+		B333EAD420475104009E65A1 /* libtddb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtddb.a; path = libs/build/tdlibs/libtddb.a; sourceTree = "<group>"; };
+		B333EAD520475104009E65A1 /* libtdc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdc.a; path = libs/build/tdlibs/libtdc.a; sourceTree = "<group>"; };
+		B333EAD620475104009E65A1 /* libtdclient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdclient.a; path = libs/build/tdlibs/libtdclient.a; sourceTree = "<group>"; };
 		B333EAE32047510E009E65A1 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; name = module.modulemap; path = libs/module.modulemap; sourceTree = "<group>"; };
 		B333EAE8204753F4009E65A1 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "libs/build/OpenSSL-for-iPhone/lib/libcrypto.a"; sourceTree = "<group>"; };
 		B333EAE9204753F4009E65A1 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = "libs/build/OpenSSL-for-iPhone/lib/libssl.a"; sourceTree = "<group>"; };
@@ -64,6 +65,7 @@
 		B33B98CC2044C273000712A6 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		B33B98CE2044C282000712A6 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		B33B98D02044C37B000712A6 /* TDJsonClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDJsonClient.swift; sourceTree = "<group>"; };
+		B369571920497A5100BBC779 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 				B333EADB20475105009E65A1 /* libtdjson_private.a in Frameworks */,
 				B33B98CF2044C282000712A6 /* libz.tbd in Frameworks */,
 				B333EAD820475105009E65A1 /* libtdsqlite.a in Frameworks */,
+				B369571A20497A5100BBC779 /* libstdc++.tbd in Frameworks */,
 				B333EAD920475105009E65A1 /* libtdtl.a in Frameworks */,
 				B333EAE220475105009E65A1 /* libtdclient.a in Frameworks */,
 				B333EADA20475105009E65A1 /* libtdactor.a in Frameworks */,
@@ -142,6 +145,7 @@
 		B33B98B52044C265000712A6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B369571920497A5100BBC779 /* libstdc++.tbd */,
 				B33B98CE2044C282000712A6 /* libz.tbd */,
 				B33B98CC2044C273000712A6 /* libc++.tbd */,
 				B333EAD220475104009E65A1 /* libmemprof.a */,
@@ -429,10 +433,10 @@
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/libs/build/OpenSSL-for-iPhone/include";
 				INFOPLIST_FILE = TDLib/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/libs/build/td/libs",
+					"$(PROJECT_DIR)/libs/build/tdlibs",
 					"$(PROJECT_DIR)/libs/build/OpenSSL-for-iPhone/lib",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.leomehlig.TDLib;
@@ -464,10 +468,10 @@
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/libs/build/OpenSSL-for-iPhone/include";
 				INFOPLIST_FILE = TDLib/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/libs/build/td/libs",
+					"$(PROJECT_DIR)/libs/build/tdlibs",
 					"$(PROJECT_DIR)/libs/build/OpenSSL-for-iPhone/lib",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.leomehlig.TDLib;

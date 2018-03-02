@@ -6,7 +6,7 @@
 //  Copyright © 2018 Leo Mehlig. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for TDLib.
 FOUNDATION_EXPORT double TDLibVersionNumber;
@@ -15,5 +15,6 @@ FOUNDATION_EXPORT double TDLibVersionNumber;
 FOUNDATION_EXPORT const unsigned char TDLibVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <TDLib/PublicHeader.h>
+
 
 
