@@ -31,3 +31,5 @@ do
 done
 cp ../td/td/telegram/td_json_client.h td_json_client.h
 cp -R ../td/build_os/td td
+cd  ..
+rm -Rf td

@@ -14,19 +14,64 @@ public class TDJsonClient {
     
     private let client = td_json_client_create()
     
-    private let event: (String, TDJsonClient) -> Void
+    private let event: (TDEvent, TDJsonClient) -> Void
     
     public private(set) var isListing = true
     
-    public init(event: @escaping (String, TDJsonClient) -> Void) {
+    public init(event: @escaping (TDEvent, TDJsonClient) -> Void) {
         self.event = event
+        td_set_log_verbosity_level(3)
         self.queue.async {
             while self.isListing {
-                if let event = td_json_client_receive(self.client, 10) {
-                    self.event(String(cString: event), self)
+                if let response = td_json_client_receive(self.client, 10),
+                    let data = String(cString: response).data(using: .utf8) {
+                    do {
+                        let event = try JSONDecoder().decode(TDEvent.self, from: data)
+                        print(event)
+                        self.event(event, self)
+                        try self.act(on: event)
+                    } catch {
+                        print(error, String(data: data, encoding: .utf8)!)
+                    }
                 }
             }
         }
+    }
+    
+    func act(on event: TDEvent) throws {
+        switch event {
+        case let .updateAuthorizationState(state):
+            switch state {
+            case .waitTdlibParameters:
+                try self.send(TDFunction.setTDLibParameters(parameters: TDLibParameters(apiID: 177033, apiHash: "d61e84baf1d5da953fdabd730b0b557f")))
+            case let .waitEncryptionKey(isEncrypted):
+                let key = Data(repeating: 123, count: 64)
+//                key.withUnsafeMutableBytes { bytes in
+//                    SecRandomCopyBytes(kSecRandomDefault, 64, bytes)
+//                }
+                try self.send(TDFunction.checkDatabaseEncryptionKey(encryptionKey: key))
+            case .waitPhoneNumber:
+                try self.send(TDFunction.setAuthenticationPhoneNumber(phoneNumber: "", allowFlashCall: false, isCurrentPhoneNumber: false))
+            }
+        case let .connectionState(state):
+            switch state {
+            case .ready:
+                try self.send(TDFunction.getMe)
+            case .waitingForNetwork:
+                break
+            case .connectingToProxy:
+                break
+            case .connecting:
+                break
+            case .updating:
+                break
+            }
+        }
+    }
+    
+    public func send<T: Encodable>(_ encodable: T) throws {
+        let json = try JSONEncoder().encode(encodable)
+        self.send(String(data: json, encoding: .utf8) ?? "")
     }
     
     public func send(_ query: String) {
