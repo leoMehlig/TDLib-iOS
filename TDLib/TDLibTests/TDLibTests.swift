@@ -22,9 +22,8 @@ class TDLibTests: XCTestCase {
     }
     
     func testExample() {
-        _ = TDJsonClient { result, client in
-            print(result)
-        }
+        let client = TDJsonClient()
+        let coordinator = Coordinator(client: client)
         while true { }
     }
 }

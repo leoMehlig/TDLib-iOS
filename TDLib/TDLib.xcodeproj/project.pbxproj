@@ -7,7 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B32F8CD62049B61A00B5D834 /* TDFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32F8CD52049B61A00B5D834 /* TDFunction.swift */; };
+		B329EB46204B099E00329997 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B329EB45204B099E00329997 /* Coordinator.swift */; };
+		B329EB48204B5D1E00329997 /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = B329EB47204B5D1E00329997 /* Stream.swift */; };
+		B329EB4A204B5D3700329997 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B329EB49204B5D3700329997 /* Event.swift */; };
+		B32F8CD62049B61A00B5D834 /* Function.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32F8CD52049B61A00B5D834 /* Function.swift */; };
 		B32F8CD8204AFAD500B5D834 /* ConnectionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32F8CD7204AFAD500B5D834 /* ConnectionState.swift */; };
 		B333EAD720475105009E65A1 /* libtdcore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EACB20475104009E65A1 /* libtdcore.a */; };
 		B333EAD820475105009E65A1 /* libtdsqlite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EACC20475104009E65A1 /* libtdsqlite.a */; };
@@ -30,7 +33,7 @@
 		B33B98CF2044C282000712A6 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B33B98CE2044C282000712A6 /* libz.tbd */; };
 		B33B98D12044C37B000712A6 /* TDJsonClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33B98D02044C37B000712A6 /* TDJsonClient.swift */; };
 		B369571A20497A5100BBC779 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B369571920497A5100BBC779 /* libstdc++.tbd */; };
-		B369584C2049A91700BBC779 /* TDEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B369584B2049A91700BBC779 /* TDEvent.swift */; };
+		B369584C2049A91700BBC779 /* Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = B369584B2049A91700BBC779 /* Update.swift */; };
 		B369584E2049AD0A00BBC779 /* AuthorizationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B369584D2049AD0A00BBC779 /* AuthorizationState.swift */; };
 		B36958502049AD3900BBC779 /* TDLibParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B369584F2049AD3900BBC779 /* TDLibParameters.swift */; };
 /* End PBXBuildFile section */
@@ -46,7 +49,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		B32F8CD52049B61A00B5D834 /* TDFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDFunction.swift; sourceTree = "<group>"; };
+		B329EB45204B099E00329997 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		B329EB47204B5D1E00329997 /* Stream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stream.swift; sourceTree = "<group>"; };
+		B329EB49204B5D3700329997 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		B32F8CD52049B61A00B5D834 /* Function.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Function.swift; sourceTree = "<group>"; };
 		B32F8CD7204AFAD500B5D834 /* ConnectionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionState.swift; sourceTree = "<group>"; };
 		B333EACB20475104009E65A1 /* libtdcore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdcore.a; path = libs/build/tdlibs/libtdcore.a; sourceTree = "<group>"; };
 		B333EACC20475104009E65A1 /* libtdsqlite.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdsqlite.a; path = libs/build/tdlibs/libtdsqlite.a; sourceTree = "<group>"; };
@@ -73,7 +79,7 @@
 		B33B98CE2044C282000712A6 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		B33B98D02044C37B000712A6 /* TDJsonClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDJsonClient.swift; sourceTree = "<group>"; };
 		B369571920497A5100BBC779 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
-		B369584B2049A91700BBC779 /* TDEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDEvent.swift; sourceTree = "<group>"; };
+		B369584B2049A91700BBC779 /* Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Update.swift; sourceTree = "<group>"; };
 		B369584D2049AD0A00BBC779 /* AuthorizationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationState.swift; sourceTree = "<group>"; };
 		B369584F2049AD3900BBC779 /* TDLibParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDLibParameters.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -114,6 +120,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B329EB44204B096500329997 /* State */ = {
+			isa = PBXGroup;
+			children = (
+				B32F8CD7204AFAD500B5D834 /* ConnectionState.swift */,
+				B369584D2049AD0A00BBC779 /* AuthorizationState.swift */,
+			);
+			path = State;
+			sourceTree = "<group>";
+		};
 		B33B98912044C237000712A6 = {
 			isa = PBXGroup;
 			children = (
@@ -138,10 +153,12 @@
 			children = (
 				B33B989E2044C237000712A6 /* TDLib.h */,
 				B33B98D02044C37B000712A6 /* TDJsonClient.swift */,
-				B369584B2049A91700BBC779 /* TDEvent.swift */,
-				B32F8CD52049B61A00B5D834 /* TDFunction.swift */,
-				B32F8CD7204AFAD500B5D834 /* ConnectionState.swift */,
-				B369584D2049AD0A00BBC779 /* AuthorizationState.swift */,
+				B329EB45204B099E00329997 /* Coordinator.swift */,
+				B329EB47204B5D1E00329997 /* Stream.swift */,
+				B329EB49204B5D3700329997 /* Event.swift */,
+				B369584B2049A91700BBC779 /* Update.swift */,
+				B32F8CD52049B61A00B5D834 /* Function.swift */,
+				B329EB44204B096500329997 /* State */,
 				B369584F2049AD3900BBC779 /* TDLibParameters.swift */,
 				B33B989F2044C237000712A6 /* Info.plist */,
 			);
@@ -293,12 +310,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B369584C2049A91700BBC779 /* TDEvent.swift in Sources */,
+				B369584C2049A91700BBC779 /* Update.swift in Sources */,
+				B329EB4A204B5D3700329997 /* Event.swift in Sources */,
 				B33B98D12044C37B000712A6 /* TDJsonClient.swift in Sources */,
-				B32F8CD62049B61A00B5D834 /* TDFunction.swift in Sources */,
+				B32F8CD62049B61A00B5D834 /* Function.swift in Sources */,
+				B329EB48204B5D1E00329997 /* Stream.swift in Sources */,
 				B369584E2049AD0A00BBC779 /* AuthorizationState.swift in Sources */,
 				B36958502049AD3900BBC779 /* TDLibParameters.swift in Sources */,
 				B32F8CD8204AFAD500B5D834 /* ConnectionState.swift in Sources */,
+				B329EB46204B099E00329997 /* Coordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

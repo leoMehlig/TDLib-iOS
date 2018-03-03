@@ -1,4 +1,4 @@
-public enum TDEvent: Decodable {
+public enum Update: Decodable {
     enum CodingKeys: String, CodingKey {
         case type = "@type"
         case authorizationState = "authorization_state"
@@ -8,7 +8,7 @@ public enum TDEvent: Decodable {
         case unknownType(String)
     }
     
-    case updateAuthorizationState(TDAuthorizationState)
+    case updateAuthorizationState(AuthorizationState)
     case connectionState(state: ConnectionState)
 
     
@@ -17,7 +17,7 @@ public enum TDEvent: Decodable {
         let type = try container.decode(String.self, forKey: .type)
         switch type {
         case "updateAuthorizationState":
-            self = .updateAuthorizationState(try TDAuthorizationState(from: container.superDecoder(forKey: .authorizationState)))
+            self = .updateAuthorizationState(try AuthorizationState(from: container.superDecoder(forKey: .authorizationState)))
         case "updateConnectionState":
             self = .connectionState(state: try ConnectionState(from: container.superDecoder(forKey: .state)))
         default:

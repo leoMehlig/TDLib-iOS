@@ -1,5 +1,5 @@
 //
-//  TDJsonClient.swift
+//  TDJsonClient.swiftb
 //  TDLib
 //
 //  Created by Leo Mehlig on 26.02.18.
@@ -14,57 +14,25 @@ public class TDJsonClient {
     
     private let client = td_json_client_create()
     
-    private let event: (TDEvent, TDJsonClient) -> Void
+    public let stream = Stream<LoadingFailableEvent<Update>>()
     
     public private(set) var isListing = true
     
-    public init(event: @escaping (TDEvent, TDJsonClient) -> Void) {
-        self.event = event
+    public init() {
         td_set_log_verbosity_level(3)
         self.queue.async {
             while self.isListing {
                 if let response = td_json_client_receive(self.client, 10),
                     let data = String(cString: response).data(using: .utf8) {
                     do {
-                        let event = try JSONDecoder().decode(TDEvent.self, from: data)
+                        let event = try JSONDecoder().decode(Update.self, from: data)
                         print(event)
-                        self.event(event, self)
-                        try self.act(on: event)
+                        self.stream.current = .value(event)
                     } catch {
                         print(error, String(data: data, encoding: .utf8)!)
+                        self.stream.current = .error(error)
                     }
                 }
-            }
-        }
-    }
-    
-    func act(on event: TDEvent) throws {
-        switch event {
-        case let .updateAuthorizationState(state):
-            switch state {
-            case .waitTdlibParameters:
-                try self.send(TDFunction.setTDLibParameters(parameters: TDLibParameters(apiID: 177033, apiHash: "d61e84baf1d5da953fdabd730b0b557f")))
-            case let .waitEncryptionKey(isEncrypted):
-                let key = Data(repeating: 123, count: 64)
-//                key.withUnsafeMutableBytes { bytes in
-//                    SecRandomCopyBytes(kSecRandomDefault, 64, bytes)
-//                }
-                try self.send(TDFunction.checkDatabaseEncryptionKey(encryptionKey: key))
-            case .waitPhoneNumber:
-                try self.send(TDFunction.setAuthenticationPhoneNumber(phoneNumber: "", allowFlashCall: false, isCurrentPhoneNumber: false))
-            }
-        case let .connectionState(state):
-            switch state {
-            case .ready:
-                try self.send(TDFunction.getMe)
-            case .waitingForNetwork:
-                break
-            case .connectingToProxy:
-                break
-            case .connecting:
-                break
-            case .updating:
-                break
             }
         }
     }

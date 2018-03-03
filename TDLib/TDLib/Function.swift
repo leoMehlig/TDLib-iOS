@@ -1,4 +1,4 @@
-enum TDFunction: Encodable {
+enum Function: Encodable {
     enum CodingKeys: String, CodingKey {
         case type = "@type"
         case parameters = "parameters"

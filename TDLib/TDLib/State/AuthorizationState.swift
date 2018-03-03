@@ -1,4 +1,4 @@
-public enum TDAuthorizationState: Decodable {
+public enum AuthorizationState: Decodable {
     enum CodingKeys: String, CodingKey {
         case type = "@type"
         case isEncrypted = "is_encrypted"
