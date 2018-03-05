@@ -1,4 +1,4 @@
-struct TDLibParameters: Codable {
+public struct TDLibParameters: Codable {
     let useTestDc: Bool
     let databaseDirectory: String
     let filesDirectory: String
@@ -34,8 +34,8 @@ struct TDLibParameters: Codable {
     }
     
     public init(useTestDc: Bool = false,
-                databaseDirectory: String = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, false).first!,
-                filesDirectory: String = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, false).first!,
+                databaseDirectory: String = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!,
+                filesDirectory: String = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!,
                 useFileDatabase: Bool = true,
                 useChatInfoDatabase: Bool = true,
                 useMessageDatabase: Bool = true,

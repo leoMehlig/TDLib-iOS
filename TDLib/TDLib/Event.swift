@@ -17,7 +17,7 @@ public enum LoadingEvent<V>: Event {
     case pending
     case value(T)
     
-    var value: T? {
+    public var value: T? {
         switch self {
         case .pending:
             return nil
