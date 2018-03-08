@@ -1,3 +1,23 @@
+public struct SetTDLibParameters: TDFunction {
+    public typealias T = Ok
+    enum CodingKeys: String, CodingKey {
+        case parameters = "parameters"
+    }
+    
+    public let type: String = "setTdlibParameters"
+    
+    public let parameters: TDLibParameters
+    
+    public init(parameters: TDLibParameters) {
+        self.parameters = parameters
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.parameters, forKey: .parameters)
+    }
+}
+
 public struct TDLibParameters: Codable {
     let useTestDc: Bool
     let databaseDirectory: String

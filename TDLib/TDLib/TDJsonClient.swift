@@ -19,7 +19,7 @@ public class TDJsonClient {
     public private(set) var isListing = true
     
     public init() {
-        td_set_log_verbosity_level(3)
+        td_set_log_verbosity_level(2)
         self.queue.async {
             while self.isListing {
                 if let response = td_json_client_receive(self.client, 10),
