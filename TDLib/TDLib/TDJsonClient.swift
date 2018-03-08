@@ -14,7 +14,7 @@ public class TDJsonClient {
     
     private let client = td_json_client_create()
     
-    public let stream = Stream<LoadingFailableEvent<Update>>()
+    public let stream = Stream<LoadingFailableEvent<Data>>()
     
     public private(set) var isListing = true
     
@@ -24,14 +24,7 @@ public class TDJsonClient {
             while self.isListing {
                 if let response = td_json_client_receive(self.client, 10),
                     let data = String(cString: response).data(using: .utf8) {
-                    do {
-                        let event = try JSONDecoder().decode(Update.self, from: data)
-                        print(event)
-                        self.stream.current = .value(event)
-                    } catch {
-                        print(error, String(data: data, encoding: .utf8)!)
-                        self.stream.current = .error(error)
-                    }
+                    self.stream.current = .value(data)
                 }
             }
         }

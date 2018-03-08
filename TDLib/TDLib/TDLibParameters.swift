@@ -6,7 +6,7 @@ public struct TDLibParameters: Codable {
     let useChatInfoDatabase: Bool
     let useMessageDatabase: Bool
     let useSecretChats: Bool
-    let apiID: Int
+    let apiId: Int
     let apiHash: String
     let systemLanguageCode: String
     let deviceModel: String
@@ -23,7 +23,7 @@ public struct TDLibParameters: Codable {
         case useChatInfoDatabase = "use_chat_info_database"
         case useMessageDatabase = "use_message_database"
         case useSecretChats = "use_secret_chats"
-        case apiID = "api_id"
+        case apiId = "api_id"
         case apiHash = "api_hash"
         case systemLanguageCode = "system_language_code"
         case deviceModel = "device_model"
@@ -40,7 +40,7 @@ public struct TDLibParameters: Codable {
                 useChatInfoDatabase: Bool = true,
                 useMessageDatabase: Bool = true,
                 useSecretChats: Bool = false,
-                apiID: Int,
+                apiId: Int,
                 apiHash: String,
                 systemLanguageCode: String = "en",
                 deviceModel: String = "iPhone",
@@ -55,7 +55,7 @@ public struct TDLibParameters: Codable {
         self.useChatInfoDatabase = useChatInfoDatabase
         self.useMessageDatabase = useMessageDatabase
         self.useSecretChats = useSecretChats
-        self.apiID = apiID
+        self.apiId = apiId
         self.apiHash = apiHash
         self.systemLanguageCode = systemLanguageCode
         self.deviceModel = deviceModel

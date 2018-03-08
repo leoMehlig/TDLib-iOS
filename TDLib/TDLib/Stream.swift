@@ -52,4 +52,9 @@ public class Stream<E: Event> {
         }
         return false
     }
+    
+    public func unsubscribeAll() {
+        self.subscribers.removeAll()
+    }
 }
+

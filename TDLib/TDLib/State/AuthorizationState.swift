@@ -17,6 +17,10 @@ public enum AuthorizationState: Decodable {
     case waitPhoneNumber
     case waitCode(isRegistered: Bool, codeInfo: CodeInfo)
     case waitPassword(passwordHint: String, hasRecoveryEmailAddress: Bool, recoveryEmailAddressPattern: String)
+    case ready
+    case loggingOut
+    case closing
+    case closed
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -35,6 +39,14 @@ public enum AuthorizationState: Decodable {
             self = .waitPassword(passwordHint: try container.decode(String.self, forKey: .passwordHint),
                                  hasRecoveryEmailAddress: try container.decode(Bool.self, forKey: .hasRecoveryEmailAddress),
                                  recoveryEmailAddressPattern: try container.decode(String.self, forKey: .recoveryEmailAddressPattern))
+        case "authorizationStateReady":
+            self = .ready
+        case "authorizationStateLoggingOut":
+            self = .loggingOut
+        case "authorizationStateClosing":
+            self = .closing
+        case "authorizationStateClosed":
+            self = .closed
         default:
             throw Error.unknownState(type)
         }
