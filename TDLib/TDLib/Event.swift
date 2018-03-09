@@ -39,5 +39,3 @@ public enum LoadingEvent<V>: Event {
         }
     }
 }
-
-

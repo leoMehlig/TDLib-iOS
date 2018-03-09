@@ -21,13 +21,12 @@ public class Coordinator {
             case .pending:
                 break
             case let .value(data):
-                let decoder = JSONDecoder()
-                print("JSON:", String.init(data: data, encoding: .utf8)!)
-                if let extra = try? decoder.decode(Extra.self, from: data) {
+                print("JSON:", String(data: data, encoding: .utf8)!)
+                if let extra = try? JSONDecoder.td.decode(Extra.self, from: data) {
                     strongSelf.functionStream.current = .value((extra, data))
                 } else {
                     do {
-                        let event = try decoder.decode(Update.self, from: data)
+                        let event = try JSONDecoder.td.decode(Update.self, from: data)
                         print(event)
                         strongSelf.eventStream.current = .value(event)
                     } catch {
@@ -97,7 +96,7 @@ public class Coordinator {
         let extra = Extra(type: F.T.type, extra: wrapper.extra)
         self.runningFunctions[extra] = resolver
         return promise.map { data in
-            return try JSONDecoder().decode(F.T.self, from: data)
+            return try JSONDecoder.td.decode(F.T.self, from: data)
         }
     }
 }

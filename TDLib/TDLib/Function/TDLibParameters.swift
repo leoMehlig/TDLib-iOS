@@ -35,23 +35,23 @@ public struct TDLibParameters: Codable {
     let enableStorageOptimizer: Bool
     let ignoreFileNames: Bool
     
-    enum CodingKeys: String, CodingKey {
-        case useTestDc = "use_test_dc"
-        case databaseDirectory = "database_directory"
-        case filesDirectory = "files_directory"
-        case useFileDatabase = "use_file_database"
-        case useChatInfoDatabase = "use_chat_info_database"
-        case useMessageDatabase = "use_message_database"
-        case useSecretChats = "use_secret_chats"
-        case apiId = "api_id"
-        case apiHash = "api_hash"
-        case systemLanguageCode = "system_language_code"
-        case deviceModel = "device_model"
-        case systemVersion = "system_version"
-        case applicationVersion = "application_version"
-        case enableStorageOptimizer = "enable_storage_optimizer"
-        case ignoreFileNames = "ignore_file_names"
-    }
+//    enum CodingKeys: String, CodingKey {
+//        case useTestDc = "use_test_dc"
+//        case databaseDirectory = "database_directory"
+//        case filesDirectory = "files_directory"
+//        case useFileDatabase = "use_file_database"
+//        case useChatInfoDatabase = "use_chat_info_database"
+//        case useMessageDatabase = "use_message_database"
+//        case useSecretChats = "use_secret_chats"
+//        case apiId = "api_id"
+//        case apiHash = "api_hash"
+//        case systemLanguageCode = "system_language_code"
+//        case deviceModel = "device_model"
+//        case systemVersion = "system_version"
+//        case applicationVersion = "application_version"
+//        case enableStorageOptimizer = "enable_storage_optimizer"
+//        case ignoreFileNames = "ignore_file_names"
+//    }
     
     public init(useTestDc: Bool = false,
                 databaseDirectory: String = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!,

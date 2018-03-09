@@ -17,12 +17,4 @@ struct Extra: Decodable, Hashable {
         self.type = try container.decode(String.self, forKey: .type)
         self.extra = try container.decode(String.self, forKey: .extra)
     }
-    
-    var hashValue: Int {
-        return self.extra.hashValue
-    }
-    
-    static func ==(lhs: Extra, rhs: Extra) -> Bool {
-        return lhs.extra == rhs.extra && lhs.type == rhs.type
-    }
 }

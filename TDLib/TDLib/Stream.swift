@@ -57,4 +57,3 @@ public class Stream<E: Event> {
         self.subscribers.removeAll()
     }
 }
-

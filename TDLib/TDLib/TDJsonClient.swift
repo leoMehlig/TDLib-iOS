@@ -31,7 +31,7 @@ public class TDJsonClient {
     }
     
     public func send<T: Encodable>(_ encodable: T) throws {
-        let json = try JSONEncoder().encode(encodable)
+        let json = try JSONEncoder.td.encode(encodable)
         self.send(String(data: json, encoding: .utf8) ?? "")
     }
     

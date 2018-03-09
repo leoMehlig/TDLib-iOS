@@ -1,12 +1,12 @@
 public enum AuthorizationState: Decodable {
     enum CodingKeys: String, CodingKey {
         case type = "@type"
-        case isEncrypted = "is_encrypted"
-        case isRegistered = "is_registered"
-        case codeInfo = "code_info"
-        case passwordHint = "password_hint"
-        case hasRecoveryEmailAddress = "has_recovery_email_address"
-        case recoveryEmailAddressPattern = "recovery_email_address_pattern"
+        case isEncrypted
+        case isRegistered
+        case codeInfo
+        case passwordHint
+        case hasRecoveryEmailAddress
+        case recoveryEmailAddressPattern
     }
     enum Error: Swift.Error {
         case unknownState(String)
@@ -95,7 +95,6 @@ extension AuthorizationState {
             case nextType = "next_type"
             case timeout
         }
-        
         
         public let type: CodeType
         public let nextType: CodeType

@@ -42,6 +42,7 @@
 		B369584C2049A91700BBC779 /* Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = B369584B2049A91700BBC779 /* Update.swift */; };
 		B369584E2049AD0A00BBC779 /* AuthorizationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B369584D2049AD0A00BBC779 /* AuthorizationState.swift */; };
 		B36958502049AD3900BBC779 /* TDLibParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B369584F2049AD3900BBC779 /* TDLibParameters.swift */; };
+		B3C0FB4C2052CC21002F9992 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C0FB4B2052CC21002F9992 /* JSON.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +95,7 @@
 		B369584B2049A91700BBC779 /* Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Update.swift; sourceTree = "<group>"; };
 		B369584D2049AD0A00BBC779 /* AuthorizationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationState.swift; sourceTree = "<group>"; };
 		B369584F2049AD3900BBC779 /* TDLibParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDLibParameters.swift; sourceTree = "<group>"; };
+		B3C0FB4B2052CC21002F9992 /* JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,11 +103,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B33B98CD2044C273000712A6 /* libc++.tbd in Frameworks */,
+				B33B98CF2044C282000712A6 /* libz.tbd in Frameworks */,
+				B369571A20497A5100BBC779 /* libstdc++.tbd in Frameworks */,
 				B333EAEB204753F5009E65A1 /* libssl.a in Frameworks */,
 				B333EADB20475105009E65A1 /* libtdjson_private.a in Frameworks */,
-				B33B98CF2044C282000712A6 /* libz.tbd in Frameworks */,
 				B333EAD820475105009E65A1 /* libtdsqlite.a in Frameworks */,
-				B369571A20497A5100BBC779 /* libstdc++.tbd in Frameworks */,
 				B333EAD920475105009E65A1 /* libtdtl.a in Frameworks */,
 				B333EAE220475105009E65A1 /* libtdclient.a in Frameworks */,
 				B333EADA20475105009E65A1 /* libtdactor.a in Frameworks */,
@@ -113,7 +116,6 @@
 				B333EAE120475105009E65A1 /* libtdc.a in Frameworks */,
 				B333EADD20475105009E65A1 /* libtdutils.a in Frameworks */,
 				B333EAD720475105009E65A1 /* libtdcore.a in Frameworks */,
-				B33B98CD2044C273000712A6 /* libc++.tbd in Frameworks */,
 				B333EAEA204753F5009E65A1 /* libcrypto.a in Frameworks */,
 				B333EADE20475105009E65A1 /* libmemprof.a in Frameworks */,
 				B333EADC20475105009E65A1 /* libtdnet.a in Frameworks */,
@@ -170,6 +172,7 @@
 				B329EB47204B5D1E00329997 /* Stream.swift */,
 				B329EB49204B5D3700329997 /* Event.swift */,
 				B369584B2049A91700BBC779 /* Update.swift */,
+				B3C0FB4B2052CC21002F9992 /* JSON.swift */,
 				B355AE3120514A7E003C5402 /* Function */,
 				B329EB44204B096500329997 /* State */,
 				B33B989F2044C237000712A6 /* Info.plist */,
@@ -244,6 +247,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B33B98AF2044C237000712A6 /* Build configuration list for PBXNativeTarget "TDLib" */;
 			buildPhases = (
+				B3C0FB4D2052DBE4002F9992 /* Swiftlint */,
 				B33B98962044C237000712A6 /* Sources */,
 				B33B98972044C237000712A6 /* Frameworks */,
 				B33B98982044C237000712A6 /* Headers */,
@@ -283,7 +287,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0910;
-				LastUpgradeCheck = 0910;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Leo Mehlig";
 				TargetAttributes = {
 					B33B989A2044C237000712A6 = {
@@ -332,6 +336,23 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		B3C0FB4D2052DBE4002F9992 /* Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Swiftlint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint lint --config ./.swiftlint.yml\nelse\necho \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		B33B98962044C237000712A6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -343,6 +364,7 @@
 				B355AE3E20516AE0003C5402 /* Messages.swift in Sources */,
 				B33B98D12044C37B000712A6 /* TDJsonClient.swift in Sources */,
 				B355AE3520514B32003C5402 /* Authentication.swift in Sources */,
+				B3C0FB4C2052CC21002F9992 /* JSON.swift in Sources */,
 				B32F8CD62049B61A00B5D834 /* Function.swift in Sources */,
 				B329EB48204B5D1E00329997 /* Stream.swift in Sources */,
 				B369584E2049AD0A00BBC779 /* AuthorizationState.swift in Sources */,
@@ -387,6 +409,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -394,6 +417,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -447,6 +471,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -454,6 +479,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

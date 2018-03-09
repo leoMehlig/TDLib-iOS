@@ -9,7 +9,7 @@ public struct GetChatHistory: TDFunction {
     public let limit: Int32
     public let only_local: Bool
 
-    public init(chat_id: Int, from_message_id: Int, offset: Int32, limit: Int32, only_local:  Bool) {
+    public init(chat_id: Int, from_message_id: Int, offset: Int32, limit: Int32, only_local: Bool) {
         self.chat_id = chat_id
         self.from_message_id = from_message_id
         self.offset = offset

@@ -1,10 +1,5 @@
 public struct SetAuthenticationPhoneNumber: TDFunction {
     public typealias T = Ok
-    enum CodingKeys: String, CodingKey {
-        case phoneNumber = "phone_number"
-        case allowFlashCall = "allow_flash_call"
-        case isCurrentPhoneNumber = "is_current_phone_number"
-    }
     
     public let type: String = "setAuthenticationPhoneNumber"
     
@@ -17,22 +12,10 @@ public struct SetAuthenticationPhoneNumber: TDFunction {
         self.allowFlashCall = allowFlashCall
         self.isCurrentPhoneNumber = isCurrentPhoneNumber
     }
-    
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.phoneNumber, forKey: .phoneNumber)
-        try container.encode(self.allowFlashCall, forKey: .allowFlashCall)
-        try container.encode(self.isCurrentPhoneNumber, forKey: .isCurrentPhoneNumber)
-    }
 }
 
 public struct CheckAuthenticationCode: TDFunction {
     public typealias T = Ok
-    enum CodingKeys: String, CodingKey {
-        case code
-        case firstName = "first_name"
-        case lastName = "last_name"
-    }
     
     public let type: String = "checkAuthenticationCode"
     
@@ -44,13 +27,6 @@ public struct CheckAuthenticationCode: TDFunction {
         self.code = code
         self.firstName = firstName
         self.lastName = lastName
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.code, forKey: .code)
-        try container.encodeIfPresent(self.firstName, forKey: .firstName)
-        try container.encodeIfPresent(self.lastName, forKey: .lastName)
     }
 }
 

@@ -1,10 +1,5 @@
 public struct GetChats: TDFunction {
     public typealias T = Chats
-    enum CodingKeys: String, CodingKey {
-        case offsetOrder = "offset_order"
-        case offsetChatId = "offset_chat_id"
-        case limit
-    }
     
     public let type: String = "getChats"
     
@@ -21,11 +16,8 @@ public struct GetChats: TDFunction {
 
 public struct GetChat: TDFunction {
     public typealias T = Chat
-    enum CodingKeys: String, CodingKey {
-        case chatId = "chat_id"
-    }
-    
-    public let type:  String = "getChat"
+
+    public let type: String = "getChat"
     
     public let chatId: Int
     
@@ -34,13 +26,8 @@ public struct GetChat: TDFunction {
     }
 }
 
-
 public struct Chats: FunctionResult {
-    public static var type:  String = "chats"
-    
-    enum CodingKeys:  String, CodingKey {
-        case chatIds = "chat_ids"
-    }
+    public static var type: String = "chats"
     
     public let chatIds: [Int]
 }
@@ -52,10 +39,7 @@ public struct Chat: FunctionResult {
         case supergroup(supergroup_id: Int32, is_channel: Bool)
         case secret(secret_chat_id: Int32, user_id: Int32)
     }
-    public static var type:  String = "chat"
-    
-    //    enum CodingKeys: String, CodingKey {
-    //    }
+    public static var type: String = "chat"
     
     public let id: Int
 //    public let type: ChatType
@@ -73,5 +57,3 @@ public struct Chat: FunctionResult {
     //    public let draft_message: draftMessage
     public let client_data: String
 }
-
-

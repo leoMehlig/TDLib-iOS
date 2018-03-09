@@ -1,7 +1,7 @@
 public enum Update: Decodable {
     enum CodingKeys: String, CodingKey {
         case type = "@type"
-        case authorizationState = "authorization_state"
+        case authorizationState
         case state
     }
     enum Error: Swift.Error {
@@ -10,7 +10,6 @@ public enum Update: Decodable {
     
     case updateAuthorizationState(AuthorizationState)
     case connectionState(state: ConnectionState)
-
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -25,4 +24,3 @@ public enum Update: Decodable {
         }
     }
 }
-
