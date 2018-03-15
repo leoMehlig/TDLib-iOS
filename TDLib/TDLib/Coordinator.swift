@@ -96,7 +96,11 @@ public class Coordinator {
         let extra = Extra(type: F.T.type, extra: wrapper.extra)
         self.runningFunctions[extra] = resolver
         return promise.map { data in
-            return try JSONDecoder.td.decode(F.T.self, from: data)
+            do {
+                return try JSONDecoder.td.decode(F.T.self, from: data)
+            } catch {
+                throw error
+            }
         }
     }
 }

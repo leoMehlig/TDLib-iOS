@@ -25,6 +25,7 @@ public struct TDLibParameters: Codable {
     let useFileDatabase: Bool
     let useChatInfoDatabase: Bool
     let useMessageDatabase: Bool
+    let disableMessageUnload: Bool
     let useSecretChats: Bool
     let apiId: Int
     let apiHash: String
@@ -59,6 +60,7 @@ public struct TDLibParameters: Codable {
                 useFileDatabase: Bool = true,
                 useChatInfoDatabase: Bool = true,
                 useMessageDatabase: Bool = true,
+                disableMessageUnload: Bool = true,
                 useSecretChats: Bool = false,
                 apiId: Int,
                 apiHash: String,
@@ -66,7 +68,7 @@ public struct TDLibParameters: Codable {
                 deviceModel: String = "iPhone",
                 systemVersion: String = "11.1",
                 applicationVersion: String = "1.0",
-                enableStorageOptimizer: Bool = true,
+                enableStorageOptimizer: Bool = false,
                 ignoreFileNames: Bool = false) {
         self.useTestDc = useTestDc
         self.databaseDirectory = databaseDirectory
@@ -74,6 +76,7 @@ public struct TDLibParameters: Codable {
         self.useFileDatabase = useFileDatabase
         self.useChatInfoDatabase = useChatInfoDatabase
         self.useMessageDatabase = useMessageDatabase
+        self.disableMessageUnload = disableMessageUnload
         self.useSecretChats = useSecretChats
         self.apiId = apiId
         self.apiHash = apiHash

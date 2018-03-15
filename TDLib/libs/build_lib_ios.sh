@@ -1,11 +1,11 @@
-rm -Rf build
-mkdir build
+# rm -Rf build
+# mkdir build
 cd build
-git clone https://github.com/tdlib/td.git
-git clone https://github.com/x2on/OpenSSL-for-iPhone.git
-cd OpenSSL-for-iPhone
-./build-libssl.sh
-cd ..
+git clone https://github.com/leoMehlig/td.git
+# git clone https://github.com/x2on/OpenSSL-for-iPhone.git
+# cd OpenSSL-for-iPhone
+# ./build-libssl.sh
+# cd ..
 cd td
 mkdir build_nativ
 cd build_nativ
@@ -30,6 +30,8 @@ do
     lipo -create -output ${lib_path#*/} "../td/build_os/$lib_path" "../td/build_sim/$lib_path"
 done
 cp ../td/td/telegram/td_json_client.h td_json_client.h
+cp ../td/td/telegram/td_log.h td_log.h
 cp -R ../td/build_os/td td
 cd  ..
-rm -Rf td
+# rm -Rf td
+mv -R td ~/Desktop/td

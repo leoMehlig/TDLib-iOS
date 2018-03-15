@@ -7,7 +7,7 @@ public struct GetChats: TDFunction {
     public let offsetChatId: Int64
     public let limit: Int32
 
-    public init(offsetOrder: Int64, offsetChatId: Int64, limit: Int32) {
+    public init(offsetOrder: Int64 = Int64.max, offsetChatId: Int64 = 0, limit: Int32) {
         self.offsetOrder = offsetOrder
         self.offsetChatId = offsetChatId
         self.limit = limit
@@ -45,15 +45,15 @@ public struct Chat: FunctionResult {
 //    public let type: ChatType
     public let title: String
     //    public let photo: chatPhoto
-    public let last_message: Message
+    public let lastMessage: Message
     public let order: String
-    public let is_pinned: Bool
-    public let unread_count: Int32
-    public let last_read_inbox_message_id: Int
-    public let last_read_outbox_message_id: Int
-    public let unread_mention_count: Int32
-    //    public let notification_settings: notificationSettings
-    public let reply_markup_message_id: Int
-    //    public let draft_message: draftMessage
-    public let client_data: String
+    public let isPinned: Bool
+    public let unreadCount: Int32
+    public let lastReadInboxMessageId: Int
+    public let lastReadOutboxMessageId: Int
+    public let unreadMentionCount: Int32
+    //    public let notificationSettings: notificationSettings
+    public let replyMarkupMessageId: Int
+    //    public let draftMessage: draftMessage
+    public let clientData: String
 }

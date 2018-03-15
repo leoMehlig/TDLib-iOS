@@ -3,25 +3,27 @@ public struct GetChatHistory: TDFunction {
     
     public let type: String = "getChatHistory"
     
-    public let chat_id: Int
-    public let from_message_id: Int
+    public let chatId: Int
+    public let fromMessageId: Int
     public let offset: Int32
     public let limit: Int32
-    public let only_local: Bool
+    public let onlyLocal: Bool
 
-    public init(chat_id: Int, from_message_id: Int, offset: Int32, limit: Int32, only_local: Bool) {
-        self.chat_id = chat_id
-        self.from_message_id = from_message_id
+    public init(chatId: Int, fromMessageId: Int, offset: Int32, limit: Int32, onlyLocal: Bool) {
+        self.chatId = chatId
+        self.fromMessageId = fromMessageId
         self.offset = offset
         self.limit = limit
-        self.only_local = only_local
+        self.onlyLocal = onlyLocal
     }
+
+  
 }
 
 public struct Messages: FunctionResult {
     public static var type: String = "messages"
     
-    public let total_count: Int32
+    public let totalCount: Int32
     public let messages: [Message]
 }
 
@@ -29,28 +31,28 @@ public struct Message: FunctionResult {
     public static var type: String = "message"
     
     public let id: Int
-    public let sender_user_id: Int32
-    public let chat_id: Int
-    //    public let sending_state:MessageSendingState
-    public let is_outgoing: Bool
-    public let can_be_edited: Bool
-    public let can_be_forwarded: Bool
-    public let can_be_deleted_only_for_self: Bool
-    public let can_be_deleted_for_all_users: Bool
-    public let is_channel_post: Bool
-    public let contains_unread_mention: Bool
+    public let senderUserId: Int32
+    public let chatId: Int
+    //    public let sendingState:MessageSendingState
+    public let isOutgoing: Bool
+    public let canBeEdited: Bool
+    public let canBeForwarded: Bool
+    public let canBeDeletedOnlyForSelf: Bool
+    public let canBeDeletedForAllUsers: Bool
+    public let isChannelPost: Bool
+    public let containsUnreadMention: Bool
     public let date: Int32
-    public let edit_date: Int32
-    //    public let forward_info:MessageForwardInfo
-    public let reply_to_message_id: Int
+    public let editDate: Int32
+    //    public let forwardInfo:MessageForwardInfo
+    public let replyToMessageId: Int
     public let ttl: Int32
-    public let ttl_expires_in: Double
-    public let via_bot_user_id: Int32
-    public let author_signature: String
+    public let ttlExpiresIn: Double
+    public let viaBotUserId: Int32
+    public let authorSignature: String
     public let views: Int32
-    public let media_album_id: String
+    public let mediaAlbumId: String
     public let content: MessageContent
-    //    public let reply_markup:ReplyMarkup
+    //    public let replyMarkup:ReplyMarkup
 }
 public struct FormattedText: Decodable {
     public struct TextEntity: Decodable {

@@ -23,9 +23,7 @@ opt_in_rules:
 
 excluded:
   - Carthage
-  - Firebase
-  - Scripts
-  - fastlane
+  - libs
 
 identifier_name:
   min_length:
