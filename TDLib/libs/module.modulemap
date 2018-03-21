@@ -1,6 +1,6 @@
 module libtdjson [system][extern_c] {
- header "build/tdlibs/td_json_client.h"
- header "build/tdlibs/td_log.h"
+ header "iOS/include/td/telegram/td_json_client.h"
+ header "iOS/include/td/telegram/td_log.h"
  export *
 }
 

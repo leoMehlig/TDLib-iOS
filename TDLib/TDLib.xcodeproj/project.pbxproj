@@ -12,25 +12,9 @@
 		B329EB4A204B5D3700329997 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B329EB49204B5D3700329997 /* Event.swift */; };
 		B32F8CD62049B61A00B5D834 /* Function.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32F8CD52049B61A00B5D834 /* Function.swift */; };
 		B32F8CD8204AFAD500B5D834 /* ConnectionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32F8CD7204AFAD500B5D834 /* ConnectionState.swift */; };
-		B333EAD720475105009E65A1 /* libtdcore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EACB20475104009E65A1 /* libtdcore.a */; };
-		B333EAD820475105009E65A1 /* libtdsqlite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EACC20475104009E65A1 /* libtdsqlite.a */; };
-		B333EAD920475105009E65A1 /* libtdtl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EACD20475104009E65A1 /* libtdtl.a */; };
-		B333EADA20475105009E65A1 /* libtdactor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EACE20475104009E65A1 /* libtdactor.a */; };
-		B333EADB20475105009E65A1 /* libtdjson_private.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EACF20475104009E65A1 /* libtdjson_private.a */; };
-		B333EADC20475105009E65A1 /* libtdnet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EAD020475104009E65A1 /* libtdnet.a */; };
-		B333EADD20475105009E65A1 /* libtdutils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EAD120475104009E65A1 /* libtdutils.a */; };
-		B333EADE20475105009E65A1 /* libmemprof.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EAD220475104009E65A1 /* libmemprof.a */; };
-		B333EADF20475105009E65A1 /* libtdjson_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EAD320475104009E65A1 /* libtdjson_static.a */; };
-		B333EAE020475105009E65A1 /* libtddb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EAD420475104009E65A1 /* libtddb.a */; };
-		B333EAE120475105009E65A1 /* libtdc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EAD520475104009E65A1 /* libtdc.a */; };
-		B333EAE220475105009E65A1 /* libtdclient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EAD620475104009E65A1 /* libtdclient.a */; };
-		B333EAEA204753F5009E65A1 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EAE8204753F4009E65A1 /* libcrypto.a */; };
-		B333EAEB204753F5009E65A1 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B333EAE9204753F4009E65A1 /* libssl.a */; };
 		B33B98A52044C237000712A6 /* TDLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B33B989B2044C237000712A6 /* TDLib.framework */; };
 		B33B98AA2044C237000712A6 /* TDLibTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33B98A92044C237000712A6 /* TDLibTests.swift */; };
 		B33B98AC2044C237000712A6 /* TDLib.h in Headers */ = {isa = PBXBuildFile; fileRef = B33B989E2044C237000712A6 /* TDLib.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B33B98CD2044C273000712A6 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B33B98CC2044C273000712A6 /* libc++.tbd */; };
-		B33B98CF2044C282000712A6 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B33B98CE2044C282000712A6 /* libz.tbd */; };
 		B33B98D12044C37B000712A6 /* TDJsonClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33B98D02044C37B000712A6 /* TDJsonClient.swift */; };
 		B355AE3020512AF7003C5402 /* Extra.swift in Sources */ = {isa = PBXBuildFile; fileRef = B355AE2F20512AF7003C5402 /* Extra.swift */; };
 		B355AE3320514AD0003C5402 /* DatabaseEncryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = B355AE3220514AD0003C5402 /* DatabaseEncryption.swift */; };
@@ -38,10 +22,10 @@
 		B355AE3720514D86003C5402 /* Chats.swift in Sources */ = {isa = PBXBuildFile; fileRef = B355AE3620514D86003C5402 /* Chats.swift */; };
 		B355AE3920515E27003C5402 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B355AE3820515E27003C5402 /* PromiseKit.framework */; };
 		B355AE3E20516AE0003C5402 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = B355AE3D20516AE0003C5402 /* Messages.swift */; };
-		B369571A20497A5100BBC779 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B369571920497A5100BBC779 /* libstdc++.tbd */; };
 		B369584C2049A91700BBC779 /* Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = B369584B2049A91700BBC779 /* Update.swift */; };
 		B369584E2049AD0A00BBC779 /* AuthorizationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B369584D2049AD0A00BBC779 /* AuthorizationState.swift */; };
 		B36958502049AD3900BBC779 /* TDLibParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B369584F2049AD3900BBC779 /* TDLibParameters.swift */; };
+		B36F819D2060464A0014AE31 /* libtdjson.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B36F819C2060464A0014AE31 /* libtdjson.dylib */; };
 		B3C0FB4C2052CC21002F9992 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C0FB4B2052CC21002F9992 /* JSON.swift */; };
 /* End PBXBuildFile section */
 
@@ -61,29 +45,13 @@
 		B329EB49204B5D3700329997 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		B32F8CD52049B61A00B5D834 /* Function.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Function.swift; sourceTree = "<group>"; };
 		B32F8CD7204AFAD500B5D834 /* ConnectionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionState.swift; sourceTree = "<group>"; };
-		B333EACB20475104009E65A1 /* libtdcore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdcore.a; path = libs/build/tdlibs/libtdcore.a; sourceTree = "<group>"; };
-		B333EACC20475104009E65A1 /* libtdsqlite.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdsqlite.a; path = libs/build/tdlibs/libtdsqlite.a; sourceTree = "<group>"; };
-		B333EACD20475104009E65A1 /* libtdtl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdtl.a; path = libs/build/tdlibs/libtdtl.a; sourceTree = "<group>"; };
-		B333EACE20475104009E65A1 /* libtdactor.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdactor.a; path = libs/build/tdlibs/libtdactor.a; sourceTree = "<group>"; };
-		B333EACF20475104009E65A1 /* libtdjson_private.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdjson_private.a; path = libs/build/tdlibs/libtdjson_private.a; sourceTree = "<group>"; };
-		B333EAD020475104009E65A1 /* libtdnet.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdnet.a; path = libs/build/tdlibs/libtdnet.a; sourceTree = "<group>"; };
-		B333EAD120475104009E65A1 /* libtdutils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdutils.a; path = libs/build/tdlibs/libtdutils.a; sourceTree = "<group>"; };
-		B333EAD220475104009E65A1 /* libmemprof.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmemprof.a; path = libs/build/tdlibs/libmemprof.a; sourceTree = "<group>"; };
-		B333EAD320475104009E65A1 /* libtdjson_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdjson_static.a; path = libs/build/tdlibs/libtdjson_static.a; sourceTree = "<group>"; };
-		B333EAD420475104009E65A1 /* libtddb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtddb.a; path = libs/build/tdlibs/libtddb.a; sourceTree = "<group>"; };
-		B333EAD520475104009E65A1 /* libtdc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdc.a; path = libs/build/tdlibs/libtdc.a; sourceTree = "<group>"; };
-		B333EAD620475104009E65A1 /* libtdclient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdclient.a; path = libs/build/tdlibs/libtdclient.a; sourceTree = "<group>"; };
 		B333EAE32047510E009E65A1 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; name = module.modulemap; path = libs/module.modulemap; sourceTree = "<group>"; };
-		B333EAE8204753F4009E65A1 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "libs/build/OpenSSL-for-iPhone/lib/libcrypto.a"; sourceTree = "<group>"; };
-		B333EAE9204753F4009E65A1 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = "libs/build/OpenSSL-for-iPhone/lib/libssl.a"; sourceTree = "<group>"; };
 		B33B989B2044C237000712A6 /* TDLib.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TDLib.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B33B989E2044C237000712A6 /* TDLib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TDLib.h; sourceTree = "<group>"; };
 		B33B989F2044C237000712A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B33B98A42044C237000712A6 /* TDLibTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TDLibTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B33B98A92044C237000712A6 /* TDLibTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDLibTests.swift; sourceTree = "<group>"; };
 		B33B98AB2044C237000712A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B33B98CC2044C273000712A6 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		B33B98CE2044C282000712A6 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		B33B98D02044C37B000712A6 /* TDJsonClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDJsonClient.swift; sourceTree = "<group>"; };
 		B355AE2F20512AF7003C5402 /* Extra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extra.swift; sourceTree = "<group>"; };
 		B355AE3220514AD0003C5402 /* DatabaseEncryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseEncryption.swift; sourceTree = "<group>"; };
@@ -91,10 +59,10 @@
 		B355AE3620514D86003C5402 /* Chats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chats.swift; sourceTree = "<group>"; };
 		B355AE3820515E27003C5402 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
 		B355AE3D20516AE0003C5402 /* Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
-		B369571920497A5100BBC779 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		B369584B2049A91700BBC779 /* Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Update.swift; sourceTree = "<group>"; };
 		B369584D2049AD0A00BBC779 /* AuthorizationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationState.swift; sourceTree = "<group>"; };
 		B369584F2049AD3900BBC779 /* TDLibParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDLibParameters.swift; sourceTree = "<group>"; };
+		B36F819C2060464A0014AE31 /* libtdjson.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtdjson.dylib; path = libs/iOS/lib/libtdjson.dylib; sourceTree = "<group>"; };
 		B3C0FB4B2052CC21002F9992 /* JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -103,23 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B33B98CD2044C273000712A6 /* libc++.tbd in Frameworks */,
-				B33B98CF2044C282000712A6 /* libz.tbd in Frameworks */,
-				B369571A20497A5100BBC779 /* libstdc++.tbd in Frameworks */,
-				B333EAEB204753F5009E65A1 /* libssl.a in Frameworks */,
-				B333EADB20475105009E65A1 /* libtdjson_private.a in Frameworks */,
-				B333EAD820475105009E65A1 /* libtdsqlite.a in Frameworks */,
-				B333EAD920475105009E65A1 /* libtdtl.a in Frameworks */,
-				B333EAE220475105009E65A1 /* libtdclient.a in Frameworks */,
-				B333EADA20475105009E65A1 /* libtdactor.a in Frameworks */,
-				B333EAE020475105009E65A1 /* libtddb.a in Frameworks */,
-				B333EAE120475105009E65A1 /* libtdc.a in Frameworks */,
-				B333EADD20475105009E65A1 /* libtdutils.a in Frameworks */,
-				B333EAD720475105009E65A1 /* libtdcore.a in Frameworks */,
-				B333EAEA204753F5009E65A1 /* libcrypto.a in Frameworks */,
-				B333EADE20475105009E65A1 /* libmemprof.a in Frameworks */,
-				B333EADC20475105009E65A1 /* libtdnet.a in Frameworks */,
-				B333EADF20475105009E65A1 /* libtdjson_static.a in Frameworks */,
+				B36F819D2060464A0014AE31 /* libtdjson.dylib in Frameworks */,
 				B355AE3920515E27003C5402 /* PromiseKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -192,24 +144,8 @@
 		B33B98B52044C265000712A6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B36F819C2060464A0014AE31 /* libtdjson.dylib */,
 				B355AE3820515E27003C5402 /* PromiseKit.framework */,
-				B369571920497A5100BBC779 /* libstdc++.tbd */,
-				B33B98CE2044C282000712A6 /* libz.tbd */,
-				B33B98CC2044C273000712A6 /* libc++.tbd */,
-				B333EAD220475104009E65A1 /* libmemprof.a */,
-				B333EACE20475104009E65A1 /* libtdactor.a */,
-				B333EAD520475104009E65A1 /* libtdc.a */,
-				B333EAD620475104009E65A1 /* libtdclient.a */,
-				B333EACB20475104009E65A1 /* libtdcore.a */,
-				B333EAD420475104009E65A1 /* libtddb.a */,
-				B333EACF20475104009E65A1 /* libtdjson_private.a */,
-				B333EAD320475104009E65A1 /* libtdjson_static.a */,
-				B333EAD020475104009E65A1 /* libtdnet.a */,
-				B333EACC20475104009E65A1 /* libtdsqlite.a */,
-				B333EACD20475104009E65A1 /* libtdtl.a */,
-				B333EAD120475104009E65A1 /* libtdutils.a */,
-				B333EAE8204753F4009E65A1 /* libcrypto.a */,
-				B333EAE9204753F4009E65A1 /* libssl.a */,
 				B333EAE32047510E009E65A1 /* module.modulemap */,
 			);
 			name = Frameworks;
@@ -529,15 +465,12 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/libs/build/OpenSSL-for-iPhone/include";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/libs/iOS/include/**";
 				INFOPLIST_FILE = TDLib/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/libs/build/tdlibs",
-					"$(PROJECT_DIR)/libs/build/OpenSSL-for-iPhone/lib",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/libs/iOS/lib";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/libs/iOS/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.leomehlig.TDLib;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -565,15 +498,12 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/libs/build/OpenSSL-for-iPhone/include";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/libs/iOS/include/**";
 				INFOPLIST_FILE = TDLib/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/libs/build/tdlibs",
-					"$(PROJECT_DIR)/libs/build/OpenSSL-for-iPhone/lib",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/libs/iOS/lib";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/libs/iOS/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.leomehlig.TDLib;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

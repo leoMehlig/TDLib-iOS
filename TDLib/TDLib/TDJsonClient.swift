@@ -14,17 +14,21 @@ public class TDJsonClient {
     
     private let client = td_json_client_create()
     
-    public let stream = Stream<LoadingFailableEvent<Data>>()
-    
+//    public let stream = Stream<LoadingFailableEvent<Data>>()
+    public var stream: (Data) -> Void = { _ in }
     public private(set) var isListing = true
     
     public init() {
         td_set_log_verbosity_level(2)
-        self.queue.async {
-            while self.isListing {
-                if let response = td_json_client_receive(self.client, 10),
-                    let data = String(cString: response).data(using: .utf8) {
-                    self.stream.current = .value(data)
+        self.queue.async { [weak self] in
+            while self?.isListing ?? false {
+                if let response = td_json_client_receive(self!.client, 10) {
+                    let string = String(cString: response)
+                    DispatchQueue.global().async {
+                        if let data = string.data(using: .utf8) {
+                            self?.stream(data)
+                        }
+                    }
                 }
             }
         }
