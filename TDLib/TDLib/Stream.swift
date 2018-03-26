@@ -12,6 +12,8 @@ public class Stream<E: Event> {
     }
     
     var subscribers: [Subscriber<E>] = []
+    
+    public init() { }
     public var current: E = E.inital {
         didSet {
             self.subscribers.forEach({ subscriber in

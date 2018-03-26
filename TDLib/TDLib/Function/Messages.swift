@@ -63,7 +63,7 @@ public struct FormattedText: Decodable {
     public let text: String
     public let entities: [TextEntity]
 }
-public enum MessageContent: Decodable {
+public enum MessageContent: Decodable, CustomStringConvertible {
     enum CodingKeys: String, CodingKey {
         case type = "@type"
         case text
@@ -83,6 +83,15 @@ public enum MessageContent: Decodable {
             self = .text(text: try container.decode(FormattedText.self, forKey: .text))
         default:
             self = .other
+        }
+    }
+    
+    public var description: String {
+        switch self {
+        case let .text(text):
+            return text.text
+        case .other:
+            return "not a text message"
         }
     }
     

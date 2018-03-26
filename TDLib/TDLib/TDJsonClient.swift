@@ -11,11 +11,11 @@ import libtdjson
 
 public class TDJsonClient {
     private let queue = DispatchQueue(label: "tdjsonclient", qos: .userInitiated)
-    
+    private let streamQueue = DispatchQueue(label: "tdjsonclient_stream", qos: .userInitiated)
+
     private let client = td_json_client_create()
     
-//    public let stream = Stream<LoadingFailableEvent<Data>>()
-    public var stream: (Data) -> Void = { _ in }
+    public let stream = Stream<LoadingFailableEvent<Data>>()
     public private(set) var isListing = true
     
     public init() {
@@ -24,9 +24,9 @@ public class TDJsonClient {
             while self?.isListing ?? false {
                 if let response = td_json_client_receive(self!.client, 10) {
                     let string = String(cString: response)
-                    DispatchQueue.global().async {
+                    self?.streamQueue.async {
                         if let data = string.data(using: .utf8) {
-                            self?.stream(data)
+                            self?.stream.current = .value(data)
                         }
                     }
                 }
@@ -40,9 +40,8 @@ public class TDJsonClient {
     }
     
     public func send(_ query: String) {
-        query.withCString { cString in
-            td_json_client_send(self.client, cString)
-        }
+        print("Send: \(query)")
+        td_json_client_send(self.client, query)
     }
     
     public func execute(_ query: String) -> String? {
