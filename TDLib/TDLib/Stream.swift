@@ -16,16 +16,20 @@ public class Stream<E: Event> {
     public init() { }
     public var current: E = E.inital {
         didSet {
-            self.subscribers.forEach({ subscriber in
-                if let queue = subscriber.queue {
-                    queue.async {
-                        subscriber.callback(self.current)
-                    }
-                } else {
-                    subscriber.callback(self.current)
-                }
-            })
+            self.notifySubscribers(with: self.current)
         }
+    }
+    
+    func notifySubscribers(with current: E) {
+        self.subscribers.forEach({ subscriber in
+            if let queue = subscriber.queue {
+                queue.async {
+                    subscriber.callback(current)
+                }
+            } else {
+                subscriber.callback(current)
+            }
+        })
     }
     
     public func subscribe(with token: AnyHashable? = nil, on queue: DispatchQueue? = nil, with callback: @escaping (E) -> Void) {

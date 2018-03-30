@@ -25,6 +25,7 @@
 		B369584C2049A91700BBC779 /* Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = B369584B2049A91700BBC779 /* Update.swift */; };
 		B369584E2049AD0A00BBC779 /* AuthorizationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B369584D2049AD0A00BBC779 /* AuthorizationState.swift */; };
 		B36958502049AD3900BBC779 /* TDLibParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B369584F2049AD3900BBC779 /* TDLibParameters.swift */; };
+		B36E80CC206EA1040033C0CE /* AutoLockStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36E80CB206EA1040033C0CE /* AutoLockStream.swift */; };
 		B36F819D2060464A0014AE31 /* libtdjson.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B36F819C2060464A0014AE31 /* libtdjson.dylib */; };
 		B3C0FB4C2052CC21002F9992 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C0FB4B2052CC21002F9992 /* JSON.swift */; };
 /* End PBXBuildFile section */
@@ -62,6 +63,7 @@
 		B369584B2049A91700BBC779 /* Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Update.swift; sourceTree = "<group>"; };
 		B369584D2049AD0A00BBC779 /* AuthorizationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationState.swift; sourceTree = "<group>"; };
 		B369584F2049AD3900BBC779 /* TDLibParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDLibParameters.swift; sourceTree = "<group>"; };
+		B36E80CB206EA1040033C0CE /* AutoLockStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLockStream.swift; sourceTree = "<group>"; };
 		B36F819C2060464A0014AE31 /* libtdjson.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtdjson.dylib; path = libs/iOS/lib/libtdjson.dylib; sourceTree = "<group>"; };
 		B3C0FB4B2052CC21002F9992 /* JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -122,6 +124,7 @@
 				B33B98D02044C37B000712A6 /* TDJsonClient.swift */,
 				B329EB45204B099E00329997 /* Coordinator.swift */,
 				B329EB47204B5D1E00329997 /* Stream.swift */,
+				B36E80CB206EA1040033C0CE /* AutoLockStream.swift */,
 				B329EB49204B5D3700329997 /* Event.swift */,
 				B369584B2049A91700BBC779 /* Update.swift */,
 				B3C0FB4B2052CC21002F9992 /* JSON.swift */,
@@ -307,6 +310,7 @@
 				B36958502049AD3900BBC779 /* TDLibParameters.swift in Sources */,
 				B355AE3720514D86003C5402 /* Chats.swift in Sources */,
 				B32F8CD8204AFAD500B5D834 /* ConnectionState.swift in Sources */,
+				B36E80CC206EA1040033C0CE /* AutoLockStream.swift in Sources */,
 				B329EB46204B099E00329997 /* Coordinator.swift in Sources */,
 				B355AE3320514AD0003C5402 /* DatabaseEncryption.swift in Sources */,
 			);

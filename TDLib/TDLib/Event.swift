@@ -1,5 +1,4 @@
 public protocol Event {
-    associatedtype T
     static var inital: Self { get }
 }
 
@@ -8,9 +7,8 @@ public protocol PromiseEvent: Event {
 }
 
 public enum LoadingFailableEvent<V>: Event, PromiseEvent {
-    public typealias T = V
     case pending
-    case value(T)
+    case value(V)
     case error(Error)
     public static var inital: LoadingFailableEvent<V> { return .pending }
     public var isPending: Bool {
@@ -24,13 +22,12 @@ public enum LoadingFailableEvent<V>: Event, PromiseEvent {
 }
 
 public enum LoadingEvent<V>: Event {
-    public typealias T = V
     public static var inital: LoadingEvent<V> { return .pending }
     
     case pending
-    case value(T)
+    case value(V)
     
-    public var value: T? {
+    public var value: V? {
         switch self {
         case .pending:
             return nil
