@@ -37,15 +37,15 @@ public class Stream<E: Event> {
     }
     
     public func subscribe(with token: AnyHashable? = nil, on queue: DispatchQueue? = nil, with callback: @escaping (E) -> Void) {
-        self.subscribersQueue.async(flags: .barrier) {
-            self.subscribers.append(Subscriber(queue: queue, token: token, callback))
-        }
         if let queue = queue {
             queue.async {
                 callback(self.current)
             }
         } else {
             callback(self.current)
+        }
+        self.subscribersQueue.async(flags: .barrier) {
+            self.subscribers.append(Subscriber(queue: queue, token: token, callback))
         }
     }
     
