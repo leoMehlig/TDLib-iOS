@@ -22,7 +22,7 @@ public class Coordinator {
             case .pending:
                 break
             case let .value(data):
-                print("Received: \(String(data: data, encoding: .utf8))")
+                print("Received: \(String(data: data, encoding: .utf8) ?? "nil")")
                 if let extra = try? JSONDecoder.td.decode(Extra.self, from: data) {
                     print("Received extra: \(extra.extra) - \(extra.type)")
                     if let resolver = strongSelf.runningFunctions[extra.extra] {
@@ -39,7 +39,7 @@ public class Coordinator {
                         strongSelf.eventStream.current = .error(error)
                     }
                 }
-            case .error(_):
+            case .error:
                 break
             }
 
@@ -66,7 +66,7 @@ public class Coordinator {
                 case let .connectionState(state):
                     strongSelf.connectionState.current = .value(state)
                 }
-            case .error(_):
+            case .error:
                 break
             }
         }
@@ -75,7 +75,7 @@ public class Coordinator {
             case .waitTdlibParameters?:
                 _ = strongSelf.send(SetTDLibParameters(parameters: TDLibParameters(apiId: self.apiId,
                                                                                    apiHash: self.apiHash)))
-            case .waitEncryptionKey(_)?:
+            case .waitEncryptionKey?:
                 let key = Data(repeating: 123, count: 64)
                 //                key.withUnsafeMutableBytes { bytes in
                 //                    SecRandomCopyBytes(kSecRandomDefault, 64, bytes)
@@ -90,7 +90,7 @@ public class Coordinator {
         case timeout(Extra)
     }
     
-    public func send<F: TDFunction>(_ function: F) -> Promise<F.T> {
+    public func send<F: TDFunction>(_ function: F) -> Promise<F.Result> {
         let (promise, resolver) = Promise<Data>.pending()
         self.sendQueue.async {
             let wrapper = FunctionWrapper(function: function)
@@ -99,17 +99,17 @@ public class Coordinator {
             } catch {
                 resolver.reject(error)
             }
-            let extra = Extra(type: F.T.type, extra: wrapper.extra)
+            let extra = Extra(type: F.Result.type, extra: wrapper.extra)
             self.runningFunctions[extra.extra] = resolver
-            self.sendQueue.asyncAfter(deadline: .now() + .seconds(10)) {
-                if let resolver = self.runningFunctions[extra.extra] {
-                    resolver.reject(TDError.timeout(extra))
-                }
-            }
+//            self.sendQueue.asyncAfter(deadline: .now() + .seconds(10)) {
+//                if let resolver = self.runningFunctions[extra.extra] {
+//                    resolver.reject(TDError.timeout(extra))
+//                }
+//            }
         }
         return promise.map(on: self.sendQueue) { data in
             do {
-                return try JSONDecoder.td.decode(F.T.self, from: data)
+                return try JSONDecoder.td.decode(F.Result.self, from: data)
             } catch {
                 throw error
             }

@@ -1,4 +1,4 @@
-struct Extra: Decodable, Hashable {
+internal struct Extra: Decodable, Hashable {
     enum CodingKeys: String, CodingKey {
         case type = "@type"
         case extra = "@extra"

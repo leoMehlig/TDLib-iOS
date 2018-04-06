@@ -1,8 +1,5 @@
 public struct SetTDLibParameters: TDFunction {
-    public typealias T = Ok
-    enum CodingKeys: String, CodingKey {
-        case parameters = "parameters"
-    }
+    public typealias Result = Ok
     
     public let type: String = "setTdlibParameters"
     
@@ -10,11 +7,6 @@ public struct SetTDLibParameters: TDFunction {
     
     public init(parameters: TDLibParameters) {
         self.parameters = parameters
-    }
-    
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.parameters, forKey: .parameters)
     }
 }
 

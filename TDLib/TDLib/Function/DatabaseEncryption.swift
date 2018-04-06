@@ -1,5 +1,5 @@
 public struct CheckDatabaseEncryptionKey: TDFunction {
-    public typealias T = Ok
+    public typealias Result = Ok
        
     public let type: String = "checkDatabaseEncryptionKey"
     

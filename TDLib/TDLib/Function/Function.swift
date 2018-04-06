@@ -1,5 +1,5 @@
 public protocol TDFunction: Encodable {
-    associatedtype T: FunctionResult
+    associatedtype Result: FunctionResult
     var type: String { get }
 }
 
@@ -11,7 +11,7 @@ public struct Ok: FunctionResult {
     public static var type: String = "ok"
 }
 
-struct FunctionWrapper<F: TDFunction>: Encodable {
+internal struct FunctionWrapper<F: TDFunction>: Encodable {
     enum CodingKeys: String, CodingKey {
         case type = "@type"
         case extra = "@extra"

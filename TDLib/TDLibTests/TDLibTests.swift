@@ -9,7 +9,7 @@
 import XCTest
 @testable import TDLib
 
-class TDLibTests: XCTestCase {
+internal class TDLibTests: XCTestCase {
     
     override func setUp() {
         super.setUp()

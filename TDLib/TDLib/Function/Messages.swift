@@ -1,5 +1,5 @@
 public struct GetChatHistory: TDFunction {
-    public typealias T = Messages
+    public typealias Result = Messages
     
     public let type: String = "getChatHistory"
     
@@ -16,8 +16,6 @@ public struct GetChatHistory: TDFunction {
         self.limit = limit
         self.onlyLocal = onlyLocal
     }
-
-  
 }
 
 public struct Messages: FunctionResult {

@@ -22,6 +22,7 @@
 		B355AE3720514D86003C5402 /* Chats.swift in Sources */ = {isa = PBXBuildFile; fileRef = B355AE3620514D86003C5402 /* Chats.swift */; };
 		B355AE3920515E27003C5402 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B355AE3820515E27003C5402 /* PromiseKit.framework */; };
 		B355AE3E20516AE0003C5402 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = B355AE3D20516AE0003C5402 /* Messages.swift */; };
+		B35C68292077ABEC007743E8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35C68282077ABEC007743E8 /* User.swift */; };
 		B369584C2049A91700BBC779 /* Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = B369584B2049A91700BBC779 /* Update.swift */; };
 		B369584E2049AD0A00BBC779 /* AuthorizationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B369584D2049AD0A00BBC779 /* AuthorizationState.swift */; };
 		B36958502049AD3900BBC779 /* TDLibParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B369584F2049AD3900BBC779 /* TDLibParameters.swift */; };
@@ -60,6 +61,7 @@
 		B355AE3620514D86003C5402 /* Chats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chats.swift; sourceTree = "<group>"; };
 		B355AE3820515E27003C5402 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
 		B355AE3D20516AE0003C5402 /* Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
+		B35C68282077ABEC007743E8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B369584B2049A91700BBC779 /* Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Update.swift; sourceTree = "<group>"; };
 		B369584D2049AD0A00BBC779 /* AuthorizationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationState.swift; sourceTree = "<group>"; };
 		B369584F2049AD3900BBC779 /* TDLibParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDLibParameters.swift; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 				B355AE3420514B32003C5402 /* Authentication.swift */,
 				B355AE3620514D86003C5402 /* Chats.swift */,
 				B355AE3D20516AE0003C5402 /* Messages.swift */,
+				B35C68282077ABEC007743E8 /* User.swift */,
 			);
 			path = Function;
 			sourceTree = "<group>";
@@ -288,7 +291,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\nswiftlint lint --config ./.swiftlint.yml\nelse\necho \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint lint --config ../../../.swiftlint.yml\nelse\necho \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -304,6 +307,7 @@
 				B33B98D12044C37B000712A6 /* TDJsonClient.swift in Sources */,
 				B355AE3520514B32003C5402 /* Authentication.swift in Sources */,
 				B3C0FB4C2052CC21002F9992 /* JSON.swift in Sources */,
+				B35C68292077ABEC007743E8 /* User.swift in Sources */,
 				B32F8CD62049B61A00B5D834 /* Function.swift in Sources */,
 				B329EB48204B5D1E00329997 /* Stream.swift in Sources */,
 				B369584E2049AD0A00BBC779 /* AuthorizationState.swift in Sources */,

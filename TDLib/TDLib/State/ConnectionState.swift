@@ -1,7 +1,7 @@
 public enum ConnectionState: String, Decodable {
     enum CodingKeys: String, CodingKey {
         case type = "@type"
-        case isEncrypted = "is_encrypted"
+        case isEncrypted
     }
     enum Error: Swift.Error {
         case unknownState(String)
