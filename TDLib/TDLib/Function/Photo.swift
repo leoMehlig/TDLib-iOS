@@ -1,17 +1,17 @@
-public struct Photo: Decodable {
+public struct Photo: Decodable, Equatable {
     public let id: String
     public let hasStickers: Bool
     public let sizes: [PhotoSize]
 }
 
-public struct PhotoSize: Decodable {
+public struct PhotoSize: Decodable, Equatable {
     public let type: String
     public let photo: File
     public let width: Int32
     public let height: Int32
 }
 
-public struct File: Decodable, FunctionResult {
+public struct File: Decodable, Equatable, FunctionResult {
     public static var type: String = "file"
 
     public let id: Int32
@@ -21,7 +21,7 @@ public struct File: Decodable, FunctionResult {
     public let remote: RemoteFile
 }
 
-public struct LocalFile: Decodable {
+public struct LocalFile: Decodable, Equatable {
     public let path: String
     public let canBeDownloaded: Bool
     public let canBeDeleted: Bool
@@ -31,14 +31,14 @@ public struct LocalFile: Decodable {
     public let downloadedSize: Int32
 }
 
-public struct RemoteFile: Decodable {
+public struct RemoteFile: Decodable, Equatable {
     public let id: String
     public let isUploadingActive: Bool
     public let isUploadingCompleted: Bool
     public let uploadedSize: Int32
 }
 
-public struct DownloadFile: TDFunction {
+public struct DownloadFile: TDFunction, Equatable {
     public typealias Result = File
     
     public let fileId: Int32

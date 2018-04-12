@@ -14,16 +14,42 @@ public struct GetChatHistory: TDFunction {
         self.limit = limit
         self.onlyLocal = onlyLocal
     }
+    
+    public static func firstMessage(in chatId: Int) -> GetChatHistory {
+        return GetChatHistory(chatId: chatId, fromMessageId: 2, offset: -1, limit: 2, onlyLocal: false)
+    }
 }
 
-public struct Messages: FunctionResult {
+public struct GetChatMessageByDate: TDFunction {
+    public typealias Result = Message
+    
+    public let chatId: Int
+    public let date: Int32
+    
+    public init(chatId: Int, date: Date) {
+        self.chatId = chatId
+        self.date = Int32(date.timeIntervalSince1970)
+    }
+}
+
+public struct GetMessage: TDFunction {
+    public typealias Result = Message
+    
+    public let chatId: Int
+    
+    public init(chatId: Int) {
+        self.chatId = chatId
+    }
+}
+
+public struct Messages: FunctionResult, Equatable {
     public static var type: String = "messages"
     
     public let totalCount: Int32
     public let messages: [Message]
 }
 
-public struct Message: FunctionResult {
+public struct Message: FunctionResult, Equatable {
     public static var type: String = "message"
     
     public let id: Int
@@ -50,8 +76,8 @@ public struct Message: FunctionResult {
     public let content: MessageContent
     //    public let replyMarkup:ReplyMarkup
 }
-public struct FormattedText: Decodable {
-    public struct TextEntity: Decodable {
+public struct FormattedText: Decodable, Equatable {
+    public struct TextEntity: Decodable, Equatable {
         public let offset: Int32
         public let length: Int32
         //        public let type: TextEntityType
@@ -59,7 +85,8 @@ public struct FormattedText: Decodable {
     public let text: String
     public let entities: [TextEntity]
 }
-public enum MessageContent: Decodable, CustomStringConvertible {
+public enum MessageContent: Decodable, Equatable, CustomStringConvertible {
+    
     enum CodingKeys: String, CodingKey {
         case type = "@type"
         case text, photo, caption
@@ -94,6 +121,19 @@ public enum MessageContent: Decodable, CustomStringConvertible {
             return "Photo - " + caption.text
         case .other:
             return "not a text message"
+        }
+    }
+    
+    public static func == (lhs: MessageContent, rhs: MessageContent) -> Bool {
+        switch (lhs, rhs) {
+        case (.text(let lhs), .text(let rhs)):
+            return lhs == rhs
+        case (.photo(let lhsPhoto, let lhsCaption), .photo(let rhsPhoto, let rhsCaption)):
+            return lhsPhoto == rhsPhoto && lhsCaption == rhsCaption
+        case (.other, .other):
+            return true
+        default:
+            return false
         }
     }
     

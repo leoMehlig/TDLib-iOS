@@ -92,7 +92,7 @@ extension AuthorizationState {
         
         enum CodingKeys: String, CodingKey {
             case type
-            case nextType = "next_type"
+            case nextType
             case timeout
         }
         
