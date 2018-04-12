@@ -5,75 +5,69 @@ public class Coordinator {
     let apiId: Int
     let apiHash: String
     let sendQueue = DispatchQueue(label: "tdlib_send", qos: .userInitiated)
+    let updateQueue = DispatchQueue(label: "tdlib_update", qos: .utility)
     
-    let functionStream = Stream<LoadingEvent<(Extra, Data)>>()
-    let eventStream = Stream<LoadingFailableEvent<Update>>()
     public let authorizationState = Stream<LoadingEvent<AuthorizationState>>()
     public let connectionState = Stream<LoadingEvent<ConnectionState>>()
-    
+
+    private var fileStreams: [Int32: Stream<DownloadEvent<File>>] = [:]
     private var runningFunctions: [String: Resolver<Data>] = [:]
     
     public init(client: TDJsonClient, apiId: Int, apiHash: String) {
         self.client = client
         self.apiId = apiId
         self.apiHash = apiHash
-        self.client.stream.subscribeStrong(self) { strongSelf, event in
-            switch event {
-            case .pending:
-                break
-            case let .value(data):
-                print("Received: \(String(data: data, encoding: .utf8) ?? "nil")")
-                if let extra = try? JSONDecoder.td.decode(Extra.self, from: data) {
-                    print("Received extra: \(extra.extra) - \(extra.type)")
-                    if let resolver = strongSelf.runningFunctions[extra.extra] {
-                        strongSelf.runningFunctions[extra.extra] = nil
-                        resolver.fulfill(data)
-                    } else {
-                        print("Unassigned function result: \(extra)")
-                    }
+        self.client.stream.subscribeStrong(self) { strongSelf, data in
+            guard let data = data else {
+                return
+            }
+            print("Received: \(String(data: data, encoding: .utf8) ?? "nil")")
+            if let extra = try? JSONDecoder.td.decode(Extra.self, from: data) {
+                print("Received extra: \(extra.extra) - \(extra.type)")
+                if let resolver = strongSelf.runningFunctions[extra.extra] {
+                    strongSelf.runningFunctions[extra.extra] = nil
+                    resolver.fulfill(data)
                 } else {
-                    do {
-                        let event = try JSONDecoder.td.decode(Update.self, from: data)
-                        strongSelf.eventStream.current = .value(event)
-                    } catch {
-                        strongSelf.eventStream.current = .error(error)
+                    print("Unassigned function result: \(extra)")
+                }
+            } else if let update = try? JSONDecoder.td.decode(Update.self, from: data) {
+                self.updateQueue.async(flags: .barrier) {
+                    switch update {
+                    case let .updateAuthorizationState(state):
+                        strongSelf.authorizationState.current = .value(state)
+                    case let .connectionState(state):
+                        strongSelf.connectionState.current = .value(state)
+                    case let .file(file):
+                        let stream: Stream<DownloadEvent<File>>
+                        if let existing = self.fileStreams[file.id] {
+                            stream = existing
+                        } else {
+                            stream = Stream()
+                            self.fileStreams[file.id] = stream
+                        }
+                        switch (file.local.isDownloadingCompleted, file.local.isDownloadingActive) {
+                        case (true, _):
+                            stream.current = .completed(file)
+                            self.fileStreams[file.id] = nil
+                        case (false, true):
+                            stream.current = .loading(file)
+                        case (false, false):
+                            stream.current = .failled(file)
+                        }
                     }
                 }
-            case .error:
-                break
             }
+        }
 
-        }
-//        self.functionStream.subscribeStrong(self, on: self.sendQueue) { (strongSelf, event) in
-//            if let (extra, data) = event.value {
-//                print("Func: Received extra: \(extra.extra) - \(extra.extra)")
-//                if let resolver = strongSelf.runningFunctions[extra.extra] {
-//                    strongSelf.runningFunctions[extra.extra] = nil
-//                    resolver.fulfill(data)
-//                } else {
-////                    print("Unassigned function result: \(extra)")
-//                }
-//            }
-//        }
-        self.eventStream.subscribeStrong(self) { strongSelf, event in
-            switch event {
-            case .pending:
-                print("Loading...")
-            case let .value(update):
-                switch update {
-                case let .updateAuthorizationState(state):
-                    strongSelf.authorizationState.current = .value(state)
-                case let .connectionState(state):
-                    strongSelf.connectionState.current = .value(state)
-                }
-            case .error:
-                break
-            }
-        }
         self.authorizationState.subscribeStrong(self) { strongSelf, event in
             switch event.value {
             case .waitTdlibParameters?:
-                _ = strongSelf.send(SetTDLibParameters(parameters: TDLibParameters(apiId: self.apiId,
+                guard let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first else {
+                    fatalError("Can't get document director path")
+                }
+                _ = strongSelf.send(SetTdlibParameters(parameters: TDLibParameters(databaseDirectory: path,
+                                                                                   filesDirectory: path,
+                                                                                   apiId: self.apiId,
                                                                                    apiHash: self.apiHash)))
             case .waitEncryptionKey?:
                 let key = Data(repeating: 123, count: 64)
@@ -90,6 +84,32 @@ public class Coordinator {
         case timeout(Extra)
     }
     
+    public func stream(forFile file: File) -> Stream<DownloadEvent<File>> {
+        var stream: Stream<DownloadEvent<File>>!
+        self.updateQueue.sync {
+            if let existing = self.fileStreams[file.id] {
+                stream = existing
+            } else {
+                stream = Stream()
+                self.fileStreams[file.id] = stream
+            }
+        }
+        return stream
+    }
+    
+    public func download(file: File, priority: Int32 = 32) -> Stream<DownloadEvent<File>> {
+        guard !file.local.isDownloadingCompleted else {
+            let stream = Stream<DownloadEvent<File>>()
+            stream.current = .completed(file)
+            return stream
+        }
+        let stream = self.stream(forFile: file)
+        if !file.local.isDownloadingActive {
+            self.send(DownloadFile(fileId: file.id, priority: 32)).cauterize()
+        }
+        return stream
+    }
+    
     public func send<F: TDFunction>(_ function: F) -> Promise<F.Result> {
         let (promise, resolver) = Promise<Data>.pending()
         self.sendQueue.async {
@@ -101,11 +121,6 @@ public class Coordinator {
             }
             let extra = Extra(type: F.Result.type, extra: wrapper.extra)
             self.runningFunctions[extra.extra] = resolver
-//            self.sendQueue.asyncAfter(deadline: .now() + .seconds(10)) {
-//                if let resolver = self.runningFunctions[extra.extra] {
-//                    resolver.reject(TDError.timeout(extra))
-//                }
-//            }
         }
         return promise.map(on: self.sendQueue) { data in
             do {

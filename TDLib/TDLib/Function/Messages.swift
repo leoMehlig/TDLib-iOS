@@ -1,8 +1,6 @@
 public struct GetChatHistory: TDFunction {
     public typealias Result = Messages
     
-    public let type: String = "getChatHistory"
-    
     public let chatId: Int
     public let fromMessageId: Int
     public let offset: Int32
@@ -64,13 +62,14 @@ public struct FormattedText: Decodable {
 public enum MessageContent: Decodable, CustomStringConvertible {
     enum CodingKeys: String, CodingKey {
         case type = "@type"
-        case text
+        case text, photo, caption
     }
     enum Error: Swift.Error {
         case unknownType(String)
     }
     
     case text(text: FormattedText)
+    case photo(photo: Photo, caption: FormattedText)
     case other
     
     public init(from decoder: Decoder) throws {
@@ -79,6 +78,9 @@ public enum MessageContent: Decodable, CustomStringConvertible {
         switch type {
         case "messageText":
             self = .text(text: try container.decode(FormattedText.self, forKey: .text))
+        case "messagePhoto":
+            self = .photo(photo: try container.decode(Photo.self, forKey: .photo),
+                          caption: try container.decode(FormattedText.self, forKey: .caption))
         default:
             self = .other
         }
@@ -88,6 +90,8 @@ public enum MessageContent: Decodable, CustomStringConvertible {
         switch self {
         case let .text(text):
             return text.text
+        case let .photo(_, caption):
+            return "Photo - " + caption.text
         case .other:
             return "not a text message"
         }
@@ -96,7 +100,6 @@ public enum MessageContent: Decodable, CustomStringConvertible {
 //    case animation(animation: Animation, caption: FormattedText)
 //    case audio(audio: Audio, caption: FormattedText)
 //    case document(document: Document, caption: FormattedText)
-//    case photo(photo: Photo, caption: FormattedText)
 //    case sticker(sticker: Sticker)
 //    case video(video: Video, caption: FormattedText)
 //    case videoNote(video_note: VideoNote, is_viewed: Bool)

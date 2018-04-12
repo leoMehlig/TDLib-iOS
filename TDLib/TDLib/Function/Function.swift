@@ -1,10 +1,31 @@
 public protocol TDFunction: Encodable {
     associatedtype Result: FunctionResult
-    var type: String { get }
+    static var type: String { get }
 }
 
 public protocol FunctionResult: Decodable {
     static var type: String { get }
+}
+
+extension FunctionResult {
+    public static var type: String {
+        return "\(self)".uncapitalized
+    }
+}
+extension TDFunction {
+    public static var type: String {
+        return "\(self)".uncapitalized
+    }
+}
+
+extension String {
+    var uncapitalized: String {
+        if let first = self.first {
+            return String(first).lowercased() + String(self.dropFirst())
+        } else {
+            return self
+        }
+    }
 }
 
 public struct Ok: FunctionResult {
@@ -26,7 +47,7 @@ internal struct FunctionWrapper<F: TDFunction>: Encodable {
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.function.type, forKey: .type)
+        try container.encode(F.type, forKey: .type)
         try container.encode(self.extra, forKey: .extra)
         try self.function.encode(to: encoder)
     }

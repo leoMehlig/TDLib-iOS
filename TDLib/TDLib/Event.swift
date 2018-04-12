@@ -6,6 +6,10 @@ public protocol PromiseEvent: Event {
     var isPending: Bool { get }
 }
 
+extension Optional: Event {
+    public static var inital: Optional { return nil }
+}
+
 public enum LoadingFailableEvent<V>: Event, PromiseEvent {
     case pending
     case value(V)
@@ -35,4 +39,21 @@ public enum LoadingEvent<V>: Event {
             return value
         }
     }
+}
+
+public enum DownloadEvent<V>: PromiseEvent {
+    public var isPending: Bool {
+        switch self {
+        case .loading:
+            return true
+        case .completed, .failled:
+            return false
+        }
+    }
+    
+    public static var inital: DownloadEvent<V> { return .loading(nil) }
+    
+    case loading(V?)
+    case completed(V)
+    case failled(V?)
 }

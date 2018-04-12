@@ -1,8 +1,6 @@
 public struct SetAuthenticationPhoneNumber: TDFunction {
     public typealias Result = Ok
     
-    public let type: String = "setAuthenticationPhoneNumber"
-    
     public let phoneNumber: String
     public let allowFlashCall: Bool
     public let isCurrentPhoneNumber: Bool
@@ -17,8 +15,6 @@ public struct SetAuthenticationPhoneNumber: TDFunction {
 public struct CheckAuthenticationCode: TDFunction {
     public typealias Result = Ok
     
-    public let type: String = "checkAuthenticationCode"
-    
     public let code: String
     public let firstName: String?
     public let lastName: String?
@@ -32,8 +28,6 @@ public struct CheckAuthenticationCode: TDFunction {
 
 public struct CheckAuthenticationPassword: TDFunction {
     public typealias Result = Ok
-    
-    public let type: String = "checkAuthenticationPassword"
     
     public let password: String
 

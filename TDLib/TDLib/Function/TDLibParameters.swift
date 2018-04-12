@@ -1,7 +1,5 @@
-public struct SetTDLibParameters: TDFunction {
+public struct SetTdlibParameters: TDFunction {
     public typealias Result = Ok
-    
-    public let type: String = "setTdlibParameters"
     
     public let parameters: TDLibParameters
     
@@ -47,8 +45,8 @@ public struct TDLibParameters: Codable {
 //    }
     
     public init(useTestDc: Bool = false,
-                databaseDirectory: String = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!,
-                filesDirectory: String = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!,
+                databaseDirectory: String,
+                filesDirectory: String,
                 useFileDatabase: Bool = true,
                 useChatInfoDatabase: Bool = true,
                 useMessageDatabase: Bool = true,

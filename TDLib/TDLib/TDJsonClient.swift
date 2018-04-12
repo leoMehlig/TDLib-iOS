@@ -15,7 +15,7 @@ public class TDJsonClient {
 
     private let client = td_json_client_create()
     
-    public let stream = Stream<LoadingFailableEvent<Data>>()
+    public let stream = Stream<Data?>()
     public private(set) var isListing = true
     
     public init() {
@@ -26,7 +26,7 @@ public class TDJsonClient {
                     let string = String(cString: response)
                     self?.streamQueue.async {
                         if let data = string.data(using: .utf8) {
-                            self?.stream.current = .value(data)
+                            self?.stream.current = data
                         }
                     }
                 }

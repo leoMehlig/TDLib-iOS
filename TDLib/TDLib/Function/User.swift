@@ -1,8 +1,6 @@
 public struct GetUser: TDFunction {
     public typealias Result = User
     
-    public let type: String = "getUser"
-    
     public let userId: Int32
     
     public init(userId: Int32) {
@@ -13,11 +11,8 @@ public struct GetUser: TDFunction {
 public struct GetMe: TDFunction {
     public typealias Result = User
     
-    public let type: String = "getMe"
-    
     public init() { }
 }
-
 
 public struct User: FunctionResult {
     public static var type: String = "user"

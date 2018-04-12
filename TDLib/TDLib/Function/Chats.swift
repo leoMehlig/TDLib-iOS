@@ -1,8 +1,6 @@
 public struct GetChats: TDFunction {
     public typealias Result = Chats
     
-    public let type: String = "getChats"
-    
     public let offsetOrder: Int64
     public let offsetChatId: Int64
     public let limit: Int32
@@ -16,8 +14,6 @@ public struct GetChats: TDFunction {
 
 public struct GetChat: TDFunction {
     public typealias Result = Chat
-
-    public let type: String = "getChat"
     
     public let chatId: Int
     
@@ -46,7 +42,6 @@ public struct Chat: FunctionResult {
         case basicGroup(basicGroupId: Int32)
         case supergroup(supergroupId: Int32, isChannel: Bool)
         case secret(secretChatId: Int32, userId: Int32)
-        
         
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
