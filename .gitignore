@@ -67,4 +67,5 @@ fastlane/screenshots
 fastlane/test_output
 .DS_Store
 /TDLib/Carthage
-TDLib/libs/iOS/
+#TDLib/libs/iOS/
+*.generated.swift

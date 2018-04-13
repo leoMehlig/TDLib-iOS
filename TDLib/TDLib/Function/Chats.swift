@@ -28,40 +28,14 @@ public struct Chats: FunctionResult {
     public let chatIds: [Int]
 }
 
+public enum ChatType: TDEnum {
+    case `private`(userId: Int32)
+    case basicGroup(basicGroupId: Int32)
+    case supergroup(supergroupId: Int32, isChannel: Bool)
+    case secret(secretChatId: Int32, userId: Int32)
+}
+
 public struct Chat: FunctionResult {
-    public enum ChatType: Decodable {
-        enum CodingKeys: String, CodingKey {
-            case type = "@type"
-            case userId, basicGroupId, supergroupId, isChannel, secretChatId
-        }
-        enum Error: Swift.Error {
-            case unknownState(String)
-        }
-        
-        case `private`(userId: Int32)
-        case basicGroup(basicGroupId: Int32)
-        case supergroup(supergroupId: Int32, isChannel: Bool)
-        case secret(secretChatId: Int32, userId: Int32)
-        
-        public init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            let type = try container.decode(String.self, forKey: .type)
-            switch type {
-            case "chatTypePrivate":
-                self = .private(userId: try container.decode(Int32.self, forKey: .userId))
-            case "chatTypeBasicGroup":
-                self = .basicGroup(basicGroupId: try container.decode(Int32.self, forKey: .basicGroupId))
-            case "chatTypeSupergroup":
-                self = .supergroup(supergroupId: try container.decode(Int32.self, forKey: .supergroupId),
-                                   isChannel: try container.decode(Bool.self, forKey: .isChannel))
-            case "chatTypeSecret":
-                self = .secret(secretChatId: try container.decode(Int32.self, forKey: .secretChatId),
-                               userId: try container.decode(Int32.self, forKey: .userId))
-            default:
-                throw Error.unknownState(type)
-            }
-        }
-    }
     
     enum CodingKeys: String, CodingKey {
         case id, title, lastMessage, order, isPinned, unreadCount

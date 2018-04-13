@@ -12,8 +12,6 @@ public struct PhotoSize: Decodable, Equatable {
 }
 
 public struct File: Decodable, Equatable, FunctionResult {
-    public static var type: String = "file"
-
     public let id: Int32
     public let size: Int32
     public let expectedSize: Int32

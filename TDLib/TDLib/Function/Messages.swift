@@ -42,16 +42,12 @@ public struct GetMessage: TDFunction {
     }
 }
 
-public struct Messages: FunctionResult, Equatable {
-    public static var type: String = "messages"
-    
+public struct Messages: FunctionResult, Equatable {   
     public let totalCount: Int32
     public let messages: [Message]
 }
 
 public struct Message: FunctionResult, Equatable {
-    public static var type: String = "message"
-    
     public let id: Int
     public let senderUserId: Int32
     public let chatId: Int
@@ -85,34 +81,15 @@ public struct FormattedText: Decodable, Equatable {
     public let text: String
     public let entities: [TextEntity]
 }
-public enum MessageContent: Decodable, Equatable, CustomStringConvertible {
-    
-    enum CodingKeys: String, CodingKey {
-        case type = "@type"
-        case text, photo, caption
-    }
-    enum Error: Swift.Error {
-        case unknownType(String)
-    }
-    
+
+public protocol TDEnum { }
+
+// sourcery: prefix = "message", default = "other"
+public enum MessageContent: TDEnum, Equatable, CustomStringConvertible {
     case text(text: FormattedText)
     case photo(photo: Photo, caption: FormattedText)
     case other
-    
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        let type = try container.decode(String.self, forKey: .type)
-        switch type {
-        case "messageText":
-            self = .text(text: try container.decode(FormattedText.self, forKey: .text))
-        case "messagePhoto":
-            self = .photo(photo: try container.decode(Photo.self, forKey: .photo),
-                          caption: try container.decode(FormattedText.self, forKey: .caption))
-        default:
-            self = .other
-        }
-    }
-    
+
     public var description: String {
         switch self {
         case let .text(text):

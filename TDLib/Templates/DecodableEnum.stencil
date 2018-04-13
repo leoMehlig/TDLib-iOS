@@ -1,0 +1,49 @@
+
+{% for enum in types.implementing.TDEnum|enum %}
+
+extension {{ enum.name }}: Decodable {
+  enum CodingKeys: String, CodingKey {
+        case type = "@type"
+  }
+  {% if not enum.annotations.default %}
+  enum Error: Swift.Error {
+        case unknownState(String)
+  }
+  {% endif %}
+  {% for case in enum.cases %}
+    {% if case.hasAssociatedValue %}
+  enum {{ case.name|replace:"`",""|upperFirstLetter| }}Keys: String, CodingKey {
+        {% for value in case.associatedValues %}
+          case {{ value.localName }}
+        {% endfor %}
+  }
+      {% endif %}
+  {% endfor %}
+
+  public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let type = try container.decode(String.self, forKey: .type)
+        switch type {
+  {% for case in enum.cases %}
+    case "{% if enum.annotations.prefix %}{{ enum.annotations.prefix }}{% else %}{{ enum.name|lowerFirstLetter }}{% endif %}{{ case.name|replace:"`",""|upperFirstLetter }}":
+    {% if case.hasAssociatedValue %}
+      let caseContainer = try decoder.container(keyedBy: {{ case.name|replace:"`",""|upperFirstLetter }}Keys.self)
+      self = .{{ case.name|replace:"`","" }}(
+        {% for value in case.associatedValues %}
+          {{ value.localName }}: try caseContainer.decode({{ value.typeName.name }}.self, forKey: .{{ value.localName }}){% if not forloop.last %},{% endif %}
+        {% endfor %}
+        )
+  {% else %}
+      self = .{{ case.name|replace:"`","" }}
+  {% endif %}
+  {% endfor %}
+    default:
+      {% if enum.annotations.default %}
+        self = .{{ enum.annotations.default }}
+      {% else %}
+       throw Error.unknownState(type)
+      {% endif %}
+        }
+    }
+}
+{% endfor %}  

@@ -15,8 +15,6 @@ public struct GetMe: TDFunction {
 }
 
 public struct User: FunctionResult {
-    public static var type: String = "user"
-    
     public let id: Int32
     public let firstName: String
     public let lastName: String

@@ -1,0 +1,6 @@
+sources:
+  - TDLib/
+templates:
+  - Templates/
+output:
+  TDLib/Generated
