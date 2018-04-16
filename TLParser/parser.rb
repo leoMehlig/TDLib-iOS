@@ -201,7 +201,7 @@ if current then
 end
 current = nil
 
-File.open("../TDLib/TDLib/Generated/TDLib.generated.swift", "w") do | file |
+File.open("../TDLib/Generated/TDLib.generated.swift", "w") do | file |
     file.write("public typealias Int53 = Int64\n")
     file.write("public typealias Bytes = Data\n\n")
     for type in all do
@@ -209,4 +209,4 @@ File.open("../TDLib/TDLib/Generated/TDLib.generated.swift", "w") do | file |
         file.write(type.gen() + "\n\n")
     end
 end
-puts `cd ../TDLib && sourcery`
+puts `cd .. && sourcery`

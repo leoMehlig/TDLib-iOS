@@ -1,1 +1,1 @@
-TDLib/libs/iOS/lib/libtdjson.dylib filter=lfs diff=lfs merge=lfs -text
+libs/iOS/lib/libtdjson.dylib filter=lfs diff=lfs merge=lfs -text

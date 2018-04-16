@@ -159,11 +159,11 @@ public struct TDInt64: Codable, SignedInteger {
         self.storage = Int64(integerLiteral: value)
     }
 
-    public static func <<= <RHS>(lhs: inout TDInt64, rhs: RHS) where RHS : BinaryInteger {
+    public static func <<= <RHS>(lhs: inout TDInt64, rhs: RHS) where RHS:  BinaryInteger {
         return lhs.storage <<= rhs
     }
 
-    public static func >>= <RHS>(lhs: inout TDInt64, rhs: RHS) where RHS : BinaryInteger {
+    public static func >>= <RHS>(lhs: inout TDInt64, rhs: RHS) where RHS: BinaryInteger {
         return lhs.storage >>= rhs
     }
 

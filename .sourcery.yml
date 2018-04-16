@@ -1,5 +1,5 @@
 sources:
-  - TDLib/
+  - .
 templates:
   - Templates/
 output:
