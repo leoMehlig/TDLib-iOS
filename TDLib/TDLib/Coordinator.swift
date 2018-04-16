@@ -2,7 +2,7 @@ import PromiseKit
 
 public class Coordinator {
     public let client: TDJsonClient
-    let apiId: Int
+    let apiId: Int32
     let apiHash: String
     let sendQueue = DispatchQueue(label: "tdlib_send", qos: .userInitiated)
     let updateQueue = DispatchQueue(label: "tdlib_update", qos: .utility)
@@ -13,7 +13,7 @@ public class Coordinator {
     private var fileStreams: [Int32: Stream<DownloadEvent<File>>] = [:]
     private var runningFunctions: [String: Resolver<Data>] = [:]
     
-    public init(client: TDJsonClient, apiId: Int, apiHash: String) {
+    public init(client: TDJsonClient, apiId: Int32, apiHash: String) {
         self.client = client
         self.apiId = apiId
         self.apiHash = apiHash
@@ -33,7 +33,7 @@ public class Coordinator {
             } else if let update = try? JSONDecoder.td.decode(Update.self, from: data) {
                 self.updateQueue.async(flags: .barrier) {
                     switch update {
-                    case let .updateAuthorizationState(state):
+                    case let .authorizationState(state):
                         strongSelf.authorizationState.current = .value(state)
                     case let .connectionState(state):
                         strongSelf.connectionState.current = .value(state)
@@ -54,6 +54,8 @@ public class Coordinator {
                         case (false, false):
                             stream.current = .failled(file)
                         }
+                    default:
+                        print("Unhandled update: \(update)")
                     }
                 }
             }
@@ -65,7 +67,7 @@ public class Coordinator {
                 guard let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first else {
                     fatalError("Can't get document director path")
                 }
-                _ = strongSelf.send(SetTdlibParameters(parameters: TDLibParameters(databaseDirectory: path,
+                _ = strongSelf.send(SetTdlibParameters(parameters: TdlibParameters.create(databaseDirectory: path,
                                                                                    filesDirectory: path,
                                                                                    apiId: self.apiId,
                                                                                    apiHash: self.apiHash)))
@@ -80,7 +82,7 @@ public class Coordinator {
             }
         }
     }
-    enum TDError: Error {
+    enum TDError: Swift.Error {
         case timeout(Extra)
     }
     

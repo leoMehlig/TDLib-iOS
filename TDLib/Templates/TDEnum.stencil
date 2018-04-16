@@ -1,0 +1,80 @@
+
+{% for enum in types.implementing.TDEnum|enum %}
+
+extension {{ enum.name }}: Codable {
+  enum CodingKeys: String, CodingKey {
+        case type = "@type"
+  }
+  {% if not enum.annotations.default %}
+  enum TDError: Swift.Error {
+        case unknownState(String)
+  }
+  {% endif %}
+  {% for case in enum.cases %}
+    {% if case.hasAssociatedValue %}
+  enum {{ case.name|replace:"`",""|upperFirstLetter| }}Keys: String, CodingKey {
+        {% for value in case.associatedValues %}
+          case {% if value.localName == "protocol" %}`protocol`{% else %}{{ value.localName }}{% endif %}
+        {% endfor %}
+  }
+      {% endif %}
+  {% endfor %}
+
+  public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let type = try container.decode(String.self, forKey: .type)
+        switch type {
+  {% for case in enum.cases %}
+    case "{% if enum.annotations.noPrefix %}{{ case.name|replace:"`","" }}{% else %}{{ enum.name|lowerFirstLetter }}{{ case.name|replace:"`",""|upperFirstLetter }}{% endif %}":
+    {% if case.hasAssociatedValue %}
+      let caseContainer = try decoder.container(keyedBy: {{ case.name|replace:"`",""|upperFirstLetter }}Keys.self)
+      self = .{{ case.name|replace:"`","" }}(
+        {% for value in case.associatedValues %}
+          {% if value.typeName.isOptional %}
+              {{ value.localName }}: try caseContainer.decodeIfPresent({{ value.typeName.unwrappedTypeName }}.self, forKey: .{% if value.localName == "protocol" %}`protocol`{% else %}{{ value.localName }}{% endif %}){% if not forloop.last %},{% endif %}
+          {% else %}
+            {{ value.localName }}: try caseContainer.decode({{ value.typeName.name }}.self, forKey: .{% if value.localName == "protocol" %}`protocol`{% else %}{{ value.localName }}{% endif %}){% if not forloop.last %},{% endif %}
+          {% endif %}
+        {% endfor %}
+        )
+  {% else %}
+      self = .{{ case.name|replace:"`","" }}
+  {% endif %}
+  {% endfor %}
+    default:
+      {% if enum.annotations.default %}
+        self = .{{ enum.annotations.default }}
+      {% else %}
+       throw TDError.unknownState(type)
+      {% endif %}
+        }
+    }
+
+  public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+        {% for case in enum.cases %}
+          {% if case.hasAssociatedValue %}
+            case .{{ case.name|replace:"`","" }}(
+              {% for value in case.associatedValues %}
+                let {% if value.localName == "protocol" %}`protocol`{% else %}{{ value.localName }}{% endif %}{% if not forloop.last %},{% else %}):{% endif %}
+              {% endfor %}
+        {% else %}
+            case .{{ case.name|replace:"`","" }}:
+        {% endif %}
+               try container.encode("{% if enum.annotations.noPrefix %}{{ case.name|replace:"`","" }}{% else %}{{ enum.name|lowerFirstLetter }}{{ case.name|replace:"`",""|upperFirstLetter }}{% endif %}", forKey: .type)
+          {% if case.hasAssociatedValue %}
+                var caseContainer = encoder.container(keyedBy: {{ case.name|replace:"`",""|upperFirstLetter }}Keys.self)
+                {% for value in case.associatedValues %}
+                    {% if value.typeName.isOptional %}
+                      try caseContainer.encodeIfPresent({% if value.localName == "protocol" %}`protocol`{% else %}{{ value.localName }}{% endif %}, forKey: .{% if value.localName == "protocol" %}`protocol`{% else %}{{ value.localName }}{% endif %})
+                    {% else %}
+                      try caseContainer.encode({% if value.localName == "protocol" %}`protocol`{% else %}{{ value.localName }}{% endif %}, forKey: .{% if value.localName == "protocol" %}`protocol`{% else %}{{ value.localName }}{% endif %})
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+        }
+  }
+}
+{% endfor %}  

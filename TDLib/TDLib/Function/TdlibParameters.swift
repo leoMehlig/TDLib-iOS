@@ -1,0 +1,33 @@
+extension TdlibParameters {
+    public static func create(useTestDc: Bool = false,
+                              databaseDirectory: String,
+                              filesDirectory: String,
+                              useFileDatabase: Bool = true,
+                              useChatInfoDatabase: Bool = true,
+                              useMessageDatabase: Bool = true,
+                              useSecretChats: Bool = false,
+                              apiId: Int32,
+                              apiHash: String,
+                              systemLanguageCode: String = "en",
+                              deviceModel: String = "iPhone",
+                              systemVersion: String = "11.1",
+                              applicationVersion: String = "1.0",
+                              enableStorageOptimizer: Bool = false,
+                              ignoreFileNames: Bool = false) -> TdlibParameters {
+        return TdlibParameters(useTestDc: useTestDc,
+                               databaseDirectory: databaseDirectory,
+                               filesDirectory: filesDirectory,
+                               useFileDatabase: useFileDatabase,
+                               useChatInfoDatabase: useChatInfoDatabase,
+                               useMessageDatabase: useMessageDatabase,
+                               useSecretChats: useSecretChats,
+                               apiId: apiId,
+                               apiHash: apiHash,
+                               systemLanguageCode: systemLanguageCode,
+                               deviceModel: deviceModel,
+                               systemVersion: systemVersion,
+                               applicationVersion: applicationVersion,
+                               enableStorageOptimizer: enableStorageOptimizer,
+                               ignoreFileNames: ignoreFileNames)
+    }
+}

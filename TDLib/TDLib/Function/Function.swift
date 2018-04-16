@@ -17,6 +17,7 @@ extension TDFunction {
         return "\(self)".uncapitalized
     }
 }
+public protocol TDEnum { }
 
 extension String {
     var uncapitalized: String {
@@ -26,10 +27,6 @@ extension String {
             return self
         }
     }
-}
-
-public struct Ok: FunctionResult {
-    public static var type: String = "ok"
 }
 
 internal struct FunctionWrapper<F: TDFunction>: Encodable {
