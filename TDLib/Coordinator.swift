@@ -26,7 +26,16 @@ public class Coordinator {
                 print("Received extra: \(extra.extra) - \(extra.type)")
                 if let resolver = strongSelf.runningFunctions[extra.extra] {
                     strongSelf.runningFunctions[extra.extra] = nil
-                    resolver.fulfill(data)
+                    if extra.type == "error" {
+                        do {
+                            let error = try JSONDecoder.td.decode(Error.self, from: data)
+                            resolver.reject(error)
+                        } catch {
+                            resolver.reject(TDError.unkownFunctionResult(data, error))
+                        }
+                    } else {
+                        resolver.fulfill(data)
+                    }
                 } else {
                     print("Unassigned function result: \(extra)")
                 }
@@ -67,10 +76,11 @@ public class Coordinator {
                 guard let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first else {
                     fatalError("Can't get document director path")
                 }
-                _ = strongSelf.send(SetTdlibParameters(parameters: TdlibParameters.create(databaseDirectory: path,
-                                                                                   filesDirectory: path,
-                                                                                   apiId: self.apiId,
-                                                                                   apiHash: self.apiHash)))
+                _ = strongSelf.send(SetTdlibParameters(parameters: TdlibParameters.create(useTestDc: true,
+                                                                                          databaseDirectory: path,
+                                                                                          filesDirectory: path,
+                                                                                          apiId: self.apiId,
+                                                                                          apiHash: self.apiHash)))
             case .waitEncryptionKey?:
                 let key = Data(repeating: 123, count: 64)
                 //                key.withUnsafeMutableBytes { bytes in
@@ -83,7 +93,9 @@ public class Coordinator {
         }
     }
     enum TDError: Swift.Error {
+        case error(Error)
         case timeout(Extra)
+        case unkownFunctionResult(Data, Swift.Error)
     }
     
     public func stream(forFile file: File) -> Stream<DownloadEvent<File>> {
@@ -128,7 +140,7 @@ public class Coordinator {
             do {
                 return try JSONDecoder.td.decode(F.Result.self, from: data)
             } catch {
-                throw error
+                throw TDError.unkownFunctionResult(data, error)
             }
         }
     }

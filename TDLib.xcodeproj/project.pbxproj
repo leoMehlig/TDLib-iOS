@@ -27,6 +27,7 @@
 		B3D8D0AE2083881E0017F088 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D8D0AD2083881E0017F088 /* Message.swift */; };
 		B3D8D0B0208388640017F088 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D8D0AF208388640017F088 /* User.swift */; };
 		B3D8D0B2208389600017F088 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D8D0B1208389600017F088 /* Chat.swift */; };
+		B3DE1E1E208A18A800E156A2 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DE1E1D208A18A800E156A2 /* Error.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		B3D8D0AD2083881E0017F088 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		B3D8D0AF208388640017F088 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B3D8D0B1208389600017F088 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
+		B3DE1E1D208A18A800E156A2 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 				B36E80CB206EA1040033C0CE /* AutoLockStream.swift */,
 				B329EB49204B5D3700329997 /* Event.swift */,
 				B3C0FB4B2052CC21002F9992 /* JSON.swift */,
+				B3DE1E1D208A18A800E156A2 /* Error.swift */,
 				B355AE3120514A7E003C5402 /* Function */,
 				B3D8D0A1208139FB0017F088 /* Generated */,
 				B33B989F2044C237000712A6 /* Info.plist */,
@@ -294,6 +297,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3DE1E1E208A18A800E156A2 /* Error.swift in Sources */,
 				B3D8D0B0208388640017F088 /* User.swift in Sources */,
 				B329EB4A204B5D3700329997 /* Event.swift in Sources */,
 				B355AE3020512AF7003C5402 /* Extra.swift in Sources */,
