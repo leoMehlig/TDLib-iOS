@@ -186,6 +186,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B33B98AF2044C237000712A6 /* Build configuration list for PBXNativeTarget "TDLib" */;
 			buildPhases = (
+				B32BACEF208B70A200A38A60 /* LFS */,
 				B3C0FB4D2052DBE4002F9992 /* Swiftlint */,
 				B33B98962044C237000712A6 /* Sources */,
 				B33B98972044C237000712A6 /* Frameworks */,
@@ -276,6 +277,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		B32BACEF208B70A200A38A60 /* LFS */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = LFS;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash\nmin_size=200000000\nsize=$(wc -c $SRCROOT/tdjson/iOS/lib/libtdjson.dylib)\nif [ $min_size -ge $size ]; then\n    echo \"Needs to pull lfs\"\n    git lfs pull\nelse\n    echo \"File is already pulled\"\nfi";
+		};
 		B3C0FB4D2052DBE4002F9992 /* Swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
