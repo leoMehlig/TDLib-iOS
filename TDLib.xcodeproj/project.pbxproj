@@ -289,7 +289,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\nmin_size=200000000\nsize=$(wc -c <$SRCROOT/tdjson/iOS/lib/libtdjson.dylib)\necho $size\nif [[ \"$min_size\" -ge \"$size\" ]]; then\n    echo \"Needs to pull lfs\"\n    git lfs pull\nelse\n    echo \"File is already pulled\"\nfi";
+			shellScript = "#!/bin/bash\nmin_size=200000000\nsize=$(wc -c <$SRCROOT/tdjson/iOS/lib/libtdjson.dylib)\necho $size\nif [[ \"$min_size\" -ge \"$size\" ]]; then\n    echo \"Needs to pull lfs\"\n    git lfs install\n    git lfs pull\nelse\n    echo \"File is already pulled\"\nfi";
 		};
 		B3C0FB4D2052DBE4002F9992 /* Swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
