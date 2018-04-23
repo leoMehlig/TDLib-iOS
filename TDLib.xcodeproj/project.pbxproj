@@ -186,7 +186,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B33B98AF2044C237000712A6 /* Build configuration list for PBXNativeTarget "TDLib" */;
 			buildPhases = (
-				B32BACEF208B70A200A38A60 /* LFS */,
+				B32BACEF208B70A200A38A60 /* TDJSON Download */,
 				B3C0FB4D2052DBE4002F9992 /* Swiftlint */,
 				B33B98962044C237000712A6 /* Sources */,
 				B33B98972044C237000712A6 /* Frameworks */,
@@ -277,14 +277,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		B32BACEF208B70A200A38A60 /* LFS */ = {
+		B32BACEF208B70A200A38A60 /* TDJSON Download */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = LFS;
+			name = "TDJSON Download";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
