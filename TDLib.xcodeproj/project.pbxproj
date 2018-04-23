@@ -289,7 +289,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\nmin_size=200000000\nsize=$(wc -c <$SRCROOT/tdjson/iOS/lib/libtdjson.dylib)\necho $size\nif [[ \"$min_size\" -ge \"$size\" ]]; then\n    echo \"Needs to pull lfs\"\n    git lfs install\n    git lfs pull\nelse\n    echo \"File is already pulled\"\nfi";
+			shellScript = "#!/bin/bash\npath=$SRCROOT/tdjson/iOS/lib/libtdjson.dylib\nurl=\"https://www.dropbox.com/s/rkaz1f7ent59sus/libtdjson.dylib?dl=1\"\nif [ ! -f $path ]; then\n    echo \"Needs to download file\"\n     curl -kL $url -o $path\nelse\n    echo \"File is already downloaded\"\nfi";
 		};
 		B3C0FB4D2052DBE4002F9992 /* Swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
