@@ -289,7 +289,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\npath=$SRCROOT/tdjson/iOS/lib/libtdjson.dylib\nurl=\"https://www.dropbox.com/s/rkaz1f7ent59sus/libtdjson.dylib?dl=1\"\nrelease_url=\"https://www.dropbox.com/s/i5mrytzgdy1zh8f/release_libtdjson.dylib?dl=1\"\nif [ ! -f $path ]; then\n    echo \"Needs to download file\"\n    mkdir -p $SRCROOT/tdjson/iOS/lib/\n    curl -kL $release_url -o $path\nelse\n    echo \"File is already downloaded\"\nfi";
+			shellScript = "#!/bin/bash\npath=$SRCROOT/tdjson/iOS/lib/libtdjson.dylib\nurl=\"https://www.dropbox.com/s/rkaz1f7ent59sus/libtdjson.dylib?dl=1\"\nrelease_url=\"https://www.dropbox.com/s/i5mrytzgdy1zh8f/release_libtdjson.dylib?dl=1\"\nif [ ! -f $path ]; then\n    echo \"Needs to download file\"\n    mkdir -p $SRCROOT/tdjson/iOS/lib/\n    curl -kL $url -o $path\nelse\n    echo \"File is already downloaded\"\nfi";
 		};
 		B3C0FB4D2052DBE4002F9992 /* Swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
