@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import libtdjson
+import TDJSON
 
 public class TDJsonClient {
     private let queue = DispatchQueue(label: "tdjsonclient", qos: .userInitiated)
@@ -22,10 +22,9 @@ public class TDJsonClient {
         td_set_log_verbosity_level(2)
         self.queue.async { [weak self] in
             while self?.isListing ?? false {
-                if let response = td_json_client_receive(self!.client, 10) {
-                    let string = String(cString: response)
+                if let response = td_json_client_receive(client: self!.client!, timeout: 10) {
                     self?.streamQueue.async {
-                        if let data = string.data(using: .utf8) {
+                        if let data = response.data(using: .utf8) {
                             self?.stream.current = data
                         }
                     }
@@ -41,16 +40,11 @@ public class TDJsonClient {
     
     public func send(_ query: String) {
         print("Send: \(query)")
-        td_json_client_send(self.client, query)
+        td_json_client_send(client: self.client!, request: query)
     }
     
     public func execute(_ query: String) -> String? {
-        return query.withCString { cString in
-            if let result = td_json_client_execute(self.client, cString) {
-                return String(cString: result)
-            }
-            return nil
-        }
+        return td_json_client_execute(client: self.client!, request: query)
     }
     
     public func stopListing() {
@@ -59,6 +53,6 @@ public class TDJsonClient {
     
     deinit {
         self.stopListing()
-        td_json_client_destroy(self.client)
+        td_json_client_destroy(client: self.client!)
     }
 }
