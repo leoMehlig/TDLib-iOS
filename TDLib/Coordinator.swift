@@ -21,53 +21,7 @@ public class Coordinator {
             guard let data = data else {
                 return
             }
-            print("Received: \(String(data: data, encoding: .utf8) ?? "nil")")
-            if let extra = try? JSONDecoder.td.decode(Extra.self, from: data) {
-                print("Received extra: \(extra.extra) - \(extra.type)")
-                if let resolver = strongSelf.runningFunctions[extra.extra] {
-                    strongSelf.runningFunctions[extra.extra] = nil
-                    if extra.type == "error" {
-                        do {
-                            let error = try JSONDecoder.td.decode(Error.self, from: data)
-                            resolver.reject(error)
-                        } catch {
-                            resolver.reject(TDError.unkownFunctionResult(data, error))
-                        }
-                    } else {
-                        resolver.fulfill(data)
-                    }
-                } else {
-                    print("Unassigned function result: \(extra)")
-                }
-            } else if let update = try? JSONDecoder.td.decode(Update.self, from: data) {
-                self.updateQueue.async(flags: .barrier) {
-                    switch update {
-                    case let .authorizationState(state):
-                        strongSelf.authorizationState.current = .value(state)
-                    case let .connectionState(state):
-                        strongSelf.connectionState.current = .value(state)
-                    case let .file(file):
-                        let stream: Stream<DownloadEvent<File>>
-                        if let existing = self.fileStreams[file.id] {
-                            stream = existing
-                        } else {
-                            stream = Stream()
-                            self.fileStreams[file.id] = stream
-                        }
-                        switch (file.local.isDownloadingCompleted, file.local.isDownloadingActive) {
-                        case (true, _):
-                            stream.current = .completed(file)
-                            self.fileStreams[file.id] = nil
-                        case (false, true):
-                            stream.current = .loading(file)
-                        case (false, false):
-                            stream.current = .failled(file)
-                        }
-                    default:
-                        print("Unhandled update: \(update)")
-                    }
-                }
-            }
+            strongSelf.process(data: data)
         }
 
         self.authorizationState.subscribeStrong(self) { strongSelf, event in
@@ -97,6 +51,64 @@ public class Coordinator {
         case timeout(Extra)
         case unkownFunctionResult(Data, Swift.Error)
     }
+
+    private func process(data: Data) {
+        print("Received: \(String(data: data, encoding: .utf8) ?? "nil")")
+        if let extra = try? JSONDecoder.td.decode(Extra.self, from: data) {
+            self.processFunction(with: extra, data: data)
+        } else if let update = try? JSONDecoder.td.decode(Update.self, from: data) {
+            self.process(update: update)
+        }
+    }
+
+    private func processFunction(with extra: Extra, data: Data) {
+        print("Received extra: \(extra.extra) - \(extra.type)")
+        if let resolver = self.runningFunctions[extra.extra] {
+            self.runningFunctions[extra.extra] = nil
+            if extra.type == "error" {
+                do {
+                    let error = try JSONDecoder.td.decode(Error.self, from: data)
+                    resolver.reject(error)
+                } catch {
+                    resolver.reject(TDError.unkownFunctionResult(data, error))
+                }
+            } else {
+                resolver.fulfill(data)
+            }
+        } else {
+            print("Unassigned function result: \(extra)")
+        }
+    }
+
+    private func process(update: Update) {
+        self.updateQueue.async(flags: .barrier) {
+            switch update {
+            case let .authorizationState(state):
+                self.authorizationState.current = .value(state)
+            case let .connectionState(state):
+                self.connectionState.current = .value(state)
+            case let .file(file):
+                let stream: Stream<DownloadEvent<File>>
+                if let existing = self.fileStreams[file.id] {
+                    stream = existing
+                } else {
+                    stream = Stream()
+                    self.fileStreams[file.id] = stream
+                }
+                switch (file.local.isDownloadingCompleted, file.local.isDownloadingActive) {
+                case (true, _):
+                    stream.current = .completed(file)
+                    self.fileStreams[file.id] = nil
+                case (false, true):
+                    stream.current = .loading(file)
+                case (false, false):
+                    stream.current = .failled(file)
+                }
+            default:
+                print("Unhandled update: \(update)")
+            }
+        }
+    }
     
     public func stream(forFile file: File) -> Stream<DownloadEvent<File>> {
         var stream: Stream<DownloadEvent<File>>!
@@ -110,6 +122,7 @@ public class Coordinator {
         }
         return stream
     }
+
     
     public func download(file: File, priority: Int32 = 32) -> Stream<DownloadEvent<File>> {
         guard !file.local.isDownloadingCompleted else {
