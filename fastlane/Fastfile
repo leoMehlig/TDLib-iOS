@@ -22,9 +22,8 @@ platform :ios do
       begin
         ENV['SOURCEKIT_LOGGING'] = 3
         documentation
-      rescue e
+      rescue
         puts 'jazzy failed. Whatever lets contiune'
-        puts e
       end
       increment_build_number
       archive
