@@ -30,7 +30,7 @@ fastlane ios archive
 ```
 fastlane ios documentation
 ```
-Generates the documentation using `jazzy`
+
 
 ----
 
