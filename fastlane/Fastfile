@@ -19,7 +19,11 @@ platform :ios do
 
   lane :release do
     if last_git_commit[:author] != 'ci-leomehlig' && git_branch == 'master'
-      documentation
+      do
+        ENV['SOURCEKIT_LOGGING'] = 3
+        documentation
+      rescue
+      end
       increment_build_number
       archive
       changelog = changelog_from_git_commits(commits_count: 1)
@@ -35,7 +39,7 @@ platform :ios do
         path: ["./docs/*", './TDLib/Info.plist', './TDLibTests/Info.plist', './TDLib.xcodeproj/project.pbxproj'], 
         message: "CI commit"
       )
-      push_to_git_remote
+      push_to_git_remote(tags: false)
     end
   end
 
