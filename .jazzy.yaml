@@ -1,4 +1,5 @@
 module: TDLib
+module_version: 0.1
 author: Leo Mehlig
 author_url: http://leomehlig.com
 github_url: "https://github.com/leoMehlig/TDLib-iOS"
