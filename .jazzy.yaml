@@ -1,0 +1,8 @@
+module: TDLib
+author: Leo Mehlig
+author_url: http://leomehlig.com
+github_url: "https://github.com/leoMehlig/TDLib-iOS"
+github_file_prefix: "https://github.com/leoMehlig/TDLib-iOS/tree/master"
+root_url: "https://leomehlig.github.io/TDLib-iOS/"
+copyright: "© 2018 [Leo Mehlig](http://leomehlig.com) under [MIT license](https://github.com/leoMehlig/TDLib-iOS). [td/tdlib](https://github.com/tdlib/td) is © by [Telegram](https://telegram.org) under [Boost Software License](https://github.com/tdlib/td/blob/master/LICENSE_1_0.txt)"
+swift_version: 4.1
