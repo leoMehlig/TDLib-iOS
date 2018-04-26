@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>GetTextEntities Structure Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Struct/GetTextEntities" class="dashAnchor"></a>
+    <a title="GetTextEntities Structure Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html"> Docs</a> (86% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html"> Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        GetTextEntities Structure Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/AutoLockStream.html">AutoLockStream</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Coordinator.html">Coordinator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Stream.html">Stream</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Stream.html#/s:5TDLib6StreamC10SubscriberV">– Subscriber</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TDJsonClient.html">TDJsonClient</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/AuthenticationCodeType.html">AuthenticationCodeType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/AuthorizationState.html">AuthorizationState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/CallDiscardReason.html">CallDiscardReason</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/CallState.html">CallState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/CallbackQueryPayload.html">CallbackQueryPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ChatAction.html">ChatAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ChatEventAction.html">ChatEventAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ChatMemberStatus.html">ChatMemberStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ChatReportReason.html">ChatReportReason</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ChatType.html">ChatType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/CheckChatUsernameResult.html">CheckChatUsernameResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ConnectionState.html">ConnectionState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/DeviceToken.html">DeviceToken</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/DownloadEvent.html">DownloadEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FileType.html">FileType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/InlineKeyboardButtonType.html">InlineKeyboardButtonType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/InlineQueryResult.html">InlineQueryResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/InputCredentials.html">InputCredentials</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/InputFile.html">InputFile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/InputInlineQueryResult.html">InputInlineQueryResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/InputMessageContent.html">InputMessageContent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/KeyboardButtonType.html">KeyboardButtonType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/LinkState.html">LinkState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/LoadingEvent.html">LoadingEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/LoadingFailableEvent.html">LoadingFailableEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MaskPoint.html">MaskPoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MessageContent.html">MessageContent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MessageForwardInfo.html">MessageForwardInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MessageSendingState.html">MessageSendingState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/NetworkStatisticsEntry.html">NetworkStatisticsEntry</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/NetworkType.html">NetworkType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/NotificationSettingsScope.html">NotificationSettingsScope</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/OptionValue.html">OptionValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/PageBlock.html">PageBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Proxy.html">Proxy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ReplyMarkup.html">ReplyMarkup</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/RichText.html">RichText</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SearchMessagesFilter.html">SearchMessagesFilter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SecretChatState.html">SecretChatState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SupergroupMembersFilter.html">SupergroupMembersFilter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/TMeUrlType.html">TMeUrlType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/TextEntityType.html">TextEntityType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/TextParseMode.html">TextParseMode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/TopChatCategory.html">TopChatCategory</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Update.html">Update</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/UserPrivacySetting.html">UserPrivacySetting</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/UserPrivacySettingRule.html">UserPrivacySettingRule</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/UserStatus.html">UserStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/UserType.html">UserType</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/Optional.html">Optional</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/Event.html">Event</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/FunctionResult.html">FunctionResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/MergableEvent.html">MergableEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/PromiseEvent.html">PromiseEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols.html#/s:5TDLib6TDEnumP">TDEnum</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/TDFunction.html">TDFunction</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/AcceptCall.html">AcceptCall</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/AccountTtl.html">AccountTtl</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/AddChatMember.html">AddChatMember</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/AddChatMembers.html">AddChatMembers</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/AddFavoriteSticker.html">AddFavoriteSticker</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/AddNetworkStatistics.html">AddNetworkStatistics</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/AddRecentSticker.html">AddRecentSticker</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/AddRecentlyFoundChat.html">AddRecentlyFoundChat</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/AddSavedAnimation.html">AddSavedAnimation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/AddStickerToSet.html">AddStickerToSet</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Animation.html">Animation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Animations.html">Animations</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/AnswerCallbackQuery.html">AnswerCallbackQuery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/AnswerCustomQuery.html">AnswerCustomQuery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/AnswerInlineQuery.html">AnswerInlineQuery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/AnswerPreCheckoutQuery.html">AnswerPreCheckoutQuery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/AnswerShippingQuery.html">AnswerShippingQuery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Audio.html">Audio</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/AuthenticationCodeInfo.html">AuthenticationCodeInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/BasicGroup.html">BasicGroup</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/BasicGroupFullInfo.html">BasicGroupFullInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/BlockUser.html">BlockUser</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/BotCommand.html">BotCommand</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/BotInfo.html">BotInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Call.html">Call</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CallConnection.html">CallConnection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CallId.html">CallId</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CallProtocol.html">CallProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CallbackQueryAnswer.html">CallbackQueryAnswer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CancelDownloadFile.html">CancelDownloadFile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CancelUploadFile.html">CancelUploadFile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ChangeChatReportSpamState.html">ChangeChatReportSpamState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ChangeImportedContacts.html">ChangeImportedContacts</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ChangePhoneNumber.html">ChangePhoneNumber</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ChangeStickerSet.html">ChangeStickerSet</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Chat.html">Chat</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ChatEvent.html">ChatEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ChatEventLogFilters.html">ChatEventLogFilters</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ChatEvents.html">ChatEvents</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ChatInviteLink.html">ChatInviteLink</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ChatInviteLinkInfo.html">ChatInviteLinkInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ChatMember.html">ChatMember</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ChatMembers.html">ChatMembers</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ChatPhoto.html">ChatPhoto</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ChatReportSpamState.html">ChatReportSpamState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Chats.html">Chats</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CheckAuthenticationBotToken.html">CheckAuthenticationBotToken</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CheckAuthenticationCode.html">CheckAuthenticationCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CheckAuthenticationPassword.html">CheckAuthenticationPassword</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CheckChangePhoneNumberCode.html">CheckChangePhoneNumberCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CheckChatInviteLink.html">CheckChatInviteLink</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CheckChatUsername.html">CheckChatUsername</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CheckDatabaseEncryptionKey.html">CheckDatabaseEncryptionKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ClearImportedContacts.html">ClearImportedContacts</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ClearRecentStickers.html">ClearRecentStickers</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ClearRecentlyFoundChats.html">ClearRecentlyFoundChats</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Close.html">Close</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CloseChat.html">CloseChat</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CloseSecretChat.html">CloseSecretChat</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ConnectedWebsite.html">ConnectedWebsite</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ConnectedWebsites.html">ConnectedWebsites</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Contact.html">Contact</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Count.html">Count</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CreateBasicGroupChat.html">CreateBasicGroupChat</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CreateCall.html">CreateCall</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CreateNewBasicGroupChat.html">CreateNewBasicGroupChat</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CreateNewSecretChat.html">CreateNewSecretChat</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CreateNewStickerSet.html">CreateNewStickerSet</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CreateNewSupergroupChat.html">CreateNewSupergroupChat</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CreatePrivateChat.html">CreatePrivateChat</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CreateSecretChat.html">CreateSecretChat</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CreateSupergroupChat.html">CreateSupergroupChat</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CreateTemporaryPassword.html">CreateTemporaryPassword</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CustomRequestResult.html">CustomRequestResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/DeleteAccount.html">DeleteAccount</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/DeleteChatHistory.html">DeleteChatHistory</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/DeleteChatMessagesFromUser.html">DeleteChatMessagesFromUser</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/DeleteChatReplyMarkup.html">DeleteChatReplyMarkup</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/DeleteFile.html">DeleteFile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/DeleteMessages.html">DeleteMessages</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/DeleteProfilePhoto.html">DeleteProfilePhoto</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/DeleteSavedCredentials.html">DeleteSavedCredentials</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/DeleteSavedOrderInfo.html">DeleteSavedOrderInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/DeleteSupergroup.html">DeleteSupergroup</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Destroy.html">Destroy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/DiscardCall.html">DiscardCall</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/DisconnectAllWebsites.html">DisconnectAllWebsites</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/DisconnectWebsite.html">DisconnectWebsite</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Document.html">Document</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/DownloadFile.html">DownloadFile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/DraftMessage.html">DraftMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/EditInlineMessageCaption.html">EditInlineMessageCaption</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/EditInlineMessageLiveLocation.html">EditInlineMessageLiveLocation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/EditInlineMessageReplyMarkup.html">EditInlineMessageReplyMarkup</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/EditInlineMessageText.html">EditInlineMessageText</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/EditMessageCaption.html">EditMessageCaption</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/EditMessageLiveLocation.html">EditMessageLiveLocation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/EditMessageReplyMarkup.html">EditMessageReplyMarkup</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/EditMessageText.html">EditMessageText</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Error.html">Error</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/File.html">File</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/FinishFileGeneration.html">FinishFileGeneration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/FormattedText.html">FormattedText</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ForwardMessages.html">ForwardMessages</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/FoundMessages.html">FoundMessages</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Game.html">Game</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GameHighScore.html">GameHighScore</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GameHighScores.html">GameHighScores</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GenerateChatInviteLink.html">GenerateChatInviteLink</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetAccountTtl.html">GetAccountTtl</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetActiveLiveLocationMessages.html">GetActiveLiveLocationMessages</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetActiveSessions.html">GetActiveSessions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetArchivedStickerSets.html">GetArchivedStickerSets</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetAttachedStickerSets.html">GetAttachedStickerSets</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetAuthorizationState.html">GetAuthorizationState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetBasicGroup.html">GetBasicGroup</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetBasicGroupFullInfo.html">GetBasicGroupFullInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetBlockedUsers.html">GetBlockedUsers</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetCallbackQueryAnswer.html">GetCallbackQueryAnswer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetChat.html">GetChat</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetChatAdministrators.html">GetChatAdministrators</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetChatEventLog.html">GetChatEventLog</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetChatHistory.html">GetChatHistory</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetChatMember.html">GetChatMember</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetChatMessageByDate.html">GetChatMessageByDate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetChatPinnedMessage.html">GetChatPinnedMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetChatReportSpamState.html">GetChatReportSpamState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetChats.html">GetChats</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetConnectedWebsites.html">GetConnectedWebsites</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetCountryCode.html">GetCountryCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetCreatedPublicChats.html">GetCreatedPublicChats</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetFavoriteStickers.html">GetFavoriteStickers</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetFile.html">GetFile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetFileExtension.html">GetFileExtension</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetFileMimeType.html">GetFileMimeType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetGameHighScores.html">GetGameHighScores</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetGroupsInCommon.html">GetGroupsInCommon</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetImportedContactCount.html">GetImportedContactCount</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetInlineGameHighScores.html">GetInlineGameHighScores</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetInlineQueryResults.html">GetInlineQueryResults</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetInstalledStickerSets.html">GetInstalledStickerSets</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetInviteText.html">GetInviteText</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetMe.html">GetMe</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetMessage.html">GetMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetMessages.html">GetMessages</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetNetworkStatistics.html">GetNetworkStatistics</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetNotificationSettings.html">GetNotificationSettings</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetOption.html">GetOption</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetPasswordState.html">GetPasswordState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetPaymentForm.html">GetPaymentForm</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetPaymentReceipt.html">GetPaymentReceipt</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetProxy.html">GetProxy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetPublicMessageLink.html">GetPublicMessageLink</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetRecentInlineBots.html">GetRecentInlineBots</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetRecentStickers.html">GetRecentStickers</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetRecentlyVisitedTMeUrls.html">GetRecentlyVisitedTMeUrls</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetRecoveryEmailAddress.html">GetRecoveryEmailAddress</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetRemoteFile.html">GetRemoteFile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetRepliedMessage.html">GetRepliedMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetSavedAnimations.html">GetSavedAnimations</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetSavedOrderInfo.html">GetSavedOrderInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetSecretChat.html">GetSecretChat</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetStickerEmojis.html">GetStickerEmojis</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetStickerSet.html">GetStickerSet</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetStickers.html">GetStickers</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetStorageStatistics.html">GetStorageStatistics</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetStorageStatisticsFast.html">GetStorageStatisticsFast</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetSupergroup.html">GetSupergroup</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetSupergroupFullInfo.html">GetSupergroupFullInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetSupergroupMembers.html">GetSupergroupMembers</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetSupportUser.html">GetSupportUser</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetTemporaryPasswordState.html">GetTemporaryPasswordState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetTermsOfService.html">GetTermsOfService</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetTextEntities.html">GetTextEntities</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetTopChats.html">GetTopChats</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetTrendingStickerSets.html">GetTrendingStickerSets</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetUser.html">GetUser</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetUserFullInfo.html">GetUserFullInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetUserPrivacySettingRules.html">GetUserPrivacySettingRules</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetUserProfilePhotos.html">GetUserProfilePhotos</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetWallpapers.html">GetWallpapers</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetWebPageInstantView.html">GetWebPageInstantView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetWebPagePreview.html">GetWebPagePreview</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Hashtags.html">Hashtags</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ImportContacts.html">ImportContacts</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ImportedContacts.html">ImportedContacts</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/InlineKeyboardButton.html">InlineKeyboardButton</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/InlineQueryResults.html">InlineQueryResults</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/InputSticker.html">InputSticker</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/InputThumbnail.html">InputThumbnail</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Invoice.html">Invoice</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/JoinChatByInviteLink.html">JoinChatByInviteLink</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/KeyboardButton.html">KeyboardButton</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/LabeledPricePart.html">LabeledPricePart</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/LocalFile.html">LocalFile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Location.html">Location</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/LogOut.html">LogOut</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/MaskPosition.html">MaskPosition</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Message.html">Message</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Messages.html">Messages</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NetworkStatistics.html">NetworkStatistics</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NotificationSettings.html">NotificationSettings</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Ok.html">Ok</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/OpenChat.html">OpenChat</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/OpenMessageContent.html">OpenMessageContent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/OptimizeStorage.html">OptimizeStorage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/OrderInfo.html">OrderInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ParseTextEntities.html">ParseTextEntities</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/PasswordRecoveryInfo.html">PasswordRecoveryInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/PasswordState.html">PasswordState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/PaymentForm.html">PaymentForm</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/PaymentReceipt.html">PaymentReceipt</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/PaymentResult.html">PaymentResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/PaymentsProviderStripe.html">PaymentsProviderStripe</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Photo.html">Photo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/PhotoSize.html">PhotoSize</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/PinSupergroupMessage.html">PinSupergroupMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ProcessDcUpdate.html">ProcessDcUpdate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ProfilePhoto.html">ProfilePhoto</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/PublicMessageLink.html">PublicMessageLink</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ReadAllChatMentions.html">ReadAllChatMentions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/RecoverAuthenticationPassword.html">RecoverAuthenticationPassword</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/RecoverPassword.html">RecoverPassword</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/RecoveryEmailAddress.html">RecoveryEmailAddress</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/RegisterDevice.html">RegisterDevice</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/RemoteFile.html">RemoteFile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/RemoveContacts.html">RemoveContacts</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/RemoveFavoriteSticker.html">RemoveFavoriteSticker</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/RemoveRecentHashtag.html">RemoveRecentHashtag</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/RemoveRecentSticker.html">RemoveRecentSticker</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/RemoveRecentlyFoundChat.html">RemoveRecentlyFoundChat</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/RemoveSavedAnimation.html">RemoveSavedAnimation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/RemoveStickerFromSet.html">RemoveStickerFromSet</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/RemoveTopChat.html">RemoveTopChat</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ReorderInstalledStickerSets.html">ReorderInstalledStickerSets</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ReportChat.html">ReportChat</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ReportSupergroupSpam.html">ReportSupergroupSpam</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/RequestAuthenticationPasswordRecovery.html">RequestAuthenticationPasswordRecovery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/RequestPasswordRecovery.html">RequestPasswordRecovery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ResendAuthenticationCode.html">ResendAuthenticationCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ResendChangePhoneNumberCode.html">ResendChangePhoneNumberCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ResetAllNotificationSettings.html">ResetAllNotificationSettings</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ResetNetworkStatistics.html">ResetNetworkStatistics</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SavedCredentials.html">SavedCredentials</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SearchCallMessages.html">SearchCallMessages</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SearchChatMembers.html">SearchChatMembers</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SearchChatMessages.html">SearchChatMessages</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SearchChatRecentLocationMessages.html">SearchChatRecentLocationMessages</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SearchChats.html">SearchChats</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SearchChatsOnServer.html">SearchChatsOnServer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SearchContacts.html">SearchContacts</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SearchHashtags.html">SearchHashtags</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SearchInstalledStickerSets.html">SearchInstalledStickerSets</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SearchMessages.html">SearchMessages</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SearchPublicChat.html">SearchPublicChat</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SearchPublicChats.html">SearchPublicChats</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SearchSecretMessages.html">SearchSecretMessages</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SearchStickerSet.html">SearchStickerSet</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SearchStickerSets.html">SearchStickerSets</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SearchStickers.html">SearchStickers</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SecretChat.html">SecretChat</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SendBotStartMessage.html">SendBotStartMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SendCallDebugInformation.html">SendCallDebugInformation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SendCallRating.html">SendCallRating</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SendChatAction.html">SendChatAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SendChatScreenshotTakenNotification.html">SendChatScreenshotTakenNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SendChatSetTtlMessage.html">SendChatSetTtlMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SendCustomRequest.html">SendCustomRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SendInlineQueryResultMessage.html">SendInlineQueryResultMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SendMessage.html">SendMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SendMessageAlbum.html">SendMessageAlbum</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SendPaymentForm.html">SendPaymentForm</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Session.html">Session</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Sessions.html">Sessions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetAccountTtl.html">SetAccountTtl</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetAlarm.html">SetAlarm</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetAuthenticationPhoneNumber.html">SetAuthenticationPhoneNumber</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetBio.html">SetBio</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetBotUpdatesStatus.html">SetBotUpdatesStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetChatClientData.html">SetChatClientData</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetChatDraftMessage.html">SetChatDraftMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetChatMemberStatus.html">SetChatMemberStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetChatPhoto.html">SetChatPhoto</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetChatTitle.html">SetChatTitle</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetDatabaseEncryptionKey.html">SetDatabaseEncryptionKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetFileGenerationProgress.html">SetFileGenerationProgress</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetGameScore.html">SetGameScore</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetInlineGameScore.html">SetInlineGameScore</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetName.html">SetName</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetNetworkType.html">SetNetworkType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetNotificationSettings.html">SetNotificationSettings</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetOption.html">SetOption</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetPassword.html">SetPassword</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetPinnedChats.html">SetPinnedChats</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetProfilePhoto.html">SetProfilePhoto</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetProxy.html">SetProxy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetRecoveryEmailAddress.html">SetRecoveryEmailAddress</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetStickerPositionInSet.html">SetStickerPositionInSet</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetSupergroupDescription.html">SetSupergroupDescription</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetSupergroupStickerSet.html">SetSupergroupStickerSet</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetSupergroupUsername.html">SetSupergroupUsername</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetTdlibParameters.html">SetTdlibParameters</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetUserPrivacySettingRules.html">SetUserPrivacySettingRules</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SetUsername.html">SetUsername</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ShippingAddress.html">ShippingAddress</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ShippingOption.html">ShippingOption</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Sticker.html">Sticker</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/StickerEmojis.html">StickerEmojis</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/StickerSet.html">StickerSet</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/StickerSetInfo.html">StickerSetInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/StickerSets.html">StickerSets</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Stickers.html">Stickers</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/StorageStatistics.html">StorageStatistics</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/StorageStatisticsByChat.html">StorageStatisticsByChat</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/StorageStatisticsByFileType.html">StorageStatisticsByFileType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/StorageStatisticsFast.html">StorageStatisticsFast</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Supergroup.html">Supergroup</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SupergroupFullInfo.html">SupergroupFullInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TDInt64.html">TDInt64</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TMeUrl.html">TMeUrl</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TMeUrls.html">TMeUrls</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TdlibParameters.html">TdlibParameters</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TemporaryPasswordState.html">TemporaryPasswordState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TerminateAllOtherSessions.html">TerminateAllOtherSessions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TerminateSession.html">TerminateSession</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TestBytes.html">TestBytes</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TestCallBytes.html">TestCallBytes</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TestCallEmpty.html">TestCallEmpty</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TestCallString.html">TestCallString</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TestCallVectorInt.html">TestCallVectorInt</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TestCallVectorIntObject.html">TestCallVectorIntObject</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TestCallVectorString.html">TestCallVectorString</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TestCallVectorStringObject.html">TestCallVectorStringObject</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TestGetDifference.html">TestGetDifference</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TestInt.html">TestInt</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TestNetwork.html">TestNetwork</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TestSquareInt.html">TestSquareInt</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TestString.html">TestString</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TestUseError.html">TestUseError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TestUseUpdate.html">TestUseUpdate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TestVectorInt.html">TestVectorInt</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TestVectorIntObject.html">TestVectorIntObject</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TestVectorString.html">TestVectorString</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TestVectorStringObject.html">TestVectorStringObject</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Text.html">Text</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TextEntities.html">TextEntities</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TextEntity.html">TextEntity</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ToggleBasicGroupAdministrators.html">ToggleBasicGroupAdministrators</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ToggleChatIsPinned.html">ToggleChatIsPinned</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ToggleSupergroupInvites.html">ToggleSupergroupInvites</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ToggleSupergroupIsAllHistoryAvailable.html">ToggleSupergroupIsAllHistoryAvailable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ToggleSupergroupSignMessages.html">ToggleSupergroupSignMessages</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/UnblockUser.html">UnblockUser</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/UnpinSupergroupMessage.html">UnpinSupergroupMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/UpgradeBasicGroupChatToSupergroupChat.html">UpgradeBasicGroupChatToSupergroupChat</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/UploadFile.html">UploadFile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/UploadStickerFile.html">UploadStickerFile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/User.html">User</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/UserFullInfo.html">UserFullInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/UserPrivacySettingRules.html">UserPrivacySettingRules</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/UserProfilePhotos.html">UserProfilePhotos</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Users.html">Users</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ValidateOrderInfo.html">ValidateOrderInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ValidatedOrderInfo.html">ValidatedOrderInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Venue.html">Venue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Video.html">Video</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/VideoNote.html">VideoNote</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ViewMessages.html">ViewMessages</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ViewTrendingStickerSets.html">ViewTrendingStickerSets</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/VoiceNote.html">VoiceNote</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Wallpaper.html">Wallpaper</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Wallpapers.html">Wallpapers</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/WebPage.html">WebPage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/WebPageInstantView.html">WebPageInstantView</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:5TDLib5Bytesa">Bytes</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:5TDLib5Int53a">Int53</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>GetTextEntities</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">GetTextEntities</span> <span class="p">:</span> <span class="kt">Codable</span><span class="p">,</span> <span class="kt"><a href="../Protocols/TDFunction.html">TDFunction</a></span></code></pre>
+
+                </div>
+              </div>
+            <p>Returns all entities (mentions, hashtags, cashtags, bot commands, URLs, and email addresses) contained in the text. This is an offline method. Can be called before authorization. Can be called synchronously</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5TDLib15GetTextEntitiesV6Resulta"></a>
+                    <a name="//apple_ref/swift/Alias/Result" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5TDLib15GetTextEntitiesV6Resulta">Result</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">Result</span> <span class="o">=</span> <span class="kt"><a href="../Structs/TextEntities.html">TextEntities</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5TDLib15GetTextEntitiesV4textSSvp"></a>
+                    <a name="//apple_ref/swift/Property/text" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5TDLib15GetTextEntitiesV4textSSvp">text</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The text in which to look for entites</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5TDLib15GetTextEntitiesVACSS4text_tcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(text:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5TDLib15GetTextEntitiesVACSS4text_tcfc">init(text:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns all entities (mentions, hashtags, cashtags, bot commands, URLs, and email addresses) contained in the text. This is an offline method. Can be called before authorization. Can be called synchronously </p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>text</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The text in which to look for entites</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2018 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2018-04-26)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
