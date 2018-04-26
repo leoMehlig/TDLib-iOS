@@ -19,10 +19,12 @@ platform :ios do
 
   lane :release do
     if last_git_commit[:author] != 'ci-leomehlig' && git_branch == 'master'
-      do
+      begin
         ENV['SOURCEKIT_LOGGING'] = 3
         documentation
-      rescue
+      rescue e
+        puts 'jazzy failed. Whatever lets contiune'
+        puts e
       end
       increment_build_number
       archive
