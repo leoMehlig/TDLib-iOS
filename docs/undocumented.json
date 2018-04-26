@@ -437,35 +437,7 @@
     {
       "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": null,
-      "symbol": "ChatEventAction",
-      "symbol_kind": "source.lang.swift.decl.extension",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
-      "line": null,
-      "symbol": "InputMessageContent",
-      "symbol_kind": "source.lang.swift.decl.extension",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
-      "line": null,
       "symbol": "MessageContent",
-      "symbol_kind": "source.lang.swift.decl.extension",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
-      "line": null,
-      "symbol": "MessageContent",
-      "symbol_kind": "source.lang.swift.decl.extension",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
-      "line": null,
-      "symbol": "MessageForwardInfo",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },

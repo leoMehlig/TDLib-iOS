@@ -6,3 +6,6 @@ github_file_prefix: "https://github.com/leoMehlig/TDLib-iOS/tree/master"
 root_url: "https://leomehlig.github.io/TDLib-iOS/"
 copyright: "© 2018 [Leo Mehlig](http://leomehlig.com) under [MIT license](https://github.com/leoMehlig/TDLib-iOS/blob/master/LICENSE). [td/tdlib](https://github.com/tdlib/td) is © by [Telegram](https://telegram.org) under [Boost Software License](https://github.com/tdlib/td/blob/master/LICENSE_1_0.txt)"
 swift_version: 4.1
+theme: fullwidth
+exclude: 
+  - TDLib/Generated/TDEnum.generated.swift
