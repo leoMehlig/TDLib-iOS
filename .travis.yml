@@ -1,6 +1,6 @@
 language: objective-c
 osx_image: xcode9.3
 script:
-  - bundle exec fastlane ci
+  - bundle exec fastlane release
 notifications:
   email: false
