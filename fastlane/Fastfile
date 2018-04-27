@@ -18,14 +18,10 @@ default_platform(:ios)
 platform :ios do
 
   lane :release do
-    if last_git_commit[:author] != 'ci-leomehlig' && git_branch == 'master'
-      # begin
-      #   # ENV['SOURCEKIT_LOGGING'] = 3
-      #   # documentation
-      # rescue
-      #   puts 'jazzy failed. Whatever lets contiune'
-      # end
+    if git_branch == 'master'
+  
       increment_build_number
+      swiftlint
       archive
       changelog = changelog_from_git_commits(commits_count: 1)
       set_github_release(
@@ -36,9 +32,14 @@ platform :ios do
           commitish: 'master',
           upload_assets: ['TDLib.framework.zip']
       )
+      begin
+        documentation
+      rescue
+        puts 'jazzy failed. Whatever lets contiune'
+      end
       git_commit(
         path: ["./docs/*", './TDLib/Info.plist', './TDLibTests/Info.plist', './TDLib.xcodeproj/project.pbxproj'], 
-        message: "CI commit"
+        message: "CI commit [ci skip]"
       )
       push_to_git_remote(
         local_branch: 'master',
@@ -50,7 +51,7 @@ platform :ios do
 
   lane :archive do
     carthage(command: 'bootstrap', use_ssh: true, platform: 'iOS')
-    carthage(command: 'build', no_skip_current: true, platform: 'iOS', cache_builds: true)
+    carthage(command: 'build', no_skip_current: true, platform: 'iOS', cache_builds: true, verbose: true)
     carthage(command: 'archive', frameworks: ['TDLib'])
   end
 
