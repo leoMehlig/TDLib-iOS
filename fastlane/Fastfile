@@ -24,6 +24,8 @@ platform :ios do
       swiftlint
       archive
       changelog = changelog_from_git_commits(commits_count: 1)
+    
+      documentation
       set_github_release(
           repository_name: 'leoMehlig/TDLib-iOS',
           name: changelog.lines.first,
@@ -32,20 +34,7 @@ platform :ios do
           commitish: 'master',
           upload_assets: ['TDLib.framework.zip']
       )
-      begin
-        documentation
-      rescue
-        puts 'jazzy failed. Whatever lets contiune'
-      end
-      git_commit(
-        path: ["./docs/*", './TDLib/Info.plist', './TDLibTests/Info.plist', './TDLib.xcodeproj/project.pbxproj'], 
-        message: "CI commit [ci skip]"
-      )
-      push_to_git_remote(
-        local_branch: 'master',
-        remote_branch: 'master',
-        tags: false
-      )
+      sh('./push.sh')
     end
   end
 
