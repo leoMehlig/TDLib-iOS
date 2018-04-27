@@ -28,6 +28,9 @@ excluded:
   - Carthage
   - tdjson
   - TDLib/Generated
+  - vendor
+  - bundle
+  - fastlane
 
 identifier_name:
   min_length:
