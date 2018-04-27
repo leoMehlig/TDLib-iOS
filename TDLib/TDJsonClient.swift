@@ -74,13 +74,13 @@ public class TDJsonClient {
     }
 
     /// Stops receiving data from `tdlib` and destroys the `td_json_client`.
-    public func stopListing() {
+    public func close() {
         self.isListing = false
         td_json_client_destroy(client: self.rawClient)
     }
     
     deinit {
-        self.stopListing()
+        self.close()
         td_json_client_destroy(client: self.rawClient)
     }
 }

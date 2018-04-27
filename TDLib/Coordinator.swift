@@ -46,12 +46,13 @@ public class Coordinator {
                 _ = strongSelf.send(SetTdlibParameters(parameters: parameters))
             case .waitEncryptionKey?:
                 _ = strongSelf.send(CheckDatabaseEncryptionKey(encryptionKey: encryptionKey))
+            case .closed?:
+                self.client.close()
             default:
                 break
             }
         }
     }
-
 
     /// Initalizes a new `Coordinator` instance.
     ///
@@ -165,7 +166,6 @@ public class Coordinator {
         }
         return stream
     }
-
 
     /// Send the request to `tdlib`.
     ///

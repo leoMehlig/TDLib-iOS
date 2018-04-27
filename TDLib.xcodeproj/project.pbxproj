@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B328D08820935F9C0089931A /* StreamPromise.swift in Sources */ = {isa = PBXBuildFile; fileRef = B328D08720935F9C0089931A /* StreamPromise.swift */; };
 		B329EB46204B099E00329997 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B329EB45204B099E00329997 /* Coordinator.swift */; };
 		B329EB48204B5D1E00329997 /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = B329EB47204B5D1E00329997 /* Stream.swift */; };
 		B329EB4A204B5D3700329997 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B329EB49204B5D3700329997 /* Event.swift */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B328D08720935F9C0089931A /* StreamPromise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamPromise.swift; sourceTree = "<group>"; };
 		B329EB45204B099E00329997 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		B329EB47204B5D1E00329997 /* Stream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stream.swift; sourceTree = "<group>"; };
 		B329EB49204B5D3700329997 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 				B33B98D02044C37B000712A6 /* TDJsonClient.swift */,
 				B329EB45204B099E00329997 /* Coordinator.swift */,
 				B329EB47204B5D1E00329997 /* Stream.swift */,
+				B328D08720935F9C0089931A /* StreamPromise.swift */,
 				B36E80CB206EA1040033C0CE /* AutoLockStream.swift */,
 				B329EB49204B5D3700329997 /* Event.swift */,
 				B3C0FB4B2052CC21002F9992 /* JSON.swift */,
@@ -308,6 +311,7 @@
 				B3D8D0B2208389600017F088 /* Chat.swift in Sources */,
 				B3BC4A43208519D500763FF3 /* TDEnum.generated.swift in Sources */,
 				B3D8D0AE2083881E0017F088 /* Message.swift in Sources */,
+				B328D08820935F9C0089931A /* StreamPromise.swift in Sources */,
 				B329EB46204B099E00329997 /* Coordinator.swift in Sources */,
 				B3D8D0A9208374CF0017F088 /* TDLib.generated.swift in Sources */,
 				B3BC4A41208503A200763FF3 /* TDInt64.swift in Sources */,
