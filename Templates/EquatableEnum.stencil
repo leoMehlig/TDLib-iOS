@@ -1,0 +1,31 @@
+
+{% for enum in types.implementing.EquatableEnum|enum %}
+
+extension {{ enum.name }} {
+   public static func == (lhs: {{ enum.name }}, rhs: {{ enum.name }}) -> Bool {
+        switch (lhs, rhs) {
+   {% for case in enum.cases %}
+        {% if case.hasAssociatedValue %}
+            case (.{{ case.name|replace:"`","" }}(
+              {% for value in case.associatedValues %}
+                let lhs{{ value.localName }}{% if not forloop.last %},{% else %}),{% endif %}
+              {% endfor %}
+              .{{ case.name|replace:"`","" }}(
+              {% for value in case.associatedValues %}
+                let rhs{{ value.localName }}{% if not forloop.last %},{% else %})):{% endif %}
+              {% endfor %}
+              return 
+                {% for value in case.associatedValues %} 
+                lhs{{ value.localName }} == rhs{{ value.localName }}{% if not forloop.last %} &&{% endif %}
+                {% endfor %}
+        {% else %}
+            case (.{{ case.name|replace:"`","" }}, .{{ case.name|replace:"`","" }}):
+                return true
+        {% endif %}
+    {% endfor %}  
+        default:
+            return false
+        }
+    }
+}
+{% endfor %}  

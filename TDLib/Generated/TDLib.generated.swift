@@ -2,7 +2,7 @@ public typealias Int53 = Int64
 public typealias Bytes = Data
 
 ///  An object of this type can be returned on every function call, in case of an error 
-public struct Error: Codable, FunctionResult {
+public struct Error: Codable, Equatable, FunctionResult {
 	///  Error code; subject to future changes. If the error code is 406, the error message must not be processed in any way and must not be displayed to the user 
 	public let code: Int32
 	///  Error message; subject to future changes
@@ -18,14 +18,14 @@ public struct Error: Codable, FunctionResult {
 }
 
 ///  An object of this type is returned on a successful function call for certain functions
-public struct Ok: Codable, FunctionResult {
+public struct Ok: Codable, Equatable, FunctionResult {
 	/// An object of this type is returned on a successful function call for certain functions
 	public init() {
 	}
 }
 
 ///  Contains parameters for TDLib initialization 
-public struct TdlibParameters: Codable, FunctionResult {
+public struct TdlibParameters: Codable, Equatable, FunctionResult {
 	///  If set to true, the Telegram test environment will be used instead of the production environment 
 	public let useTestDc: Bool
 	///  The path to the directory for the persistent database; if empty, the current working directory will be used 
@@ -93,7 +93,7 @@ public struct TdlibParameters: Codable, FunctionResult {
 }
 
 ///  Provides information about the method by which an authentication code is delivered to the user 
-public indirect enum AuthenticationCodeType: FunctionResult, TDEnum {
+public indirect enum AuthenticationCodeType: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  An authentication code is delivered via a private Telegram message, which can be viewed in another client 
 	/// - length: Length of the code
 	case telegramMessage(length: Int32)
@@ -109,7 +109,7 @@ public indirect enum AuthenticationCodeType: FunctionResult, TDEnum {
 }
 
 ///  Information about the authentication code that was sent 
-public struct AuthenticationCodeInfo: Codable, FunctionResult {
+public struct AuthenticationCodeInfo: Codable, Equatable, FunctionResult {
 	///  A phone number that is being authenticated 
 	public let phoneNumber: String
 	///  Describes the way the code was sent to the user 
@@ -133,7 +133,7 @@ public struct AuthenticationCodeInfo: Codable, FunctionResult {
 }
 
 ///  Represents the current authorization state of the client 
-public indirect enum AuthorizationState: FunctionResult, TDEnum {
+public indirect enum AuthorizationState: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  TDLib needs TdlibParameters for initialization
 	case waitTdlibParameters
 	///  TDLib needs an encryption key to decrypt the local database 
@@ -161,7 +161,7 @@ public indirect enum AuthorizationState: FunctionResult, TDEnum {
 }
 
 ///  Represents the current state of 2-step verification 
-public struct PasswordState: Codable, FunctionResult {
+public struct PasswordState: Codable, Equatable, FunctionResult {
 	///  True if a 2-step verification password has been set up 
 	public let hasPassword: Bool
 	///  Hint for the password; can be empty 
@@ -185,7 +185,7 @@ public struct PasswordState: Codable, FunctionResult {
 }
 
 ///  Contains information available to the user after requesting password recovery 
-public struct PasswordRecoveryInfo: Codable, FunctionResult {
+public struct PasswordRecoveryInfo: Codable, Equatable, FunctionResult {
 	///  Pattern of the email address to which a recovery email was sent
 	public let recoveryEmailAddressPattern: String
 	/// Contains information available to the user after requesting password recovery 
@@ -197,7 +197,7 @@ public struct PasswordRecoveryInfo: Codable, FunctionResult {
 }
 
 ///  Contains information about the current recovery email address 
-public struct RecoveryEmailAddress: Codable, FunctionResult {
+public struct RecoveryEmailAddress: Codable, Equatable, FunctionResult {
 	///  Recovery email address
 	public let recoveryEmailAddress: String
 	/// Contains information about the current recovery email address 
@@ -209,7 +209,7 @@ public struct RecoveryEmailAddress: Codable, FunctionResult {
 }
 
 ///  Returns information about the availability of a temporary password, which can be used for payments 
-public struct TemporaryPasswordState: Codable, FunctionResult {
+public struct TemporaryPasswordState: Codable, Equatable, FunctionResult {
 	///  True, if a temporary password is available 
 	public let hasPassword: Bool
 	///  Time left before the temporary password expires, in seconds
@@ -225,7 +225,7 @@ public struct TemporaryPasswordState: Codable, FunctionResult {
 }
 
 ///  Represents a local file 
-public struct LocalFile: Codable, FunctionResult {
+public struct LocalFile: Codable, Equatable, FunctionResult {
 	///  Local path to the locally available file part; may be empty 
 	public let path: String
 	///  True, if it is possible to try to download or generate the file 
@@ -261,7 +261,7 @@ public struct LocalFile: Codable, FunctionResult {
 }
 
 ///  Represents a remote file 
-public struct RemoteFile: Codable, FunctionResult {
+public struct RemoteFile: Codable, Equatable, FunctionResult {
 	///  Remote file identifier, may be empty. Can be used across application restarts or even from other devices for the current user. If the ID starts with "http://" or "https://", it represents the HTTP URL of the file. TDLib is currently unable to download files if only their URL is known. -If downloadFile is called on such a file or if it is sent to a secret chat, TDLib starts a file generation process by sending updateFileGenerationStart to the client with the HTTP URL in the original_path and "#url#" as the conversion string. Clients should generate the file by downloading it to the specified location 
 	public let id: String
 	///  True, if the file is currently being uploaded (or a remote copy is being generated by some other means) 
@@ -285,7 +285,7 @@ public struct RemoteFile: Codable, FunctionResult {
 }
 
 ///  Represents a file 
-public struct File: Codable, FunctionResult {
+public struct File: Codable, Equatable, FunctionResult {
 	///  Unique file identifier 
 	public let id: Int32
 	///  File size; 0 if unknown 
@@ -313,7 +313,7 @@ public struct File: Codable, FunctionResult {
 }
 
 ///  Points to a file 
-public indirect enum InputFile: FunctionResult, TDEnum {
+public indirect enum InputFile: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  A file defined by its unique ID 
 	/// - id: Unique file identifier
 	case id(id: Int32)
@@ -331,7 +331,7 @@ public indirect enum InputFile: FunctionResult, TDEnum {
 }
 
 ///  Photo description 
-public struct PhotoSize: Codable, FunctionResult {
+public struct PhotoSize: Codable, Equatable, FunctionResult {
 	///  Thumbnail type (see https://core.telegram.org/constructor/photoSize) 
 	public let type: String
 	///  Information about the photo file 
@@ -355,7 +355,7 @@ public struct PhotoSize: Codable, FunctionResult {
 }
 
 ///  Part of the face, relative to which a mask should be placed 
-public indirect enum MaskPoint: FunctionResult, TDEnum {
+public indirect enum MaskPoint: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  A mask should be placed relatively to the forehead
 	case forehead
 	///  A mask should be placed relatively to the eyes
@@ -367,7 +367,7 @@ public indirect enum MaskPoint: FunctionResult, TDEnum {
 }
 
 ///  Position on a photo where a mask should be placed 
-public struct MaskPosition: Codable, FunctionResult {
+public struct MaskPosition: Codable, Equatable, FunctionResult {
 	///  Part of the face, relative to which the mask should be placed 
 	public let point: MaskPoint
 	///  Shift by X-axis measured in widths of the mask scaled to the face size, from left to right. (For example, -1.0 will place the mask just to the left of the default mask position) 
@@ -391,7 +391,7 @@ public struct MaskPosition: Codable, FunctionResult {
 }
 
 ///  Represents a part of the text that needs to be formatted in some unusual way 
-public struct TextEntity: Codable, FunctionResult {
+public struct TextEntity: Codable, Equatable, FunctionResult {
 	///  Offset of the entity in UTF-16 code points 
 	public let offset: Int32
 	///  Length of the entity, in UTF-16 code points 
@@ -411,7 +411,7 @@ public struct TextEntity: Codable, FunctionResult {
 }
 
 ///  Contains a list of text entities 
-public struct TextEntities: Codable, FunctionResult {
+public struct TextEntities: Codable, Equatable, FunctionResult {
 	///  List of text entities
 	public let entities: [TextEntity]
 	/// Contains a list of text entities 
@@ -423,7 +423,7 @@ public struct TextEntities: Codable, FunctionResult {
 }
 
 ///  A text with some entities 
-public struct FormattedText: Codable, FunctionResult {
+public struct FormattedText: Codable, Equatable, FunctionResult {
 	///  The text 
 	public let text: String
 	///  Entities contained in the text
@@ -439,7 +439,7 @@ public struct FormattedText: Codable, FunctionResult {
 }
 
 ///  Describes an animation file. The animation must be encoded in GIF or MPEG4 format 
-public struct Animation: Codable, FunctionResult {
+public struct Animation: Codable, Equatable, FunctionResult {
 	///  Duration of the animation, in seconds; as defined by the sender 
 	public let duration: Int32
 	///  Width of the animation 
@@ -475,7 +475,7 @@ public struct Animation: Codable, FunctionResult {
 }
 
 ///  Describes an audio file. Audio is usually in MP3 format 
-public struct Audio: Codable, FunctionResult {
+public struct Audio: Codable, Equatable, FunctionResult {
 	///  Duration of the audio, in seconds; as defined by the sender 
 	public let duration: Int32
 	///  Title of the audio; as defined by the sender 
@@ -511,7 +511,7 @@ public struct Audio: Codable, FunctionResult {
 }
 
 ///  Describes a document of any type 
-public struct Document: Codable, FunctionResult {
+public struct Document: Codable, Equatable, FunctionResult {
 	///  Original name of the file; as defined by the sender 
 	public let fileName: String
 	///  MIME type of the file; as defined by the sender 
@@ -535,7 +535,7 @@ public struct Document: Codable, FunctionResult {
 }
 
 ///  Describes a photo 
-public struct Photo: Codable, FunctionResult {
+public struct Photo: Codable, Equatable, FunctionResult {
 	///  Photo identifier; 0 for deleted photos 
 	public let id: TDInt64
 	///  True, if stickers were added to the photo 
@@ -555,7 +555,7 @@ public struct Photo: Codable, FunctionResult {
 }
 
 ///  Describes a sticker 
-public struct Sticker: Codable, FunctionResult {
+public struct Sticker: Codable, Equatable, FunctionResult {
 	///  The identifier of the sticker set to which the sticker belongs; 0 if none 
 	public let setId: TDInt64
 	///  Sticker width; as defined by the sender 
@@ -595,7 +595,7 @@ public struct Sticker: Codable, FunctionResult {
 }
 
 ///  Describes a video file 
-public struct Video: Codable, FunctionResult {
+public struct Video: Codable, Equatable, FunctionResult {
 	///  Duration of the video, in seconds; as defined by the sender 
 	public let duration: Int32
 	///  Video width; as defined by the sender 
@@ -639,7 +639,7 @@ public struct Video: Codable, FunctionResult {
 }
 
 ///  Describes a video note. The video must be equal in width and height, cropped to a circle, and stored in MPEG4 format 
-public struct VideoNote: Codable, FunctionResult {
+public struct VideoNote: Codable, Equatable, FunctionResult {
 	///  Duration of the video, in seconds; as defined by the sender 
 	public let duration: Int32
 	///  Video width and height; as defined by the sender 
@@ -663,7 +663,7 @@ public struct VideoNote: Codable, FunctionResult {
 }
 
 ///  Describes a voice note. The voice note must be encoded with the Opus codec, and stored inside an OGG container. Voice notes can have only a single audio channel 
-public struct VoiceNote: Codable, FunctionResult {
+public struct VoiceNote: Codable, Equatable, FunctionResult {
 	///  Duration of the voice note, in seconds; as defined by the sender 
 	public let duration: Int32
 	///  A waveform representation of the voice note in 5-bit format 
@@ -687,7 +687,7 @@ public struct VoiceNote: Codable, FunctionResult {
 }
 
 ///  Describes a user contact 
-public struct Contact: Codable, FunctionResult {
+public struct Contact: Codable, Equatable, FunctionResult {
 	///  Phone number of the user 
 	public let phoneNumber: String
 	///  First name of the user; 1-255 characters in length 
@@ -711,7 +711,7 @@ public struct Contact: Codable, FunctionResult {
 }
 
 ///  Describes a location on planet Earth 
-public struct Location: Codable, FunctionResult {
+public struct Location: Codable, Equatable, FunctionResult {
 	///  Latitude of the location in degrees; as defined by the sender 
 	public let latitude: Double
 	///  Longitude of the location, in degrees; as defined by the sender
@@ -727,7 +727,7 @@ public struct Location: Codable, FunctionResult {
 }
 
 ///  Describes a venue 
-public struct Venue: Codable, FunctionResult {
+public struct Venue: Codable, Equatable, FunctionResult {
 	///  Venue location; as defined by the sender 
 	public let location: Location
 	///  Venue name; as defined by the sender 
@@ -755,7 +755,7 @@ public struct Venue: Codable, FunctionResult {
 }
 
 ///  Describes a game 
-public struct Game: Codable, FunctionResult {
+public struct Game: Codable, Equatable, FunctionResult {
 	///  Game ID 
 	public let id: TDInt64
 	///  Game short name. To share a game use the URL https://t.me/{bot_username}?game={game_short_name} 
@@ -791,7 +791,7 @@ public struct Game: Codable, FunctionResult {
 }
 
 ///  Describes a user profile photo 
-public struct ProfilePhoto: Codable, FunctionResult {
+public struct ProfilePhoto: Codable, Equatable, FunctionResult {
 	///  Photo identifier; 0 for an empty photo. Can be used to find a photo in a list of userProfilePhotos 
 	public let id: TDInt64
 	///  A small (160x160) user profile photo 
@@ -811,7 +811,7 @@ public struct ProfilePhoto: Codable, FunctionResult {
 }
 
 ///  Describes the photo of a chat 
-public struct ChatPhoto: Codable, FunctionResult {
+public struct ChatPhoto: Codable, Equatable, FunctionResult {
 	///  A small (160x160) chat photo 
 	public let small: File
 	///  A big (640x640) chat photo
@@ -827,7 +827,7 @@ public struct ChatPhoto: Codable, FunctionResult {
 }
 
 ///  Represents the relationship between user A and user B. For incoming_link, user A is the current user; for outgoing_link, user B is the current user 
-public indirect enum LinkState: FunctionResult, TDEnum {
+public indirect enum LinkState: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  The phone number of user A is not known to user B
 	case none
 	///  The phone number of user A is known but that number has not been saved to the contacts list of user B
@@ -837,7 +837,7 @@ public indirect enum LinkState: FunctionResult, TDEnum {
 }
 
 ///  Represents the type of the user. The following types are possible: regular users, deleted users and bots 
-public indirect enum UserType: FunctionResult, TDEnum {
+public indirect enum UserType: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  A regular user
 	case regular
 	///  A deleted user or deleted bot. No information on the user besides the user_id is available. It is not possible to perform any active actions on this type of user
@@ -854,7 +854,7 @@ public indirect enum UserType: FunctionResult, TDEnum {
 }
 
 ///  Represents commands supported by a bot 
-public struct BotCommand: Codable, FunctionResult {
+public struct BotCommand: Codable, Equatable, FunctionResult {
 	///  Text of the bot command 
 	public let command: String
 	///  Description of the bot command
@@ -870,7 +870,7 @@ public struct BotCommand: Codable, FunctionResult {
 }
 
 ///  Provides information about a bot and its supported commands 
-public struct BotInfo: Codable, FunctionResult {
+public struct BotInfo: Codable, Equatable, FunctionResult {
 	///  Long description shown on the user info page 
 	public let description: String
 	///  A list of commands supported by the bot
@@ -886,7 +886,7 @@ public struct BotInfo: Codable, FunctionResult {
 }
 
 ///  Represents a user 
-public struct User: Codable, FunctionResult {
+public struct User: Codable, Equatable, FunctionResult {
 	///  User identifier 
 	public let id: Int32
 	///  First name of the user 
@@ -950,7 +950,7 @@ public struct User: Codable, FunctionResult {
 }
 
 ///  Contains full information about a user (except the full list of profile photos) 
-public struct UserFullInfo: Codable, FunctionResult {
+public struct UserFullInfo: Codable, Equatable, FunctionResult {
 	///  True, if the user is blacklisted by the current user 
 	public let isBlocked: Bool
 	///  True, if the user can be called 
@@ -986,7 +986,7 @@ public struct UserFullInfo: Codable, FunctionResult {
 }
 
 ///  Contains part of the list of user photos 
-public struct UserProfilePhotos: Codable, FunctionResult {
+public struct UserProfilePhotos: Codable, Equatable, FunctionResult {
 	///  Total number of user profile photos 
 	public let totalCount: Int32
 	///  A list of photos
@@ -1002,7 +1002,7 @@ public struct UserProfilePhotos: Codable, FunctionResult {
 }
 
 ///  Represents a list of users 
-public struct Users: Codable, FunctionResult {
+public struct Users: Codable, Equatable, FunctionResult {
 	///  Approximate total count of users found 
 	public let totalCount: Int32
 	///  A list of user identifiers
@@ -1018,7 +1018,7 @@ public struct Users: Codable, FunctionResult {
 }
 
 ///  Provides information about the status of a member in a chat 
-public indirect enum ChatMemberStatus: FunctionResult, TDEnum {
+public indirect enum ChatMemberStatus: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  The user is the creator of a chat and has all the administrator privileges 
 	/// - isMember: True, if the user is a member of the chat
 	case creator(isMember: Bool)
@@ -1051,7 +1051,7 @@ public indirect enum ChatMemberStatus: FunctionResult, TDEnum {
 }
 
 ///  A user with information about joining/leaving a chat 
-public struct ChatMember: Codable, FunctionResult {
+public struct ChatMember: Codable, Equatable, FunctionResult {
 	///  User identifier of the chat member 
 	public let userId: Int32
 	///  Identifier of a user that invited/promoted/banned this member in the chat; 0 if unknown 
@@ -1079,7 +1079,7 @@ public struct ChatMember: Codable, FunctionResult {
 }
 
 ///  Contains a list of chat members 
-public struct ChatMembers: Codable, FunctionResult {
+public struct ChatMembers: Codable, Equatable, FunctionResult {
 	///  Approximate total count of chat members found 
 	public let totalCount: Int32
 	///  A list of chat members
@@ -1095,7 +1095,7 @@ public struct ChatMembers: Codable, FunctionResult {
 }
 
 ///  Specifies the kind of chat members to return in getSupergroupMembers 
-public indirect enum SupergroupMembersFilter: FunctionResult, TDEnum {
+public indirect enum SupergroupMembersFilter: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  Returns recently active users in reverse chronological order
 	case recent
 	///  Returns the creator and administrators
@@ -1114,7 +1114,7 @@ public indirect enum SupergroupMembersFilter: FunctionResult, TDEnum {
 }
 
 ///  Represents a basic group of 0-200 users (must be upgraded to a supergroup to accommodate more than 200 users) 
-public struct BasicGroup: Codable, FunctionResult {
+public struct BasicGroup: Codable, Equatable, FunctionResult {
 	///  Group identifier 
 	public let id: Int32
 	///  Number of members in the group 
@@ -1146,7 +1146,7 @@ public struct BasicGroup: Codable, FunctionResult {
 }
 
 ///  Contains full information about a basic group 
-public struct BasicGroupFullInfo: Codable, FunctionResult {
+public struct BasicGroupFullInfo: Codable, Equatable, FunctionResult {
 	///  User identifier of the creator of the group; 0 if unknown 
 	public let creatorUserId: Int32
 	///  Group members 
@@ -1166,7 +1166,7 @@ public struct BasicGroupFullInfo: Codable, FunctionResult {
 }
 
 ///  Represents a supergroup or channel with zero or more members (subscribers in the case of channels). From the point of view of the system, a channel is a special kind of a supergroup: only administrators can post and see the list of members, and posts from all administrators use the name and photo of the channel instead of individual names and profile photos. Unlike supergroups, channels can have an unlimited number of subscribers 
-public struct Supergroup: Codable, FunctionResult {
+public struct Supergroup: Codable, Equatable, FunctionResult {
 	///  Supergroup or channel identifier 
 	public let id: Int32
 	///  Username of the supergroup or channel; empty for private supergroups or channels 
@@ -1214,7 +1214,7 @@ public struct Supergroup: Codable, FunctionResult {
 }
 
 ///  Contains full information about a supergroup or channel 
-public struct SupergroupFullInfo: Codable, FunctionResult {
+public struct SupergroupFullInfo: Codable, Equatable, FunctionResult {
 	///  Supergroup or channel description 
 	public let description: String
 	///  Number of members in the supergroup or channel; 0 if unknown 
@@ -1278,7 +1278,7 @@ public struct SupergroupFullInfo: Codable, FunctionResult {
 }
 
 ///  Describes the current secret chat state 
-public indirect enum SecretChatState: FunctionResult, TDEnum {
+public indirect enum SecretChatState: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  The secret chat is not yet created; waiting for the other user to get online
 	case pending
 	///  The secret chat is ready to use
@@ -1288,7 +1288,7 @@ public indirect enum SecretChatState: FunctionResult, TDEnum {
 }
 
 ///  Represents a secret chat 
-public struct SecretChat: Codable, FunctionResult {
+public struct SecretChat: Codable, Equatable, FunctionResult {
 	///  Secret chat identifier 
 	public let id: Int32
 	///  Identifier of the chat partner 
@@ -1325,7 +1325,7 @@ public struct SecretChat: Codable, FunctionResult {
 
 ///  Contains information about the initial sender of a forwarded message 
 // sourcery: noPrefix = true
-public indirect enum MessageForwardInfo: FunctionResult, TDEnum {
+public indirect enum MessageForwardInfo: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  The message was originally written by a known user 
 	/// - senderUserId: Identifier of the user that originally sent this message 
 	/// - date: Point in time (Unix timestamp) when the message was originally sent 
@@ -1343,7 +1343,7 @@ public indirect enum MessageForwardInfo: FunctionResult, TDEnum {
 }
 
 ///  Contains information about the sending state of the message 
-public indirect enum MessageSendingState: FunctionResult, TDEnum {
+public indirect enum MessageSendingState: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  The message is being sent now, but has not yet been delivered to the server
 	case pending
 	///  The message failed to be sent
@@ -1351,7 +1351,7 @@ public indirect enum MessageSendingState: FunctionResult, TDEnum {
 }
 
 ///  Describes a message 
-public struct Message: Codable, FunctionResult {
+public struct Message: Codable, Equatable, FunctionResult {
 	///  Unique message identifier 
 	public let id: Int53
 	///  Identifier of the user who sent the message; 0 if unknown. It is unknown for channel posts 
@@ -1451,7 +1451,7 @@ public struct Message: Codable, FunctionResult {
 }
 
 ///  Contains a list of messages 
-public struct Messages: Codable, FunctionResult {
+public struct Messages: Codable, Equatable, FunctionResult {
 	///  Approximate total count of messages found 
 	public let totalCount: Int32
 	///  List of messages; messages may be null
@@ -1467,7 +1467,7 @@ public struct Messages: Codable, FunctionResult {
 }
 
 ///  Contains a list of messages found by a search 
-public struct FoundMessages: Codable, FunctionResult {
+public struct FoundMessages: Codable, Equatable, FunctionResult {
 	///  List of messages 
 	public let messages: [Message]
 	///  Value to pass as from_search_id to get more results
@@ -1483,7 +1483,7 @@ public struct FoundMessages: Codable, FunctionResult {
 }
 
 ///  Describes the types of chats for which notification settings are applied 
-public indirect enum NotificationSettingsScope: FunctionResult, TDEnum {
+public indirect enum NotificationSettingsScope: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  Notification settings applied to a particular chat 
 	/// - chatId: Chat identifier
 	case chat(chatId: Int53)
@@ -1496,7 +1496,7 @@ public indirect enum NotificationSettingsScope: FunctionResult, TDEnum {
 }
 
 ///  Contains information about notification settings for a chat or several chats 
-public struct NotificationSettings: Codable, FunctionResult {
+public struct NotificationSettings: Codable, Equatable, FunctionResult {
 	///  Time left before notifications will be unmuted, in seconds 
 	public let muteFor: Int32
 	///  An audio file name for notification sounds; only applies to iOS applications 
@@ -1516,7 +1516,7 @@ public struct NotificationSettings: Codable, FunctionResult {
 }
 
 ///  Contains information about a message draft 
-public struct DraftMessage: Codable, FunctionResult {
+public struct DraftMessage: Codable, Equatable, FunctionResult {
 	///  Identifier of the message to reply to; 0 if none 
 	public let replyToMessageId: Int53
 	///  Content of the message draft; this should always be of type inputMessageText
@@ -1532,7 +1532,7 @@ public struct DraftMessage: Codable, FunctionResult {
 }
 
 ///  Describes the type of a chat 
-public indirect enum ChatType: FunctionResult, TDEnum {
+public indirect enum ChatType: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  An ordinary chat with a user 
 	/// - userId: User identifier
 	case `private`(userId: Int32)
@@ -1550,7 +1550,7 @@ public indirect enum ChatType: FunctionResult, TDEnum {
 }
 
 ///  A chat. (Can be a private chat, basic group, supergroup, or secret chat) 
-public struct Chat: Codable, FunctionResult {
+public struct Chat: Codable, Equatable, FunctionResult {
 	///  Chat unique identifier 
 	public let id: Int53
 	///  Type of the chat 
@@ -1622,7 +1622,7 @@ public struct Chat: Codable, FunctionResult {
 }
 
 ///  Represents a list of chats 
-public struct Chats: Codable, FunctionResult {
+public struct Chats: Codable, Equatable, FunctionResult {
 	///  List of chat identifiers
 	public let chatIds: [Int53]
 	/// Represents a list of chats 
@@ -1634,7 +1634,7 @@ public struct Chats: Codable, FunctionResult {
 }
 
 ///  Contains a chat invite link 
-public struct ChatInviteLink: Codable, FunctionResult {
+public struct ChatInviteLink: Codable, Equatable, FunctionResult {
 	///  Chat invite link
 	public let inviteLink: String
 	/// Contains a chat invite link 
@@ -1646,7 +1646,7 @@ public struct ChatInviteLink: Codable, FunctionResult {
 }
 
 ///  Contains information about a chat invite link 
-public struct ChatInviteLinkInfo: Codable, FunctionResult {
+public struct ChatInviteLinkInfo: Codable, Equatable, FunctionResult {
 	///  Chat identifier of the invite link; 0 if the user is not a member of this chat 
 	public let chatId: Int53
 	///  Contains information about the type of the chat 
@@ -1682,7 +1682,7 @@ public struct ChatInviteLinkInfo: Codable, FunctionResult {
 }
 
 ///  Describes a keyboard button type 
-public indirect enum KeyboardButtonType: FunctionResult, TDEnum {
+public indirect enum KeyboardButtonType: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  A simple button, with text that should be sent when the button is pressed
 	case text
 	///  A button that sends the user's phone number when pressed; available only in private chats
@@ -1692,7 +1692,7 @@ public indirect enum KeyboardButtonType: FunctionResult, TDEnum {
 }
 
 ///  Represents a single button in a bot keyboard 
-public struct KeyboardButton: Codable, FunctionResult {
+public struct KeyboardButton: Codable, Equatable, FunctionResult {
 	///  Text of the button 
 	public let text: String
 	///  Type of the button
@@ -1708,7 +1708,7 @@ public struct KeyboardButton: Codable, FunctionResult {
 }
 
 ///  Describes the type of an inline keyboard button 
-public indirect enum InlineKeyboardButtonType: FunctionResult, TDEnum {
+public indirect enum InlineKeyboardButtonType: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  A button that opens a specified URL 
 	/// - url: URL to open
 	case url(url: String)
@@ -1726,7 +1726,7 @@ public indirect enum InlineKeyboardButtonType: FunctionResult, TDEnum {
 }
 
 ///  Represents a single button in an inline keyboard 
-public struct InlineKeyboardButton: Codable, FunctionResult {
+public struct InlineKeyboardButton: Codable, Equatable, FunctionResult {
 	///  Text of the button 
 	public let text: String
 	///  Type of the button
@@ -1742,7 +1742,7 @@ public struct InlineKeyboardButton: Codable, FunctionResult {
 }
 
 ///  Contains a description of a custom keyboard and actions that can be done with it to quickly reply to bots 
-public indirect enum ReplyMarkup: FunctionResult, TDEnum {
+public indirect enum ReplyMarkup: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  Instructs clients to remove the keyboard once this message has been received. This kind of keyboard can't be received in an incoming message; instead, UpdateChatReplyMarkup with message_id == 0 will be sent 
 	/// - isPersonal: True, if the keyboard is removed only for the mentioned users or the target user of a reply
 	case removeKeyboard(isPersonal: Bool)
@@ -1761,7 +1761,7 @@ public indirect enum ReplyMarkup: FunctionResult, TDEnum {
 }
 
 ///  Describes a text object inside an instant-view web page 
-public indirect enum RichText: FunctionResult, TDEnum {
+public indirect enum RichText: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  A plain text 
 	/// - text: Text
 	case plain(text: String)
@@ -1794,7 +1794,7 @@ public indirect enum RichText: FunctionResult, TDEnum {
 }
 
 ///  Describes a block of an instant view web page 
-public indirect enum PageBlock: FunctionResult, TDEnum {
+public indirect enum PageBlock: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  The title of a page 
 	/// - title: Title
 	case title(title: RichText)
@@ -1894,7 +1894,7 @@ public indirect enum PageBlock: FunctionResult, TDEnum {
 }
 
 ///  Describes an instant view page for a web page 
-public struct WebPageInstantView: Codable, FunctionResult {
+public struct WebPageInstantView: Codable, Equatable, FunctionResult {
 	///  Content of the web page 
 	public let pageBlocks: [PageBlock]
 	///  True, if the instant view contains the full page. A network request might be needed to get the full web page instant view
@@ -1910,7 +1910,7 @@ public struct WebPageInstantView: Codable, FunctionResult {
 }
 
 ///  Describes a web page preview 
-public struct WebPage: Codable, FunctionResult {
+public struct WebPage: Codable, Equatable, FunctionResult {
 	///  Original URL of the link 
 	public let url: String
 	///  URL to display 
@@ -2002,7 +2002,7 @@ public struct WebPage: Codable, FunctionResult {
 }
 
 ///  Portion of the price of a product (e.g., "delivery cost", "tax amount") 
-public struct LabeledPricePart: Codable, FunctionResult {
+public struct LabeledPricePart: Codable, Equatable, FunctionResult {
 	///  Label for this portion of the product price 
 	public let label: String
 	///  Currency amount in minimal quantity of the currency
@@ -2018,7 +2018,7 @@ public struct LabeledPricePart: Codable, FunctionResult {
 }
 
 ///  Product invoice 
-public struct Invoice: Codable, FunctionResult {
+public struct Invoice: Codable, Equatable, FunctionResult {
 	///  ISO 4217 currency code 
 	public let currency: String
 	///  A list of objects used to calculate the total price of the product 
@@ -2066,7 +2066,7 @@ public struct Invoice: Codable, FunctionResult {
 }
 
 ///  Describes a shipping address 
-public struct ShippingAddress: Codable, FunctionResult {
+public struct ShippingAddress: Codable, Equatable, FunctionResult {
 	///  Two-letter ISO 3166-1 alpha-2 country code 
 	public let countryCode: String
 	///  State, if applicable 
@@ -2098,7 +2098,7 @@ public struct ShippingAddress: Codable, FunctionResult {
 }
 
 ///  Order information 
-public struct OrderInfo: Codable, FunctionResult {
+public struct OrderInfo: Codable, Equatable, FunctionResult {
 	///  Name of the user 
 	public let name: String
 	///  Phone number of the user 
@@ -2122,7 +2122,7 @@ public struct OrderInfo: Codable, FunctionResult {
 }
 
 ///  One shipping option 
-public struct ShippingOption: Codable, FunctionResult {
+public struct ShippingOption: Codable, Equatable, FunctionResult {
 	///  Shipping option identifier 
 	public let id: String
 	///  Option title 
@@ -2142,7 +2142,7 @@ public struct ShippingOption: Codable, FunctionResult {
 }
 
 ///  Contains information about saved card credentials 
-public struct SavedCredentials: Codable, FunctionResult {
+public struct SavedCredentials: Codable, Equatable, FunctionResult {
 	///  Unique identifier of the saved credentials 
 	public let id: String
 	///  Title of the saved credentials
@@ -2158,7 +2158,7 @@ public struct SavedCredentials: Codable, FunctionResult {
 }
 
 ///  Contains information about the payment method chosen by the user 
-public indirect enum InputCredentials: FunctionResult, TDEnum {
+public indirect enum InputCredentials: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  Applies if a user chooses some previously saved payment credentials. To use their previously saved credentials, the user must have a valid temporary password 
 	/// - savedCredentialsId: Identifier of the saved credentials
 	case saved(savedCredentialsId: String)
@@ -2175,7 +2175,7 @@ public indirect enum InputCredentials: FunctionResult, TDEnum {
 }
 
 ///  Stripe payment provider 
-public struct PaymentsProviderStripe: Codable, FunctionResult {
+public struct PaymentsProviderStripe: Codable, Equatable, FunctionResult {
 	///  Stripe API publishable key 
 	public let publishableKey: String
 	///  True, if the user country must be provided 
@@ -2199,7 +2199,7 @@ public struct PaymentsProviderStripe: Codable, FunctionResult {
 }
 
 ///  Contains information about an invoice payment form 
-public struct PaymentForm: Codable, FunctionResult {
+public struct PaymentForm: Codable, Equatable, FunctionResult {
 	///  Full information of the invoice 
 	public let invoice: Invoice
 	///  Payment form URL 
@@ -2235,7 +2235,7 @@ public struct PaymentForm: Codable, FunctionResult {
 }
 
 ///  Contains a temporary identifier of validated order information, which is stored for one hour. Also contains the available shipping options 
-public struct ValidatedOrderInfo: Codable, FunctionResult {
+public struct ValidatedOrderInfo: Codable, Equatable, FunctionResult {
 	///  Temporary identifier of the order information 
 	public let orderInfoId: String
 	///  Available shipping options
@@ -2251,7 +2251,7 @@ public struct ValidatedOrderInfo: Codable, FunctionResult {
 }
 
 ///  Contains the result of a payment request 
-public struct PaymentResult: Codable, FunctionResult {
+public struct PaymentResult: Codable, Equatable, FunctionResult {
 	///  True, if the payment request was successful; otherwise the verification_url will be not empty 
 	public let success: Bool
 	///  URL for additional payment credentials verification
@@ -2267,7 +2267,7 @@ public struct PaymentResult: Codable, FunctionResult {
 }
 
 ///  Contains information about a successful payment 
-public struct PaymentReceipt: Codable, FunctionResult {
+public struct PaymentReceipt: Codable, Equatable, FunctionResult {
 	///  Point in time (Unix timestamp) when the payment was made 
 	public let date: Int32
 	///  User identifier of the payment provider bot 
@@ -2300,7 +2300,7 @@ public struct PaymentReceipt: Codable, FunctionResult {
 
 ///  Contains the content of a message 
 // sourcery: noPrefix = true
-public indirect enum MessageContent: FunctionResult, TDEnum {
+public indirect enum MessageContent: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  A text message 
 	/// - text: Text of the message 
 	/// - webPage: A preview of the web page that's mentioned in the text; may be null
@@ -2445,7 +2445,7 @@ public indirect enum MessageContent: FunctionResult, TDEnum {
 }
 
 ///  Represents a part of the text which must be formatted differently 
-public indirect enum TextEntityType: FunctionResult, TDEnum {
+public indirect enum TextEntityType: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  A mention of a user by their username
 	case mention
 	///  A hashtag text, beginning with "#"
@@ -2480,7 +2480,7 @@ public indirect enum TextEntityType: FunctionResult, TDEnum {
 }
 
 ///  A thumbnail to be sent along with a file; should be in JPEG or WEBP format for stickers, and less than 200 kB in size 
-public struct InputThumbnail: Codable, FunctionResult {
+public struct InputThumbnail: Codable, Equatable, FunctionResult {
 	///  Thumbnail file to send. Sending thumbnails by file_id is currently not supported 
 	public let thumbnail: InputFile
 	///  Thumbnail width, usually shouldn't exceed 90. Use 0 if unknown 
@@ -2501,7 +2501,7 @@ public struct InputThumbnail: Codable, FunctionResult {
 
 ///  The content of a message to send 
 // sourcery: noPrefix = true
-public indirect enum InputMessageContent: FunctionResult, TDEnum {
+public indirect enum InputMessageContent: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  A text message 
 	/// - text: Formatted text to be sent. Only Bold, Italic, Code, Pre, PreCode and TextUrl entities are allowed to be specified manually 
 	/// - disableWebPagePreview: True, if rich web page previews for URLs in the message text should be disabled 
@@ -2601,7 +2601,7 @@ public indirect enum InputMessageContent: FunctionResult, TDEnum {
 }
 
 ///  Represents a filter for message search results 
-public indirect enum SearchMessagesFilter: FunctionResult, TDEnum {
+public indirect enum SearchMessagesFilter: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  Returns all found messages, no filter is applied
 	case empty
 	///  Returns only animation messages
@@ -2637,7 +2637,7 @@ public indirect enum SearchMessagesFilter: FunctionResult, TDEnum {
 }
 
 ///  Describes the different types of activity in a chat 
-public indirect enum ChatAction: FunctionResult, TDEnum {
+public indirect enum ChatAction: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  The user is typing a message
 	case typing
 	///  The user is recording a video
@@ -2672,7 +2672,7 @@ public indirect enum ChatAction: FunctionResult, TDEnum {
 }
 
 ///  Describes the last time the user was online 
-public indirect enum UserStatus: FunctionResult, TDEnum {
+public indirect enum UserStatus: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  The user status was never changed
 	case empty
 	///  The user is online 
@@ -2690,7 +2690,7 @@ public indirect enum UserStatus: FunctionResult, TDEnum {
 }
 
 ///  Represents a list of stickers 
-public struct Stickers: Codable, FunctionResult {
+public struct Stickers: Codable, Equatable, FunctionResult {
 	///  List of stickers
 	public let stickers: [Sticker]
 	/// Represents a list of stickers 
@@ -2702,7 +2702,7 @@ public struct Stickers: Codable, FunctionResult {
 }
 
 ///  Represents a list of all emoji corresponding to a sticker in a sticker set. The list is only for informational purposes, because a sticker is always sent with a fixed emoji from the corresponding Sticker object 
-public struct StickerEmojis: Codable, FunctionResult {
+public struct StickerEmojis: Codable, Equatable, FunctionResult {
 	///  List of emojis
 	public let emojis: [String]
 	/// Represents a list of all emoji corresponding to a sticker in a sticker set. The list is only for informational purposes, because a sticker is always sent with a fixed emoji from the corresponding Sticker object 
@@ -2714,7 +2714,7 @@ public struct StickerEmojis: Codable, FunctionResult {
 }
 
 ///  Represents a sticker set 
-public struct StickerSet: Codable, FunctionResult {
+public struct StickerSet: Codable, Equatable, FunctionResult {
 	///  Identifier of the sticker set 
 	public let id: TDInt64
 	///  Title of the sticker set 
@@ -2762,7 +2762,7 @@ public struct StickerSet: Codable, FunctionResult {
 }
 
 ///  Represents short information about a sticker set 
-public struct StickerSetInfo: Codable, FunctionResult {
+public struct StickerSetInfo: Codable, Equatable, FunctionResult {
 	///  Identifier of the sticker set 
 	public let id: TDInt64
 	///  Title of the sticker set 
@@ -2810,7 +2810,7 @@ public struct StickerSetInfo: Codable, FunctionResult {
 }
 
 ///  Represents a list of sticker sets 
-public struct StickerSets: Codable, FunctionResult {
+public struct StickerSets: Codable, Equatable, FunctionResult {
 	///  Approximate total number of sticker sets found 
 	public let totalCount: Int32
 	///  List of sticker sets
@@ -2826,7 +2826,7 @@ public struct StickerSets: Codable, FunctionResult {
 }
 
 ///  Describes the reason why a call was discarded 
-public indirect enum CallDiscardReason: FunctionResult, TDEnum {
+public indirect enum CallDiscardReason: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  The call wasn't discarded, or the reason is unknown
 	case empty
 	///  The call was ended before the conversation started. It was cancelled by the caller or missed by the other party
@@ -2840,7 +2840,7 @@ public indirect enum CallDiscardReason: FunctionResult, TDEnum {
 }
 
 ///  Specifies the supported call protocols 
-public struct CallProtocol: Codable, FunctionResult {
+public struct CallProtocol: Codable, Equatable, FunctionResult {
 	///  True, if UDP peer-to-peer connections are supported 
 	public let udpP2p: Bool
 	///  True, if connection through UDP reflectors is supported 
@@ -2864,7 +2864,7 @@ public struct CallProtocol: Codable, FunctionResult {
 }
 
 ///  Describes the address of UDP reflectors 
-public struct CallConnection: Codable, FunctionResult {
+public struct CallConnection: Codable, Equatable, FunctionResult {
 	///  Reflector identifier 
 	public let id: TDInt64
 	///  IPv4 reflector address 
@@ -2892,7 +2892,7 @@ public struct CallConnection: Codable, FunctionResult {
 }
 
 ///  Contains the call identifier 
-public struct CallId: Codable, FunctionResult {
+public struct CallId: Codable, Equatable, FunctionResult {
 	///  Call identifier
 	public let id: Int32
 	/// Contains the call identifier 
@@ -2904,7 +2904,7 @@ public struct CallId: Codable, FunctionResult {
 }
 
 ///  Describes the current call state 
-public indirect enum CallState: FunctionResult, TDEnum {
+public indirect enum CallState: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  The call is pending, waiting to be accepted by a user 
 	/// - isCreated: True, if the call has already been created by the server 
 	/// - isReceived: True, if the call has already been received by the other party
@@ -2931,7 +2931,7 @@ public indirect enum CallState: FunctionResult, TDEnum {
 }
 
 ///  Describes a call 
-public struct Call: Codable, FunctionResult {
+public struct Call: Codable, Equatable, FunctionResult {
 	///  Call identifier, not persistent 
 	public let id: Int32
 	///  Peer user identifier 
@@ -2955,7 +2955,7 @@ public struct Call: Codable, FunctionResult {
 }
 
 ///  Represents a list of animations 
-public struct Animations: Codable, FunctionResult {
+public struct Animations: Codable, Equatable, FunctionResult {
 	///  List of animations
 	public let animations: [Animation]
 	/// Represents a list of animations 
@@ -2967,7 +2967,7 @@ public struct Animations: Codable, FunctionResult {
 }
 
 ///  Represents the result of an ImportContacts request 
-public struct ImportedContacts: Codable, FunctionResult {
+public struct ImportedContacts: Codable, Equatable, FunctionResult {
 	///  User identifiers of the imported contacts in the same order as they were specified in the request; 0 if the contact is not yet a registered user 
 	public let userIds: [Int32]
 	///  The number of users that imported the corresponding contact; 0 for already registered users or if unavailable
@@ -2983,7 +2983,7 @@ public struct ImportedContacts: Codable, FunctionResult {
 }
 
 ///  Represents a single result of an inline query; for bots only 
-public indirect enum InputInlineQueryResult: FunctionResult, TDEnum {
+public indirect enum InputInlineQueryResult: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  Represents a link to an animated GIF 
 	/// - id: Unique identifier of the query result 
 	/// - title: Title of the query result 
@@ -3117,7 +3117,7 @@ public indirect enum InputInlineQueryResult: FunctionResult, TDEnum {
 }
 
 ///  Represents a single result of an inline query 
-public indirect enum InlineQueryResult: FunctionResult, TDEnum {
+public indirect enum InlineQueryResult: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  Represents a link to an article or web page 
 	/// - id: Unique identifier of the query result 
 	/// - url: URL of the result, if it exists 
@@ -3185,7 +3185,7 @@ public indirect enum InlineQueryResult: FunctionResult, TDEnum {
 }
 
 ///  Represents the results of the inline query. Use sendInlineQueryResultMessage to send the result of the query 
-public struct InlineQueryResults: Codable, FunctionResult {
+public struct InlineQueryResults: Codable, Equatable, FunctionResult {
 	///  Unique identifier of the inline query 
 	public let inlineQueryId: TDInt64
 	///  The offset for the next request. If empty, there are no more results 
@@ -3213,7 +3213,7 @@ public struct InlineQueryResults: Codable, FunctionResult {
 }
 
 ///  Represents a payload of a callback query 
-public indirect enum CallbackQueryPayload: FunctionResult, TDEnum {
+public indirect enum CallbackQueryPayload: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  The payload from a general callback button 
 	/// - data: Data that was attached to the callback button
 	case data(data: Bytes)
@@ -3223,7 +3223,7 @@ public indirect enum CallbackQueryPayload: FunctionResult, TDEnum {
 }
 
 ///  Contains a bot's answer to a callback query 
-public struct CallbackQueryAnswer: Codable, FunctionResult {
+public struct CallbackQueryAnswer: Codable, Equatable, FunctionResult {
 	///  Text of the answer 
 	public let text: String
 	///  True, if an alert should be shown to the user instead of a toast notification 
@@ -3243,7 +3243,7 @@ public struct CallbackQueryAnswer: Codable, FunctionResult {
 }
 
 ///  Contains the result of a custom request 
-public struct CustomRequestResult: Codable, FunctionResult {
+public struct CustomRequestResult: Codable, Equatable, FunctionResult {
 	///  A JSON-serialized result
 	public let result: String
 	/// Contains the result of a custom request 
@@ -3255,7 +3255,7 @@ public struct CustomRequestResult: Codable, FunctionResult {
 }
 
 ///  Contains one row of the game high score table 
-public struct GameHighScore: Codable, FunctionResult {
+public struct GameHighScore: Codable, Equatable, FunctionResult {
 	///  Position in the high score table 
 	public let position: Int32
 	///  User identifier 
@@ -3275,7 +3275,7 @@ public struct GameHighScore: Codable, FunctionResult {
 }
 
 ///  Contains a list of game high scores 
-public struct GameHighScores: Codable, FunctionResult {
+public struct GameHighScores: Codable, Equatable, FunctionResult {
 	///  A list of game high scores
 	public let scores: [GameHighScore]
 	/// Contains a list of game high scores 
@@ -3288,7 +3288,7 @@ public struct GameHighScores: Codable, FunctionResult {
 
 ///  Represents a chat event 
 // sourcery: noPrefix = true
-public indirect enum ChatEventAction: FunctionResult, TDEnum {
+public indirect enum ChatEventAction: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  A message was edited 
 	/// - oldMessage: The original message before the edit 
 	/// - newMessage: The message after it was edited
@@ -3351,7 +3351,7 @@ public indirect enum ChatEventAction: FunctionResult, TDEnum {
 }
 
 ///  Represents a chat event 
-public struct ChatEvent: Codable, FunctionResult {
+public struct ChatEvent: Codable, Equatable, FunctionResult {
 	///  Chat event identifier 
 	public let id: TDInt64
 	///  Point in time (Unix timestamp) when the event happened 
@@ -3375,7 +3375,7 @@ public struct ChatEvent: Codable, FunctionResult {
 }
 
 ///  Contains a list of chat events 
-public struct ChatEvents: Codable, FunctionResult {
+public struct ChatEvents: Codable, Equatable, FunctionResult {
 	///  List of events
 	public let events: [ChatEvent]
 	/// Contains a list of chat events 
@@ -3387,7 +3387,7 @@ public struct ChatEvents: Codable, FunctionResult {
 }
 
 ///  Represents a set of filters used to obtain a chat event log 
-public struct ChatEventLogFilters: Codable, FunctionResult {
+public struct ChatEventLogFilters: Codable, Equatable, FunctionResult {
 	///  True, if message edits should be returned 
 	public let messageEdits: Bool
 	///  True, if message deletions should be returned 
@@ -3435,7 +3435,7 @@ public struct ChatEventLogFilters: Codable, FunctionResult {
 }
 
 ///  Represents a data needed to subscribe for push notifications. To use specific push notification service, you must specify the correct application platform and upload valid server authentication data at https://my.telegram.org 
-public indirect enum DeviceToken: FunctionResult, TDEnum {
+public indirect enum DeviceToken: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  A token for Google Cloud Messaging 
 	/// - token: Device registration token, may be empty to de-register a device
 	case googleCloudMessaging(token: String)
@@ -3476,7 +3476,7 @@ public indirect enum DeviceToken: FunctionResult, TDEnum {
 }
 
 ///  Contains information about a wallpaper 
-public struct Wallpaper: Codable, FunctionResult {
+public struct Wallpaper: Codable, Equatable, FunctionResult {
 	///  Unique persistent wallpaper identifier 
 	public let id: Int32
 	///  Available variants of the wallpaper in different sizes. These photos can only be downloaded; they can't be sent in a message 
@@ -3496,7 +3496,7 @@ public struct Wallpaper: Codable, FunctionResult {
 }
 
 ///  Contains a list of wallpapers 
-public struct Wallpapers: Codable, FunctionResult {
+public struct Wallpapers: Codable, Equatable, FunctionResult {
 	///  A list of wallpapers
 	public let wallpapers: [Wallpaper]
 	/// Contains a list of wallpapers 
@@ -3508,7 +3508,7 @@ public struct Wallpapers: Codable, FunctionResult {
 }
 
 ///  Contains a list of hashtags 
-public struct Hashtags: Codable, FunctionResult {
+public struct Hashtags: Codable, Equatable, FunctionResult {
 	///  A list of hashtags
 	public let hashtags: [String]
 	/// Contains a list of hashtags 
@@ -3520,7 +3520,7 @@ public struct Hashtags: Codable, FunctionResult {
 }
 
 ///  Represents result of checking whether a username can be set for a chat 
-public indirect enum CheckChatUsernameResult: FunctionResult, TDEnum {
+public indirect enum CheckChatUsernameResult: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  The username can be set
 	case ok
 	///  The username is invalid
@@ -3534,7 +3534,7 @@ public indirect enum CheckChatUsernameResult: FunctionResult, TDEnum {
 }
 
 ///  Represents the value of an option 
-public indirect enum OptionValue: FunctionResult, TDEnum {
+public indirect enum OptionValue: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  Boolean option 
 	/// - value: The value of the option
 	case boolean(value: Bool)
@@ -3549,7 +3549,7 @@ public indirect enum OptionValue: FunctionResult, TDEnum {
 }
 
 ///  Represents a single rule for managing privacy settings 
-public indirect enum UserPrivacySettingRule: FunctionResult, TDEnum {
+public indirect enum UserPrivacySettingRule: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  A rule to allow all users to do something
 	case allowAll
 	///  A rule to allow all of a user's contacts to do something
@@ -3567,7 +3567,7 @@ public indirect enum UserPrivacySettingRule: FunctionResult, TDEnum {
 }
 
 ///  A list of privacy rules. Rules are matched in the specified order. The first matched rule defines the privacy setting for a given user. If no rule matches, the action is not allowed 
-public struct UserPrivacySettingRules: Codable, FunctionResult {
+public struct UserPrivacySettingRules: Codable, Equatable, FunctionResult {
 	///  A list of rules
 	public let rules: [UserPrivacySettingRule]
 	/// A list of privacy rules. Rules are matched in the specified order. The first matched rule defines the privacy setting for a given user. If no rule matches, the action is not allowed 
@@ -3579,7 +3579,7 @@ public struct UserPrivacySettingRules: Codable, FunctionResult {
 }
 
 ///  Describes available user privacy settings 
-public indirect enum UserPrivacySetting: FunctionResult, TDEnum {
+public indirect enum UserPrivacySetting: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  A privacy setting for managing whether the user's online status is visible
 	case showStatus
 	///  A privacy setting for managing whether the user can be invited to chats
@@ -3589,7 +3589,7 @@ public indirect enum UserPrivacySetting: FunctionResult, TDEnum {
 }
 
 ///  Contains information about the period of inactivity after which the current user's account will automatically be deleted 
-public struct AccountTtl: Codable, FunctionResult {
+public struct AccountTtl: Codable, Equatable, FunctionResult {
 	///  Number of days of inactivity before the account will be flagged for deletion; should range from 30-366 days
 	public let days: Int32
 	/// Contains information about the period of inactivity after which the current user's account will automatically be deleted 
@@ -3601,7 +3601,7 @@ public struct AccountTtl: Codable, FunctionResult {
 }
 
 ///  Contains information about one session in a Telegram application used by the current user 
-public struct Session: Codable, FunctionResult {
+public struct Session: Codable, Equatable, FunctionResult {
 	///  Session identifier 
 	public let id: TDInt64
 	///  True, if this session is the current session 
@@ -3665,7 +3665,7 @@ public struct Session: Codable, FunctionResult {
 }
 
 ///  Contains a list of sessions 
-public struct Sessions: Codable, FunctionResult {
+public struct Sessions: Codable, Equatable, FunctionResult {
 	///  List of sessions
 	public let sessions: [Session]
 	/// Contains a list of sessions 
@@ -3677,7 +3677,7 @@ public struct Sessions: Codable, FunctionResult {
 }
 
 ///  Contains information about one website the current user is logged in with Telegram 
-public struct ConnectedWebsite: Codable, FunctionResult {
+public struct ConnectedWebsite: Codable, Equatable, FunctionResult {
 	///  Website identifier 
 	public let id: TDInt64
 	///  The domain name of the website 
@@ -3721,7 +3721,7 @@ public struct ConnectedWebsite: Codable, FunctionResult {
 }
 
 ///  Contains a list of websites the current user is logged in with Telegram 
-public struct ConnectedWebsites: Codable, FunctionResult {
+public struct ConnectedWebsites: Codable, Equatable, FunctionResult {
 	///  List of connected websites
 	public let websites: [ConnectedWebsite]
 	/// Contains a list of websites the current user is logged in with Telegram 
@@ -3733,7 +3733,7 @@ public struct ConnectedWebsites: Codable, FunctionResult {
 }
 
 ///  Contains information about the availability of the "Report spam" action for a chat 
-public struct ChatReportSpamState: Codable, FunctionResult {
+public struct ChatReportSpamState: Codable, Equatable, FunctionResult {
 	///  True, if a prompt with the "Report spam" action should be shown to the user
 	public let canReportSpam: Bool
 	/// Contains information about the availability of the "Report spam" action for a chat 
@@ -3745,7 +3745,7 @@ public struct ChatReportSpamState: Codable, FunctionResult {
 }
 
 ///  Describes the reason why a chat is reported 
-public indirect enum ChatReportReason: FunctionResult, TDEnum {
+public indirect enum ChatReportReason: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  The chat contains spam messages
 	case spam
 	///  The chat promotes violence
@@ -3758,7 +3758,7 @@ public indirect enum ChatReportReason: FunctionResult, TDEnum {
 }
 
 ///  Contains a public HTTPS link to a message in a public supergroup or channel 
-public struct PublicMessageLink: Codable, FunctionResult {
+public struct PublicMessageLink: Codable, Equatable, FunctionResult {
 	///  Message link 
 	public let link: String
 	///  HTML-code for embedding the message
@@ -3774,7 +3774,7 @@ public struct PublicMessageLink: Codable, FunctionResult {
 }
 
 ///  Represents the type of a file 
-public indirect enum FileType: FunctionResult, TDEnum {
+public indirect enum FileType: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  The data is not a file
 	case none
 	///  The file is an animation
@@ -3808,7 +3808,7 @@ public indirect enum FileType: FunctionResult, TDEnum {
 }
 
 ///  Contains the storage usage statistics for a specific file type 
-public struct StorageStatisticsByFileType: Codable, FunctionResult {
+public struct StorageStatisticsByFileType: Codable, Equatable, FunctionResult {
 	///  File type 
 	public let fileType: FileType
 	///  Total size of the files 
@@ -3828,7 +3828,7 @@ public struct StorageStatisticsByFileType: Codable, FunctionResult {
 }
 
 ///  Contains the storage usage statistics for a specific chat 
-public struct StorageStatisticsByChat: Codable, FunctionResult {
+public struct StorageStatisticsByChat: Codable, Equatable, FunctionResult {
 	///  Chat identifier; 0 if none 
 	public let chatId: Int53
 	///  Total size of the files in the chat 
@@ -3852,7 +3852,7 @@ public struct StorageStatisticsByChat: Codable, FunctionResult {
 }
 
 ///  Contains the exact storage usage statistics split by chats and file type 
-public struct StorageStatistics: Codable, FunctionResult {
+public struct StorageStatistics: Codable, Equatable, FunctionResult {
 	///  Total size of files 
 	public let size: Int53
 	///  Total number of files 
@@ -3872,7 +3872,7 @@ public struct StorageStatistics: Codable, FunctionResult {
 }
 
 ///  Contains approximate storage usage statistics, excluding files of unknown file type 
-public struct StorageStatisticsFast: Codable, FunctionResult {
+public struct StorageStatisticsFast: Codable, Equatable, FunctionResult {
 	///  Approximate total size of files 
 	public let filesSize: Int53
 	///  Approximate number of files 
@@ -3892,7 +3892,7 @@ public struct StorageStatisticsFast: Codable, FunctionResult {
 }
 
 ///  Represents the type of a network 
-public indirect enum NetworkType: FunctionResult, TDEnum {
+public indirect enum NetworkType: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  The network is not available
 	case none
 	///  A mobile network
@@ -3906,7 +3906,7 @@ public indirect enum NetworkType: FunctionResult, TDEnum {
 }
 
 ///  Contains statistics about network usage 
-public indirect enum NetworkStatisticsEntry: FunctionResult, TDEnum {
+public indirect enum NetworkStatisticsEntry: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  Contains information about the total amount of data that was used to send and receive files 
 	/// - fileType: Type of the file the data is part of 
 	/// - networkType: Type of the network the data was sent through. Call setNetworkType to maintain the actual network type 
@@ -3922,7 +3922,7 @@ public indirect enum NetworkStatisticsEntry: FunctionResult, TDEnum {
 }
 
 ///  A full list of available network statistic entries 
-public struct NetworkStatistics: Codable, FunctionResult {
+public struct NetworkStatistics: Codable, Equatable, FunctionResult {
 	///  Point in time (Unix timestamp) when the app began collecting statistics 
 	public let sinceDate: Int32
 	///  Network statistics entries
@@ -3938,7 +3938,7 @@ public struct NetworkStatistics: Codable, FunctionResult {
 }
 
 ///  Describes the current state of the connection to Telegram servers 
-public indirect enum ConnectionState: FunctionResult, TDEnum {
+public indirect enum ConnectionState: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  Currently waiting for the network to become available. Use SetNetworkType to change the available network type
 	case waitingForNetwork
 	///  Currently establishing a connection with a proxy server
@@ -3952,7 +3952,7 @@ public indirect enum ConnectionState: FunctionResult, TDEnum {
 }
 
 ///  Represents the categories of chats for which a list of frequently used chats can be retrieved 
-public indirect enum TopChatCategory: FunctionResult, TDEnum {
+public indirect enum TopChatCategory: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  A category containing frequently used private chats with non-bot users
 	case users
 	///  A category containing frequently used private chats with bot users
@@ -3968,7 +3968,7 @@ public indirect enum TopChatCategory: FunctionResult, TDEnum {
 }
 
 ///  Describes the type of a URL linking to an internal Telegram entity 
-public indirect enum TMeUrlType: FunctionResult, TDEnum {
+public indirect enum TMeUrlType: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  A URL linking to a user 
 	/// - userId: Identifier of the user
 	case user(userId: Int32)
@@ -3984,7 +3984,7 @@ public indirect enum TMeUrlType: FunctionResult, TDEnum {
 }
 
 ///  Represents a URL linking to an internal Telegram entity 
-public struct TMeUrl: Codable, FunctionResult {
+public struct TMeUrl: Codable, Equatable, FunctionResult {
 	///  URL 
 	public let url: String
 	///  Type of the URL
@@ -4000,7 +4000,7 @@ public struct TMeUrl: Codable, FunctionResult {
 }
 
 ///  Contains a list of t.me URLs 
-public struct TMeUrls: Codable, FunctionResult {
+public struct TMeUrls: Codable, Equatable, FunctionResult {
 	///  List of URLs
 	public let urls: [TMeUrl]
 	/// Contains a list of t.me URLs 
@@ -4012,7 +4012,7 @@ public struct TMeUrls: Codable, FunctionResult {
 }
 
 ///  Contains a counter 
-public struct Count: Codable, FunctionResult {
+public struct Count: Codable, Equatable, FunctionResult {
 	///  Count
 	public let count: Int32
 	/// Contains a counter 
@@ -4024,7 +4024,7 @@ public struct Count: Codable, FunctionResult {
 }
 
 ///  Contains some text 
-public struct Text: Codable, FunctionResult {
+public struct Text: Codable, Equatable, FunctionResult {
 	///  Text
 	public let text: String
 	/// Contains some text 
@@ -4036,7 +4036,7 @@ public struct Text: Codable, FunctionResult {
 }
 
 ///  Describes the way the text should be parsed for TextEntities 
-public indirect enum TextParseMode: FunctionResult, TDEnum {
+public indirect enum TextParseMode: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  The text should be parsed in markdown-style
 	case markdown
 	///  The text should be parsed in HTML-style
@@ -4044,7 +4044,7 @@ public indirect enum TextParseMode: FunctionResult, TDEnum {
 }
 
 ///  Contains information about a proxy server 
-public indirect enum Proxy: FunctionResult, TDEnum {
+public indirect enum Proxy: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  An empty proxy server
 	case empty
 	///  A SOCKS5 proxy server 
@@ -4056,7 +4056,7 @@ public indirect enum Proxy: FunctionResult, TDEnum {
 }
 
 ///  Describes a sticker that should be added to a sticker set 
-public struct InputSticker: Codable, FunctionResult {
+public struct InputSticker: Codable, Equatable, FunctionResult {
 	///  PNG image with the sticker; must be up to 512 kB in size and fit in a 512x512 square 
 	public let pngSticker: InputFile
 	///  Emoji corresponding to the sticker 
@@ -4076,7 +4076,7 @@ public struct InputSticker: Codable, FunctionResult {
 }
 
 ///  Contains notifications about data changes 
-public indirect enum Update: FunctionResult, TDEnum {
+public indirect enum Update: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  The user authorization state has changed 
 	/// - authorizationState: New authorization state
 	case authorizationState(authorizationState: AuthorizationState)
@@ -4320,7 +4320,7 @@ public indirect enum Update: FunctionResult, TDEnum {
 }
 
 ///  A simple object containing a number; for testing only 
-public struct TestInt: Codable, FunctionResult {
+public struct TestInt: Codable, Equatable, FunctionResult {
 	///  Number
 	public let value: Int32
 	/// A simple object containing a number; for testing only 
@@ -4332,7 +4332,7 @@ public struct TestInt: Codable, FunctionResult {
 }
 
 ///  A simple object containing a string; for testing only 
-public struct TestString: Codable, FunctionResult {
+public struct TestString: Codable, Equatable, FunctionResult {
 	///  String
 	public let value: String
 	/// A simple object containing a string; for testing only 
@@ -4344,7 +4344,7 @@ public struct TestString: Codable, FunctionResult {
 }
 
 ///  A simple object containing a sequence of bytes; for testing only 
-public struct TestBytes: Codable, FunctionResult {
+public struct TestBytes: Codable, Equatable, FunctionResult {
 	///  Bytes
 	public let value: Bytes
 	/// A simple object containing a sequence of bytes; for testing only 
@@ -4356,7 +4356,7 @@ public struct TestBytes: Codable, FunctionResult {
 }
 
 ///  A simple object containing a vector of numbers; for testing only 
-public struct TestVectorInt: Codable, FunctionResult {
+public struct TestVectorInt: Codable, Equatable, FunctionResult {
 	///  Vector of numbers
 	public let value: [Int32]
 	/// A simple object containing a vector of numbers; for testing only 
@@ -4368,7 +4368,7 @@ public struct TestVectorInt: Codable, FunctionResult {
 }
 
 ///  A simple object containing a vector of objects that hold a number; for testing only 
-public struct TestVectorIntObject: Codable, FunctionResult {
+public struct TestVectorIntObject: Codable, Equatable, FunctionResult {
 	///  Vector of objects
 	public let value: [TestInt]
 	/// A simple object containing a vector of objects that hold a number; for testing only 
@@ -4380,7 +4380,7 @@ public struct TestVectorIntObject: Codable, FunctionResult {
 }
 
 ///  A simple object containing a vector of strings; for testing only 
-public struct TestVectorString: Codable, FunctionResult {
+public struct TestVectorString: Codable, Equatable, FunctionResult {
 	///  Vector of strings
 	public let value: [String]
 	/// A simple object containing a vector of strings; for testing only 
@@ -4392,7 +4392,7 @@ public struct TestVectorString: Codable, FunctionResult {
 }
 
 ///  A simple object containing a vector of objects that hold a string; for testing only 
-public struct TestVectorStringObject: Codable, FunctionResult {
+public struct TestVectorStringObject: Codable, Equatable, FunctionResult {
 	///  Vector of objects
 	public let value: [TestString]
 	/// A simple object containing a vector of objects that hold a string; for testing only 
@@ -4404,7 +4404,7 @@ public struct TestVectorStringObject: Codable, FunctionResult {
 }
 
 ///  Returns the current authorization state; this is an offline request. For informational purposes only. Use updateAuthorizationState instead to maintain the current authorization state
-public struct GetAuthorizationState: Codable, TDFunction {
+public struct GetAuthorizationState: Codable, Equatable, TDFunction {
 	public typealias Result = AuthorizationState
 	/// Returns the current authorization state; this is an offline request. For informational purposes only. Use updateAuthorizationState instead to maintain the current authorization state
 	public init() {
@@ -4412,7 +4412,7 @@ public struct GetAuthorizationState: Codable, TDFunction {
 }
 
 ///  Sets the parameters for TDLib initialization. Works only when the current authorization state is authorizationStateWaitTdlibParameters 
-public struct SetTdlibParameters: Codable, TDFunction {
+public struct SetTdlibParameters: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Parameters
 	public let parameters: TdlibParameters
@@ -4425,7 +4425,7 @@ public struct SetTdlibParameters: Codable, TDFunction {
 }
 
 ///  Checks the database encryption key for correctness. Works only when the current authorization state is authorizationStateWaitEncryptionKey 
-public struct CheckDatabaseEncryptionKey: Codable, TDFunction {
+public struct CheckDatabaseEncryptionKey: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Encryption key to check or set up
 	public let encryptionKey: Bytes
@@ -4438,7 +4438,7 @@ public struct CheckDatabaseEncryptionKey: Codable, TDFunction {
 }
 
 ///  Sets the phone number of the user and sends an authentication code to the user. Works only when the current authorization state is authorizationStateWaitPhoneNumber 
-public struct SetAuthenticationPhoneNumber: Codable, TDFunction {
+public struct SetAuthenticationPhoneNumber: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  The phone number of the user, in international format 
 	public let phoneNumber: String
@@ -4459,7 +4459,7 @@ public struct SetAuthenticationPhoneNumber: Codable, TDFunction {
 }
 
 ///  Re-sends an authentication code to the user. Works only when the current authorization state is authorizationStateWaitCode and the next_code_type of the result is not null
-public struct ResendAuthenticationCode: Codable, TDFunction {
+public struct ResendAuthenticationCode: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	/// Re-sends an authentication code to the user. Works only when the current authorization state is authorizationStateWaitCode and the next_code_type of the result is not null
 	public init() {
@@ -4467,7 +4467,7 @@ public struct ResendAuthenticationCode: Codable, TDFunction {
 }
 
 ///  Checks the authentication code. Works only when the current authorization state is authorizationStateWaitCode 
-public struct CheckAuthenticationCode: Codable, TDFunction {
+public struct CheckAuthenticationCode: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  The verification code received via SMS, Telegram message, phone call, or flash call 
 	public let code: String
@@ -4488,7 +4488,7 @@ public struct CheckAuthenticationCode: Codable, TDFunction {
 }
 
 ///  Checks the authentication password for correctness. Works only when the current authorization state is authorizationStateWaitPassword 
-public struct CheckAuthenticationPassword: Codable, TDFunction {
+public struct CheckAuthenticationPassword: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  The password to check
 	public let password: String
@@ -4501,7 +4501,7 @@ public struct CheckAuthenticationPassword: Codable, TDFunction {
 }
 
 ///  Requests to send a password recovery code to an email address that was previously set up. Works only when the current authorization state is authorizationStateWaitPassword
-public struct RequestAuthenticationPasswordRecovery: Codable, TDFunction {
+public struct RequestAuthenticationPasswordRecovery: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	/// Requests to send a password recovery code to an email address that was previously set up. Works only when the current authorization state is authorizationStateWaitPassword
 	public init() {
@@ -4509,7 +4509,7 @@ public struct RequestAuthenticationPasswordRecovery: Codable, TDFunction {
 }
 
 ///  Recovers the password with a password recovery code sent to an email address that was previously set up. Works only when the current authorization state is authorizationStateWaitPassword 
-public struct RecoverAuthenticationPassword: Codable, TDFunction {
+public struct RecoverAuthenticationPassword: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Recovery code to check
 	public let recoveryCode: String
@@ -4522,7 +4522,7 @@ public struct RecoverAuthenticationPassword: Codable, TDFunction {
 }
 
 ///  Checks the authentication token of a bot; to log in as a bot. Works only when the current authorization state is authorizationStateWaitPhoneNumber. Can be used instead of setAuthenticationPhoneNumber and checkAuthenticationCode to log in 
-public struct CheckAuthenticationBotToken: Codable, TDFunction {
+public struct CheckAuthenticationBotToken: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  The bot token
 	public let token: String
@@ -4535,7 +4535,7 @@ public struct CheckAuthenticationBotToken: Codable, TDFunction {
 }
 
 ///  Closes the TDLib instance after a proper logout. Requires an available network connection. All local data will be destroyed. After the logout completes, updateAuthorizationState with authorizationStateClosed will be sent
-public struct LogOut: Codable, TDFunction {
+public struct LogOut: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	/// Closes the TDLib instance after a proper logout. Requires an available network connection. All local data will be destroyed. After the logout completes, updateAuthorizationState with authorizationStateClosed will be sent
 	public init() {
@@ -4543,7 +4543,7 @@ public struct LogOut: Codable, TDFunction {
 }
 
 ///  Closes the TDLib instance. All databases will be flushed to disk and properly closed. After the close completes, updateAuthorizationState with authorizationStateClosed will be sent
-public struct Close: Codable, TDFunction {
+public struct Close: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	/// Closes the TDLib instance. All databases will be flushed to disk and properly closed. After the close completes, updateAuthorizationState with authorizationStateClosed will be sent
 	public init() {
@@ -4551,7 +4551,7 @@ public struct Close: Codable, TDFunction {
 }
 
 ///  Closes the TDLib instance, destroying all local data without a proper logout. The current user session will remain in the list of all active sessions. All local data will be destroyed. After the destruction completes updateAuthorizationState with authorizationStateClosed will be sent
-public struct Destroy: Codable, TDFunction {
+public struct Destroy: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	/// Closes the TDLib instance, destroying all local data without a proper logout. The current user session will remain in the list of all active sessions. All local data will be destroyed. After the destruction completes updateAuthorizationState with authorizationStateClosed will be sent
 	public init() {
@@ -4559,7 +4559,7 @@ public struct Destroy: Codable, TDFunction {
 }
 
 ///  Changes the database encryption key. Usually the encryption key is never changed and is stored in some OS keychain 
-public struct SetDatabaseEncryptionKey: Codable, TDFunction {
+public struct SetDatabaseEncryptionKey: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  New encryption key
 	public let newEncryptionKey: Bytes
@@ -4572,7 +4572,7 @@ public struct SetDatabaseEncryptionKey: Codable, TDFunction {
 }
 
 ///  Returns the current state of 2-step verification
-public struct GetPasswordState: Codable, TDFunction {
+public struct GetPasswordState: Codable, Equatable, TDFunction {
 	public typealias Result = PasswordState
 	/// Returns the current state of 2-step verification
 	public init() {
@@ -4580,7 +4580,7 @@ public struct GetPasswordState: Codable, TDFunction {
 }
 
 ///  Changes the password for the user. If a new recovery email address is specified, then the error EMAIL_UNCONFIRMED is returned and the password change will not be applied until the new recovery email address has been confirmed. The application should periodically call getPasswordState to check whether the new email address has been confirmed 
-public struct SetPassword: Codable, TDFunction {
+public struct SetPassword: Codable, Equatable, TDFunction {
 	public typealias Result = PasswordState
 	///  Previous password of the user 
 	public let oldPassword: String
@@ -4609,7 +4609,7 @@ public struct SetPassword: Codable, TDFunction {
 }
 
 ///  Returns a recovery email address that was previously set up. This method can be used to verify a password provided by the user 
-public struct GetRecoveryEmailAddress: Codable, TDFunction {
+public struct GetRecoveryEmailAddress: Codable, Equatable, TDFunction {
 	public typealias Result = RecoveryEmailAddress
 	///  The password for the current user
 	public let password: String
@@ -4622,7 +4622,7 @@ public struct GetRecoveryEmailAddress: Codable, TDFunction {
 }
 
 ///  Changes the recovery email address of the user. If a new recovery email address is specified, then the error EMAIL_UNCONFIRMED is returned and the email address will not be changed until the new email has been confirmed. The application should periodically call getPasswordState to check whether the email address has been confirmed. -If new_recovery_email_address is the same as the email address that is currently set up, this call succeeds immediately and aborts all other requests waiting for an email confirmation 
-public struct SetRecoveryEmailAddress: Codable, TDFunction {
+public struct SetRecoveryEmailAddress: Codable, Equatable, TDFunction {
 	public typealias Result = PasswordState
 	///  Password of the current user 
 	public let password: String
@@ -4639,7 +4639,7 @@ public struct SetRecoveryEmailAddress: Codable, TDFunction {
 }
 
 ///  Requests to send a password recovery code to an email address that was previously set up
-public struct RequestPasswordRecovery: Codable, TDFunction {
+public struct RequestPasswordRecovery: Codable, Equatable, TDFunction {
 	public typealias Result = PasswordRecoveryInfo
 	/// Requests to send a password recovery code to an email address that was previously set up
 	public init() {
@@ -4647,7 +4647,7 @@ public struct RequestPasswordRecovery: Codable, TDFunction {
 }
 
 ///  Recovers the password using a recovery code sent to an email address that was previously set up 
-public struct RecoverPassword: Codable, TDFunction {
+public struct RecoverPassword: Codable, Equatable, TDFunction {
 	public typealias Result = PasswordState
 	///  Recovery code to check
 	public let recoveryCode: String
@@ -4660,7 +4660,7 @@ public struct RecoverPassword: Codable, TDFunction {
 }
 
 ///  Creates a new temporary password for processing payments 
-public struct CreateTemporaryPassword: Codable, TDFunction {
+public struct CreateTemporaryPassword: Codable, Equatable, TDFunction {
 	public typealias Result = TemporaryPasswordState
 	///  Persistent user password 
 	public let password: String
@@ -4677,7 +4677,7 @@ public struct CreateTemporaryPassword: Codable, TDFunction {
 }
 
 ///  Returns information about the current temporary password
-public struct GetTemporaryPasswordState: Codable, TDFunction {
+public struct GetTemporaryPasswordState: Codable, Equatable, TDFunction {
 	public typealias Result = TemporaryPasswordState
 	/// Returns information about the current temporary password
 	public init() {
@@ -4685,7 +4685,7 @@ public struct GetTemporaryPasswordState: Codable, TDFunction {
 }
 
 ///  Handles a DC_UPDATE push service notification. Can be called before authorization 
-public struct ProcessDcUpdate: Codable, TDFunction {
+public struct ProcessDcUpdate: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Value of the "dc" parameter of the notification 
 	public let dc: String
@@ -4702,7 +4702,7 @@ public struct ProcessDcUpdate: Codable, TDFunction {
 }
 
 ///  Returns the current user
-public struct GetMe: Codable, TDFunction {
+public struct GetMe: Codable, Equatable, TDFunction {
 	public typealias Result = User
 	/// Returns the current user
 	public init() {
@@ -4710,7 +4710,7 @@ public struct GetMe: Codable, TDFunction {
 }
 
 ///  Returns information about a user by their identifier. This is an offline request if the current user is not a bot 
-public struct GetUser: Codable, TDFunction {
+public struct GetUser: Codable, Equatable, TDFunction {
 	public typealias Result = User
 	///  User identifier
 	public let userId: Int32
@@ -4723,7 +4723,7 @@ public struct GetUser: Codable, TDFunction {
 }
 
 ///  Returns full information about a user by their identifier 
-public struct GetUserFullInfo: Codable, TDFunction {
+public struct GetUserFullInfo: Codable, Equatable, TDFunction {
 	public typealias Result = UserFullInfo
 	///  User identifier
 	public let userId: Int32
@@ -4736,7 +4736,7 @@ public struct GetUserFullInfo: Codable, TDFunction {
 }
 
 ///  Returns information about a basic group by its identifier. This is an offline request if the current user is not a bot 
-public struct GetBasicGroup: Codable, TDFunction {
+public struct GetBasicGroup: Codable, Equatable, TDFunction {
 	public typealias Result = BasicGroup
 	///  Basic group identifier
 	public let basicGroupId: Int32
@@ -4749,7 +4749,7 @@ public struct GetBasicGroup: Codable, TDFunction {
 }
 
 ///  Returns full information about a basic group by its identifier 
-public struct GetBasicGroupFullInfo: Codable, TDFunction {
+public struct GetBasicGroupFullInfo: Codable, Equatable, TDFunction {
 	public typealias Result = BasicGroupFullInfo
 	///  Basic group identifier
 	public let basicGroupId: Int32
@@ -4762,7 +4762,7 @@ public struct GetBasicGroupFullInfo: Codable, TDFunction {
 }
 
 ///  Returns information about a supergroup or channel by its identifier. This is an offline request if the current user is not a bot 
-public struct GetSupergroup: Codable, TDFunction {
+public struct GetSupergroup: Codable, Equatable, TDFunction {
 	public typealias Result = Supergroup
 	///  Supergroup or channel identifier
 	public let supergroupId: Int32
@@ -4775,7 +4775,7 @@ public struct GetSupergroup: Codable, TDFunction {
 }
 
 ///  Returns full information about a supergroup or channel by its identifier, cached for up to 1 minute 
-public struct GetSupergroupFullInfo: Codable, TDFunction {
+public struct GetSupergroupFullInfo: Codable, Equatable, TDFunction {
 	public typealias Result = SupergroupFullInfo
 	///  Supergroup or channel identifier
 	public let supergroupId: Int32
@@ -4788,7 +4788,7 @@ public struct GetSupergroupFullInfo: Codable, TDFunction {
 }
 
 ///  Returns information about a secret chat by its identifier. This is an offline request 
-public struct GetSecretChat: Codable, TDFunction {
+public struct GetSecretChat: Codable, Equatable, TDFunction {
 	public typealias Result = SecretChat
 	///  Secret chat identifier
 	public let secretChatId: Int32
@@ -4801,7 +4801,7 @@ public struct GetSecretChat: Codable, TDFunction {
 }
 
 ///  Returns information about a chat by its identifier, this is an offline request if the current user is not a bot 
-public struct GetChat: Codable, TDFunction {
+public struct GetChat: Codable, Equatable, TDFunction {
 	public typealias Result = Chat
 	///  Chat identifier
 	public let chatId: Int53
@@ -4814,7 +4814,7 @@ public struct GetChat: Codable, TDFunction {
 }
 
 ///  Returns information about a message 
-public struct GetMessage: Codable, TDFunction {
+public struct GetMessage: Codable, Equatable, TDFunction {
 	public typealias Result = Message
 	///  Identifier of the chat the message belongs to 
 	public let chatId: Int53
@@ -4831,7 +4831,7 @@ public struct GetMessage: Codable, TDFunction {
 }
 
 ///  Returns information about a message that is replied by given message 
-public struct GetRepliedMessage: Codable, TDFunction {
+public struct GetRepliedMessage: Codable, Equatable, TDFunction {
 	public typealias Result = Message
 	///  Identifier of the chat the message belongs to 
 	public let chatId: Int53
@@ -4848,7 +4848,7 @@ public struct GetRepliedMessage: Codable, TDFunction {
 }
 
 ///  Returns information about a pinned chat message 
-public struct GetChatPinnedMessage: Codable, TDFunction {
+public struct GetChatPinnedMessage: Codable, Equatable, TDFunction {
 	public typealias Result = Message
 	///  Identifier of the chat the message belongs to
 	public let chatId: Int53
@@ -4861,7 +4861,7 @@ public struct GetChatPinnedMessage: Codable, TDFunction {
 }
 
 ///  Returns information about messages. If a message is not found, returns null on the corresponding position of the result 
-public struct GetMessages: Codable, TDFunction {
+public struct GetMessages: Codable, Equatable, TDFunction {
 	public typealias Result = Messages
 	///  Identifier of the chat the messages belong to 
 	public let chatId: Int53
@@ -4878,7 +4878,7 @@ public struct GetMessages: Codable, TDFunction {
 }
 
 ///  Returns information about a file; this is an offline request 
-public struct GetFile: Codable, TDFunction {
+public struct GetFile: Codable, Equatable, TDFunction {
 	public typealias Result = File
 	///  Identifier of the file to get
 	public let fileId: Int32
@@ -4891,7 +4891,7 @@ public struct GetFile: Codable, TDFunction {
 }
 
 ///  Returns information about a file by its remote ID; this is an offline request. Can be used to register a URL as a file for further uploading, or sending as a message 
-public struct GetRemoteFile: Codable, TDFunction {
+public struct GetRemoteFile: Codable, Equatable, TDFunction {
 	public typealias Result = File
 	///  Remote identifier of the file to get 
 	public let remoteFileId: String
@@ -4908,7 +4908,7 @@ public struct GetRemoteFile: Codable, TDFunction {
 }
 
 ///  Returns an ordered list of chats. Chats are sorted by the pair (order, chat_id) in decreasing order. (For example, to get a list of chats from the beginning, the offset_order should be equal to 2^63 - 1). -For optimal performance the number of returned chats is chosen by the library. 
-public struct GetChats: Codable, TDFunction {
+public struct GetChats: Codable, Equatable, TDFunction {
 	public typealias Result = Chats
 	///  Chat order to return chats from 
 	public let offsetOrder: TDInt64
@@ -4929,7 +4929,7 @@ public struct GetChats: Codable, TDFunction {
 }
 
 ///  Searches a public chat by its username. Currently only private chats, supergroups and channels can be public. Returns the chat if found; otherwise an error is returned 
-public struct SearchPublicChat: Codable, TDFunction {
+public struct SearchPublicChat: Codable, Equatable, TDFunction {
 	public typealias Result = Chat
 	///  Username to be resolved
 	public let username: String
@@ -4942,7 +4942,7 @@ public struct SearchPublicChat: Codable, TDFunction {
 }
 
 ///  Searches public chats by looking for specified query in their username and title. Currently only private chats, supergroups and channels can be public. Returns a meaningful number of results. Returns nothing if the length of the searched username prefix is less than 5. Excludes private chats with contacts and chats from the chat list from the results 
-public struct SearchPublicChats: Codable, TDFunction {
+public struct SearchPublicChats: Codable, Equatable, TDFunction {
 	public typealias Result = Chats
 	///  Query to search for
 	public let query: String
@@ -4955,7 +4955,7 @@ public struct SearchPublicChats: Codable, TDFunction {
 }
 
 ///  Searches for the specified query in the title and username of already known chats, this is an offline request. Returns chats in the order seen in the chat list 
-public struct SearchChats: Codable, TDFunction {
+public struct SearchChats: Codable, Equatable, TDFunction {
 	public typealias Result = Chats
 	///  Query to search for. If the query is empty, returns up to 20 recently found chats 
 	public let query: String
@@ -4972,7 +4972,7 @@ public struct SearchChats: Codable, TDFunction {
 }
 
 ///  Searches for the specified query in the title and username of already known chats via request to the server. Returns chats in the order seen in the chat list 
-public struct SearchChatsOnServer: Codable, TDFunction {
+public struct SearchChatsOnServer: Codable, Equatable, TDFunction {
 	public typealias Result = Chats
 	///  Query to search for 
 	public let query: String
@@ -4989,7 +4989,7 @@ public struct SearchChatsOnServer: Codable, TDFunction {
 }
 
 ///  Returns a list of frequently used chats. Supported only if the chat info database is enabled 
-public struct GetTopChats: Codable, TDFunction {
+public struct GetTopChats: Codable, Equatable, TDFunction {
 	public typealias Result = Chats
 	///  Category of chats to be returned 
 	public let category: TopChatCategory
@@ -5006,7 +5006,7 @@ public struct GetTopChats: Codable, TDFunction {
 }
 
 ///  Removes a chat from the list of frequently used chats. Supported only if the chat info database is enabled 
-public struct RemoveTopChat: Codable, TDFunction {
+public struct RemoveTopChat: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Category of frequently used chats 
 	public let category: TopChatCategory
@@ -5023,7 +5023,7 @@ public struct RemoveTopChat: Codable, TDFunction {
 }
 
 ///  Adds a chat to the list of recently found chats. The chat is added to the beginning of the list. If the chat is already in the list, it will be removed from the list first 
-public struct AddRecentlyFoundChat: Codable, TDFunction {
+public struct AddRecentlyFoundChat: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Identifier of the chat to add
 	public let chatId: Int53
@@ -5036,7 +5036,7 @@ public struct AddRecentlyFoundChat: Codable, TDFunction {
 }
 
 ///  Removes a chat from the list of recently found chats 
-public struct RemoveRecentlyFoundChat: Codable, TDFunction {
+public struct RemoveRecentlyFoundChat: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Identifier of the chat to be removed
 	public let chatId: Int53
@@ -5049,7 +5049,7 @@ public struct RemoveRecentlyFoundChat: Codable, TDFunction {
 }
 
 ///  Clears the list of recently found chats
-public struct ClearRecentlyFoundChats: Codable, TDFunction {
+public struct ClearRecentlyFoundChats: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	/// Clears the list of recently found chats
 	public init() {
@@ -5057,7 +5057,7 @@ public struct ClearRecentlyFoundChats: Codable, TDFunction {
 }
 
 ///  Checks whether a username can be set for a chat 
-public struct CheckChatUsername: Codable, TDFunction {
+public struct CheckChatUsername: Codable, Equatable, TDFunction {
 	public typealias Result = CheckChatUsernameResult
 	///  Chat identifier; should be identifier of a supergroup chat, or a channel chat, or a private chat with self, or zero if chat is being created 
 	public let chatId: TDInt64
@@ -5074,7 +5074,7 @@ public struct CheckChatUsername: Codable, TDFunction {
 }
 
 ///  Returns a list of public chats created by the user
-public struct GetCreatedPublicChats: Codable, TDFunction {
+public struct GetCreatedPublicChats: Codable, Equatable, TDFunction {
 	public typealias Result = Chats
 	/// Returns a list of public chats created by the user
 	public init() {
@@ -5082,7 +5082,7 @@ public struct GetCreatedPublicChats: Codable, TDFunction {
 }
 
 ///  Returns a list of common chats with a given user. Chats are sorted by their type and creation date 
-public struct GetGroupsInCommon: Codable, TDFunction {
+public struct GetGroupsInCommon: Codable, Equatable, TDFunction {
 	public typealias Result = Chats
 	///  User identifier 
 	public let userId: Int32
@@ -5103,7 +5103,7 @@ public struct GetGroupsInCommon: Codable, TDFunction {
 }
 
 ///  Returns messages in a chat. The messages are returned in a reverse chronological order (i.e., in order of decreasing message_id). -For optimal performance the number of returned messages is chosen by the library. This is an offline request if only_local is true 
-public struct GetChatHistory: Codable, TDFunction {
+public struct GetChatHistory: Codable, Equatable, TDFunction {
 	public typealias Result = Messages
 	///  Chat identifier 
 	public let chatId: Int53
@@ -5132,7 +5132,7 @@ public struct GetChatHistory: Codable, TDFunction {
 }
 
 ///  Deletes all messages in the chat only for the user. Cannot be used in channels and public supergroups 
-public struct DeleteChatHistory: Codable, TDFunction {
+public struct DeleteChatHistory: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier 
 	public let chatId: Int53
@@ -5149,7 +5149,7 @@ public struct DeleteChatHistory: Codable, TDFunction {
 }
 
 ///  Searches for messages with given words in the chat. Returns the results in reverse chronological order, i.e. in order of decreasing message_id. Cannot be used in secret chats with a non-empty query -(searchSecretMessages should be used instead), or without an enabled message database. For optimal performance the number of returned messages is chosen by the library 
-public struct SearchChatMessages: Codable, TDFunction {
+public struct SearchChatMessages: Codable, Equatable, TDFunction {
 	public typealias Result = Messages
 	///  Identifier of the chat in which to search messages 
 	public let chatId: Int53
@@ -5186,7 +5186,7 @@ public struct SearchChatMessages: Codable, TDFunction {
 }
 
 ///  Searches for messages in all chats except secret chats. Returns the results in reverse chronological order (i.e., in order of decreasing (date, chat_id, message_id)). -For optimal performance the number of returned messages is chosen by the library 
-public struct SearchMessages: Codable, TDFunction {
+public struct SearchMessages: Codable, Equatable, TDFunction {
 	public typealias Result = Messages
 	///  Query to search for 
 	public let query: String
@@ -5215,7 +5215,7 @@ public struct SearchMessages: Codable, TDFunction {
 }
 
 ///  Searches for messages in secret chats. Returns the results in reverse chronological order. For optimal performance the number of returned messages is chosen by the library 
-public struct SearchSecretMessages: Codable, TDFunction {
+public struct SearchSecretMessages: Codable, Equatable, TDFunction {
 	public typealias Result = FoundMessages
 	///  Identifier of the chat in which to search. Specify 0 to search in all secret chats 
 	public let chatId: Int53
@@ -5244,7 +5244,7 @@ public struct SearchSecretMessages: Codable, TDFunction {
 }
 
 ///  Searches for call messages. Returns the results in reverse chronological order (i. e., in order of decreasing message_id). For optimal performance the number of returned messages is chosen by the library 
-public struct SearchCallMessages: Codable, TDFunction {
+public struct SearchCallMessages: Codable, Equatable, TDFunction {
 	public typealias Result = Messages
 	///  Identifier of the message from which to search; use 0 to get results from the beginning 
 	public let fromMessageId: Int53
@@ -5265,7 +5265,7 @@ public struct SearchCallMessages: Codable, TDFunction {
 }
 
 ///  Returns information about the recent locations of chat members that were sent to the chat. Returns up to 1 location message per user 
-public struct SearchChatRecentLocationMessages: Codable, TDFunction {
+public struct SearchChatRecentLocationMessages: Codable, Equatable, TDFunction {
 	public typealias Result = Messages
 	///  Chat identifier 
 	public let chatId: Int53
@@ -5282,7 +5282,7 @@ public struct SearchChatRecentLocationMessages: Codable, TDFunction {
 }
 
 ///  Returns all active live locations that should be updated by the client. The list is persistent across application restarts only if the message database is used
-public struct GetActiveLiveLocationMessages: Codable, TDFunction {
+public struct GetActiveLiveLocationMessages: Codable, Equatable, TDFunction {
 	public typealias Result = Messages
 	/// Returns all active live locations that should be updated by the client. The list is persistent across application restarts only if the message database is used
 	public init() {
@@ -5290,7 +5290,7 @@ public struct GetActiveLiveLocationMessages: Codable, TDFunction {
 }
 
 ///  Returns the last message sent in a chat no later than the specified date 
-public struct GetChatMessageByDate: Codable, TDFunction {
+public struct GetChatMessageByDate: Codable, Equatable, TDFunction {
 	public typealias Result = Message
 	///  Chat identifier 
 	public let chatId: Int53
@@ -5307,7 +5307,7 @@ public struct GetChatMessageByDate: Codable, TDFunction {
 }
 
 ///  Returns a public HTTPS link to a message. Available only for messages in public supergroups and channels 
-public struct GetPublicMessageLink: Codable, TDFunction {
+public struct GetPublicMessageLink: Codable, Equatable, TDFunction {
 	public typealias Result = PublicMessageLink
 	///  Identifier of the chat to which the message belongs 
 	public let chatId: Int53
@@ -5328,7 +5328,7 @@ public struct GetPublicMessageLink: Codable, TDFunction {
 }
 
 ///  Sends a message. Returns the sent message 
-public struct SendMessage: Codable, TDFunction {
+public struct SendMessage: Codable, Equatable, TDFunction {
 	public typealias Result = Message
 	///  Target chat 
 	public let chatId: Int53
@@ -5361,7 +5361,7 @@ public struct SendMessage: Codable, TDFunction {
 }
 
 ///  Sends messages grouped together into an album. Currently only photo and video messages can be grouped into an album. Returns sent messages 
-public struct SendMessageAlbum: Codable, TDFunction {
+public struct SendMessageAlbum: Codable, Equatable, TDFunction {
 	public typealias Result = Messages
 	///  Target chat 
 	public let chatId: Int53
@@ -5390,7 +5390,7 @@ public struct SendMessageAlbum: Codable, TDFunction {
 }
 
 ///  Invites a bot to a chat (if it is not yet a member) and sends it the /start command. Bots can't be invited to a private chat other than the chat with the bot. Bots can't be invited to channels (although they can be added as admins) and secret chats. Returns the sent message 
-public struct SendBotStartMessage: Codable, TDFunction {
+public struct SendBotStartMessage: Codable, Equatable, TDFunction {
 	public typealias Result = Message
 	///  Identifier of the bot 
 	public let botUserId: Int32
@@ -5411,7 +5411,7 @@ public struct SendBotStartMessage: Codable, TDFunction {
 }
 
 ///  Sends the result of an inline query as a message. Returns the sent message. Always clears a chat draft message 
-public struct SendInlineQueryResultMessage: Codable, TDFunction {
+public struct SendInlineQueryResultMessage: Codable, Equatable, TDFunction {
 	public typealias Result = Message
 	///  Target chat 
 	public let chatId: Int53
@@ -5444,7 +5444,7 @@ public struct SendInlineQueryResultMessage: Codable, TDFunction {
 }
 
 ///  Forwards previously sent messages. Returns the forwarded messages in the same order as the message identifiers passed in message_ids. If a message can't be forwarded, null will be returned instead of the message 
-public struct ForwardMessages: Codable, TDFunction {
+public struct ForwardMessages: Codable, Equatable, TDFunction {
 	public typealias Result = Messages
 	///  Identifier of the chat to which to forward messages 
 	public let chatId: Int53
@@ -5477,7 +5477,7 @@ public struct ForwardMessages: Codable, TDFunction {
 }
 
 ///  Changes the current TTL setting (sets a new self-destruct timer) in a secret chat and sends the corresponding message 
-public struct SendChatSetTtlMessage: Codable, TDFunction {
+public struct SendChatSetTtlMessage: Codable, Equatable, TDFunction {
 	public typealias Result = Message
 	///  Chat identifier 
 	public let chatId: Int53
@@ -5494,7 +5494,7 @@ public struct SendChatSetTtlMessage: Codable, TDFunction {
 }
 
 ///  Sends a notification about a screenshot taken in a chat. Supported only in private and secret chats 
-public struct SendChatScreenshotTakenNotification: Codable, TDFunction {
+public struct SendChatScreenshotTakenNotification: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier
 	public let chatId: Int53
@@ -5507,7 +5507,7 @@ public struct SendChatScreenshotTakenNotification: Codable, TDFunction {
 }
 
 ///  Deletes messages 
-public struct DeleteMessages: Codable, TDFunction {
+public struct DeleteMessages: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier 
 	public let chatId: Int53
@@ -5528,7 +5528,7 @@ public struct DeleteMessages: Codable, TDFunction {
 }
 
 ///  Deletes all messages sent by the specified user to a chat. Supported only in supergroups; requires can_delete_messages administrator privileges 
-public struct DeleteChatMessagesFromUser: Codable, TDFunction {
+public struct DeleteChatMessagesFromUser: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier 
 	public let chatId: Int53
@@ -5545,7 +5545,7 @@ public struct DeleteChatMessagesFromUser: Codable, TDFunction {
 }
 
 ///  Edits the text of a message (or a text of a game message). Non-bot users can edit messages for a limited period of time. Returns the edited message after the edit is completed on the server side 
-public struct EditMessageText: Codable, TDFunction {
+public struct EditMessageText: Codable, Equatable, TDFunction {
 	public typealias Result = Message
 	///  The chat the message belongs to 
 	public let chatId: Int53
@@ -5570,7 +5570,7 @@ public struct EditMessageText: Codable, TDFunction {
 }
 
 ///  Edits the message content of a live location. Messages can be edited for a limited period of time specified in the live location. Returns the edited message after the edit is completed server-side 
-public struct EditMessageLiveLocation: Codable, TDFunction {
+public struct EditMessageLiveLocation: Codable, Equatable, TDFunction {
 	public typealias Result = Message
 	///  The chat the message belongs to 
 	public let chatId: Int53
@@ -5595,7 +5595,7 @@ public struct EditMessageLiveLocation: Codable, TDFunction {
 }
 
 ///  Edits the message content caption. Non-bots can edit messages for a limited period of time. Returns the edited message after the edit is completed server-side 
-public struct EditMessageCaption: Codable, TDFunction {
+public struct EditMessageCaption: Codable, Equatable, TDFunction {
 	public typealias Result = Message
 	///  The chat the message belongs to 
 	public let chatId: Int53
@@ -5620,7 +5620,7 @@ public struct EditMessageCaption: Codable, TDFunction {
 }
 
 ///  Edits the message reply markup; for bots only. Returns the edited message after the edit is completed server-side 
-public struct EditMessageReplyMarkup: Codable, TDFunction {
+public struct EditMessageReplyMarkup: Codable, Equatable, TDFunction {
 	public typealias Result = Message
 	///  The chat the message belongs to 
 	public let chatId: Int53
@@ -5641,7 +5641,7 @@ public struct EditMessageReplyMarkup: Codable, TDFunction {
 }
 
 ///  Edits the text of an inline text or game message sent via a bot; for bots only 
-public struct EditInlineMessageText: Codable, TDFunction {
+public struct EditInlineMessageText: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Inline message identifier 
 	public let inlineMessageId: String
@@ -5662,7 +5662,7 @@ public struct EditInlineMessageText: Codable, TDFunction {
 }
 
 ///  Edits the content of a live location in an inline message sent via a bot; for bots only 
-public struct EditInlineMessageLiveLocation: Codable, TDFunction {
+public struct EditInlineMessageLiveLocation: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Inline message identifier 
 	public let inlineMessageId: String
@@ -5683,7 +5683,7 @@ public struct EditInlineMessageLiveLocation: Codable, TDFunction {
 }
 
 ///  Edits the caption of an inline message sent via a bot; for bots only 
-public struct EditInlineMessageCaption: Codable, TDFunction {
+public struct EditInlineMessageCaption: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Inline message identifier 
 	public let inlineMessageId: String
@@ -5704,7 +5704,7 @@ public struct EditInlineMessageCaption: Codable, TDFunction {
 }
 
 ///  Edits the reply markup of an inline message sent via a bot; for bots only 
-public struct EditInlineMessageReplyMarkup: Codable, TDFunction {
+public struct EditInlineMessageReplyMarkup: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Inline message identifier 
 	public let inlineMessageId: String
@@ -5721,7 +5721,7 @@ public struct EditInlineMessageReplyMarkup: Codable, TDFunction {
 }
 
 ///  Returns all entities (mentions, hashtags, cashtags, bot commands, URLs, and email addresses) contained in the text. This is an offline method. Can be called before authorization. Can be called synchronously 
-public struct GetTextEntities: Codable, TDFunction {
+public struct GetTextEntities: Codable, Equatable, TDFunction {
 	public typealias Result = TextEntities
 	///  The text in which to look for entites
 	public let text: String
@@ -5734,7 +5734,7 @@ public struct GetTextEntities: Codable, TDFunction {
 }
 
 ///  Parses Bold, Italic, Code, Pre, PreCode and TextUrl entities contained in the text. This is an offline method. Can be called before authorization. Can be called synchronously 
-public struct ParseTextEntities: Codable, TDFunction {
+public struct ParseTextEntities: Codable, Equatable, TDFunction {
 	public typealias Result = FormattedText
 	///  The text which should be parsed 
 	public let text: String
@@ -5751,7 +5751,7 @@ public struct ParseTextEntities: Codable, TDFunction {
 }
 
 ///  Returns the MIME type of a file, guessed by its extension. Returns an empty string on failure. This is an offline method. Can be called before authorization. Can be called synchronously 
-public struct GetFileMimeType: Codable, TDFunction {
+public struct GetFileMimeType: Codable, Equatable, TDFunction {
 	public typealias Result = Text
 	///  The name of the file or path to the file
 	public let fileName: String
@@ -5764,7 +5764,7 @@ public struct GetFileMimeType: Codable, TDFunction {
 }
 
 ///  Returns the extension of a file, guessed by its MIME type. Returns an empty string on failure. This is an offline method. Can be called before authorization. Can be called synchronously 
-public struct GetFileExtension: Codable, TDFunction {
+public struct GetFileExtension: Codable, Equatable, TDFunction {
 	public typealias Result = Text
 	///  The MIME type of the file
 	public let mimeType: String
@@ -5777,7 +5777,7 @@ public struct GetFileExtension: Codable, TDFunction {
 }
 
 ///  Sends an inline query to a bot and returns its results. Returns an error with code 502 if the bot fails to answer the query before the query timeout expires 
-public struct GetInlineQueryResults: Codable, TDFunction {
+public struct GetInlineQueryResults: Codable, Equatable, TDFunction {
 	public typealias Result = InlineQueryResults
 	///  The identifier of the target bot 
 	public let botUserId: Int32
@@ -5806,7 +5806,7 @@ public struct GetInlineQueryResults: Codable, TDFunction {
 }
 
 ///  Sets the result of an inline query; for bots only 
-public struct AnswerInlineQuery: Codable, TDFunction {
+public struct AnswerInlineQuery: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Identifier of the inline query 
 	public let inlineQueryId: TDInt64
@@ -5843,7 +5843,7 @@ public struct AnswerInlineQuery: Codable, TDFunction {
 }
 
 ///  Sends a callback query to a bot and returns an answer. Returns an error with code 502 if the bot fails to answer the query before the query timeout expires 
-public struct GetCallbackQueryAnswer: Codable, TDFunction {
+public struct GetCallbackQueryAnswer: Codable, Equatable, TDFunction {
 	public typealias Result = CallbackQueryAnswer
 	///  Identifier of the chat with the message 
 	public let chatId: Int53
@@ -5864,7 +5864,7 @@ public struct GetCallbackQueryAnswer: Codable, TDFunction {
 }
 
 ///  Sets the result of a callback query; for bots only 
-public struct AnswerCallbackQuery: Codable, TDFunction {
+public struct AnswerCallbackQuery: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Identifier of the callback query 
 	public let callbackQueryId: TDInt64
@@ -5893,7 +5893,7 @@ public struct AnswerCallbackQuery: Codable, TDFunction {
 }
 
 ///  Sets the result of a shipping query; for bots only 
-public struct AnswerShippingQuery: Codable, TDFunction {
+public struct AnswerShippingQuery: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Identifier of the shipping query 
 	public let shippingQueryId: TDInt64
@@ -5914,7 +5914,7 @@ public struct AnswerShippingQuery: Codable, TDFunction {
 }
 
 ///  Sets the result of a pre-checkout query; for bots only 
-public struct AnswerPreCheckoutQuery: Codable, TDFunction {
+public struct AnswerPreCheckoutQuery: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Identifier of the pre-checkout query 
 	public let preCheckoutQueryId: TDInt64
@@ -5931,7 +5931,7 @@ public struct AnswerPreCheckoutQuery: Codable, TDFunction {
 }
 
 ///  Updates the game score of the specified user in the game; for bots only 
-public struct SetGameScore: Codable, TDFunction {
+public struct SetGameScore: Codable, Equatable, TDFunction {
 	public typealias Result = Message
 	///  The chat to which the message with the game 
 	public let chatId: Int53
@@ -5964,7 +5964,7 @@ public struct SetGameScore: Codable, TDFunction {
 }
 
 ///  Updates the game score of the specified user in a game; for bots only 
-public struct SetInlineGameScore: Codable, TDFunction {
+public struct SetInlineGameScore: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Inline message identifier 
 	public let inlineMessageId: String
@@ -5993,7 +5993,7 @@ public struct SetInlineGameScore: Codable, TDFunction {
 }
 
 ///  Returns the high scores for a game and some part of the high score table in the range of the specified user; for bots only 
-public struct GetGameHighScores: Codable, TDFunction {
+public struct GetGameHighScores: Codable, Equatable, TDFunction {
 	public typealias Result = GameHighScores
 	///  The chat that contains the message with the game 
 	public let chatId: Int53
@@ -6014,7 +6014,7 @@ public struct GetGameHighScores: Codable, TDFunction {
 }
 
 ///  Returns game high scores and some part of the high score table in the range of the specified user; for bots only 
-public struct GetInlineGameHighScores: Codable, TDFunction {
+public struct GetInlineGameHighScores: Codable, Equatable, TDFunction {
 	public typealias Result = GameHighScores
 	///  Inline message identifier 
 	public let inlineMessageId: String
@@ -6031,7 +6031,7 @@ public struct GetInlineGameHighScores: Codable, TDFunction {
 }
 
 ///  Deletes the default reply markup from a chat. Must be called after a one-time keyboard or a ForceReply reply markup has been used. UpdateChatReplyMarkup will be sent if the reply markup will be changed 
-public struct DeleteChatReplyMarkup: Codable, TDFunction {
+public struct DeleteChatReplyMarkup: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier 
 	public let chatId: Int53
@@ -6048,7 +6048,7 @@ public struct DeleteChatReplyMarkup: Codable, TDFunction {
 }
 
 ///  Sends a notification about user activity in a chat 
-public struct SendChatAction: Codable, TDFunction {
+public struct SendChatAction: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier 
 	public let chatId: Int53
@@ -6065,7 +6065,7 @@ public struct SendChatAction: Codable, TDFunction {
 }
 
 ///  This method should be called if the chat is opened by the user. Many useful activities depend on the chat being opened or closed (e.g., in supergroups and channels all updates are received only for opened chats) 
-public struct OpenChat: Codable, TDFunction {
+public struct OpenChat: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier
 	public let chatId: Int53
@@ -6078,7 +6078,7 @@ public struct OpenChat: Codable, TDFunction {
 }
 
 ///  This method should be called if the chat is closed by the user. Many useful activities depend on the chat being opened or closed 
-public struct CloseChat: Codable, TDFunction {
+public struct CloseChat: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier
 	public let chatId: Int53
@@ -6091,7 +6091,7 @@ public struct CloseChat: Codable, TDFunction {
 }
 
 ///  This method should be called if messages are being viewed by the user. Many useful activities depend on whether the messages are currently being viewed or not (e.g., marking messages as read, incrementing a view counter, updating a view counter, removing deleted messages in supergroups and channels) 
-public struct ViewMessages: Codable, TDFunction {
+public struct ViewMessages: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier 
 	public let chatId: Int53
@@ -6112,7 +6112,7 @@ public struct ViewMessages: Codable, TDFunction {
 }
 
 ///  This method should be called if the message content has been opened (e.g., the user has opened a photo, video, document, location or venue, or has listened to an audio file or voice note message). An updateMessageContentOpened update will be generated if something has changed 
-public struct OpenMessageContent: Codable, TDFunction {
+public struct OpenMessageContent: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier of the message 
 	public let chatId: Int53
@@ -6129,7 +6129,7 @@ public struct OpenMessageContent: Codable, TDFunction {
 }
 
 ///  Marks all mentions in a chat as read 
-public struct ReadAllChatMentions: Codable, TDFunction {
+public struct ReadAllChatMentions: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier
 	public let chatId: Int53
@@ -6142,7 +6142,7 @@ public struct ReadAllChatMentions: Codable, TDFunction {
 }
 
 ///  Returns an existing chat corresponding to a given user 
-public struct CreatePrivateChat: Codable, TDFunction {
+public struct CreatePrivateChat: Codable, Equatable, TDFunction {
 	public typealias Result = Chat
 	///  User identifier 
 	public let userId: Int32
@@ -6159,7 +6159,7 @@ public struct CreatePrivateChat: Codable, TDFunction {
 }
 
 ///  Returns an existing chat corresponding to a known basic group 
-public struct CreateBasicGroupChat: Codable, TDFunction {
+public struct CreateBasicGroupChat: Codable, Equatable, TDFunction {
 	public typealias Result = Chat
 	///  Basic group identifier 
 	public let basicGroupId: Int32
@@ -6176,7 +6176,7 @@ public struct CreateBasicGroupChat: Codable, TDFunction {
 }
 
 ///  Returns an existing chat corresponding to a known supergroup or channel 
-public struct CreateSupergroupChat: Codable, TDFunction {
+public struct CreateSupergroupChat: Codable, Equatable, TDFunction {
 	public typealias Result = Chat
 	///  Supergroup or channel identifier 
 	public let supergroupId: Int32
@@ -6193,7 +6193,7 @@ public struct CreateSupergroupChat: Codable, TDFunction {
 }
 
 ///  Returns an existing chat corresponding to a known secret chat 
-public struct CreateSecretChat: Codable, TDFunction {
+public struct CreateSecretChat: Codable, Equatable, TDFunction {
 	public typealias Result = Chat
 	///  Secret chat identifier
 	public let secretChatId: Int32
@@ -6206,7 +6206,7 @@ public struct CreateSecretChat: Codable, TDFunction {
 }
 
 ///  Creates a new basic group and sends a corresponding messageBasicGroupChatCreate. Returns the newly created chat 
-public struct CreateNewBasicGroupChat: Codable, TDFunction {
+public struct CreateNewBasicGroupChat: Codable, Equatable, TDFunction {
 	public typealias Result = Chat
 	///  Identifiers of users to be added to the basic group 
 	public let userIds: [Int32]
@@ -6223,7 +6223,7 @@ public struct CreateNewBasicGroupChat: Codable, TDFunction {
 }
 
 ///  Creates a new supergroup or channel and sends a corresponding messageSupergroupChatCreate. Returns the newly created chat 
-public struct CreateNewSupergroupChat: Codable, TDFunction {
+public struct CreateNewSupergroupChat: Codable, Equatable, TDFunction {
 	public typealias Result = Chat
 	///  Title of the new chat; 1-255 characters 
 	public let title: String
@@ -6244,7 +6244,7 @@ public struct CreateNewSupergroupChat: Codable, TDFunction {
 }
 
 ///  Creates a new secret chat. Returns the newly created chat 
-public struct CreateNewSecretChat: Codable, TDFunction {
+public struct CreateNewSecretChat: Codable, Equatable, TDFunction {
 	public typealias Result = Chat
 	///  Identifier of the target user
 	public let userId: Int32
@@ -6257,7 +6257,7 @@ public struct CreateNewSecretChat: Codable, TDFunction {
 }
 
 ///  Creates a new supergroup from an existing basic group and sends a corresponding messageChatUpgradeTo and messageChatUpgradeFrom. Deactivates the original basic group 
-public struct UpgradeBasicGroupChatToSupergroupChat: Codable, TDFunction {
+public struct UpgradeBasicGroupChatToSupergroupChat: Codable, Equatable, TDFunction {
 	public typealias Result = Chat
 	///  Identifier of the chat to upgrade
 	public let chatId: Int53
@@ -6270,7 +6270,7 @@ public struct UpgradeBasicGroupChatToSupergroupChat: Codable, TDFunction {
 }
 
 ///  Changes the chat title. Supported only for basic groups, supergroups and channels. Requires administrator rights in basic groups and the appropriate administrator rights in supergroups and channels. The title will not be changed until the request to the server has been completed 
-public struct SetChatTitle: Codable, TDFunction {
+public struct SetChatTitle: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier 
 	public let chatId: Int53
@@ -6287,7 +6287,7 @@ public struct SetChatTitle: Codable, TDFunction {
 }
 
 ///  Changes the photo of a chat. Supported only for basic groups, supergroups and channels. Requires administrator rights in basic groups and the appropriate administrator rights in supergroups and channels. The photo will not be changed before request to the server has been completed 
-public struct SetChatPhoto: Codable, TDFunction {
+public struct SetChatPhoto: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier 
 	public let chatId: Int53
@@ -6304,7 +6304,7 @@ public struct SetChatPhoto: Codable, TDFunction {
 }
 
 ///  Changes the draft message in a chat 
-public struct SetChatDraftMessage: Codable, TDFunction {
+public struct SetChatDraftMessage: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier 
 	public let chatId: Int53
@@ -6321,7 +6321,7 @@ public struct SetChatDraftMessage: Codable, TDFunction {
 }
 
 ///  Changes the pinned state of a chat. You can pin up to GetOption("pinned_chat_count_max") non-secret chats and the same number of secret chats 
-public struct ToggleChatIsPinned: Codable, TDFunction {
+public struct ToggleChatIsPinned: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier 
 	public let chatId: Int53
@@ -6338,7 +6338,7 @@ public struct ToggleChatIsPinned: Codable, TDFunction {
 }
 
 ///  Changes client data associated with a chat 
-public struct SetChatClientData: Codable, TDFunction {
+public struct SetChatClientData: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier 
 	public let chatId: Int53
@@ -6355,7 +6355,7 @@ public struct SetChatClientData: Codable, TDFunction {
 }
 
 ///  Adds a new member to a chat. Members can't be added to private or secret chats. Members will not be added until the chat state has been synchronized with the server 
-public struct AddChatMember: Codable, TDFunction {
+public struct AddChatMember: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier 
 	public let chatId: Int53
@@ -6376,7 +6376,7 @@ public struct AddChatMember: Codable, TDFunction {
 }
 
 ///  Adds multiple new members to a chat. Currently this option is only available for supergroups and channels. This option can't be used to join a chat. Members can't be added to a channel if it has more than 200 members. Members will not be added until the chat state has been synchronized with the server 
-public struct AddChatMembers: Codable, TDFunction {
+public struct AddChatMembers: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier 
 	public let chatId: Int53
@@ -6393,7 +6393,7 @@ public struct AddChatMembers: Codable, TDFunction {
 }
 
 ///  Changes the status of a chat member, needs appropriate privileges. This function is currently not suitable for adding new members to the chat; instead, use addChatMember. The chat member status will not be changed until it has been synchronized with the server 
-public struct SetChatMemberStatus: Codable, TDFunction {
+public struct SetChatMemberStatus: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier 
 	public let chatId: Int53
@@ -6414,7 +6414,7 @@ public struct SetChatMemberStatus: Codable, TDFunction {
 }
 
 ///  Returns information about a single member of a chat 
-public struct GetChatMember: Codable, TDFunction {
+public struct GetChatMember: Codable, Equatable, TDFunction {
 	public typealias Result = ChatMember
 	///  Chat identifier 
 	public let chatId: Int53
@@ -6431,7 +6431,7 @@ public struct GetChatMember: Codable, TDFunction {
 }
 
 ///  Searches for a specified query in the first name, last name and username of the members of a specified chat. Requires administrator rights in channels 
-public struct SearchChatMembers: Codable, TDFunction {
+public struct SearchChatMembers: Codable, Equatable, TDFunction {
 	public typealias Result = ChatMembers
 	///  Chat identifier 
 	public let chatId: Int53
@@ -6452,7 +6452,7 @@ public struct SearchChatMembers: Codable, TDFunction {
 }
 
 ///  Returns a list of users who are administrators of the chat 
-public struct GetChatAdministrators: Codable, TDFunction {
+public struct GetChatAdministrators: Codable, Equatable, TDFunction {
 	public typealias Result = Users
 	///  Chat identifier
 	public let chatId: Int53
@@ -6465,7 +6465,7 @@ public struct GetChatAdministrators: Codable, TDFunction {
 }
 
 ///  Changes the order of pinned chats 
-public struct SetPinnedChats: Codable, TDFunction {
+public struct SetPinnedChats: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  The new list of pinned chats
 	public let chatIds: [Int53]
@@ -6478,7 +6478,7 @@ public struct SetPinnedChats: Codable, TDFunction {
 }
 
 ///  Asynchronously downloads a file from the cloud. updateFile will be used to notify about the download progress and successful completion of the download. Returns file state just after the download has been started 
-public struct DownloadFile: Codable, TDFunction {
+public struct DownloadFile: Codable, Equatable, TDFunction {
 	public typealias Result = File
 	///  Identifier of the file to download 
 	public let fileId: Int32
@@ -6495,7 +6495,7 @@ public struct DownloadFile: Codable, TDFunction {
 }
 
 ///  Stops the downloading of a file. If a file has already been downloaded, does nothing 
-public struct CancelDownloadFile: Codable, TDFunction {
+public struct CancelDownloadFile: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Identifier of a file to stop downloading 
 	public let fileId: Int32
@@ -6512,7 +6512,7 @@ public struct CancelDownloadFile: Codable, TDFunction {
 }
 
 ///  Asynchronously uploads a file to the cloud without sending it in a message. updateFile will be used to notify about upload progress and successful completion of the upload. The file will not have a persistent remote identifier until it will be sent in a message 
-public struct UploadFile: Codable, TDFunction {
+public struct UploadFile: Codable, Equatable, TDFunction {
 	public typealias Result = File
 	///  File to upload 
 	public let file: InputFile
@@ -6533,7 +6533,7 @@ public struct UploadFile: Codable, TDFunction {
 }
 
 ///  Stops the uploading of a file. Supported only for files uploaded by using uploadFile. For other files the behavior is undefined 
-public struct CancelUploadFile: Codable, TDFunction {
+public struct CancelUploadFile: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Identifier of the file to stop uploading
 	public let fileId: Int32
@@ -6546,7 +6546,7 @@ public struct CancelUploadFile: Codable, TDFunction {
 }
 
 ///  The next part of a file was generated 
-public struct SetFileGenerationProgress: Codable, TDFunction {
+public struct SetFileGenerationProgress: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  The identifier of the generation process 
 	public let generationId: TDInt64
@@ -6567,7 +6567,7 @@ public struct SetFileGenerationProgress: Codable, TDFunction {
 }
 
 ///  Finishes the file generation 
-public struct FinishFileGeneration: Codable, TDFunction {
+public struct FinishFileGeneration: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  The identifier of the generation process 
 	public let generationId: TDInt64
@@ -6584,7 +6584,7 @@ public struct FinishFileGeneration: Codable, TDFunction {
 }
 
 ///  Deletes a file from the TDLib file cache 
-public struct DeleteFile: Codable, TDFunction {
+public struct DeleteFile: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Identifier of the file to delete
 	public let fileId: Int32
@@ -6597,7 +6597,7 @@ public struct DeleteFile: Codable, TDFunction {
 }
 
 ///  Generates a new invite link for a chat; the previously generated link is revoked. Available for basic groups, supergroups, and channels. In basic groups this can be called only by the group's creator; in supergroups and channels this requires appropriate administrator rights 
-public struct GenerateChatInviteLink: Codable, TDFunction {
+public struct GenerateChatInviteLink: Codable, Equatable, TDFunction {
 	public typealias Result = ChatInviteLink
 	///  Chat identifier
 	public let chatId: Int53
@@ -6610,7 +6610,7 @@ public struct GenerateChatInviteLink: Codable, TDFunction {
 }
 
 ///  Checks the validity of an invite link for a chat and returns information about the corresponding chat 
-public struct CheckChatInviteLink: Codable, TDFunction {
+public struct CheckChatInviteLink: Codable, Equatable, TDFunction {
 	public typealias Result = ChatInviteLinkInfo
 	///  Invite link to be checked; should begin with "https://t.me/joinchat/", "https://telegram.me/joinchat/", or "https://telegram.dog/joinchat/"
 	public let inviteLink: String
@@ -6623,7 +6623,7 @@ public struct CheckChatInviteLink: Codable, TDFunction {
 }
 
 ///  Uses an invite link to add the current user to the chat if possible. The new member will not be added until the chat state has been synchronized with the server 
-public struct JoinChatByInviteLink: Codable, TDFunction {
+public struct JoinChatByInviteLink: Codable, Equatable, TDFunction {
 	public typealias Result = Chat
 	///  Invite link to import; should begin with "https://t.me/joinchat/", "https://telegram.me/joinchat/", or "https://telegram.dog/joinchat/"
 	public let inviteLink: String
@@ -6636,7 +6636,7 @@ public struct JoinChatByInviteLink: Codable, TDFunction {
 }
 
 ///  Creates a new call 
-public struct CreateCall: Codable, TDFunction {
+public struct CreateCall: Codable, Equatable, TDFunction {
 	public typealias Result = CallId
 	///  Identifier of the user to be called 
 	public let userId: Int32
@@ -6653,7 +6653,7 @@ public struct CreateCall: Codable, TDFunction {
 }
 
 ///  Accepts an incoming call 
-public struct AcceptCall: Codable, TDFunction {
+public struct AcceptCall: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Call identifier 
 	public let callId: Int32
@@ -6670,7 +6670,7 @@ public struct AcceptCall: Codable, TDFunction {
 }
 
 ///  Discards a call 
-public struct DiscardCall: Codable, TDFunction {
+public struct DiscardCall: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Call identifier 
 	public let callId: Int32
@@ -6695,7 +6695,7 @@ public struct DiscardCall: Codable, TDFunction {
 }
 
 ///  Sends a call rating 
-public struct SendCallRating: Codable, TDFunction {
+public struct SendCallRating: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Call identifier 
 	public let callId: Int32
@@ -6716,7 +6716,7 @@ public struct SendCallRating: Codable, TDFunction {
 }
 
 ///  Sends debug information for a call 
-public struct SendCallDebugInformation: Codable, TDFunction {
+public struct SendCallDebugInformation: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Call identifier 
 	public let callId: Int32
@@ -6733,7 +6733,7 @@ public struct SendCallDebugInformation: Codable, TDFunction {
 }
 
 ///  Adds a user to the blacklist 
-public struct BlockUser: Codable, TDFunction {
+public struct BlockUser: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  User identifier
 	public let userId: Int32
@@ -6746,7 +6746,7 @@ public struct BlockUser: Codable, TDFunction {
 }
 
 ///  Removes a user from the blacklist 
-public struct UnblockUser: Codable, TDFunction {
+public struct UnblockUser: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  User identifier
 	public let userId: Int32
@@ -6759,7 +6759,7 @@ public struct UnblockUser: Codable, TDFunction {
 }
 
 ///  Returns users that were blocked by the current user 
-public struct GetBlockedUsers: Codable, TDFunction {
+public struct GetBlockedUsers: Codable, Equatable, TDFunction {
 	public typealias Result = Users
 	///  Number of users to skip in the result; must be non-negative 
 	public let offset: Int32
@@ -6776,7 +6776,7 @@ public struct GetBlockedUsers: Codable, TDFunction {
 }
 
 ///  Adds new contacts or edits existing contacts; contacts' user identifiers are ignored 
-public struct ImportContacts: Codable, TDFunction {
+public struct ImportContacts: Codable, Equatable, TDFunction {
 	public typealias Result = ImportedContacts
 	///  The list of contacts to import or edit
 	public let contacts: [Contact]
@@ -6789,7 +6789,7 @@ public struct ImportContacts: Codable, TDFunction {
 }
 
 ///  Searches for the specified query in the first names, last names and usernames of the known user contacts 
-public struct SearchContacts: Codable, TDFunction {
+public struct SearchContacts: Codable, Equatable, TDFunction {
 	public typealias Result = Users
 	///  Query to search for; can be empty to return all contacts 
 	public let query: String
@@ -6806,7 +6806,7 @@ public struct SearchContacts: Codable, TDFunction {
 }
 
 ///  Removes users from the contacts list 
-public struct RemoveContacts: Codable, TDFunction {
+public struct RemoveContacts: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Identifiers of users to be deleted
 	public let userIds: [Int32]
@@ -6819,7 +6819,7 @@ public struct RemoveContacts: Codable, TDFunction {
 }
 
 ///  Returns the total number of imported contacts
-public struct GetImportedContactCount: Codable, TDFunction {
+public struct GetImportedContactCount: Codable, Equatable, TDFunction {
 	public typealias Result = Count
 	/// Returns the total number of imported contacts
 	public init() {
@@ -6827,7 +6827,7 @@ public struct GetImportedContactCount: Codable, TDFunction {
 }
 
 ///  Changes imported contacts using the list of current user contacts saved on the device. Imports newly added contacts and, if at least the file database is enabled, deletes recently deleted contacts. -Query result depends on the result of the previous query, so only one query is possible at the same time 
-public struct ChangeImportedContacts: Codable, TDFunction {
+public struct ChangeImportedContacts: Codable, Equatable, TDFunction {
 	public typealias Result = ImportedContacts
 	///  The new list of contacts
 	public let contacts: [Contact]
@@ -6840,7 +6840,7 @@ public struct ChangeImportedContacts: Codable, TDFunction {
 }
 
 ///  Clears all imported contacts
-public struct ClearImportedContacts: Codable, TDFunction {
+public struct ClearImportedContacts: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	/// Clears all imported contacts
 	public init() {
@@ -6848,7 +6848,7 @@ public struct ClearImportedContacts: Codable, TDFunction {
 }
 
 ///  Returns the profile photos of a user. The result of this query may be outdated: some photos might have been deleted already 
-public struct GetUserProfilePhotos: Codable, TDFunction {
+public struct GetUserProfilePhotos: Codable, Equatable, TDFunction {
 	public typealias Result = UserProfilePhotos
 	///  User identifier 
 	public let userId: Int32
@@ -6869,7 +6869,7 @@ public struct GetUserProfilePhotos: Codable, TDFunction {
 }
 
 ///  Returns stickers from the installed sticker sets that correspond to a given emoji. If the emoji is not empty, favorite and recently used stickers may also be returned 
-public struct GetStickers: Codable, TDFunction {
+public struct GetStickers: Codable, Equatable, TDFunction {
 	public typealias Result = Stickers
 	///  String representation of emoji. If empty, returns all known installed stickers 
 	public let emoji: String
@@ -6886,7 +6886,7 @@ public struct GetStickers: Codable, TDFunction {
 }
 
 ///  Searches for stickers from public sticker sets that correspond to a given emoji 
-public struct SearchStickers: Codable, TDFunction {
+public struct SearchStickers: Codable, Equatable, TDFunction {
 	public typealias Result = Stickers
 	///  String representation of emoji; must be non-empty 
 	public let emoji: String
@@ -6903,7 +6903,7 @@ public struct SearchStickers: Codable, TDFunction {
 }
 
 ///  Returns a list of installed sticker sets 
-public struct GetInstalledStickerSets: Codable, TDFunction {
+public struct GetInstalledStickerSets: Codable, Equatable, TDFunction {
 	public typealias Result = StickerSets
 	///  Pass true to return mask sticker sets; pass false to return ordinary sticker sets
 	public let isMasks: Bool
@@ -6916,7 +6916,7 @@ public struct GetInstalledStickerSets: Codable, TDFunction {
 }
 
 ///  Returns a list of archived sticker sets 
-public struct GetArchivedStickerSets: Codable, TDFunction {
+public struct GetArchivedStickerSets: Codable, Equatable, TDFunction {
 	public typealias Result = StickerSets
 	///  Pass true to return mask stickers sets; pass false to return ordinary sticker sets 
 	public let isMasks: Bool
@@ -6937,7 +6937,7 @@ public struct GetArchivedStickerSets: Codable, TDFunction {
 }
 
 ///  Returns a list of trending sticker sets
-public struct GetTrendingStickerSets: Codable, TDFunction {
+public struct GetTrendingStickerSets: Codable, Equatable, TDFunction {
 	public typealias Result = StickerSets
 	/// Returns a list of trending sticker sets
 	public init() {
@@ -6945,7 +6945,7 @@ public struct GetTrendingStickerSets: Codable, TDFunction {
 }
 
 ///  Returns a list of sticker sets attached to a file. Currently only photos and videos can have attached sticker sets 
-public struct GetAttachedStickerSets: Codable, TDFunction {
+public struct GetAttachedStickerSets: Codable, Equatable, TDFunction {
 	public typealias Result = StickerSets
 	///  File identifier
 	public let fileId: Int32
@@ -6958,7 +6958,7 @@ public struct GetAttachedStickerSets: Codable, TDFunction {
 }
 
 ///  Returns information about a sticker set by its identifier 
-public struct GetStickerSet: Codable, TDFunction {
+public struct GetStickerSet: Codable, Equatable, TDFunction {
 	public typealias Result = StickerSet
 	///  Identifier of the sticker set
 	public let setId: TDInt64
@@ -6971,7 +6971,7 @@ public struct GetStickerSet: Codable, TDFunction {
 }
 
 ///  Searches for a sticker set by its name 
-public struct SearchStickerSet: Codable, TDFunction {
+public struct SearchStickerSet: Codable, Equatable, TDFunction {
 	public typealias Result = StickerSet
 	///  Name of the sticker set
 	public let name: String
@@ -6984,7 +6984,7 @@ public struct SearchStickerSet: Codable, TDFunction {
 }
 
 ///  Searches for installed sticker sets by looking for specified query in their title and name 
-public struct SearchInstalledStickerSets: Codable, TDFunction {
+public struct SearchInstalledStickerSets: Codable, Equatable, TDFunction {
 	public typealias Result = StickerSets
 	///  Pass true to return mask sticker sets; pass false to return ordinary sticker sets 
 	public let isMasks: Bool
@@ -7005,7 +7005,7 @@ public struct SearchInstalledStickerSets: Codable, TDFunction {
 }
 
 ///  Searches for ordinary sticker sets by looking for specified query in their title and name. Excludes installed sticker sets from the results 
-public struct SearchStickerSets: Codable, TDFunction {
+public struct SearchStickerSets: Codable, Equatable, TDFunction {
 	public typealias Result = StickerSets
 	///  Query to search for
 	public let query: String
@@ -7018,7 +7018,7 @@ public struct SearchStickerSets: Codable, TDFunction {
 }
 
 ///  Installs/uninstalls or activates/archives a sticker set 
-public struct ChangeStickerSet: Codable, TDFunction {
+public struct ChangeStickerSet: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Identifier of the sticker set 
 	public let setId: TDInt64
@@ -7039,7 +7039,7 @@ public struct ChangeStickerSet: Codable, TDFunction {
 }
 
 ///  Informs the server that some trending sticker sets have been viewed by the user 
-public struct ViewTrendingStickerSets: Codable, TDFunction {
+public struct ViewTrendingStickerSets: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Identifiers of viewed trending sticker sets
 	public let stickerSetIds: [Int64]
@@ -7052,7 +7052,7 @@ public struct ViewTrendingStickerSets: Codable, TDFunction {
 }
 
 ///  Changes the order of installed sticker sets 
-public struct ReorderInstalledStickerSets: Codable, TDFunction {
+public struct ReorderInstalledStickerSets: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Pass true to change the order of mask sticker sets; pass false to change the order of ordinary sticker sets 
 	public let isMasks: Bool
@@ -7069,7 +7069,7 @@ public struct ReorderInstalledStickerSets: Codable, TDFunction {
 }
 
 ///  Returns a list of recently used stickers 
-public struct GetRecentStickers: Codable, TDFunction {
+public struct GetRecentStickers: Codable, Equatable, TDFunction {
 	public typealias Result = Stickers
 	///  Pass true to return stickers and masks that were recently attached to photos or video files; pass false to return recently sent stickers
 	public let isAttached: Bool
@@ -7082,7 +7082,7 @@ public struct GetRecentStickers: Codable, TDFunction {
 }
 
 ///  Manually adds a new sticker to the list of recently used stickers. The new sticker is added to the top of the list. If the sticker was already in the list, it is removed from the list first. Only stickers belonging to a sticker set can be added to this list 
-public struct AddRecentSticker: Codable, TDFunction {
+public struct AddRecentSticker: Codable, Equatable, TDFunction {
 	public typealias Result = Stickers
 	///  Pass true to add the sticker to the list of stickers recently attached to photo or video files; pass false to add the sticker to the list of recently sent stickers 
 	public let isAttached: Bool
@@ -7099,7 +7099,7 @@ public struct AddRecentSticker: Codable, TDFunction {
 }
 
 ///  Removes a sticker from the list of recently used stickers 
-public struct RemoveRecentSticker: Codable, TDFunction {
+public struct RemoveRecentSticker: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Pass true to remove the sticker from the list of stickers recently attached to photo or video files; pass false to remove the sticker from the list of recently sent stickers 
 	public let isAttached: Bool
@@ -7116,7 +7116,7 @@ public struct RemoveRecentSticker: Codable, TDFunction {
 }
 
 ///  Clears the list of recently used stickers 
-public struct ClearRecentStickers: Codable, TDFunction {
+public struct ClearRecentStickers: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Pass true to clear the list of stickers recently attached to photo or video files; pass false to clear the list of recently sent stickers
 	public let isAttached: Bool
@@ -7129,7 +7129,7 @@ public struct ClearRecentStickers: Codable, TDFunction {
 }
 
 ///  Returns favorite stickers
-public struct GetFavoriteStickers: Codable, TDFunction {
+public struct GetFavoriteStickers: Codable, Equatable, TDFunction {
 	public typealias Result = Stickers
 	/// Returns favorite stickers
 	public init() {
@@ -7137,7 +7137,7 @@ public struct GetFavoriteStickers: Codable, TDFunction {
 }
 
 ///  Adds a new sticker to the list of favorite stickers. The new sticker is added to the top of the list. If the sticker was already in the list, it is removed from the list first. Only stickers belonging to a sticker set can be added to this list 
-public struct AddFavoriteSticker: Codable, TDFunction {
+public struct AddFavoriteSticker: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Sticker file to add
 	public let sticker: InputFile
@@ -7150,7 +7150,7 @@ public struct AddFavoriteSticker: Codable, TDFunction {
 }
 
 ///  Removes a sticker from the list of favorite stickers 
-public struct RemoveFavoriteSticker: Codable, TDFunction {
+public struct RemoveFavoriteSticker: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Sticker file to delete from the list
 	public let sticker: InputFile
@@ -7163,7 +7163,7 @@ public struct RemoveFavoriteSticker: Codable, TDFunction {
 }
 
 ///  Returns emoji corresponding to a sticker 
-public struct GetStickerEmojis: Codable, TDFunction {
+public struct GetStickerEmojis: Codable, Equatable, TDFunction {
 	public typealias Result = StickerEmojis
 	///  Sticker file identifier
 	public let sticker: InputFile
@@ -7176,7 +7176,7 @@ public struct GetStickerEmojis: Codable, TDFunction {
 }
 
 ///  Returns saved animations
-public struct GetSavedAnimations: Codable, TDFunction {
+public struct GetSavedAnimations: Codable, Equatable, TDFunction {
 	public typealias Result = Animations
 	/// Returns saved animations
 	public init() {
@@ -7184,7 +7184,7 @@ public struct GetSavedAnimations: Codable, TDFunction {
 }
 
 ///  Manually adds a new animation to the list of saved animations. The new animation is added to the beginning of the list. If the animation was already in the list, it is removed first. Only non-secret video animations with MIME type "video/mp4" can be added to the list 
-public struct AddSavedAnimation: Codable, TDFunction {
+public struct AddSavedAnimation: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  The animation file to be added. Only animations known to the server (i.e. successfully sent via a message) can be added to the list
 	public let animation: InputFile
@@ -7197,7 +7197,7 @@ public struct AddSavedAnimation: Codable, TDFunction {
 }
 
 ///  Removes an animation from the list of saved animations 
-public struct RemoveSavedAnimation: Codable, TDFunction {
+public struct RemoveSavedAnimation: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Animation file to be removed
 	public let animation: InputFile
@@ -7210,7 +7210,7 @@ public struct RemoveSavedAnimation: Codable, TDFunction {
 }
 
 ///  Returns up to 20 recently used inline bots in the order of their last usage
-public struct GetRecentInlineBots: Codable, TDFunction {
+public struct GetRecentInlineBots: Codable, Equatable, TDFunction {
 	public typealias Result = Users
 	/// Returns up to 20 recently used inline bots in the order of their last usage
 	public init() {
@@ -7218,7 +7218,7 @@ public struct GetRecentInlineBots: Codable, TDFunction {
 }
 
 ///  Searches for recently used hashtags by their prefix 
-public struct SearchHashtags: Codable, TDFunction {
+public struct SearchHashtags: Codable, Equatable, TDFunction {
 	public typealias Result = Hashtags
 	///  Hashtag prefix to search for 
 	public let prefix: String
@@ -7235,7 +7235,7 @@ public struct SearchHashtags: Codable, TDFunction {
 }
 
 ///  Removes a hashtag from the list of recently used hashtags 
-public struct RemoveRecentHashtag: Codable, TDFunction {
+public struct RemoveRecentHashtag: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Hashtag to delete
 	public let hashtag: String
@@ -7248,7 +7248,7 @@ public struct RemoveRecentHashtag: Codable, TDFunction {
 }
 
 ///  Returns a web page preview by the text of the message. Do not call this function too often. Returns a 404 error if the web page has no preview 
-public struct GetWebPagePreview: Codable, TDFunction {
+public struct GetWebPagePreview: Codable, Equatable, TDFunction {
 	public typealias Result = WebPage
 	///  Message text with formatting
 	public let text: FormattedText
@@ -7261,7 +7261,7 @@ public struct GetWebPagePreview: Codable, TDFunction {
 }
 
 ///  Returns an instant view version of a web page if available. Returns a 404 error if the web page has no instant view page 
-public struct GetWebPageInstantView: Codable, TDFunction {
+public struct GetWebPageInstantView: Codable, Equatable, TDFunction {
 	public typealias Result = WebPageInstantView
 	///  The web page URL 
 	public let url: String
@@ -7278,7 +7278,7 @@ public struct GetWebPageInstantView: Codable, TDFunction {
 }
 
 ///  Returns the notification settings for a given scope 
-public struct GetNotificationSettings: Codable, TDFunction {
+public struct GetNotificationSettings: Codable, Equatable, TDFunction {
 	public typealias Result = NotificationSettings
 	///  Scope for which to return the notification settings information
 	public let scope: NotificationSettingsScope
@@ -7291,7 +7291,7 @@ public struct GetNotificationSettings: Codable, TDFunction {
 }
 
 ///  Changes notification settings for a given scope 
-public struct SetNotificationSettings: Codable, TDFunction {
+public struct SetNotificationSettings: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Scope for which to change the notification settings 
 	public let scope: NotificationSettingsScope
@@ -7308,7 +7308,7 @@ public struct SetNotificationSettings: Codable, TDFunction {
 }
 
 ///  Resets all notification settings to their default values. By default, the only muted chats are supergroups, the sound is set to "default" and message previews are shown
-public struct ResetAllNotificationSettings: Codable, TDFunction {
+public struct ResetAllNotificationSettings: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	/// Resets all notification settings to their default values. By default, the only muted chats are supergroups, the sound is set to "default" and message previews are shown
 	public init() {
@@ -7316,7 +7316,7 @@ public struct ResetAllNotificationSettings: Codable, TDFunction {
 }
 
 ///  Uploads a new profile photo for the current user. If something changes, updateUser will be sent 
-public struct SetProfilePhoto: Codable, TDFunction {
+public struct SetProfilePhoto: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Profile photo to set. inputFileId and inputFileRemote may still be unsupported
 	public let photo: InputFile
@@ -7329,7 +7329,7 @@ public struct SetProfilePhoto: Codable, TDFunction {
 }
 
 ///  Deletes a profile photo. If something changes, updateUser will be sent 
-public struct DeleteProfilePhoto: Codable, TDFunction {
+public struct DeleteProfilePhoto: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Identifier of the profile photo to delete
 	public let profilePhotoId: TDInt64
@@ -7342,7 +7342,7 @@ public struct DeleteProfilePhoto: Codable, TDFunction {
 }
 
 ///  Changes the first and last name of the current user. If something changes, updateUser will be sent 
-public struct SetName: Codable, TDFunction {
+public struct SetName: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  The new value of the first name for the user; 1-255 characters 
 	public let firstName: String
@@ -7359,7 +7359,7 @@ public struct SetName: Codable, TDFunction {
 }
 
 ///  Changes the bio of the current user 
-public struct SetBio: Codable, TDFunction {
+public struct SetBio: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  The new value of the user bio; 0-70 characters without line feeds
 	public let bio: String
@@ -7372,7 +7372,7 @@ public struct SetBio: Codable, TDFunction {
 }
 
 ///  Changes the username of the current user. If something changes, updateUser will be sent 
-public struct SetUsername: Codable, TDFunction {
+public struct SetUsername: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  The new value of the username. Use an empty string to remove the username
 	public let username: String
@@ -7385,7 +7385,7 @@ public struct SetUsername: Codable, TDFunction {
 }
 
 ///  Changes the phone number of the user and sends an authentication code to the user's new phone number. On success, returns information about the sent code 
-public struct ChangePhoneNumber: Codable, TDFunction {
+public struct ChangePhoneNumber: Codable, Equatable, TDFunction {
 	public typealias Result = AuthenticationCodeInfo
 	///  The new phone number of the user in international format 
 	public let phoneNumber: String
@@ -7406,7 +7406,7 @@ public struct ChangePhoneNumber: Codable, TDFunction {
 }
 
 ///  Re-sends the authentication code sent to confirm a new phone number for the user. Works only if the previously received authenticationCodeInfo next_code_type was not null
-public struct ResendChangePhoneNumberCode: Codable, TDFunction {
+public struct ResendChangePhoneNumberCode: Codable, Equatable, TDFunction {
 	public typealias Result = AuthenticationCodeInfo
 	/// Re-sends the authentication code sent to confirm a new phone number for the user. Works only if the previously received authenticationCodeInfo next_code_type was not null
 	public init() {
@@ -7414,7 +7414,7 @@ public struct ResendChangePhoneNumberCode: Codable, TDFunction {
 }
 
 ///  Checks the authentication code sent to confirm a new phone number of the user 
-public struct CheckChangePhoneNumberCode: Codable, TDFunction {
+public struct CheckChangePhoneNumberCode: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Verification code received by SMS, phone call or flash call
 	public let code: String
@@ -7427,7 +7427,7 @@ public struct CheckChangePhoneNumberCode: Codable, TDFunction {
 }
 
 ///  Returns all active sessions of the current user
-public struct GetActiveSessions: Codable, TDFunction {
+public struct GetActiveSessions: Codable, Equatable, TDFunction {
 	public typealias Result = Sessions
 	/// Returns all active sessions of the current user
 	public init() {
@@ -7435,7 +7435,7 @@ public struct GetActiveSessions: Codable, TDFunction {
 }
 
 ///  Terminates a session of the current user 
-public struct TerminateSession: Codable, TDFunction {
+public struct TerminateSession: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Session identifier
 	public let sessionId: TDInt64
@@ -7448,7 +7448,7 @@ public struct TerminateSession: Codable, TDFunction {
 }
 
 ///  Terminates all other sessions of the current user
-public struct TerminateAllOtherSessions: Codable, TDFunction {
+public struct TerminateAllOtherSessions: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	/// Terminates all other sessions of the current user
 	public init() {
@@ -7456,7 +7456,7 @@ public struct TerminateAllOtherSessions: Codable, TDFunction {
 }
 
 ///  Returns all website where the current user used Telegram to log in
-public struct GetConnectedWebsites: Codable, TDFunction {
+public struct GetConnectedWebsites: Codable, Equatable, TDFunction {
 	public typealias Result = ConnectedWebsites
 	/// Returns all website where the current user used Telegram to log in
 	public init() {
@@ -7464,7 +7464,7 @@ public struct GetConnectedWebsites: Codable, TDFunction {
 }
 
 ///  Disconnects website from the current user's Telegram account 
-public struct DisconnectWebsite: Codable, TDFunction {
+public struct DisconnectWebsite: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Website identifier
 	public let websiteId: TDInt64
@@ -7477,7 +7477,7 @@ public struct DisconnectWebsite: Codable, TDFunction {
 }
 
 ///  Disconnects all websites from the current user's Telegram account
-public struct DisconnectAllWebsites: Codable, TDFunction {
+public struct DisconnectAllWebsites: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	/// Disconnects all websites from the current user's Telegram account
 	public init() {
@@ -7485,7 +7485,7 @@ public struct DisconnectAllWebsites: Codable, TDFunction {
 }
 
 ///  Toggles the "All members are admins" setting in basic groups; requires creator privileges in the group 
-public struct ToggleBasicGroupAdministrators: Codable, TDFunction {
+public struct ToggleBasicGroupAdministrators: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Identifier of the basic group 
 	public let basicGroupId: Int32
@@ -7502,7 +7502,7 @@ public struct ToggleBasicGroupAdministrators: Codable, TDFunction {
 }
 
 ///  Changes the username of a supergroup or channel, requires creator privileges in the supergroup or channel 
-public struct SetSupergroupUsername: Codable, TDFunction {
+public struct SetSupergroupUsername: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Identifier of the supergroup or channel 
 	public let supergroupId: Int32
@@ -7519,7 +7519,7 @@ public struct SetSupergroupUsername: Codable, TDFunction {
 }
 
 ///  Changes the sticker set of a supergroup; requires appropriate rights in the supergroup 
-public struct SetSupergroupStickerSet: Codable, TDFunction {
+public struct SetSupergroupStickerSet: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Identifier of the supergroup 
 	public let supergroupId: Int32
@@ -7536,7 +7536,7 @@ public struct SetSupergroupStickerSet: Codable, TDFunction {
 }
 
 ///  Toggles whether all members of a supergroup can add new members; requires appropriate administrator rights in the supergroup. 
-public struct ToggleSupergroupInvites: Codable, TDFunction {
+public struct ToggleSupergroupInvites: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Identifier of the supergroup 
 	public let supergroupId: Int32
@@ -7553,7 +7553,7 @@ public struct ToggleSupergroupInvites: Codable, TDFunction {
 }
 
 ///  Toggles sender signatures messages sent in a channel; requires appropriate administrator rights in the channel. 
-public struct ToggleSupergroupSignMessages: Codable, TDFunction {
+public struct ToggleSupergroupSignMessages: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Identifier of the channel 
 	public let supergroupId: Int32
@@ -7570,7 +7570,7 @@ public struct ToggleSupergroupSignMessages: Codable, TDFunction {
 }
 
 ///  Toggles whether the message history of a supergroup is available to new members; requires appropriate administrator rights in the supergroup. 
-public struct ToggleSupergroupIsAllHistoryAvailable: Codable, TDFunction {
+public struct ToggleSupergroupIsAllHistoryAvailable: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  The identifier of the supergroup 
 	public let supergroupId: Int32
@@ -7587,7 +7587,7 @@ public struct ToggleSupergroupIsAllHistoryAvailable: Codable, TDFunction {
 }
 
 ///  Changes information about a supergroup or channel; requires appropriate administrator rights 
-public struct SetSupergroupDescription: Codable, TDFunction {
+public struct SetSupergroupDescription: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Identifier of the supergroup or channel 
 	public let supergroupId: Int32
@@ -7604,7 +7604,7 @@ public struct SetSupergroupDescription: Codable, TDFunction {
 }
 
 ///  Pins a message in a supergroup or channel; requires appropriate administrator rights in the supergroup or channel 
-public struct PinSupergroupMessage: Codable, TDFunction {
+public struct PinSupergroupMessage: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Identifier of the supergroup or channel 
 	public let supergroupId: Int32
@@ -7625,7 +7625,7 @@ public struct PinSupergroupMessage: Codable, TDFunction {
 }
 
 ///  Removes the pinned message from a supergroup or channel; requires appropriate administrator rights in the supergroup or channel 
-public struct UnpinSupergroupMessage: Codable, TDFunction {
+public struct UnpinSupergroupMessage: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Identifier of the supergroup or channel
 	public let supergroupId: Int32
@@ -7638,7 +7638,7 @@ public struct UnpinSupergroupMessage: Codable, TDFunction {
 }
 
 ///  Reports some messages from a user in a supergroup as spam 
-public struct ReportSupergroupSpam: Codable, TDFunction {
+public struct ReportSupergroupSpam: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Supergroup identifier 
 	public let supergroupId: Int32
@@ -7659,7 +7659,7 @@ public struct ReportSupergroupSpam: Codable, TDFunction {
 }
 
 ///  Returns information about members or banned users in a supergroup or channel. Can be used only if SupergroupFullInfo.can_get_members == true; additionally, administrator privileges may be required for some filters 
-public struct GetSupergroupMembers: Codable, TDFunction {
+public struct GetSupergroupMembers: Codable, Equatable, TDFunction {
 	public typealias Result = ChatMembers
 	///  Identifier of the supergroup or channel 
 	public let supergroupId: Int32
@@ -7684,7 +7684,7 @@ public struct GetSupergroupMembers: Codable, TDFunction {
 }
 
 ///  Deletes a supergroup or channel along with all messages in the corresponding chat. This will release the supergroup or channel username and remove all members; requires creator privileges in the supergroup or channel. Chats with more than 1000 members can't be deleted using this method 
-public struct DeleteSupergroup: Codable, TDFunction {
+public struct DeleteSupergroup: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Identifier of the supergroup or channel
 	public let supergroupId: Int32
@@ -7697,7 +7697,7 @@ public struct DeleteSupergroup: Codable, TDFunction {
 }
 
 ///  Closes a secret chat, effectively transfering its state to secretChatStateClosed 
-public struct CloseSecretChat: Codable, TDFunction {
+public struct CloseSecretChat: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Secret chat identifier
 	public let secretChatId: Int32
@@ -7710,7 +7710,7 @@ public struct CloseSecretChat: Codable, TDFunction {
 }
 
 ///  Returns a list of service actions taken by chat members and administrators in the last 48 hours. Available only in supergroups and channels. Requires administrator rights. Returns results in reverse chronological order (i. e., in order of decreasing event_id) 
-public struct GetChatEventLog: Codable, TDFunction {
+public struct GetChatEventLog: Codable, Equatable, TDFunction {
 	public typealias Result = ChatEvents
 	///  Chat identifier 
 	public let chatId: Int53
@@ -7743,7 +7743,7 @@ public struct GetChatEventLog: Codable, TDFunction {
 }
 
 ///  Returns an invoice payment form. This method should be called when the user presses inlineKeyboardButtonBuy 
-public struct GetPaymentForm: Codable, TDFunction {
+public struct GetPaymentForm: Codable, Equatable, TDFunction {
 	public typealias Result = PaymentForm
 	///  Chat identifier of the Invoice message 
 	public let chatId: Int53
@@ -7760,7 +7760,7 @@ public struct GetPaymentForm: Codable, TDFunction {
 }
 
 ///  Validates the order information provided by a user and returns the available shipping options for a flexible invoice 
-public struct ValidateOrderInfo: Codable, TDFunction {
+public struct ValidateOrderInfo: Codable, Equatable, TDFunction {
 	public typealias Result = ValidatedOrderInfo
 	///  Chat identifier of the Invoice message 
 	public let chatId: Int53
@@ -7785,7 +7785,7 @@ public struct ValidateOrderInfo: Codable, TDFunction {
 }
 
 ///  Sends a filled-out payment form to the bot for final verification 
-public struct SendPaymentForm: Codable, TDFunction {
+public struct SendPaymentForm: Codable, Equatable, TDFunction {
 	public typealias Result = PaymentResult
 	///  Chat identifier of the Invoice message 
 	public let chatId: Int53
@@ -7814,7 +7814,7 @@ public struct SendPaymentForm: Codable, TDFunction {
 }
 
 ///  Returns information about a successful payment 
-public struct GetPaymentReceipt: Codable, TDFunction {
+public struct GetPaymentReceipt: Codable, Equatable, TDFunction {
 	public typealias Result = PaymentReceipt
 	///  Chat identifier of the PaymentSuccessful message 
 	public let chatId: Int53
@@ -7831,7 +7831,7 @@ public struct GetPaymentReceipt: Codable, TDFunction {
 }
 
 ///  Returns saved order info, if any
-public struct GetSavedOrderInfo: Codable, TDFunction {
+public struct GetSavedOrderInfo: Codable, Equatable, TDFunction {
 	public typealias Result = OrderInfo
 	/// Returns saved order info, if any
 	public init() {
@@ -7839,7 +7839,7 @@ public struct GetSavedOrderInfo: Codable, TDFunction {
 }
 
 ///  Deletes saved order info
-public struct DeleteSavedOrderInfo: Codable, TDFunction {
+public struct DeleteSavedOrderInfo: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	/// Deletes saved order info
 	public init() {
@@ -7847,7 +7847,7 @@ public struct DeleteSavedOrderInfo: Codable, TDFunction {
 }
 
 ///  Deletes saved credentials for all payment provider bots
-public struct DeleteSavedCredentials: Codable, TDFunction {
+public struct DeleteSavedCredentials: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	/// Deletes saved credentials for all payment provider bots
 	public init() {
@@ -7855,7 +7855,7 @@ public struct DeleteSavedCredentials: Codable, TDFunction {
 }
 
 ///  Returns a user that can be contacted to get support
-public struct GetSupportUser: Codable, TDFunction {
+public struct GetSupportUser: Codable, Equatable, TDFunction {
 	public typealias Result = User
 	/// Returns a user that can be contacted to get support
 	public init() {
@@ -7863,7 +7863,7 @@ public struct GetSupportUser: Codable, TDFunction {
 }
 
 ///  Returns background wallpapers
-public struct GetWallpapers: Codable, TDFunction {
+public struct GetWallpapers: Codable, Equatable, TDFunction {
 	public typealias Result = Wallpapers
 	/// Returns background wallpapers
 	public init() {
@@ -7871,7 +7871,7 @@ public struct GetWallpapers: Codable, TDFunction {
 }
 
 ///  Registers the currently used device for receiving push notifications 
-public struct RegisterDevice: Codable, TDFunction {
+public struct RegisterDevice: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Device token 
 	public let deviceToken: DeviceToken
@@ -7888,7 +7888,7 @@ public struct RegisterDevice: Codable, TDFunction {
 }
 
 ///  Returns t.me URLs recently visited by a newly registered user 
-public struct GetRecentlyVisitedTMeUrls: Codable, TDFunction {
+public struct GetRecentlyVisitedTMeUrls: Codable, Equatable, TDFunction {
 	public typealias Result = TMeUrls
 	///  Google Play referrer to identify the user
 	public let referrer: String
@@ -7901,7 +7901,7 @@ public struct GetRecentlyVisitedTMeUrls: Codable, TDFunction {
 }
 
 ///  Changes user privacy settings 
-public struct SetUserPrivacySettingRules: Codable, TDFunction {
+public struct SetUserPrivacySettingRules: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  The privacy setting 
 	public let setting: UserPrivacySetting
@@ -7918,7 +7918,7 @@ public struct SetUserPrivacySettingRules: Codable, TDFunction {
 }
 
 ///  Returns the current privacy settings 
-public struct GetUserPrivacySettingRules: Codable, TDFunction {
+public struct GetUserPrivacySettingRules: Codable, Equatable, TDFunction {
 	public typealias Result = UserPrivacySettingRules
 	///  The privacy setting
 	public let setting: UserPrivacySetting
@@ -7931,7 +7931,7 @@ public struct GetUserPrivacySettingRules: Codable, TDFunction {
 }
 
 ///  Returns the value of an option by its name. (Check the list of available options on https://core.telegram.org/tdlib/options.) Can be called before authorization 
-public struct GetOption: Codable, TDFunction {
+public struct GetOption: Codable, Equatable, TDFunction {
 	public typealias Result = OptionValue
 	///  The name of the option
 	public let name: String
@@ -7944,7 +7944,7 @@ public struct GetOption: Codable, TDFunction {
 }
 
 ///  Sets the value of an option. (Check the list of available options on https://core.telegram.org/tdlib/options.) Only writable options can be set. Can be called before authorization 
-public struct SetOption: Codable, TDFunction {
+public struct SetOption: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  The name of the option 
 	public let name: String
@@ -7961,7 +7961,7 @@ public struct SetOption: Codable, TDFunction {
 }
 
 ///  Changes the period of inactivity after which the account of the current user will automatically be deleted 
-public struct SetAccountTtl: Codable, TDFunction {
+public struct SetAccountTtl: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  New account TTL
 	public let ttl: AccountTtl
@@ -7974,7 +7974,7 @@ public struct SetAccountTtl: Codable, TDFunction {
 }
 
 ///  Returns the period of inactivity after which the account of the current user will automatically be deleted
-public struct GetAccountTtl: Codable, TDFunction {
+public struct GetAccountTtl: Codable, Equatable, TDFunction {
 	public typealias Result = AccountTtl
 	/// Returns the period of inactivity after which the account of the current user will automatically be deleted
 	public init() {
@@ -7982,7 +7982,7 @@ public struct GetAccountTtl: Codable, TDFunction {
 }
 
 ///  Deletes the account of the current user, deleting all information associated with the user from the server. The phone number of the account can be used to create a new account 
-public struct DeleteAccount: Codable, TDFunction {
+public struct DeleteAccount: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  The reason why the account was deleted; optional
 	public let reason: String
@@ -7995,7 +7995,7 @@ public struct DeleteAccount: Codable, TDFunction {
 }
 
 ///  Returns information on whether the current chat can be reported as spam 
-public struct GetChatReportSpamState: Codable, TDFunction {
+public struct GetChatReportSpamState: Codable, Equatable, TDFunction {
 	public typealias Result = ChatReportSpamState
 	///  Chat identifier
 	public let chatId: Int53
@@ -8008,7 +8008,7 @@ public struct GetChatReportSpamState: Codable, TDFunction {
 }
 
 ///  Used to let the server know whether a chat is spam or not. Can be used only if ChatReportSpamState.can_report_spam is true. After this request, ChatReportSpamState.can_report_spam becomes false forever 
-public struct ChangeChatReportSpamState: Codable, TDFunction {
+public struct ChangeChatReportSpamState: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier 
 	public let chatId: Int53
@@ -8025,7 +8025,7 @@ public struct ChangeChatReportSpamState: Codable, TDFunction {
 }
 
 ///  Reports a chat to the Telegram moderators. Supported only for supergroups, channels, or private chats with bots, since other chats can't be checked by moderators 
-public struct ReportChat: Codable, TDFunction {
+public struct ReportChat: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier 
 	public let chatId: Int53
@@ -8046,7 +8046,7 @@ public struct ReportChat: Codable, TDFunction {
 }
 
 ///  Returns storage usage statistics 
-public struct GetStorageStatistics: Codable, TDFunction {
+public struct GetStorageStatistics: Codable, Equatable, TDFunction {
 	public typealias Result = StorageStatistics
 	///  Maximum number of chats with the largest storage usage for which separate statistics should be returned. All other chats will be grouped in entries with chat_id == 0. If the chat info database is not used, the chat_limit is ignored and is always set to 0
 	public let chatLimit: Int32
@@ -8059,7 +8059,7 @@ public struct GetStorageStatistics: Codable, TDFunction {
 }
 
 ///  Quickly returns approximate storage usage statistics
-public struct GetStorageStatisticsFast: Codable, TDFunction {
+public struct GetStorageStatisticsFast: Codable, Equatable, TDFunction {
 	public typealias Result = StorageStatisticsFast
 	/// Quickly returns approximate storage usage statistics
 	public init() {
@@ -8067,7 +8067,7 @@ public struct GetStorageStatisticsFast: Codable, TDFunction {
 }
 
 ///  Optimizes storage usage, i.e. deletes some files and returns new storage usage statistics. Secret thumbnails can't be deleted 
-public struct OptimizeStorage: Codable, TDFunction {
+public struct OptimizeStorage: Codable, Equatable, TDFunction {
 	public typealias Result = StorageStatistics
 	///  Limit on the total size of files after deletion. Pass -1 to use the default limit 
 	public let size: Int53
@@ -8108,7 +8108,7 @@ public struct OptimizeStorage: Codable, TDFunction {
 }
 
 ///  Sets the current network type. Can be called before authorization. Calling this method forces all network connections to reopen, mitigating the delay in switching between different networks, so it should be called whenever the network is changed, even if the network type remains the same. -Network type is used to check whether the library can use the network at all and also for collecting detailed network data usage statistics 
-public struct SetNetworkType: Codable, TDFunction {
+public struct SetNetworkType: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  The new network type. By default, networkTypeOther
 	public let type: NetworkType
@@ -8121,7 +8121,7 @@ public struct SetNetworkType: Codable, TDFunction {
 }
 
 ///  Returns network data usage statistics. Can be called before authorization 
-public struct GetNetworkStatistics: Codable, TDFunction {
+public struct GetNetworkStatistics: Codable, Equatable, TDFunction {
 	public typealias Result = NetworkStatistics
 	///  If true, returns only data for the current library launch
 	public let onlyCurrent: Bool
@@ -8134,7 +8134,7 @@ public struct GetNetworkStatistics: Codable, TDFunction {
 }
 
 ///  Adds the specified data to data usage statistics. Can be called before authorization 
-public struct AddNetworkStatistics: Codable, TDFunction {
+public struct AddNetworkStatistics: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  The network statistics entry with the data to be added to statistics
 	public let entry: NetworkStatisticsEntry
@@ -8147,7 +8147,7 @@ public struct AddNetworkStatistics: Codable, TDFunction {
 }
 
 ///  Resets all network data usage statistics to zero. Can be called before authorization
-public struct ResetNetworkStatistics: Codable, TDFunction {
+public struct ResetNetworkStatistics: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	/// Resets all network data usage statistics to zero. Can be called before authorization
 	public init() {
@@ -8155,7 +8155,7 @@ public struct ResetNetworkStatistics: Codable, TDFunction {
 }
 
 ///  Informs the server about the number of pending bot updates if they haven't been processed for a long time; for bots only 
-public struct SetBotUpdatesStatus: Codable, TDFunction {
+public struct SetBotUpdatesStatus: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  The number of pending updates 
 	public let pendingUpdateCount: Int32
@@ -8172,7 +8172,7 @@ public struct SetBotUpdatesStatus: Codable, TDFunction {
 }
 
 ///  Uploads a PNG image with a sticker; for bots only; returns the uploaded file 
-public struct UploadStickerFile: Codable, TDFunction {
+public struct UploadStickerFile: Codable, Equatable, TDFunction {
 	public typealias Result = File
 	///  Sticker file owner 
 	public let userId: Int32
@@ -8189,7 +8189,7 @@ public struct UploadStickerFile: Codable, TDFunction {
 }
 
 ///  Creates a new sticker set; for bots only. Returns the newly created sticker set 
-public struct CreateNewStickerSet: Codable, TDFunction {
+public struct CreateNewStickerSet: Codable, Equatable, TDFunction {
 	public typealias Result = StickerSet
 	///  Sticker set owner 
 	public let userId: Int32
@@ -8218,7 +8218,7 @@ public struct CreateNewStickerSet: Codable, TDFunction {
 }
 
 ///  Adds a new sticker to a set; for bots only. Returns the sticker set 
-public struct AddStickerToSet: Codable, TDFunction {
+public struct AddStickerToSet: Codable, Equatable, TDFunction {
 	public typealias Result = StickerSet
 	///  Sticker set owner 
 	public let userId: Int32
@@ -8239,7 +8239,7 @@ public struct AddStickerToSet: Codable, TDFunction {
 }
 
 ///  Changes the position of a sticker in the set to which it belongs; for bots only. The sticker set must have been created by the bot 
-public struct SetStickerPositionInSet: Codable, TDFunction {
+public struct SetStickerPositionInSet: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Sticker 
 	public let sticker: InputFile
@@ -8256,7 +8256,7 @@ public struct SetStickerPositionInSet: Codable, TDFunction {
 }
 
 ///  Removes a sticker from the set to which it belongs; for bots only. The sticker set must have been created by the bot 
-public struct RemoveStickerFromSet: Codable, TDFunction {
+public struct RemoveStickerFromSet: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Sticker
 	public let sticker: InputFile
@@ -8269,7 +8269,7 @@ public struct RemoveStickerFromSet: Codable, TDFunction {
 }
 
 ///  Sends a custom request; for bots only 
-public struct SendCustomRequest: Codable, TDFunction {
+public struct SendCustomRequest: Codable, Equatable, TDFunction {
 	public typealias Result = CustomRequestResult
 	///  The method name 
 	public let method: String
@@ -8286,7 +8286,7 @@ public struct SendCustomRequest: Codable, TDFunction {
 }
 
 ///  Answers a custom query; for bots only 
-public struct AnswerCustomQuery: Codable, TDFunction {
+public struct AnswerCustomQuery: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Identifier of a custom query 
 	public let customQueryId: TDInt64
@@ -8303,7 +8303,7 @@ public struct AnswerCustomQuery: Codable, TDFunction {
 }
 
 ///  Succeeds after a specified amount of time has passed. Can be called before authorization 
-public struct SetAlarm: Codable, TDFunction {
+public struct SetAlarm: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Number of seconds before the function returns
 	public let seconds: Double
@@ -8316,7 +8316,7 @@ public struct SetAlarm: Codable, TDFunction {
 }
 
 ///  Uses current user IP to found his country. Returns two-letter ISO 3166-1 alpha-2 country code. Can be called before authorization
-public struct GetCountryCode: Codable, TDFunction {
+public struct GetCountryCode: Codable, Equatable, TDFunction {
 	public typealias Result = Text
 	/// Uses current user IP to found his country. Returns two-letter ISO 3166-1 alpha-2 country code. Can be called before authorization
 	public init() {
@@ -8324,7 +8324,7 @@ public struct GetCountryCode: Codable, TDFunction {
 }
 
 ///  Returns the default text for invitation messages to be used as a placeholder when the current user invites friends to Telegram
-public struct GetInviteText: Codable, TDFunction {
+public struct GetInviteText: Codable, Equatable, TDFunction {
 	public typealias Result = Text
 	/// Returns the default text for invitation messages to be used as a placeholder when the current user invites friends to Telegram
 	public init() {
@@ -8332,7 +8332,7 @@ public struct GetInviteText: Codable, TDFunction {
 }
 
 ///  Returns the terms of service. Can be called before authorization
-public struct GetTermsOfService: Codable, TDFunction {
+public struct GetTermsOfService: Codable, Equatable, TDFunction {
 	public typealias Result = Text
 	/// Returns the terms of service. Can be called before authorization
 	public init() {
@@ -8340,7 +8340,7 @@ public struct GetTermsOfService: Codable, TDFunction {
 }
 
 ///  Sets the proxy server for network requests. Can be called before authorization 
-public struct SetProxy: Codable, TDFunction {
+public struct SetProxy: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Proxy server to use. Specify null to remove the proxy server
 	public let proxy: Proxy
@@ -8353,7 +8353,7 @@ public struct SetProxy: Codable, TDFunction {
 }
 
 ///  Returns the proxy that is currently set up. Can be called before authorization
-public struct GetProxy: Codable, TDFunction {
+public struct GetProxy: Codable, Equatable, TDFunction {
 	public typealias Result = Proxy
 	/// Returns the proxy that is currently set up. Can be called before authorization
 	public init() {
@@ -8361,7 +8361,7 @@ public struct GetProxy: Codable, TDFunction {
 }
 
 ///  Does nothing; for testing only
-public struct TestCallEmpty: Codable, TDFunction {
+public struct TestCallEmpty: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	/// Does nothing; for testing only
 	public init() {
@@ -8369,7 +8369,7 @@ public struct TestCallEmpty: Codable, TDFunction {
 }
 
 ///  Returns the received string; for testing only 
-public struct TestCallString: Codable, TDFunction {
+public struct TestCallString: Codable, Equatable, TDFunction {
 	public typealias Result = TestString
 	///  String to return
 	public let x: String
@@ -8382,7 +8382,7 @@ public struct TestCallString: Codable, TDFunction {
 }
 
 ///  Returns the received bytes; for testing only 
-public struct TestCallBytes: Codable, TDFunction {
+public struct TestCallBytes: Codable, Equatable, TDFunction {
 	public typealias Result = TestBytes
 	///  Bytes to return
 	public let x: Bytes
@@ -8395,7 +8395,7 @@ public struct TestCallBytes: Codable, TDFunction {
 }
 
 ///  Returns the received vector of numbers; for testing only 
-public struct TestCallVectorInt: Codable, TDFunction {
+public struct TestCallVectorInt: Codable, Equatable, TDFunction {
 	public typealias Result = TestVectorInt
 	///  Vector of numbers to return
 	public let x: [Int32]
@@ -8408,7 +8408,7 @@ public struct TestCallVectorInt: Codable, TDFunction {
 }
 
 ///  Returns the received vector of objects containing a number; for testing only 
-public struct TestCallVectorIntObject: Codable, TDFunction {
+public struct TestCallVectorIntObject: Codable, Equatable, TDFunction {
 	public typealias Result = TestVectorIntObject
 	///  Vector of objects to return
 	public let x: [TestInt]
@@ -8421,7 +8421,7 @@ public struct TestCallVectorIntObject: Codable, TDFunction {
 }
 
 ///  For testing only request. Returns the received vector of strings; for testing only 
-public struct TestCallVectorString: Codable, TDFunction {
+public struct TestCallVectorString: Codable, Equatable, TDFunction {
 	public typealias Result = TestVectorString
 	///  Vector of strings to return
 	public let x: [String]
@@ -8434,7 +8434,7 @@ public struct TestCallVectorString: Codable, TDFunction {
 }
 
 ///  Returns the received vector of objects containing a string; for testing only 
-public struct TestCallVectorStringObject: Codable, TDFunction {
+public struct TestCallVectorStringObject: Codable, Equatable, TDFunction {
 	public typealias Result = TestVectorStringObject
 	///  Vector of objects to return
 	public let x: [TestString]
@@ -8447,7 +8447,7 @@ public struct TestCallVectorStringObject: Codable, TDFunction {
 }
 
 ///  Returns the squared received number; for testing only 
-public struct TestSquareInt: Codable, TDFunction {
+public struct TestSquareInt: Codable, Equatable, TDFunction {
 	public typealias Result = TestInt
 	///  Number to square
 	public let x: Int32
@@ -8460,7 +8460,7 @@ public struct TestSquareInt: Codable, TDFunction {
 }
 
 ///  Sends a simple network request to the Telegram servers; for testing only
-public struct TestNetwork: Codable, TDFunction {
+public struct TestNetwork: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	/// Sends a simple network request to the Telegram servers; for testing only
 	public init() {
@@ -8468,7 +8468,7 @@ public struct TestNetwork: Codable, TDFunction {
 }
 
 ///  Forces an updates.getDifference call to the Telegram servers; for testing only
-public struct TestGetDifference: Codable, TDFunction {
+public struct TestGetDifference: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	/// Forces an updates.getDifference call to the Telegram servers; for testing only
 	public init() {
@@ -8476,7 +8476,7 @@ public struct TestGetDifference: Codable, TDFunction {
 }
 
 ///  Does nothing and ensures that the Update object is used; for testing only
-public struct TestUseUpdate: Codable, TDFunction {
+public struct TestUseUpdate: Codable, Equatable, TDFunction {
 	public typealias Result = Update
 	/// Does nothing and ensures that the Update object is used; for testing only
 	public init() {
@@ -8484,7 +8484,7 @@ public struct TestUseUpdate: Codable, TDFunction {
 }
 
 ///  Does nothing and ensures that the Error object is used; for testing only
-public struct TestUseError: Codable, TDFunction {
+public struct TestUseError: Codable, Equatable, TDFunction {
 	public typealias Result = Error
 	/// Does nothing and ensures that the Error object is used; for testing only
 	public init() {

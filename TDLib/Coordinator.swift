@@ -1,24 +1,37 @@
 import PromiseKit
 
+/// The `Coordinator` handles update, functions, downloads and the authorization- and connection state.
 public class Coordinator {
+    /// A error indicating that something went wrong with a function request.
     enum TDError: Swift.Error {
         case error(Error)
         case timeout(Extra)
         case unkownFunctionResult(Data, Swift.Error)
     }
 
+    /// The `TDJsonClient` instance.
     public let client: TDJsonClient
 
     let sendQueue = DispatchQueue(label: "tdlib_send", qos: .userInitiated)
     let updateQueue = DispatchQueue(label: "tdlib_update", qos: .utility)
-    
+
+    /// The stream of authorization stats.
+    /// `waitTdlibParameters` and `waitEncryptionKey` are already handled by the `Coordinator` and should be ignored.
     public let authorizationState = Stream<LoadingEvent<AuthorizationState>>()
+
+    /// The stream of the current connection state.
     public let connectionState = Stream<LoadingEvent<ConnectionState>>()
 
     private var fileStreams: [Int32: Stream<DownloadEvent<File>>] = [:]
     private var runningFunctions: [String: Resolver<Data>] = [:]
 
-    public init(client: TDJsonClient = TDJsonClient(), parameters: TdlibParameters) {
+    /// Initalizes a new `Coordinator` instance.
+    ///
+    /// - Parameters:
+    ///   - client: The `TDJsonClient` used for all communcation with `tdlib` (default is new `TDJsonClient`).
+    ///   - parameters: The parameters used to configure `tdlib`.
+    ///   - encryptionKey: The encryption key for the local database.
+    public init(client: TDJsonClient = TDJsonClient(), parameters: TdlibParameters, encryptionKey: Data = Data(repeating: 123, count: 64)) {
         self.client = client
         self.client.stream.subscribeStrong(self) { strongSelf, data in
             guard let data = data else {
@@ -32,18 +45,28 @@ public class Coordinator {
             case .waitTdlibParameters?:
                 _ = strongSelf.send(SetTdlibParameters(parameters: parameters))
             case .waitEncryptionKey?:
-                let key = Data(repeating: 123, count: 64)
-                //                key.withUnsafeMutableBytes { bytes in
-                //                    SecRandomCopyBytes(kSecRandomDefault, 64, bytes)
-                //                }
-                _ = strongSelf.send(CheckDatabaseEncryptionKey(encryptionKey: key))
+                _ = strongSelf.send(CheckDatabaseEncryptionKey(encryptionKey: encryptionKey))
+            case .closed?:
+                self.client.close()
             default:
                 break
             }
         }
     }
-    
-    public convenience init(client: TDJsonClient = TDJsonClient(), apiId: Int32, apiHash: String, useTestDc: Bool = false) {
+
+    /// Initalizes a new `Coordinator` instance.
+    ///
+    /// - Parameters:
+    ///   - client: The `TDJsonClient` used for all communcation with `tdlib` (default is new `TDJsonClient`).
+    ///   - apiId: The application identifier for Telegram API access, which can be obtained at https://my.telegram.org
+    ///   - apiHash: The application identifier hash for Telegram API access, which can be obtained at https://my.telegram.org
+    ///   - useTestDc: If set to true, the Telegram test environment will be used instead of the production environment
+    ///   - encryptionKey: The encryption key for the local database.
+    public convenience init(client: TDJsonClient = TDJsonClient(),
+                            apiId: Int32,
+                            apiHash: String,
+                            useTestDc: Bool = false,
+                            encryptionKey: Data = Data(repeating: 123, count: 64)) {
         guard let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first else {
             fatalError("Can't get document director path")
         }
@@ -112,8 +135,8 @@ public class Coordinator {
         }
     }
     
-    public func stream(forFile file: File) -> Stream<DownloadEvent<File>> {
-        var stream: Stream<DownloadEvent<File>>!
+    private func stream(forFile file: File) -> Stream<DownloadEvent<File>> {
+        var stream: Stream<DownloadEvent<File>>! //swiftlint:disable:this implicitly_unwrapped_optional
         self.updateQueue.sync {
             if let existing = self.fileStreams[file.id] {
                 stream = existing
@@ -124,8 +147,13 @@ public class Coordinator {
         }
         return stream
     }
-
     
+    /// Downloads a new file.
+    ///
+    /// - Parameters:
+    ///   - file: The file to download.
+    ///   - priority: A priority between 0 and 32 (default 32).
+    /// - Returns: A stream of the download events of the given file.
     public func download(file: File, priority: Int32 = 32) -> Stream<DownloadEvent<File>> {
         guard !file.local.isDownloadingCompleted else {
             let stream = Stream<DownloadEvent<File>>()
@@ -138,7 +166,11 @@ public class Coordinator {
         }
         return stream
     }
-    
+
+    /// Send the request to `tdlib`.
+    ///
+    /// - Parameter function: A `TDFunction`.
+    /// - Returns: A promise of the result of the function.
     public func send<F: TDFunction>(_ function: F) -> Promise<F.Result> {
         let (promise, resolver) = Promise<Data>.pending()
         self.sendQueue.async {

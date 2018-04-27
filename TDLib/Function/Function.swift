@@ -18,6 +18,7 @@ extension TDFunction {
     }
 }
 public protocol TDEnum { }
+public protocol EquatableEnum { }
 
 extension String {
     var uncapitalized: String {
