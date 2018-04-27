@@ -20,10 +20,16 @@ opt_in_rules:
   - private_outlet
   - switch_case_on_newline
   - no_extension_access_modifier
-
+  - array_init
+  - contains_over_first_not_nil
+  - empty_string
+  - implicit_return
+  - joined_default_parameter
+  - unneeded_parentheses_in_closure_argument
+  
 disabled_rules:
   - large_tuple
-  - implicitly_unwrapped_optional
+
 excluded:
   - Carthage
   - tdjson
