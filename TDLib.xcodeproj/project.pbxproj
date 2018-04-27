@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B328D09220937A0B0089931A /* EquatableEnum.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = B328D09120937A0B0089931A /* EquatableEnum.generated.swift */; };
+		B328D08820935F9C0089931A /* StreamPromise.swift in Sources */ = {isa = PBXBuildFile; fileRef = B328D08720935F9C0089931A /* StreamPromise.swift */; };
+		B328D09420937D510089931A /* EquatableEnum.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = B328D09320937D500089931A /* EquatableEnum.generated.swift */; };
 		B329EB46204B099E00329997 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B329EB45204B099E00329997 /* Coordinator.swift */; };
 		B329EB48204B5D1E00329997 /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = B329EB47204B5D1E00329997 /* Stream.swift */; };
 		B329EB4A204B5D3700329997 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B329EB49204B5D3700329997 /* Event.swift */; };
@@ -42,7 +43,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		B328D09120937A0B0089931A /* EquatableEnum.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EquatableEnum.generated.swift; sourceTree = "<group>"; };
+		B328D08720935F9C0089931A /* StreamPromise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamPromise.swift; sourceTree = "<group>"; };
+		B328D09320937D500089931A /* EquatableEnum.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EquatableEnum.generated.swift; sourceTree = "<group>"; };
 		B329EB45204B099E00329997 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		B329EB47204B5D1E00329997 /* Stream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stream.swift; sourceTree = "<group>"; };
 		B329EB49204B5D3700329997 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 				B33B98D02044C37B000712A6 /* TDJsonClient.swift */,
 				B329EB45204B099E00329997 /* Coordinator.swift */,
 				B329EB47204B5D1E00329997 /* Stream.swift */,
+				B328D08720935F9C0089931A /* StreamPromise.swift */,
 				B36E80CB206EA1040033C0CE /* AutoLockStream.swift */,
 				B329EB49204B5D3700329997 /* Event.swift */,
 				B3C0FB4B2052CC21002F9992 /* JSON.swift */,
@@ -162,7 +165,7 @@
 		B3D8D0A1208139FB0017F088 /* Generated */ = {
 			isa = PBXGroup;
 			children = (
-				B328D09120937A0B0089931A /* EquatableEnum.generated.swift */,
+				B328D09320937D500089931A /* EquatableEnum.generated.swift */,
 				B3BC4A42208519D400763FF3 /* TDEnum.generated.swift */,
 				B3D8D0A2208139FB0017F088 /* TDLib.generated.swift */,
 			);
@@ -300,18 +303,19 @@
 			files = (
 				B3DE1E1E208A18A800E156A2 /* Error.swift in Sources */,
 				B3D8D0B0208388640017F088 /* User.swift in Sources */,
-				B328D09220937A0B0089931A /* EquatableEnum.generated.swift in Sources */,
 				B329EB4A204B5D3700329997 /* Event.swift in Sources */,
 				B355AE3020512AF7003C5402 /* Extra.swift in Sources */,
 				B33B98D12044C37B000712A6 /* TDJsonClient.swift in Sources */,
 				B3C0FB4C2052CC21002F9992 /* JSON.swift in Sources */,
 				B32F8CD62049B61A00B5D834 /* Function.swift in Sources */,
 				B329EB48204B5D1E00329997 /* Stream.swift in Sources */,
+				B328D09420937D510089931A /* EquatableEnum.generated.swift in Sources */,
 				B3D8D0AC208386AE0017F088 /* TdlibParameters.swift in Sources */,
 				B36E80CC206EA1040033C0CE /* AutoLockStream.swift in Sources */,
 				B3D8D0B2208389600017F088 /* Chat.swift in Sources */,
 				B3BC4A43208519D500763FF3 /* TDEnum.generated.swift in Sources */,
 				B3D8D0AE2083881E0017F088 /* Message.swift in Sources */,
+				B328D08820935F9C0089931A /* StreamPromise.swift in Sources */,
 				B329EB46204B099E00329997 /* Coordinator.swift in Sources */,
 				B3D8D0A9208374CF0017F088 /* TDLib.generated.swift in Sources */,
 				B3BC4A41208503A200763FF3 /* TDInt64.swift in Sources */,
