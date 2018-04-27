@@ -10,3 +10,4 @@ swift_version: 4.1
 theme: fullwidth
 exclude: 
   - TDLib/Generated/TDEnum.generated.swift
+  - TDLib/Generated/EquatableEnum.generated.swift

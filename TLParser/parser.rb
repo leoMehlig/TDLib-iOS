@@ -9,12 +9,12 @@ class TDType
   def gen
     string = "///  #{@description}\n"
     if name.casecmp(result).zero?
-      string += "public struct #{result}: Codable, FunctionResult {\n"
+      string += "public struct #{result}: Codable, Equatable, FunctionResult {\n"
     else
       letters = @name.split('')
       letters.first.upcase!
       @name = letters.join
-      string += "public struct #{@name}: Codable, TDFunction {\n"
+      string += "public struct #{@name}: Codable, Equatable, TDFunction {\n"
       string += "\tpublic typealias Result = #{result}\n"
     end
     for field in fields.each_value do
@@ -51,7 +51,7 @@ class TDEnum
     unless cases.first.name.camel_case.start_with?(@name.lower_first.camel_case)
       string += "// sourcery: noPrefix = true\n"
     end
-    string += "public indirect enum #{name}: FunctionResult, TDEnum {\n"
+    string += "public indirect enum #{name}: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {\n"
     for enum_case in cases do
       string += "\t///  #{enum_case.description}\n"
       enum_case.fields.each_value do | field |
@@ -128,7 +128,7 @@ end
 all = []
 current = nil
 comment_string = ''
-File.readlines('td.tl').each do |line|
+File.readlines('../Carthage/Checkouts/TDJSON/td_api.tl').each do |line|
   if line.length > 1
     if line.start_with?('//')
       comment_string = comment_string + ' ' + line[2..-2]

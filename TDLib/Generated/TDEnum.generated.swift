@@ -3,7 +3,7 @@
 
 
 
-extension AuthenticationCodeType: Codable {
+extension AuthenticationCodeType {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -79,7 +79,7 @@ extension AuthenticationCodeType: Codable {
   }
 }
 
-extension AuthorizationState: Codable {
+extension AuthorizationState {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -178,7 +178,7 @@ extension AuthorizationState: Codable {
   }
 }
 
-extension CallDiscardReason: Codable {
+extension CallDiscardReason {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -222,7 +222,7 @@ extension CallDiscardReason: Codable {
   }
 }
 
-extension CallState: Codable {
+extension CallState {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -334,7 +334,7 @@ extension CallState: Codable {
   }
 }
 
-extension CallbackQueryPayload: Codable {
+extension CallbackQueryPayload {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -384,7 +384,7 @@ extension CallbackQueryPayload: Codable {
   }
 }
 
-extension ChatAction: Codable {
+extension ChatAction {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -505,7 +505,7 @@ extension ChatAction: Codable {
   }
 }
 
-extension ChatEventAction: Codable {
+extension ChatEventAction {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -767,7 +767,7 @@ extension ChatEventAction: Codable {
   }
 }
 
-extension ChatMemberStatus: Codable {
+extension ChatMemberStatus {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -903,7 +903,7 @@ extension ChatMemberStatus: Codable {
   }
 }
 
-extension ChatReportReason: Codable {
+extension ChatReportReason {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -952,7 +952,7 @@ extension ChatReportReason: Codable {
   }
 }
 
-extension ChatType: Codable {
+extension ChatType {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -1036,7 +1036,7 @@ extension ChatType: Codable {
   }
 }
 
-extension CheckChatUsernameResult: Codable {
+extension CheckChatUsernameResult {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -1080,7 +1080,7 @@ extension CheckChatUsernameResult: Codable {
   }
 }
 
-extension ConnectionState: Codable {
+extension ConnectionState {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -1124,7 +1124,7 @@ extension ConnectionState: Codable {
   }
 }
 
-extension DeviceToken: Codable {
+extension DeviceToken {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -1307,7 +1307,7 @@ extension DeviceToken: Codable {
   }
 }
 
-extension FileType: Codable {
+extension FileType {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -1391,7 +1391,7 @@ extension FileType: Codable {
   }
 }
 
-extension InlineKeyboardButtonType: Codable {
+extension InlineKeyboardButtonType {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -1466,7 +1466,7 @@ extension InlineKeyboardButtonType: Codable {
   }
 }
 
-extension InlineQueryResult: Codable {
+extension InlineQueryResult {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -1758,7 +1758,7 @@ extension InlineQueryResult: Codable {
   }
 }
 
-extension InputCredentials: Codable {
+extension InputCredentials {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -1838,7 +1838,7 @@ extension InputCredentials: Codable {
   }
 }
 
-extension InputFile: Codable {
+extension InputFile {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -1922,7 +1922,7 @@ extension InputFile: Codable {
   }
 }
 
-extension InputInlineQueryResult: Codable {
+extension InputInlineQueryResult {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -2479,7 +2479,7 @@ extension InputInlineQueryResult: Codable {
   }
 }
 
-extension InputMessageContent: Codable {
+extension InputMessageContent {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -2902,7 +2902,7 @@ extension InputMessageContent: Codable {
   }
 }
 
-extension KeyboardButtonType: Codable {
+extension KeyboardButtonType {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -2938,7 +2938,7 @@ extension KeyboardButtonType: Codable {
   }
 }
 
-extension LinkState: Codable {
+extension LinkState {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -2974,7 +2974,7 @@ extension LinkState: Codable {
   }
 }
 
-extension MaskPoint: Codable {
+extension MaskPoint {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -3014,7 +3014,7 @@ extension MaskPoint: Codable {
   }
 }
 
-extension MessageContent: Codable {
+extension MessageContent {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -3604,7 +3604,7 @@ extension MessageContent: Codable {
   }
 }
 
-extension MessageForwardInfo: Codable {
+extension MessageForwardInfo {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -3686,7 +3686,7 @@ extension MessageForwardInfo: Codable {
   }
 }
 
-extension MessageSendingState: Codable {
+extension MessageSendingState {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -3718,7 +3718,7 @@ extension MessageSendingState: Codable {
   }
 }
 
-extension NetworkStatisticsEntry: Codable {
+extension NetworkStatisticsEntry {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -3792,7 +3792,7 @@ extension NetworkStatisticsEntry: Codable {
   }
 }
 
-extension NetworkType: Codable {
+extension NetworkType {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -3836,7 +3836,7 @@ extension NetworkType: Codable {
   }
 }
 
-extension NotificationSettingsScope: Codable {
+extension NotificationSettingsScope {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -3885,7 +3885,7 @@ extension NotificationSettingsScope: Codable {
   }
 }
 
-extension OptionValue: Codable {
+extension OptionValue {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -3952,7 +3952,7 @@ extension OptionValue: Codable {
   }
 }
 
-extension PageBlock: Codable {
+extension PageBlock {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -4378,7 +4378,7 @@ extension PageBlock: Codable {
   }
 }
 
-extension Proxy: Codable {
+extension Proxy {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -4431,7 +4431,7 @@ extension Proxy: Codable {
   }
 }
 
-extension ReplyMarkup: Codable {
+extension ReplyMarkup {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -4519,7 +4519,7 @@ extension ReplyMarkup: Codable {
   }
 }
 
-extension RichText: Codable {
+extension RichText {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -4668,7 +4668,7 @@ extension RichText: Codable {
   }
 }
 
-extension SearchMessagesFilter: Codable {
+extension SearchMessagesFilter {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -4756,7 +4756,7 @@ extension SearchMessagesFilter: Codable {
   }
 }
 
-extension SecretChatState: Codable {
+extension SecretChatState {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -4792,7 +4792,7 @@ extension SecretChatState: Codable {
   }
 }
 
-extension SupergroupMembersFilter: Codable {
+extension SupergroupMembersFilter {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -4867,7 +4867,7 @@ extension SupergroupMembersFilter: Codable {
   }
 }
 
-extension TMeUrlType: Codable {
+extension TMeUrlType {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -4943,7 +4943,7 @@ extension TMeUrlType: Codable {
   }
 }
 
-extension TextEntityType: Codable {
+extension TextEntityType {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -5050,7 +5050,7 @@ extension TextEntityType: Codable {
   }
 }
 
-extension TextParseMode: Codable {
+extension TextParseMode {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -5082,7 +5082,7 @@ extension TextParseMode: Codable {
   }
 }
 
-extension TopChatCategory: Codable {
+extension TopChatCategory {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -5130,7 +5130,7 @@ extension TopChatCategory: Codable {
   }
 }
 
-extension Update: Codable {
+extension Update {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -6168,7 +6168,7 @@ extension Update: Codable {
   }
 }
 
-extension UserPrivacySetting: Codable {
+extension UserPrivacySetting {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -6204,7 +6204,7 @@ extension UserPrivacySetting: Codable {
   }
 }
 
-extension UserPrivacySettingRule: Codable {
+extension UserPrivacySettingRule {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -6270,7 +6270,7 @@ extension UserPrivacySettingRule: Codable {
   }
 }
 
-extension UserStatus: Codable {
+extension UserStatus {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
@@ -6336,7 +6336,7 @@ extension UserStatus: Codable {
   }
 }
 
-extension UserType: Codable {
+extension UserType {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
   }
