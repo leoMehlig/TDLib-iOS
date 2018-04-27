@@ -10,19 +10,28 @@ import Foundation
 import TDJSON
 
 public class TDJsonClient {
+    public enum LogLevel: Int32 {
+        case fatalErrors = 0, errors, warnings, info, debug, verbose, all = 1024
+    }
     private let queue = DispatchQueue(label: "tdjsonclient", qos: .userInitiated)
     private let streamQueue = DispatchQueue(label: "tdjsonclient_stream", qos: .userInitiated)
 
-    private let client = td_json_client_create()! //swiftlint:disable:this force_unwrapping
+    public let rawClient = td_json_client_create()! //swiftlint:disable:this force_unwrapping
     
     public let stream = Stream<Data?>()
     public private(set) var isListing = true
+
+    public var logLevel: LogLevel = .warnings {
+        didSet {
+            td_set_log_verbosity_level(self.logLevel.rawValue)
+        }
+    }
     
     public init() {
-        td_set_log_verbosity_level(2)
+        td_set_log_verbosity_level(self.logLevel.rawValue)
         self.queue.async { [weak self] in
             while self?.isListing ?? false {
-                if let client = self?.client,
+                if let client = self?.rawClient,
                     let response = td_json_client_receive(client: client, timeout: 10) {
                     self?.streamQueue.async {
                         if let data = response.data(using: .utf8) {
@@ -41,11 +50,11 @@ public class TDJsonClient {
     
     public func send(_ query: String) {
         print("Send: \(query)")
-        td_json_client_send(client: self.client, request: query)
+        td_json_client_send(client: self.rawClient, request: query)
     }
     
     public func execute(_ query: String) -> String? {
-        return td_json_client_execute(client: self.client, request: query)
+        return td_json_client_execute(client: self.rawClient, request: query)
     }
     
     public func stopListing() {
@@ -54,6 +63,6 @@ public class TDJsonClient {
     
     deinit {
         self.stopListing()
-        td_json_client_destroy(client: self.client)
+        td_json_client_destroy(client: self.rawClient)
     }
 }
