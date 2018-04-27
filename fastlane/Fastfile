@@ -40,7 +40,11 @@ platform :ios do
         path: ["./docs/*", './TDLib/Info.plist', './TDLibTests/Info.plist', './TDLib.xcodeproj/project.pbxproj'], 
         message: "CI commit"
       )
-      push_to_git_remote(tags: false)
+      push_to_git_remote(
+        local_branch: 'master',
+        remote_branch: 'master',
+        tags: false
+      )
     end
   end
 
