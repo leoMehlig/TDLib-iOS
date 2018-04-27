@@ -1,9 +1,14 @@
 import PromiseKit
 
 public class Coordinator {
+    enum TDError: Swift.Error {
+        case error(Error)
+        case timeout(Extra)
+        case unkownFunctionResult(Data, Swift.Error)
+    }
+
     public let client: TDJsonClient
-    let apiId: Int32
-    let apiHash: String
+
     let sendQueue = DispatchQueue(label: "tdlib_send", qos: .userInitiated)
     let updateQueue = DispatchQueue(label: "tdlib_update", qos: .utility)
     
@@ -12,11 +17,9 @@ public class Coordinator {
 
     private var fileStreams: [Int32: Stream<DownloadEvent<File>>] = [:]
     private var runningFunctions: [String: Resolver<Data>] = [:]
-    
-    public init(client: TDJsonClient, apiId: Int32, apiHash: String) {
+
+    public init(client: TDJsonClient = TDJsonClient(), parameters: TdlibParameters) {
         self.client = client
-        self.apiId = apiId
-        self.apiHash = apiHash
         self.client.stream.subscribeStrong(self) { strongSelf, data in
             guard let data = data else {
                 return
@@ -27,14 +30,7 @@ public class Coordinator {
         self.authorizationState.subscribeStrong(self) { strongSelf, event in
             switch event.value {
             case .waitTdlibParameters?:
-                guard let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first else {
-                    fatalError("Can't get document director path")
-                }
-                _ = strongSelf.send(SetTdlibParameters(parameters: TdlibParameters.create(useTestDc: true,
-                                                                                          databaseDirectory: path,
-                                                                                          filesDirectory: path,
-                                                                                          apiId: self.apiId,
-                                                                                          apiHash: self.apiHash)))
+                _ = strongSelf.send(SetTdlibParameters(parameters: parameters))
             case .waitEncryptionKey?:
                 let key = Data(repeating: 123, count: 64)
                 //                key.withUnsafeMutableBytes { bytes in
@@ -46,10 +42,16 @@ public class Coordinator {
             }
         }
     }
-    enum TDError: Swift.Error {
-        case error(Error)
-        case timeout(Extra)
-        case unkownFunctionResult(Data, Swift.Error)
+    
+    public convenience init(client: TDJsonClient = TDJsonClient(), apiId: Int32, apiHash: String, useTestDc: Bool = false) {
+        guard let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first else {
+            fatalError("Can't get document director path")
+        }
+        self.init(client: client, parameters: TdlibParameters.create(useTestDc: useTestDc,
+                                                                     databaseDirectory: path,
+                                                                     filesDirectory: path,
+                                                                     apiId: apiId,
+                                                                     apiHash: apiHash))
     }
 
     private func process(data: Data) {
