@@ -12,7 +12,7 @@ public class Coordinator {
     /// The `TDJsonClient` instance.
     public let client: TDJsonClient
 
-    let sendQueue = DispatchQueue(label: "tdlib_send", qos: .userInitiated)
+    let functionQueue = DispatchQueue(label: "tdlib_send", qos: .userInitiated)
     let updateQueue = DispatchQueue(label: "tdlib_update", qos: .utility)
 
     /// The stream of authorization stats.
@@ -85,23 +85,25 @@ public class Coordinator {
             self.process(update: update)
         }
     }
-
+    
     private func processFunction(with extra: Extra, data: Data) {
-        print("Received extra: \(extra.extra) - \(extra.type)")
-        if let resolver = self.runningFunctions[extra.extra] {
-            self.runningFunctions[extra.extra] = nil
-            if extra.type == "error" {
-                do {
-                    let error = try JSONDecoder.td.decode(Error.self, from: data)
-                    resolver.reject(error)
-                } catch {
-                    resolver.reject(TDError.unkownFunctionResult(data, error))
+        self.functionQueue.async(flags: .barrier) {
+            print("Received extra: \(extra.extra) - \(extra.type)")
+            if let resolver = self.runningFunctions[extra.extra] {
+                self.runningFunctions[extra.extra] = nil
+                if extra.type == "error" {
+                    do {
+                        let error = try JSONDecoder.td.decode(Error.self, from: data)
+                        resolver.reject(error)
+                    } catch {
+                        resolver.reject(TDError.unkownFunctionResult(data, error))
+                    }
+                } else {
+                    resolver.fulfill(data)
                 }
             } else {
-                resolver.fulfill(data)
+                print("Unassigned function result: \(extra)")
             }
-        } else {
-            print("Unassigned function result: \(extra)")
         }
     }
 
@@ -173,7 +175,7 @@ public class Coordinator {
     /// - Returns: A promise of the result of the function.
     public func send<F: TDFunction>(_ function: F) -> Promise<F.Result> {
         let (promise, resolver) = Promise<Data>.pending()
-        self.sendQueue.async {
+        self.functionQueue.async {
             let wrapper = FunctionWrapper(function: function)
             do {
                 try self.client.send(wrapper)
@@ -183,7 +185,7 @@ public class Coordinator {
             let extra = Extra(type: F.Result.type, extra: wrapper.extra)
             self.runningFunctions[extra.extra] = resolver
         }
-        return promise.map(on: self.sendQueue) { data in
+        return promise.map { data in
             do {
                 return try JSONDecoder.td.decode(F.Result.self, from: data)
             } catch {

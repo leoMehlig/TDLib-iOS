@@ -1,10 +1,10 @@
 public class Stream<E: Event> {
     public struct Subscriber<E: Event> {
-        let queue: DispatchQueue?
+        let queue: DispatchQueue
         let token: AnyHashable?
         let callback: (E) -> Void
         
-        init(queue: DispatchQueue? = nil, token: AnyHashable? = nil, _ callback: @escaping (E) -> Void) {
+        init(queue: DispatchQueue = .global(), token: AnyHashable? = nil, _ callback: @escaping (E) -> Void) {
             self.queue = queue
             self.token = token
             self.callback = callback
@@ -25,23 +25,15 @@ public class Stream<E: Event> {
     func notifySubscribers(with current: E) {
         self.subscribersQueue.sync {
             self.subscribers.forEach({ subscriber in
-                if let queue = subscriber.queue {
-                    queue.async {
-                        subscriber.callback(current)
-                    }
-                } else {
+                subscriber.queue.async {
                     subscriber.callback(current)
                 }
             })
         }
     }
     
-    public func subscribe(with token: AnyHashable? = nil, on queue: DispatchQueue? = nil, with callback: @escaping (E) -> Void) {
-        if let queue = queue {
-            queue.async {
-                callback(self.current)
-            }
-        } else {
+    public func subscribe(with token: AnyHashable? = nil, on queue: DispatchQueue = .global(), with callback: @escaping (E) -> Void) {
+        queue.async {
             callback(self.current)
         }
         self.subscribersQueue.async(flags: .barrier) {
@@ -51,7 +43,7 @@ public class Stream<E: Event> {
     
     public func subscribeStrong<S: AnyObject>(_ sender: S,
                                               with token: AnyHashable? = nil,
-                                              on queue: DispatchQueue? = nil,
+                                              on queue: DispatchQueue = .global(),
                                               with callback: @escaping (S, E) -> Void) {
         self.subscribe(with: token, on: queue) { [weak sender] event in
             if let strongSender = sender {
