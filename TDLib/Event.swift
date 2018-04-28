@@ -10,6 +10,10 @@ extension Optional: Event {
     public static var inital: Optional { return nil }
 }
 
+extension Array: Event {
+    public static var inital: [Element] { return [] }
+}
+
 public enum LoadingFailableEvent<V>: Event, PromiseEvent {
     case pending
     case value(V)
