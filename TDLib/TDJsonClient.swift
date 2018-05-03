@@ -29,9 +29,18 @@ public class TDJsonClient {
         }
     }
 
+    public var logPath: String? {
+        didSet {
+            if let path = self.logPath {
+                td_set_log_file_path(path)
+            }
+        }
+    }
+
     /// Initiates a new `TDJsonClient`, that immediately starts receiving data from `tdlib`.
     public init() {
         td_set_log_verbosity_level(self.logLevel.rawValue)
+
         self.queue.async { [weak self] in
             while self?.isListing ?? false {
                 if let client = self?.rawClient,
@@ -61,7 +70,7 @@ public class TDJsonClient {
     ///
     /// - Parameter query: A json encoded request.
     public func send(_ query: String) {
-        print("Send: \(query)")
+//        print("Send: \(query)")
         td_json_client_send(client: self.rawClient, request: query)
     }
 

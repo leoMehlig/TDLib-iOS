@@ -23,6 +23,7 @@
 		B36E80CC206EA1040033C0CE /* AutoLockStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36E80CB206EA1040033C0CE /* AutoLockStream.swift */; };
 		B3BC4A41208503A200763FF3 /* TDInt64.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BC4A40208503A200763FF3 /* TDInt64.swift */; };
 		B3BC4A43208519D500763FF3 /* TDEnum.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BC4A42208519D400763FF3 /* TDEnum.generated.swift */; };
+		B3BED5FC209B1715003AB79F /* FloodStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BED5FB209B1715003AB79F /* FloodStream.swift */; };
 		B3C0FB4C2052CC21002F9992 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C0FB4B2052CC21002F9992 /* JSON.swift */; };
 		B3D8D0A9208374CF0017F088 /* TDLib.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D8D0A2208139FB0017F088 /* TDLib.generated.swift */; };
 		B3D8D0AC208386AE0017F088 /* TdlibParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D8D0AB208386AE0017F088 /* TdlibParameters.swift */; };
@@ -62,6 +63,7 @@
 		B36E80CB206EA1040033C0CE /* AutoLockStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLockStream.swift; sourceTree = "<group>"; };
 		B3BC4A40208503A200763FF3 /* TDInt64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDInt64.swift; sourceTree = "<group>"; };
 		B3BC4A42208519D400763FF3 /* TDEnum.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDEnum.generated.swift; sourceTree = "<group>"; };
+		B3BED5FB209B1715003AB79F /* FloodStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloodStream.swift; sourceTree = "<group>"; };
 		B3C0FB4B2052CC21002F9992 /* JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
 		B3D8D0A2208139FB0017F088 /* TDLib.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDLib.generated.swift; sourceTree = "<group>"; };
 		B3D8D0AB208386AE0017F088 /* TdlibParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TdlibParameters.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 				B329EB45204B099E00329997 /* Coordinator.swift */,
 				B329EB47204B5D1E00329997 /* Stream.swift */,
 				B328D08720935F9C0089931A /* StreamPromise.swift */,
+				B3BED5FB209B1715003AB79F /* FloodStream.swift */,
 				B36E80CB206EA1040033C0CE /* AutoLockStream.swift */,
 				B329EB49204B5D3700329997 /* Event.swift */,
 				B3C0FB4B2052CC21002F9992 /* JSON.swift */,
@@ -303,6 +306,7 @@
 			files = (
 				B3DE1E1E208A18A800E156A2 /* Error.swift in Sources */,
 				B3D8D0B0208388640017F088 /* User.swift in Sources */,
+				B3BED5FC209B1715003AB79F /* FloodStream.swift in Sources */,
 				B329EB4A204B5D3700329997 /* Event.swift in Sources */,
 				B355AE3020512AF7003C5402 /* Extra.swift in Sources */,
 				B33B98D12044C37B000712A6 /* TDJsonClient.swift in Sources */,

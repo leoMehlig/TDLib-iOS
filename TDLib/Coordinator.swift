@@ -22,6 +22,8 @@ public class Coordinator {
     /// The stream of the current connection state.
     public let connectionState = Stream<LoadingEvent<ConnectionState>>()
 
+    public let floodStream: FloodStream
+
     private var fileStreams: [Int32: Stream<DownloadEvent<File>>] = [:]
     private var runningFunctions: [String: Resolver<Data>] = [:]
 
@@ -33,6 +35,11 @@ public class Coordinator {
     ///   - encryptionKey: The encryption key for the local database.
     public init(client: TDJsonClient = TDJsonClient(), parameters: TdlibParameters, encryptionKey: Data = Data(repeating: 123, count: 64)) {
         self.client = client
+        let path = parameters.filesDirectory + "/tdlogs.log"
+        FileManager.default.createFile(atPath: path, contents: nil, attributes: [:])
+        self.client.logPath = path
+        self.floodStream = FloodStream(logPath: path)
+
         self.client.stream.subscribeStrong(self) { strongSelf, data in
             guard let data = data else {
                 return
@@ -78,7 +85,7 @@ public class Coordinator {
     }
 
     private func process(data: Data) {
-        print("Received: \(String(data: data, encoding: .utf8) ?? "nil")")
+//        print("Received: \(String(data: data, encoding: .utf8) ?? "nil")")
         if let extra = try? JSONDecoder.td.decode(Extra.self, from: data) {
             self.processFunction(with: extra, data: data)
         } else if let update = try? JSONDecoder.td.decode(Update.self, from: data) {
@@ -88,7 +95,7 @@ public class Coordinator {
     
     private func processFunction(with extra: Extra, data: Data) {
         self.functionQueue.async(flags: .barrier) {
-            print("Received extra: \(extra.extra) - \(extra.type)")
+//            print("Received extra: \(extra.extra) - \(extra.type)")
             if let resolver = self.runningFunctions[extra.extra] {
                 self.runningFunctions[extra.extra] = nil
                 if extra.type == "error" {
@@ -102,7 +109,7 @@ public class Coordinator {
                     resolver.fulfill(data)
                 }
             } else {
-                print("Unassigned function result: \(extra)")
+//                print("Unassigned function result: \(extra)")
             }
         }
     }
@@ -132,7 +139,8 @@ public class Coordinator {
                     stream.current = .failled(file)
                 }
             default:
-                print("Unhandled update: \(update)")
+                ()
+//                print("Unhandled update: \(update)")
             }
         }
     }
@@ -174,6 +182,9 @@ public class Coordinator {
     /// - Parameter function: A `TDFunction`.
     /// - Returns: A promise of the result of the function.
     public func send<F: TDFunction>(_ function: F) -> Promise<F.Result> {
+        if Thread.isMainThread {
+            print("\(function) was called on the Main Thread")
+        }
         let (promise, resolver) = Promise<Data>.pending()
         self.functionQueue.async {
             let wrapper = FunctionWrapper(function: function)
