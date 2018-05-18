@@ -32,7 +32,7 @@ public class TDJsonClient {
     public var logPath: String? {
         didSet {
             if let path = self.logPath {
-                td_set_log_file_path(path)
+                _ = td_set_log_file_path(path)
             }
         }
     }
