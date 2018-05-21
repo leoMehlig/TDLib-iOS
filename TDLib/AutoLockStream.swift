@@ -5,10 +5,12 @@ public protocol MergableEvent: Event {
 public class AutoLockStream<E: MergableEvent>: Stream<E> {
     private var isLocked: Bool = false
 
-    public func unlock() {
-        self.isLocked = false
-        if self.merged != nil {
-            self.notifySubscribers(with: self.current)
+    public func unlock(after delay: DispatchTime = .now()) {
+        self.subscribersQueue.asyncAfter(deadline: delay) {
+            self.isLocked = false
+            if self.merged != nil {
+                self.notifySubscribers(with: self.current)
+            }
         }
     }
 

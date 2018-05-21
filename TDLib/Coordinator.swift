@@ -196,7 +196,7 @@ public class Coordinator {
             let extra = Extra(type: F.Result.type, extra: wrapper.extra)
             self.runningFunctions[extra.extra] = resolver
         }
-        return promise.map { data in
+        return promise.map(on: self.functionQueue) { data in
             do {
                 return try JSONDecoder.td.decode(F.Result.self, from: data)
             } catch {
