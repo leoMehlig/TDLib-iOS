@@ -93,7 +93,7 @@ class Field
     @type = @type.un_vector
     letters = @type.split('')
     letters.first.upcase!
-    return letters.join + '?' if @description.include?('may be null')
+    return letters.join + '?' if (@description.include?('may be null') || @description.include?('for bots only'))
     letters.join
   end
 end

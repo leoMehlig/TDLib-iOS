@@ -5339,7 +5339,7 @@ public struct SendMessage: Codable, Equatable, TDFunction {
 	///  Pass true if the message is sent from the background 
 	public let fromBackground: Bool
 	///  Markup for replying to the message; for bots only 
-	public let replyMarkup: ReplyMarkup
+	public let replyMarkup: ReplyMarkup?
 	///  The content of the message to be sent
 	public let inputMessageContent: InputMessageContent
 	/// Sends a message. Returns the sent message 
@@ -5350,7 +5350,7 @@ public struct SendMessage: Codable, Equatable, TDFunction {
 	///   - fromBackground: Pass true if the message is sent from the background 
 	///   - replyMarkup: Markup for replying to the message; for bots only 
 	///   - inputMessageContent: The content of the message to be sent
-	public init(chatId: Int53, replyToMessageId: Int53, disableNotification: Bool, fromBackground: Bool, replyMarkup: ReplyMarkup, inputMessageContent: InputMessageContent) {
+	public init(chatId: Int53, replyToMessageId: Int53, disableNotification: Bool, fromBackground: Bool, replyMarkup: ReplyMarkup?, inputMessageContent: InputMessageContent) {
 		self.chatId = chatId
 		self.replyToMessageId = replyToMessageId
 		self.disableNotification = disableNotification
@@ -5552,7 +5552,7 @@ public struct EditMessageText: Codable, Equatable, TDFunction {
 	///  Identifier of the message 
 	public let messageId: Int53
 	///  The new message reply markup; for bots only 
-	public let replyMarkup: ReplyMarkup
+	public let replyMarkup: ReplyMarkup?
 	///  New text content of the message. Should be of type InputMessageText
 	public let inputMessageContent: InputMessageContent
 	/// Edits the text of a message (or a text of a game message). Non-bot users can edit messages for a limited period of time. Returns the edited message after the edit is completed on the server side 
@@ -5561,7 +5561,7 @@ public struct EditMessageText: Codable, Equatable, TDFunction {
 	///   - messageId: Identifier of the message 
 	///   - replyMarkup: The new message reply markup; for bots only 
 	///   - inputMessageContent: New text content of the message. Should be of type InputMessageText
-	public init(chatId: Int53, messageId: Int53, replyMarkup: ReplyMarkup, inputMessageContent: InputMessageContent) {
+	public init(chatId: Int53, messageId: Int53, replyMarkup: ReplyMarkup?, inputMessageContent: InputMessageContent) {
 		self.chatId = chatId
 		self.messageId = messageId
 		self.replyMarkup = replyMarkup
@@ -5577,7 +5577,7 @@ public struct EditMessageLiveLocation: Codable, Equatable, TDFunction {
 	///  Identifier of the message 
 	public let messageId: Int53
 	///  Tew message reply markup; for bots only 
-	public let replyMarkup: ReplyMarkup
+	public let replyMarkup: ReplyMarkup?
 	///  New location content of the message; may be null. Pass null to stop sharing the live location
 	public let location: Location?
 	/// Edits the message content of a live location. Messages can be edited for a limited period of time specified in the live location. Returns the edited message after the edit is completed server-side 
@@ -5586,7 +5586,7 @@ public struct EditMessageLiveLocation: Codable, Equatable, TDFunction {
 	///   - messageId: Identifier of the message 
 	///   - replyMarkup: Tew message reply markup; for bots only 
 	///   - location: New location content of the message; may be null. Pass null to stop sharing the live location
-	public init(chatId: Int53, messageId: Int53, replyMarkup: ReplyMarkup, location: Location?) {
+	public init(chatId: Int53, messageId: Int53, replyMarkup: ReplyMarkup?, location: Location?) {
 		self.chatId = chatId
 		self.messageId = messageId
 		self.replyMarkup = replyMarkup
@@ -5602,7 +5602,7 @@ public struct EditMessageCaption: Codable, Equatable, TDFunction {
 	///  Identifier of the message 
 	public let messageId: Int53
 	///  The new message reply markup; for bots only 
-	public let replyMarkup: ReplyMarkup
+	public let replyMarkup: ReplyMarkup?
 	///  New message content caption; 0-200 characters
 	public let caption: FormattedText
 	/// Edits the message content caption. Non-bots can edit messages for a limited period of time. Returns the edited message after the edit is completed server-side 
@@ -5611,7 +5611,7 @@ public struct EditMessageCaption: Codable, Equatable, TDFunction {
 	///   - messageId: Identifier of the message 
 	///   - replyMarkup: The new message reply markup; for bots only 
 	///   - caption: New message content caption; 0-200 characters
-	public init(chatId: Int53, messageId: Int53, replyMarkup: ReplyMarkup, caption: FormattedText) {
+	public init(chatId: Int53, messageId: Int53, replyMarkup: ReplyMarkup?, caption: FormattedText) {
 		self.chatId = chatId
 		self.messageId = messageId
 		self.replyMarkup = replyMarkup
