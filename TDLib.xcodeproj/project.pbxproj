@@ -19,6 +19,7 @@
 		B355AE3020512AF7003C5402 /* Extra.swift in Sources */ = {isa = PBXBuildFile; fileRef = B355AE2F20512AF7003C5402 /* Extra.swift */; };
 		B355AE3920515E27003C5402 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B355AE3820515E27003C5402 /* PromiseKit.framework */; };
 		B36E80CC206EA1040033C0CE /* AutoLockStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36E80CB206EA1040033C0CE /* AutoLockStream.swift */; };
+		B3AB5D2A21330397007E7045 /* VoiceNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AB5D2921330396007E7045 /* VoiceNote.swift */; };
 		B3BC4A41208503A200763FF3 /* TDInt64.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BC4A40208503A200763FF3 /* TDInt64.swift */; };
 		B3BC4A43208519D500763FF3 /* TDEnum.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BC4A42208519D400763FF3 /* TDEnum.generated.swift */; };
 		B3C0FB4C2052CC21002F9992 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C0FB4B2052CC21002F9992 /* JSON.swift */; };
@@ -56,6 +57,7 @@
 		B355AE2F20512AF7003C5402 /* Extra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extra.swift; sourceTree = "<group>"; };
 		B355AE3820515E27003C5402 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
 		B36E80CB206EA1040033C0CE /* AutoLockStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLockStream.swift; sourceTree = "<group>"; };
+		B3AB5D2921330396007E7045 /* VoiceNote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceNote.swift; sourceTree = "<group>"; };
 		B3BC4A40208503A200763FF3 /* TDInt64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDInt64.swift; sourceTree = "<group>"; };
 		B3BC4A42208519D400763FF3 /* TDEnum.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDEnum.generated.swift; sourceTree = "<group>"; };
 		B3C0FB4B2052CC21002F9992 /* JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 				B3D8D0B1208389600017F088 /* Chat.swift */,
 				B3D8D0AF208388640017F088 /* User.swift */,
 				B3BC4A40208503A200763FF3 /* TDInt64.swift */,
+				B3AB5D2921330396007E7045 /* VoiceNote.swift */,
 			);
 			path = Function;
 			sourceTree = "<group>";
@@ -297,6 +300,11 @@
 			files = (
 				B3DE1E1E208A18A800E156A2 /* Error.swift in Sources */,
 				B3D8D0B0208388640017F088 /* User.swift in Sources */,
+<<<<<<< Updated upstream
+=======
+				B3AB5D2A21330397007E7045 /* VoiceNote.swift in Sources */,
+				B3BED5FC209B1715003AB79F /* FloodStream.swift in Sources */,
+>>>>>>> Stashed changes
 				B329EB4A204B5D3700329997 /* Event.swift in Sources */,
 				B355AE3020512AF7003C5402 /* Extra.swift in Sources */,
 				B33B98D12044C37B000712A6 /* TDJsonClient.swift in Sources */,
