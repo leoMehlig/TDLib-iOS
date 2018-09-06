@@ -1,6 +1,6 @@
 extension GetChatHistory {
-    public static func firstMessage(in chatId: Int64) -> GetChatHistory {
-        return GetChatHistory(chatId: chatId, fromMessageId: 2, offset: -1, limit: 2, onlyLocal: false)
+    public static func firstMessage(in chatId: Int64, fromMessageId id: Int53 = 2) -> GetChatHistory {
+        return GetChatHistory(chatId: chatId, fromMessageId: id, offset: id == 2 ? -1 : -2, limit: 3, onlyLocal: false)
     }
 }
 

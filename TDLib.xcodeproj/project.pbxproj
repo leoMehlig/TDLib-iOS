@@ -31,6 +31,7 @@
 		B3D8D0B0208388640017F088 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D8D0AF208388640017F088 /* User.swift */; };
 		B3D8D0B2208389600017F088 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D8D0B1208389600017F088 /* Chat.swift */; };
 		B3DE1E1E208A18A800E156A2 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DE1E1D208A18A800E156A2 /* Error.swift */; };
+		B3E7376321416A290011DF20 /* VoiceNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E7376221416A290011DF20 /* VoiceNote.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		B3D8D0AF208388640017F088 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B3D8D0B1208389600017F088 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		B3DE1E1D208A18A800E156A2 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		B3E7376221416A290011DF20 /* VoiceNote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceNote.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +162,7 @@
 				B3D8D0AD2083881E0017F088 /* Message.swift */,
 				B3D8D0B1208389600017F088 /* Chat.swift */,
 				B3D8D0AF208388640017F088 /* User.swift */,
+				B3E7376221416A290011DF20 /* VoiceNote.swift */,
 				B3BC4A40208503A200763FF3 /* TDInt64.swift */,
 			);
 			path = Function;
@@ -307,6 +310,7 @@
 			files = (
 				B3DE1E1E208A18A800E156A2 /* Error.swift in Sources */,
 				B3D8D0B0208388640017F088 /* User.swift in Sources */,
+				B3E7376321416A290011DF20 /* VoiceNote.swift in Sources */,
 				B3BED5FC209B1715003AB79F /* FloodStream.swift in Sources */,
 				B329EB4A204B5D3700329997 /* Event.swift in Sources */,
 				B355AE3020512AF7003C5402 /* Extra.swift in Sources */,
