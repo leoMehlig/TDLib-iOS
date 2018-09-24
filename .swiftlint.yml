@@ -29,6 +29,7 @@ opt_in_rules:
   
 disabled_rules:
   - large_tuple
+  - identifier_name # does not work in Xcode 10 beta
 
 excluded:
   - Carthage
