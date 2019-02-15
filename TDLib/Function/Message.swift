@@ -15,4 +15,13 @@ extension MessageContent: CustomStringConvertible {
             return "not a text message"
         }
     }
+
+    public var isPhoto: Bool {
+        switch self {
+        case .messagePhoto, .messageExpiredPhoto:
+            return true
+        default:
+            return false
+        }
+    }
 }
