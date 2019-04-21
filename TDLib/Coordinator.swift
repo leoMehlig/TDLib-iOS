@@ -10,7 +10,7 @@ public class Coordinator {
     }
 
     /// The `TDJsonClient` instance.
-    public let client: TDJsonClient
+    public private(set) var client: TDJsonClient
 
     let functionQueue = DispatchQueue(label: "tdlib_send", qos: .userInitiated)
     let updateQueue = DispatchQueue(label: "tdlib_update", qos: .utility)
@@ -24,8 +24,11 @@ public class Coordinator {
 
     public let floodStream: FloodStream
 
+    private let logPath: String
+
     private var fileStreams: [Int32: Stream<DownloadEvent<File>>] = [:]
     private var runningFunctions: [String: Resolver<Data>] = [:]
+
 
     /// Initalizes a new `Coordinator` instance.
     ///
@@ -35,18 +38,12 @@ public class Coordinator {
     ///   - encryptionKey: The encryption key for the local database.
     public init(client: TDJsonClient = TDJsonClient(), parameters: TdlibParameters, encryptionKey: Data = Data(repeating: 123, count: 64)) {
         self.client = client
-        let path = parameters.filesDirectory + "/tdlogs.log"
-        FileManager.default.createFile(atPath: path, contents: nil, attributes: [:])
-        self.client.logPath = path
-        self.floodStream = FloodStream(logPath: path)
+        self.logPath = parameters.filesDirectory + "/tdlogs.log"
+        FileManager.default.createFile(atPath: self.logPath, contents: nil, attributes: [:])
+        self.floodStream = FloodStream(logPath: self.logPath)
 
-        self.client.stream.subscribeStrong(self) { strongSelf, data in
-            guard let data = data else {
-                return
-            }
-            strongSelf.process(data: data)
-        }
-
+        self.setupClient()
+        
         self.authorizationState.subscribeStrong(self) { strongSelf, event in
             switch event.value {
             case .waitTdlibParameters?:
@@ -82,6 +79,22 @@ public class Coordinator {
                                                                      filesDirectory: path,
                                                                      apiId: apiId,
                                                                      apiHash: apiHash))
+    }
+
+    public func recreateClient(_ client: TDJsonClient = TDJsonClient()) {
+        self.client = client
+        self.setupClient()
+    }
+
+
+    private func setupClient() {
+        self.client.logPath = self.logPath
+        self.client.stream.subscribeStrong(self) { strongSelf, data in
+            guard let data = data else {
+                return
+            }
+            strongSelf.process(data: data)
+        }
     }
 
     private func process(data: Data) {
