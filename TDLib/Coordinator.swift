@@ -29,7 +29,6 @@ public class Coordinator {
     private var fileStreams: [Int32: Stream<DownloadEvent<File>>] = [:]
     private var runningFunctions: [String: Resolver<Data>] = [:]
 
-
     /// Initalizes a new `Coordinator` instance.
     ///
     /// - Parameters:
@@ -85,7 +84,6 @@ public class Coordinator {
         self.client = client
         self.setupClient()
     }
-
 
     private func setupClient() {
         self.client.logPath = self.logPath
