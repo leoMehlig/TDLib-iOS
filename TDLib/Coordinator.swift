@@ -172,7 +172,8 @@ public class Coordinator {
         }
         let stream = self.stream(forFile: file)
         if !file.local.isDownloadingActive {
-            self.send(DownloadFile(fileId: file.id, priority: 32)).cauterize()
+            let download = DownloadFile(fileId: file.id, priority: 32, offset: 0, limit: 0, synchronous: false)
+            self.send(download).cauterize()
         }
         return stream
     }

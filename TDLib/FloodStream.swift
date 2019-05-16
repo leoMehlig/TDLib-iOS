@@ -1,4 +1,4 @@
-public class FloodStream: Stream<Date?> {
+public class FloodStream: Stream<Foundation.Date?> {
     private let queue: DispatchQueue = DispatchQueue(label: "file_stream", qos: .utility)
     private var source: DispatchSourceFileSystemObject?
     private var lastId: Int?
@@ -33,7 +33,8 @@ public class FloodStream: Stream<Date?> {
                             let delay = Double(string.substring(with: match.range(at: 2))) ?? 0
                             self?.lastId = id
                             print("Flood Delay \(delay) - \(id)")
-                            self?.current = Date(timeIntervalSinceNow: delay)
+
+                            self?.current = Foundation.Date(timeIntervalSinceNow: delay)
                         }
                     }
                 }

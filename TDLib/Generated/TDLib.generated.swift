@@ -132,6 +132,90 @@ public struct AuthenticationCodeInfo: Codable, Equatable, FunctionResult {
 	}
 }
 
+///  Information about the email address authentication code that was sent 
+public struct EmailAddressAuthenticationCodeInfo: Codable, Equatable, FunctionResult {
+	///  Pattern of the email address to which an authentication code was sent 
+	public let emailAddressPattern: String
+	///  Length of the code; 0 if unknown
+	public let length: Int32
+	/// Information about the email address authentication code that was sent 
+	/// - Parameters:
+	///   - emailAddressPattern: Pattern of the email address to which an authentication code was sent 
+	///   - length: Length of the code; 0 if unknown
+	public init(emailAddressPattern: String, length: Int32) {
+		self.emailAddressPattern = emailAddressPattern
+		self.length = length
+	}
+}
+
+///  Represents a part of the text that needs to be formatted in some unusual way 
+public struct TextEntity: Codable, Equatable, FunctionResult {
+	///  Offset of the entity in UTF-16 code points 
+	public let offset: Int32
+	///  Length of the entity, in UTF-16 code points 
+	public let length: Int32
+	///  Type of the entity
+	public let type: TextEntityType
+	/// Represents a part of the text that needs to be formatted in some unusual way 
+	/// - Parameters:
+	///   - offset: Offset of the entity in UTF-16 code points 
+	///   - length: Length of the entity, in UTF-16 code points 
+	///   - type: Type of the entity
+	public init(offset: Int32, length: Int32, type: TextEntityType) {
+		self.offset = offset
+		self.length = length
+		self.type = type
+	}
+}
+
+///  Contains a list of text entities 
+public struct TextEntities: Codable, Equatable, FunctionResult {
+	///  List of text entities
+	public let entities: [TextEntity]
+	/// Contains a list of text entities 
+	/// - Parameters:
+	///   - entities: List of text entities
+	public init(entities: [TextEntity]) {
+		self.entities = entities
+	}
+}
+
+///  A text with some entities 
+public struct FormattedText: Codable, Equatable, FunctionResult {
+	///  The text 
+	public let text: String
+	///  Entities contained in the text
+	public let entities: [TextEntity]
+	/// A text with some entities 
+	/// - Parameters:
+	///   - text: The text 
+	///   - entities: Entities contained in the text
+	public init(text: String, entities: [TextEntity]) {
+		self.text = text
+		self.entities = entities
+	}
+}
+
+///  Contains Telegram terms of service 
+public struct TermsOfService: Codable, Equatable, FunctionResult {
+	///  Text of the terms of service 
+	public let text: FormattedText
+	///  Mininum age of a user to be able to accept the terms; 0 if any 
+	public let minUserAge: Int32
+	///  True, if a blocking popup with terms of service must be shown to the user
+	public let showPopup: Bool
+	/// Contains Telegram terms of service 
+	/// - Parameters:
+	///   - text: Text of the terms of service 
+	///   - minUserAge: Mininum age of a user to be able to accept the terms; 0 if any 
+	///   - showPopup: True, if a blocking popup with terms of service must be shown to the user
+	public init(text: FormattedText, minUserAge: Int32, showPopup: Bool) {
+		self.text = text
+		self.minUserAge = minUserAge
+		self.showPopup = showPopup
+	}
+}
+
 ///  Represents the current authorization state of the client 
 public indirect enum AuthorizationState: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  TDLib needs TdlibParameters for initialization
@@ -143,10 +227,11 @@ public indirect enum AuthorizationState: Codable, Equatable, FunctionResult, TDE
 	case waitPhoneNumber
 	///  TDLib needs the user's authentication code to finalize authorization 
 	/// - isRegistered: True, if the user is already registered 
+	/// - termsOfService: Telegram terms of service, which should be accepted before user can continue registration; may be null 
 	/// - codeInfo: Information about the authorization code that was sent
-	case waitCode(isRegistered: Bool, codeInfo: AuthenticationCodeInfo)
+	case waitCode(isRegistered: Bool, termsOfService: TermsOfService?, codeInfo: AuthenticationCodeInfo)
 	///  The user has been authorized, but needs to enter a password to start using the application 
-	/// - passwordHint: Hint for the password; can be empty 
+	/// - passwordHint: Hint for the password; may be empty 
 	/// - hasRecoveryEmailAddress: True if a recovery email address has been set up 
 	/// - recoveryEmailAddressPattern: Pattern of the email address to which the recovery email was sent; empty until a recovery email has been sent
 	case waitPassword(passwordHint: String, hasRecoveryEmailAddress: Bool, recoveryEmailAddressPattern: String)
@@ -162,37 +247,29 @@ public indirect enum AuthorizationState: Codable, Equatable, FunctionResult, TDE
 
 ///  Represents the current state of 2-step verification 
 public struct PasswordState: Codable, Equatable, FunctionResult {
-	///  True if a 2-step verification password has been set up 
+	///  True, if a 2-step verification password is set 
 	public let hasPassword: Bool
-	///  Hint for the password; can be empty 
+	///  Hint for the password; may be empty 
 	public let passwordHint: String
-	///  True if a recovery email has been set up 
+	///  True, if a recovery email is set 
 	public let hasRecoveryEmailAddress: Bool
-	///  Pattern of the email address to which a confirmation email was sent
-	public let unconfirmedRecoveryEmailAddressPattern: String
+	///  True, if some Telegram Passport elements were saved 
+	public let hasPassportData: Bool
+	///  Information about the recovery email address to which the confirmation email was sent; may be null
+	public let recoveryEmailAddressCodeInfo: EmailAddressAuthenticationCodeInfo?
 	/// Represents the current state of 2-step verification 
 	/// - Parameters:
-	///   - hasPassword: True if a 2-step verification password has been set up 
-	///   - passwordHint: Hint for the password; can be empty 
-	///   - hasRecoveryEmailAddress: True if a recovery email has been set up 
-	///   - unconfirmedRecoveryEmailAddressPattern: Pattern of the email address to which a confirmation email was sent
-	public init(hasPassword: Bool, passwordHint: String, hasRecoveryEmailAddress: Bool, unconfirmedRecoveryEmailAddressPattern: String) {
+	///   - hasPassword: True, if a 2-step verification password is set 
+	///   - passwordHint: Hint for the password; may be empty 
+	///   - hasRecoveryEmailAddress: True, if a recovery email is set 
+	///   - hasPassportData: True, if some Telegram Passport elements were saved 
+	///   - recoveryEmailAddressCodeInfo: Information about the recovery email address to which the confirmation email was sent; may be null
+	public init(hasPassword: Bool, passwordHint: String, hasRecoveryEmailAddress: Bool, hasPassportData: Bool, recoveryEmailAddressCodeInfo: EmailAddressAuthenticationCodeInfo?) {
 		self.hasPassword = hasPassword
 		self.passwordHint = passwordHint
 		self.hasRecoveryEmailAddress = hasRecoveryEmailAddress
-		self.unconfirmedRecoveryEmailAddressPattern = unconfirmedRecoveryEmailAddressPattern
-	}
-}
-
-///  Contains information available to the user after requesting password recovery 
-public struct PasswordRecoveryInfo: Codable, Equatable, FunctionResult {
-	///  Pattern of the email address to which a recovery email was sent
-	public let recoveryEmailAddressPattern: String
-	/// Contains information available to the user after requesting password recovery 
-	/// - Parameters:
-	///   - recoveryEmailAddressPattern: Pattern of the email address to which a recovery email was sent
-	public init(recoveryEmailAddressPattern: String) {
-		self.recoveryEmailAddressPattern = recoveryEmailAddressPattern
+		self.hasPassportData = hasPassportData
+		self.recoveryEmailAddressCodeInfo = recoveryEmailAddressCodeInfo
 	}
 }
 
@@ -236,7 +313,9 @@ public struct LocalFile: Codable, Equatable, FunctionResult {
 	public let isDownloadingActive: Bool
 	///  True, if the local copy is fully available 
 	public let isDownloadingCompleted: Bool
-	///  If is_downloading_completed is false, then only some prefix of the file is ready to be read. downloaded_prefix_size is the size of that prefix 
+	///  Download will be started from this offset. downloaded_prefix_size is calculated from this offset 
+	public let downloadOffset: Int32
+	///  If is_downloading_completed is false, then only some prefix of the file starting from download_offset is ready to be read. downloaded_prefix_size is the size of that prefix 
 	public let downloadedPrefixSize: Int32
 	///  Total downloaded file bytes. Should be used only for calculating download progress. The actual file size may be bigger, and some parts of it may contain garbage
 	public let downloadedSize: Int32
@@ -247,14 +326,16 @@ public struct LocalFile: Codable, Equatable, FunctionResult {
 	///   - canBeDeleted: True, if the file can be deleted 
 	///   - isDownloadingActive: True, if the file is currently being downloaded (or a local copy is being generated by some other means) 
 	///   - isDownloadingCompleted: True, if the local copy is fully available 
-	///   - downloadedPrefixSize: If is_downloading_completed is false, then only some prefix of the file is ready to be read. downloaded_prefix_size is the size of that prefix 
+	///   - downloadOffset: Download will be started from this offset. downloaded_prefix_size is calculated from this offset 
+	///   - downloadedPrefixSize: If is_downloading_completed is false, then only some prefix of the file starting from download_offset is ready to be read. downloaded_prefix_size is the size of that prefix 
 	///   - downloadedSize: Total downloaded file bytes. Should be used only for calculating download progress. The actual file size may be bigger, and some parts of it may contain garbage
-	public init(path: String, canBeDownloaded: Bool, canBeDeleted: Bool, isDownloadingActive: Bool, isDownloadingCompleted: Bool, downloadedPrefixSize: Int32, downloadedSize: Int32) {
+	public init(path: String, canBeDownloaded: Bool, canBeDeleted: Bool, isDownloadingActive: Bool, isDownloadingCompleted: Bool, downloadOffset: Int32, downloadedPrefixSize: Int32, downloadedSize: Int32) {
 		self.path = path
 		self.canBeDownloaded = canBeDownloaded
 		self.canBeDeleted = canBeDeleted
 		self.isDownloadingActive = isDownloadingActive
 		self.isDownloadingCompleted = isDownloadingCompleted
+		self.downloadOffset = downloadOffset
 		self.downloadedPrefixSize = downloadedPrefixSize
 		self.downloadedSize = downloadedSize
 	}
@@ -262,7 +343,7 @@ public struct LocalFile: Codable, Equatable, FunctionResult {
 
 ///  Represents a remote file 
 public struct RemoteFile: Codable, Equatable, FunctionResult {
-	///  Remote file identifier, may be empty. Can be used across application restarts or even from other devices for the current user. If the ID starts with "http://" or "https://", it represents the HTTP URL of the file. TDLib is currently unable to download files if only their URL is known. -If downloadFile is called on such a file or if it is sent to a secret chat, TDLib starts a file generation process by sending updateFileGenerationStart to the client with the HTTP URL in the original_path and "#url#" as the conversion string. Clients should generate the file by downloading it to the specified location 
+	///  Remote file identifier; may be empty. Can be used across application restarts or even from other devices for the current user. If the ID starts with "http://" or "https://", it represents the HTTP URL of the file. TDLib is currently unable to download files if only their URL is known. -If downloadFile is called on such a file or if it is sent to a secret chat, TDLib starts a file generation process by sending updateFileGenerationStart to the client with the HTTP URL in the original_path and "#url#" as the conversion string. Clients should generate the file by downloading it to the specified location 
 	public let id: String
 	///  True, if the file is currently being uploaded (or a remote copy is being generated by some other means) 
 	public let isUploadingActive: Bool
@@ -272,7 +353,7 @@ public struct RemoteFile: Codable, Equatable, FunctionResult {
 	public let uploadedSize: Int32
 	/// Represents a remote file 
 	/// - Parameters:
-	///   - id: Remote file identifier, may be empty. Can be used across application restarts or even from other devices for the current user. If the ID starts with "http://" or "https://", it represents the HTTP URL of the file. TDLib is currently unable to download files if only their URL is known. -If downloadFile is called on such a file or if it is sent to a secret chat, TDLib starts a file generation process by sending updateFileGenerationStart to the client with the HTTP URL in the original_path and "#url#" as the conversion string. Clients should generate the file by downloading it to the specified location 
+	///   - id: Remote file identifier; may be empty. Can be used across application restarts or even from other devices for the current user. If the ID starts with "http://" or "https://", it represents the HTTP URL of the file. TDLib is currently unable to download files if only their URL is known. -If downloadFile is called on such a file or if it is sent to a secret chat, TDLib starts a file generation process by sending updateFileGenerationStart to the client with the HTTP URL in the original_path and "#url#" as the conversion string. Clients should generate the file by downloading it to the specified location 
 	///   - isUploadingActive: True, if the file is currently being uploaded (or a remote copy is being generated by some other means) 
 	///   - isUploadingCompleted: True, if a remote copy is fully available 
 	///   - uploadedSize: Size of the remote available part of the file; 0 if unknown
@@ -324,8 +405,8 @@ public indirect enum InputFile: Codable, Equatable, FunctionResult, TDEnum, Equa
 	/// - path: Local path to the file
 	case local(path: String)
 	///  A file generated by the client 
-	/// - originalPath: Local path to a file from which the file is generated, may be empty if there is no such file 
-	/// - conversion: String specifying the conversion applied to the original file; should be persistent across application restarts 
+	/// - originalPath: Local path to a file from which the file is generated; may be empty if there is no such file 
+	/// - conversion: String specifying the conversion applied to the original file; should be persistent across application restarts. Conversions beginning with '#' are reserved for internal TDLib usage 
 	/// - expectedSize: Expected size of the generated file; 0 if unknown
 	case generated(originalPath: String, conversion: String, expectedSize: Int32)
 }
@@ -390,51 +471,31 @@ public struct MaskPosition: Codable, Equatable, FunctionResult {
 	}
 }
 
-///  Represents a part of the text that needs to be formatted in some unusual way 
-public struct TextEntity: Codable, Equatable, FunctionResult {
-	///  Offset of the entity in UTF-16 code points 
-	public let offset: Int32
-	///  Length of the entity, in UTF-16 code points 
-	public let length: Int32
-	///  Type of the entity
-	public let type: TextEntityType
-	/// Represents a part of the text that needs to be formatted in some unusual way 
-	/// - Parameters:
-	///   - offset: Offset of the entity in UTF-16 code points 
-	///   - length: Length of the entity, in UTF-16 code points 
-	///   - type: Type of the entity
-	public init(offset: Int32, length: Int32, type: TextEntityType) {
-		self.offset = offset
-		self.length = length
-		self.type = type
-	}
-}
-
-///  Contains a list of text entities 
-public struct TextEntities: Codable, Equatable, FunctionResult {
-	///  List of text entities
-	public let entities: [TextEntity]
-	/// Contains a list of text entities 
-	/// - Parameters:
-	///   - entities: List of text entities
-	public init(entities: [TextEntity]) {
-		self.entities = entities
-	}
-}
-
-///  A text with some entities 
-public struct FormattedText: Codable, Equatable, FunctionResult {
-	///  The text 
+///  Describes one answer option of a poll 
+public struct PollOption: Codable, Equatable, FunctionResult {
+	///  Option text, 1-100 characters 
 	public let text: String
-	///  Entities contained in the text
-	public let entities: [TextEntity]
-	/// A text with some entities 
+	///  Number of voters for this option, available only for closed or voted polls 
+	public let voterCount: Int32
+	///  The percentage of votes for this option, 0-100 
+	public let votePercentage: Int32
+	///  True, if the option was chosen by the user 
+	public let isChosen: Bool
+	///  True, if the option is being chosen by a pending setPollAnswer request
+	public let isBeingChosen: Bool
+	/// Describes one answer option of a poll 
 	/// - Parameters:
-	///   - text: The text 
-	///   - entities: Entities contained in the text
-	public init(text: String, entities: [TextEntity]) {
+	///   - text: Option text, 1-100 characters 
+	///   - voterCount: Number of voters for this option, available only for closed or voted polls 
+	///   - votePercentage: The percentage of votes for this option, 0-100 
+	///   - isChosen: True, if the option was chosen by the user 
+	///   - isBeingChosen: True, if the option is being chosen by a pending setPollAnswer request
+	public init(text: String, voterCount: Int32, votePercentage: Int32, isChosen: Bool, isBeingChosen: Bool) {
 		self.text = text
-		self.entities = entities
+		self.voterCount = voterCount
+		self.votePercentage = votePercentage
+		self.isChosen = isChosen
+		self.isBeingChosen = isBeingChosen
 	}
 }
 
@@ -536,19 +597,15 @@ public struct Document: Codable, Equatable, FunctionResult {
 
 ///  Describes a photo 
 public struct Photo: Codable, Equatable, FunctionResult {
-	///  Photo identifier; 0 for deleted photos 
-	public let id: TDInt64
 	///  True, if stickers were added to the photo 
 	public let hasStickers: Bool
 	///  Available variants of the photo, in different sizes
 	public let sizes: [PhotoSize]
 	/// Describes a photo 
 	/// - Parameters:
-	///   - id: Photo identifier; 0 for deleted photos 
 	///   - hasStickers: True, if stickers were added to the photo 
 	///   - sizes: Available variants of the photo, in different sizes
-	public init(id: TDInt64, hasStickers: Bool, sizes: [PhotoSize]) {
-		self.id = id
+	public init(hasStickers: Bool, sizes: [PhotoSize]) {
 		self.hasStickers = hasStickers
 		self.sizes = sizes
 	}
@@ -694,6 +751,8 @@ public struct Contact: Codable, Equatable, FunctionResult {
 	public let firstName: String
 	///  Last name of the user 
 	public let lastName: String
+	///  Additional data about the user in a form of vCard; 0-2048 bytes in length 
+	public let vcard: String
 	///  Identifier of the user, if known; otherwise 0
 	public let userId: Int32
 	/// Describes a user contact 
@@ -701,11 +760,13 @@ public struct Contact: Codable, Equatable, FunctionResult {
 	///   - phoneNumber: Phone number of the user 
 	///   - firstName: First name of the user; 1-255 characters in length 
 	///   - lastName: Last name of the user 
+	///   - vcard: Additional data about the user in a form of vCard; 0-2048 bytes in length 
 	///   - userId: Identifier of the user, if known; otherwise 0
-	public init(phoneNumber: String, firstName: String, lastName: String, userId: Int32) {
+	public init(phoneNumber: String, firstName: String, lastName: String, vcard: String, userId: Int32) {
 		self.phoneNumber = phoneNumber
 		self.firstName = firstName
 		self.lastName = lastName
+		self.vcard = vcard
 		self.userId = userId
 	}
 }
@@ -736,21 +797,25 @@ public struct Venue: Codable, Equatable, FunctionResult {
 	public let address: String
 	///  Provider of the venue database; as defined by the sender. Currently only "foursquare" needs to be supported 
 	public let provider: String
-	///  Identifier of the venue in the provider database; as defined by the sender
+	///  Identifier of the venue in the provider database; as defined by the sender 
 	public let id: String
+	///  Type of the venue in the provider database; as defined by the sender
+	public let type: String
 	/// Describes a venue 
 	/// - Parameters:
 	///   - location: Venue location; as defined by the sender 
 	///   - title: Venue name; as defined by the sender 
 	///   - address: Venue address; as defined by the sender 
 	///   - provider: Provider of the venue database; as defined by the sender. Currently only "foursquare" needs to be supported 
-	///   - id: Identifier of the venue in the provider database; as defined by the sender
-	public init(location: Location, title: String, address: String, provider: String, id: String) {
+	///   - id: Identifier of the venue in the provider database; as defined by the sender 
+	///   - type: Type of the venue in the provider database; as defined by the sender
+	public init(location: Location, title: String, address: String, provider: String, id: String, type: String) {
 		self.location = location
 		self.title = title
 		self.address = address
 		self.provider = provider
 		self.id = id
+		self.type = type
 	}
 }
 
@@ -787,6 +852,34 @@ public struct Game: Codable, Equatable, FunctionResult {
 		self.description = description
 		self.photo = photo
 		self.animation = animation
+	}
+}
+
+///  Describes a poll 
+public struct Poll: Codable, Equatable, FunctionResult {
+	///  Unique poll identifier 
+	public let id: TDInt64
+	///  Poll question, 1-255 characters 
+	public let question: String
+	///  List of poll answer options 
+	public let options: [PollOption]
+	///  Total number of voters, participating in the poll 
+	public let totalVoterCount: Int32
+	///  True, if the poll is closed
+	public let isClosed: Bool
+	/// Describes a poll 
+	/// - Parameters:
+	///   - id: Unique poll identifier 
+	///   - question: Poll question, 1-255 characters 
+	///   - options: List of poll answer options 
+	///   - totalVoterCount: Total number of voters, participating in the poll 
+	///   - isClosed: True, if the poll is closed
+	public init(id: TDInt64, question: String, options: [PollOption], totalVoterCount: Int32, isClosed: Bool) {
+		self.id = id
+		self.question = question
+		self.options = options
+		self.totalVoterCount = totalVoterCount
+		self.isClosed = isClosed
 	}
 }
 
@@ -830,9 +923,9 @@ public struct ChatPhoto: Codable, Equatable, FunctionResult {
 public indirect enum LinkState: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  The phone number of user A is not known to user B
 	case none
-	///  The phone number of user A is known but that number has not been saved to the contacts list of user B
+	///  The phone number of user A is known but that number has not been saved to the contact list of user B
 	case knowsPhoneNumber
-	///  The phone number of user A has been saved to the contacts list of user B
+	///  The phone number of user A has been saved to the contact list of user B
 	case isContact
 }
 
@@ -907,6 +1000,8 @@ public struct User: Codable, Equatable, FunctionResult {
 	public let incomingLink: LinkState
 	///  True, if the user is verified 
 	public let isVerified: Bool
+	///  True, if the user is Telegram support account 
+	public let isSupport: Bool
 	///  If non-empty, it contains the reason why access to this user must be restricted. The format of the string is "{type}: {description}". -{type} contains the type of the restriction and at least one of the suffixes "-all", "-ios", "-android", or "-wp", which describe the platforms on which access should be restricted. (For example, "terms-ios-android". {description} contains a human-readable description of the restriction, which can be shown to the user) 
 	public let restrictionReason: String
 	///  If false, the user is inaccessible, and the only information known about the user is inside this class. It can't be passed to any method except GetUser 
@@ -927,11 +1022,12 @@ public struct User: Codable, Equatable, FunctionResult {
 	///   - outgoingLink: Relationship from the current user to the other user 
 	///   - incomingLink: Relationship from the other user to the current user 
 	///   - isVerified: True, if the user is verified 
+	///   - isSupport: True, if the user is Telegram support account 
 	///   - restrictionReason: If non-empty, it contains the reason why access to this user must be restricted. The format of the string is "{type}: {description}". -{type} contains the type of the restriction and at least one of the suffixes "-all", "-ios", "-android", or "-wp", which describe the platforms on which access should be restricted. (For example, "terms-ios-android". {description} contains a human-readable description of the restriction, which can be shown to the user) 
 	///   - haveAccess: If false, the user is inaccessible, and the only information known about the user is inside this class. It can't be passed to any method except GetUser 
 	///   - type: Type of the user 
 	///   - languageCode: IETF language tag of the user's language; only available to bots
-	public init(id: Int32, firstName: String, lastName: String, username: String, phoneNumber: String, status: UserStatus, profilePhoto: ProfilePhoto?, outgoingLink: LinkState, incomingLink: LinkState, isVerified: Bool, restrictionReason: String, haveAccess: Bool, type: UserType, languageCode: String) {
+	public init(id: Int32, firstName: String, lastName: String, username: String, phoneNumber: String, status: UserStatus, profilePhoto: ProfilePhoto?, outgoingLink: LinkState, incomingLink: LinkState, isVerified: Bool, isSupport: Bool, restrictionReason: String, haveAccess: Bool, type: UserType, languageCode: String) {
 		self.id = id
 		self.firstName = firstName
 		self.lastName = lastName
@@ -942,6 +1038,7 @@ public struct User: Codable, Equatable, FunctionResult {
 		self.outgoingLink = outgoingLink
 		self.incomingLink = incomingLink
 		self.isVerified = isVerified
+		self.isSupport = isSupport
 		self.restrictionReason = restrictionReason
 		self.haveAccess = haveAccess
 		self.type = type
@@ -985,17 +1082,37 @@ public struct UserFullInfo: Codable, Equatable, FunctionResult {
 	}
 }
 
+///  Contains full information about a user profile photo 
+public struct UserProfilePhoto: Codable, Equatable, FunctionResult {
+	///  Unique user profile photo identifier 
+	public let id: TDInt64
+	///  Point in time (Unix timestamp) when the photo has been added 
+	public let addedDate: Int32
+	///  Available variants of the user photo, in different sizes
+	public let sizes: [PhotoSize]
+	/// Contains full information about a user profile photo 
+	/// - Parameters:
+	///   - id: Unique user profile photo identifier 
+	///   - addedDate: Point in time (Unix timestamp) when the photo has been added 
+	///   - sizes: Available variants of the user photo, in different sizes
+	public init(id: TDInt64, addedDate: Int32, sizes: [PhotoSize]) {
+		self.id = id
+		self.addedDate = addedDate
+		self.sizes = sizes
+	}
+}
+
 ///  Contains part of the list of user photos 
 public struct UserProfilePhotos: Codable, Equatable, FunctionResult {
 	///  Total number of user profile photos 
 	public let totalCount: Int32
 	///  A list of photos
-	public let photos: [Photo]
+	public let photos: [UserProfilePhoto]
 	/// Contains part of the list of user photos 
 	/// - Parameters:
 	///   - totalCount: Total number of user profile photos 
 	///   - photos: A list of photos
-	public init(totalCount: Int32, photos: [Photo]) {
+	public init(totalCount: Int32, photos: [UserProfilePhoto]) {
 		self.totalCount = totalCount
 		self.photos = photos
 	}
@@ -1030,7 +1147,7 @@ public indirect enum ChatMemberStatus: Codable, Equatable, FunctionResult, TDEnu
 	/// - canDeleteMessages: True, if the administrator can delete messages of other users 
 	/// - canInviteUsers: True, if the administrator can invite new users to the chat 
 	/// - canRestrictMembers: True, if the administrator can restrict, ban, or unban chat members 
-	/// - canPinMessages: True, if the administrator can pin messages; applicable to supergroups only 
+	/// - canPinMessages: True, if the administrator can pin messages; applicable to groups only 
 	/// - canPromoteMembers: True, if the administrator can add new administrators with a subset of his own privileges or demote administrators that were directly or indirectly promoted by him
 	case administrator(canBeEdited: Bool, canChangeInfo: Bool, canPostMessages: Bool, canEditMessages: Bool, canDeleteMessages: Bool, canInviteUsers: Bool, canRestrictMembers: Bool, canPinMessages: Bool, canPromoteMembers: Bool)
 	///  The user is a member of a chat, without any additional privileges or restrictions
@@ -1092,6 +1209,20 @@ public struct ChatMembers: Codable, Equatable, FunctionResult {
 		self.totalCount = totalCount
 		self.members = members
 	}
+}
+
+///  Specifies the kind of chat members to return in searchChatMembers 
+public indirect enum ChatMembersFilter: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
+	///  Returns the creator and administrators
+	case administrators
+	///  Returns all chat members, including restricted chat members
+	case members
+	///  Returns users under certain restrictions in the chat; can be used only by administrators in a supergroup
+	case restricted
+	///  Returns users banned from the chat; can be used only by administrators in a supergroup or in a channel
+	case banned
+	///  Returns bot members of the chat
+	case bots
 }
 
 ///  Specifies the kind of chat members to return in getSupergroupMembers 
@@ -1231,14 +1362,14 @@ public struct SupergroupFullInfo: Codable, Equatable, FunctionResult {
 	public let canSetUsername: Bool
 	///  True, if the supergroup sticker set can be changed 
 	public let canSetStickerSet: Bool
+	///  True, if the channel statistics is available through getChatStatisticsUrl 
+	public let canViewStatistics: Bool
 	///  True, if new chat members will have access to old messages. In public supergroups and both public and private channels, old messages are always available, so this option affects only private supergroups. The value of this field is only available for chat administrators 
 	public let isAllHistoryAvailable: Bool
 	///  Identifier of the supergroup sticker set; 0 if none 
 	public let stickerSetId: TDInt64
 	///  Invite link for this chat 
 	public let inviteLink: String
-	///  Identifier of the pinned message in the chat; 0 if none 
-	public let pinnedMessageId: Int53
 	///  Identifier of the basic group from which supergroup was upgraded; 0 if none 
 	public let upgradedFromBasicGroupId: Int32
 	///  Identifier of the last message in the basic group from which supergroup was upgraded; 0 if none
@@ -1253,13 +1384,13 @@ public struct SupergroupFullInfo: Codable, Equatable, FunctionResult {
 	///   - canGetMembers: True, if members of the chat can be retrieved 
 	///   - canSetUsername: True, if the chat can be made public 
 	///   - canSetStickerSet: True, if the supergroup sticker set can be changed 
+	///   - canViewStatistics: True, if the channel statistics is available through getChatStatisticsUrl 
 	///   - isAllHistoryAvailable: True, if new chat members will have access to old messages. In public supergroups and both public and private channels, old messages are always available, so this option affects only private supergroups. The value of this field is only available for chat administrators 
 	///   - stickerSetId: Identifier of the supergroup sticker set; 0 if none 
 	///   - inviteLink: Invite link for this chat 
-	///   - pinnedMessageId: Identifier of the pinned message in the chat; 0 if none 
 	///   - upgradedFromBasicGroupId: Identifier of the basic group from which supergroup was upgraded; 0 if none 
 	///   - upgradedFromMaxMessageId: Identifier of the last message in the basic group from which supergroup was upgraded; 0 if none
-	public init(description: String, memberCount: Int32, administratorCount: Int32, restrictedCount: Int32, bannedCount: Int32, canGetMembers: Bool, canSetUsername: Bool, canSetStickerSet: Bool, isAllHistoryAvailable: Bool, stickerSetId: TDInt64, inviteLink: String, pinnedMessageId: Int53, upgradedFromBasicGroupId: Int32, upgradedFromMaxMessageId: Int53) {
+	public init(description: String, memberCount: Int32, administratorCount: Int32, restrictedCount: Int32, bannedCount: Int32, canGetMembers: Bool, canSetUsername: Bool, canSetStickerSet: Bool, canViewStatistics: Bool, isAllHistoryAvailable: Bool, stickerSetId: TDInt64, inviteLink: String, upgradedFromBasicGroupId: Int32, upgradedFromMaxMessageId: Int53) {
 		self.description = description
 		self.memberCount = memberCount
 		self.administratorCount = administratorCount
@@ -1268,10 +1399,10 @@ public struct SupergroupFullInfo: Codable, Equatable, FunctionResult {
 		self.canGetMembers = canGetMembers
 		self.canSetUsername = canSetUsername
 		self.canSetStickerSet = canSetStickerSet
+		self.canViewStatistics = canViewStatistics
 		self.isAllHistoryAvailable = isAllHistoryAvailable
 		self.stickerSetId = stickerSetId
 		self.inviteLink = inviteLink
-		self.pinnedMessageId = pinnedMessageId
 		self.upgradedFromBasicGroupId = upgradedFromBasicGroupId
 		self.upgradedFromMaxMessageId = upgradedFromMaxMessageId
 	}
@@ -1323,23 +1454,43 @@ public struct SecretChat: Codable, Equatable, FunctionResult {
 	}
 }
 
-///  Contains information about the initial sender of a forwarded message 
-// sourcery: noPrefix = true
-public indirect enum MessageForwardInfo: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
+///  Contains information about the origin of a forwarded message 
+public indirect enum MessageForwardOrigin: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  The message was originally written by a known user 
-	/// - senderUserId: Identifier of the user that originally sent this message 
-	/// - date: Point in time (Unix timestamp) when the message was originally sent 
-	/// - forwardedFromChatId: For messages forwarded to the chat with the current user (saved messages), the identifier of the chat from which the message was forwarded; 0 if unknown 
-	/// - forwardedFromMessageId: For messages forwarded to the chat with the current user (saved messages) the identifier of the original message from which the new message was forwarded; 0 if unknown
-	case messageForwardedFromUser(senderUserId: Int32, date: Int32, forwardedFromChatId: Int53, forwardedFromMessageId: Int53)
+	/// - senderUserId: Identifier of the user that originally sent the message
+	case user(senderUserId: Int32)
+	///  The message was originally written by a user, which is hidden by his privacy settings 
+	/// - senderName: Name of the sender
+	case hiddenUser(senderName: String)
 	///  The message was originally a post in a channel 
-	/// - chatId: Identifier of the chat from which the message was forwarded 
-	/// - authorSignature: Post author signature 
-	/// - date: Point in time (Unix timestamp) when the message was originally sent 
-	/// - messageId: Message identifier of the original message from which the new message was forwarded; 0 if unknown 
-	/// - forwardedFromChatId: For messages forwarded to the chat with the current user (saved messages), the identifier of the chat from which the message was forwarded; 0 if unknown 
-	/// - forwardedFromMessageId: For messages forwarded to the chat with the current user (saved messages), the identifier of the original message from which the new message was forwarded; 0 if unknown
-	case messageForwardedPost(chatId: Int53, authorSignature: String, date: Int32, messageId: Int53, forwardedFromChatId: Int53, forwardedFromMessageId: Int53)
+	/// - chatId: Identifier of the chat from which the message was originally forwarded 
+	/// - messageId: Message identifier of the original message; 0 if unknown 
+	/// - authorSignature: Original post author signature
+	case channel(chatId: Int53, messageId: Int53, authorSignature: String)
+}
+
+///  Contains information about a forwarded message 
+public struct MessageForwardInfo: Codable, Equatable, FunctionResult {
+	///  Origin of a forwarded message 
+	public let origin: MessageForwardOrigin
+	///  Point in time (Unix timestamp) when the message was originally sent 
+	public let date: Int32
+	///  For messages forwarded to the chat with the current user (saved messages), the identifier of the chat from which the message was forwarded last time; 0 if unknown 
+	public let fromChatId: Int53
+	///  For messages forwarded to the chat with the current user (saved messages), the identifier of the original message from which the new message was forwarded last time; 0 if unknown
+	public let fromMessageId: Int53
+	/// Contains information about a forwarded message 
+	/// - Parameters:
+	///   - origin: Origin of a forwarded message 
+	///   - date: Point in time (Unix timestamp) when the message was originally sent 
+	///   - fromChatId: For messages forwarded to the chat with the current user (saved messages), the identifier of the chat from which the message was forwarded last time; 0 if unknown 
+	///   - fromMessageId: For messages forwarded to the chat with the current user (saved messages), the identifier of the original message from which the new message was forwarded last time; 0 if unknown
+	public init(origin: MessageForwardOrigin, date: Int32, fromChatId: Int53, fromMessageId: Int53) {
+		self.origin = origin
+		self.date = date
+		self.fromChatId = fromChatId
+		self.fromMessageId = fromMessageId
+	}
 }
 
 ///  Contains information about the sending state of the message 
@@ -1352,7 +1503,7 @@ public indirect enum MessageSendingState: Codable, Equatable, FunctionResult, TD
 
 ///  Describes a message 
 public struct Message: Codable, Equatable, FunctionResult {
-	///  Unique message identifier 
+	///  Message identifier, unique for the chat to which the message belongs 
 	public let id: Int53
 	///  Identifier of the user who sent the message; 0 if unknown. It is unknown for channel posts 
 	public let senderUserId: Int32
@@ -1362,7 +1513,7 @@ public struct Message: Codable, Equatable, FunctionResult {
 	public let sendingState: MessageSendingState?
 	///  True, if the message is outgoing 
 	public let isOutgoing: Bool
-	///  True, if the message can be edited 
+	///  True, if the message can be edited. For live location and poll messages this fields shows, whether editMessageLiveLocation or stopPoll can be used with this message by the client 
 	public let canBeEdited: Bool
 	///  True, if the message can be forwarded 
 	public let canBeForwarded: Bool
@@ -1400,12 +1551,12 @@ public struct Message: Codable, Equatable, FunctionResult {
 	public let replyMarkup: ReplyMarkup?
 	/// Describes a message 
 	/// - Parameters:
-	///   - id: Unique message identifier 
+	///   - id: Message identifier, unique for the chat to which the message belongs 
 	///   - senderUserId: Identifier of the user who sent the message; 0 if unknown. It is unknown for channel posts 
 	///   - chatId: Chat identifier 
 	///   - sendingState: Information about the sending state of the message; may be null 
 	///   - isOutgoing: True, if the message is outgoing 
-	///   - canBeEdited: True, if the message can be edited 
+	///   - canBeEdited: True, if the message can be edited. For live location and poll messages this fields shows, whether editMessageLiveLocation or stopPoll can be used with this message by the client 
 	///   - canBeForwarded: True, if the message can be forwarded 
 	///   - canBeDeletedOnlyForSelf: True, if the message can be deleted only for the current user while other users will continue to see it 
 	///   - canBeDeletedForAllUsers: True, if the message can be deleted for all users 
@@ -1482,36 +1633,89 @@ public struct FoundMessages: Codable, Equatable, FunctionResult {
 	}
 }
 
-///  Describes the types of chats for which notification settings are applied 
+///  Describes the types of chats to which notification settings are applied 
 public indirect enum NotificationSettingsScope: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
-	///  Notification settings applied to a particular chat 
-	/// - chatId: Chat identifier
-	case chat(chatId: Int53)
-	///  Notification settings applied to all private chats
+	///  Notification settings applied to all private and secret chats when the corresponding chat setting has a default value
 	case privateChats
-	///  Notification settings applied to all basic groups and channels. (Supergroups have no common settings)
-	case basicGroupChats
-	///  Notification settings applied to all chats
-	case allChats
+	///  Notification settings applied to all basic groups and supergroups when the corresponding chat setting has a default value
+	case groupChats
+	///  Notification settings applied to all channels when the corresponding chat setting has a default value
+	case channelChats
 }
 
-///  Contains information about notification settings for a chat or several chats 
-public struct NotificationSettings: Codable, Equatable, FunctionResult {
+///  Contains information about notification settings for a chat 
+public struct ChatNotificationSettings: Codable, Equatable, FunctionResult {
+	///  If true, mute_for is ignored and the value for the relevant type of chat is used instead 
+	public let useDefaultMuteFor: Bool
 	///  Time left before notifications will be unmuted, in seconds 
 	public let muteFor: Int32
-	///  An audio file name for notification sounds; only applies to iOS applications 
+	///  If true, sound is ignored and the value for the relevant type of chat is used instead 
+	public let useDefaultSound: Bool
+	///  The name of an audio file to be used for notification sounds; only applies to iOS applications 
 	public let sound: String
-	///  True, if message content should be displayed in notifications
+	///  If true, show_preview is ignored and the value for the relevant type of chat is used instead 
+	public let useDefaultShowPreview: Bool
+	///  True, if message content should be displayed in notifications 
 	public let showPreview: Bool
-	/// Contains information about notification settings for a chat or several chats 
+	///  If true, disable_pinned_message_notifications is ignored and the value for the relevant type of chat is used instead 
+	public let useDefaultDisablePinnedMessageNotifications: Bool
+	///  If true, notifications for incoming pinned messages will be created as for an ordinary unread message 
+	public let disablePinnedMessageNotifications: Bool
+	///  If true, disable_mention_notifications is ignored and the value for the relevant type of chat is used instead 
+	public let useDefaultDisableMentionNotifications: Bool
+	///  If true, notifications for messages with mentions will be created as for an ordinary unread message
+	public let disableMentionNotifications: Bool
+	/// Contains information about notification settings for a chat 
+	/// - Parameters:
+	///   - useDefaultMuteFor: If true, mute_for is ignored and the value for the relevant type of chat is used instead 
+	///   - muteFor: Time left before notifications will be unmuted, in seconds 
+	///   - useDefaultSound: If true, sound is ignored and the value for the relevant type of chat is used instead 
+	///   - sound: The name of an audio file to be used for notification sounds; only applies to iOS applications 
+	///   - useDefaultShowPreview: If true, show_preview is ignored and the value for the relevant type of chat is used instead 
+	///   - showPreview: True, if message content should be displayed in notifications 
+	///   - useDefaultDisablePinnedMessageNotifications: If true, disable_pinned_message_notifications is ignored and the value for the relevant type of chat is used instead 
+	///   - disablePinnedMessageNotifications: If true, notifications for incoming pinned messages will be created as for an ordinary unread message 
+	///   - useDefaultDisableMentionNotifications: If true, disable_mention_notifications is ignored and the value for the relevant type of chat is used instead 
+	///   - disableMentionNotifications: If true, notifications for messages with mentions will be created as for an ordinary unread message
+	public init(useDefaultMuteFor: Bool, muteFor: Int32, useDefaultSound: Bool, sound: String, useDefaultShowPreview: Bool, showPreview: Bool, useDefaultDisablePinnedMessageNotifications: Bool, disablePinnedMessageNotifications: Bool, useDefaultDisableMentionNotifications: Bool, disableMentionNotifications: Bool) {
+		self.useDefaultMuteFor = useDefaultMuteFor
+		self.muteFor = muteFor
+		self.useDefaultSound = useDefaultSound
+		self.sound = sound
+		self.useDefaultShowPreview = useDefaultShowPreview
+		self.showPreview = showPreview
+		self.useDefaultDisablePinnedMessageNotifications = useDefaultDisablePinnedMessageNotifications
+		self.disablePinnedMessageNotifications = disablePinnedMessageNotifications
+		self.useDefaultDisableMentionNotifications = useDefaultDisableMentionNotifications
+		self.disableMentionNotifications = disableMentionNotifications
+	}
+}
+
+///  Contains information about notification settings for several chats 
+public struct ScopeNotificationSettings: Codable, Equatable, FunctionResult {
+	///  Time left before notifications will be unmuted, in seconds 
+	public let muteFor: Int32
+	///  The name of an audio file to be used for notification sounds; only applies to iOS applications 
+	public let sound: String
+	///  True, if message content should be displayed in notifications 
+	public let showPreview: Bool
+	///  True, if notifications for incoming pinned messages will be created as for an ordinary unread message 
+	public let disablePinnedMessageNotifications: Bool
+	///  True, if notifications for messages with mentions will be created as for an ordinary unread message
+	public let disableMentionNotifications: Bool
+	/// Contains information about notification settings for several chats 
 	/// - Parameters:
 	///   - muteFor: Time left before notifications will be unmuted, in seconds 
-	///   - sound: An audio file name for notification sounds; only applies to iOS applications 
-	///   - showPreview: True, if message content should be displayed in notifications
-	public init(muteFor: Int32, sound: String, showPreview: Bool) {
+	///   - sound: The name of an audio file to be used for notification sounds; only applies to iOS applications 
+	///   - showPreview: True, if message content should be displayed in notifications 
+	///   - disablePinnedMessageNotifications: True, if notifications for incoming pinned messages will be created as for an ordinary unread message 
+	///   - disableMentionNotifications: True, if notifications for messages with mentions will be created as for an ordinary unread message
+	public init(muteFor: Int32, sound: String, showPreview: Bool, disablePinnedMessageNotifications: Bool, disableMentionNotifications: Bool) {
 		self.muteFor = muteFor
 		self.sound = sound
 		self.showPreview = showPreview
+		self.disablePinnedMessageNotifications = disablePinnedMessageNotifications
+		self.disableMentionNotifications = disableMentionNotifications
 	}
 }
 
@@ -1565,8 +1769,18 @@ public struct Chat: Codable, Equatable, FunctionResult {
 	public let order: TDInt64
 	///  True, if the chat is pinned 
 	public let isPinned: Bool
+	///  True, if the chat is marked as unread 
+	public let isMarkedAsUnread: Bool
+	///  True, if the chat is sponsored by the user's MTProxy server 
+	public let isSponsored: Bool
+	///  True, if the chat messages can be deleted only for the current user while other users will continue to see the messages 
+	public let canBeDeletedOnlyForSelf: Bool
+	///  True, if the chat messages can be deleted for all users 
+	public let canBeDeletedForAllUsers: Bool
 	///  True, if the chat can be reported to Telegram moderators through reportChat 
 	public let canBeReported: Bool
+	///  Default value of the disable_notification parameter, used when a message is sent to the chat 
+	public let defaultDisableNotification: Bool
 	///  Number of unread messages in the chat 
 	public let unreadCount: Int32
 	///  Identifier of the last read incoming message 
@@ -1576,7 +1790,9 @@ public struct Chat: Codable, Equatable, FunctionResult {
 	///  Number of unread messages with a mention/reply in the chat 
 	public let unreadMentionCount: Int32
 	///  Notification settings for this chat 
-	public let notificationSettings: NotificationSettings
+	public let notificationSettings: ChatNotificationSettings
+	///  Identifier of the pinned message in the chat; 0 if none 
+	public let pinnedMessageId: Int53
 	///  Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat 
 	public let replyMarkupMessageId: Int53
 	///  A draft of a message in the chat; may be null 
@@ -1592,16 +1808,22 @@ public struct Chat: Codable, Equatable, FunctionResult {
 	///   - lastMessage: Last message in the chat; may be null 
 	///   - order: Descending parameter by which chats are sorted in the main chat list. If the order number of two chats is the same, they must be sorted in descending order by ID. If 0, the position of the chat in the list is undetermined 
 	///   - isPinned: True, if the chat is pinned 
+	///   - isMarkedAsUnread: True, if the chat is marked as unread 
+	///   - isSponsored: True, if the chat is sponsored by the user's MTProxy server 
+	///   - canBeDeletedOnlyForSelf: True, if the chat messages can be deleted only for the current user while other users will continue to see the messages 
+	///   - canBeDeletedForAllUsers: True, if the chat messages can be deleted for all users 
 	///   - canBeReported: True, if the chat can be reported to Telegram moderators through reportChat 
+	///   - defaultDisableNotification: Default value of the disable_notification parameter, used when a message is sent to the chat 
 	///   - unreadCount: Number of unread messages in the chat 
 	///   - lastReadInboxMessageId: Identifier of the last read incoming message 
 	///   - lastReadOutboxMessageId: Identifier of the last read outgoing message 
 	///   - unreadMentionCount: Number of unread messages with a mention/reply in the chat 
 	///   - notificationSettings: Notification settings for this chat 
+	///   - pinnedMessageId: Identifier of the pinned message in the chat; 0 if none 
 	///   - replyMarkupMessageId: Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat 
 	///   - draftMessage: A draft of a message in the chat; may be null 
 	///   - clientData: Contains client-specific data associated with the chat. (For example, the chat position or local chat notification settings can be stored here.) Persistent if a message database is used
-	public init(id: Int53, type: ChatType, title: String, photo: ChatPhoto?, lastMessage: Message?, order: TDInt64, isPinned: Bool, canBeReported: Bool, unreadCount: Int32, lastReadInboxMessageId: Int53, lastReadOutboxMessageId: Int53, unreadMentionCount: Int32, notificationSettings: NotificationSettings, replyMarkupMessageId: Int53, draftMessage: DraftMessage?, clientData: String) {
+	public init(id: Int53, type: ChatType, title: String, photo: ChatPhoto?, lastMessage: Message?, order: TDInt64, isPinned: Bool, isMarkedAsUnread: Bool, isSponsored: Bool, canBeDeletedOnlyForSelf: Bool, canBeDeletedForAllUsers: Bool, canBeReported: Bool, defaultDisableNotification: Bool, unreadCount: Int32, lastReadInboxMessageId: Int53, lastReadOutboxMessageId: Int53, unreadMentionCount: Int32, notificationSettings: ChatNotificationSettings, pinnedMessageId: Int53, replyMarkupMessageId: Int53, draftMessage: DraftMessage?, clientData: String) {
 		self.id = id
 		self.type = type
 		self.title = title
@@ -1609,12 +1831,18 @@ public struct Chat: Codable, Equatable, FunctionResult {
 		self.lastMessage = lastMessage
 		self.order = order
 		self.isPinned = isPinned
+		self.isMarkedAsUnread = isMarkedAsUnread
+		self.isSponsored = isSponsored
+		self.canBeDeletedOnlyForSelf = canBeDeletedOnlyForSelf
+		self.canBeDeletedForAllUsers = canBeDeletedForAllUsers
 		self.canBeReported = canBeReported
+		self.defaultDisableNotification = defaultDisableNotification
 		self.unreadCount = unreadCount
 		self.lastReadInboxMessageId = lastReadInboxMessageId
 		self.lastReadOutboxMessageId = lastReadOutboxMessageId
 		self.unreadMentionCount = unreadMentionCount
 		self.notificationSettings = notificationSettings
+		self.pinnedMessageId = pinnedMessageId
 		self.replyMarkupMessageId = replyMarkupMessageId
 		self.draftMessage = draftMessage
 		self.clientData = clientData
@@ -1710,7 +1938,7 @@ public struct KeyboardButton: Codable, Equatable, FunctionResult {
 ///  Describes the type of an inline keyboard button 
 public indirect enum InlineKeyboardButtonType: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  A button that opens a specified URL 
-	/// - url: URL to open
+	/// - url: HTTP or tg:// URL to open
 	case url(url: String)
 	///  A button that sends a special callback query to a bot 
 	/// - data: Data to be sent to the bot via a callback query
@@ -1788,9 +2016,147 @@ public indirect enum RichText: Codable, Equatable, FunctionResult, TDEnum, Equat
 	/// - text: Text 
 	/// - emailAddress: Email address
 	case emailAddress(text: RichText, emailAddress: String)
+	///  A subscript rich text 
+	/// - text: Text
+	case `subscript`(text: RichText)
+	///  A superscript rich text 
+	/// - text: Text
+	case superscript(text: RichText)
+	///  A marked rich text 
+	/// - text: Text
+	case marked(text: RichText)
+	///  A rich text phone number 
+	/// - text: Text 
+	/// - phoneNumber: Phone number
+	case phoneNumber(text: RichText, phoneNumber: String)
+	///  A small image inside the text 
+	/// - document: The image represented as a document. The image can be in GIF, JPEG or PNG format 
+	/// - width: Width of a bounding box in which the image should be shown, 0 if unknown 
+	/// - height: Height of a bounding box in which the image should be shown, 0 if unknown
+	case icon(document: Document, width: Int32, height: Int32)
+	///  A rich text anchor 
+	/// - text: Text 
+	/// - name: Anchor name
+	case anchor(text: RichText, name: String)
 	///  A concatenation of rich texts 
 	/// - texts: Texts
 	case s(texts: [RichText])
+}
+
+///  Contains a caption of an instant view web page block, consisting of a text and a trailing credit 
+public struct PageBlockCaption: Codable, Equatable, FunctionResult {
+	///  Content of the caption 
+	public let text: RichText
+	///  Block credit (like HTML tag <cite>)
+	public let credit: RichText
+	/// Contains a caption of an instant view web page block, consisting of a text and a trailing credit 
+	/// - Parameters:
+	///   - text: Content of the caption 
+	///   - credit: Block credit (like HTML tag <cite>)
+	public init(text: RichText, credit: RichText) {
+		self.text = text
+		self.credit = credit
+	}
+}
+
+///  Describes an item of a list page block 
+public struct PageBlockListItem: Codable, Equatable, FunctionResult {
+	///  Item label 
+	public let label: String
+	///  Item blocks
+	public let pageBlocks: [PageBlock]
+	/// Describes an item of a list page block 
+	/// - Parameters:
+	///   - label: Item label 
+	///   - pageBlocks: Item blocks
+	public init(label: String, pageBlocks: [PageBlock]) {
+		self.label = label
+		self.pageBlocks = pageBlocks
+	}
+}
+
+///  Describes a horizontal alignment of a table cell content 
+public indirect enum PageBlockHorizontalAlignment: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
+	///  The content should be left-aligned
+	case left
+	///  The content should be center-aligned
+	case center
+	///  The content should be right-aligned
+	case right
+}
+
+///  Describes a Vertical alignment of a table cell content 
+public indirect enum PageBlockVerticalAlignment: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
+	///  The content should be top-aligned
+	case top
+	///  The content should be middle-aligned
+	case middle
+	///  The content should be bottom-aligned
+	case bottom
+}
+
+///  Represents a cell of a table 
+public struct PageBlockTableCell: Codable, Equatable, FunctionResult {
+	///  Cell text 
+	public let text: RichText
+	///  True, if it is a header cell 
+	public let isHeader: Bool
+	///  The number of columns the cell should span 
+	public let colspan: Int32
+	///  The number of rows the cell should span 
+	public let rowspan: Int32
+	///  Horizontal cell content alignment 
+	public let align: PageBlockHorizontalAlignment
+	///  Vertical cell content alignment
+	public let valign: PageBlockVerticalAlignment
+	/// Represents a cell of a table 
+	/// - Parameters:
+	///   - text: Cell text 
+	///   - isHeader: True, if it is a header cell 
+	///   - colspan: The number of columns the cell should span 
+	///   - rowspan: The number of rows the cell should span 
+	///   - align: Horizontal cell content alignment 
+	///   - valign: Vertical cell content alignment
+	public init(text: RichText, isHeader: Bool, colspan: Int32, rowspan: Int32, align: PageBlockHorizontalAlignment, valign: PageBlockVerticalAlignment) {
+		self.text = text
+		self.isHeader = isHeader
+		self.colspan = colspan
+		self.rowspan = rowspan
+		self.align = align
+		self.valign = valign
+	}
+}
+
+///  Contains information about a related article 
+public struct PageBlockRelatedArticle: Codable, Equatable, FunctionResult {
+	///  Related article URL 
+	public let url: String
+	///  Article title; may be empty 
+	public let title: String
+	///  Article description; may be empty 
+	public let description: String
+	///  Article photo; may be null 
+	public let photo: Photo?
+	///  Article author; may be empty 
+	public let author: String
+	///  Point in time (Unix timestamp) when the article was published; 0 if unknown
+	public let publishDate: Int32
+	/// Contains information about a related article 
+	/// - Parameters:
+	///   - url: Related article URL 
+	///   - title: Article title; may be empty 
+	///   - description: Article description; may be empty 
+	///   - photo: Article photo; may be null 
+	///   - author: Article author; may be empty 
+	///   - publishDate: Point in time (Unix timestamp) when the article was published; 0 if unknown
+	public init(url: String, title: String, description: String, photo: Photo?, author: String, publishDate: Int32) {
+		self.url = url
+		self.title = title
+		self.description = description
+		self.photo = photo
+		self.author = author
+		self.publishDate = publishDate
+	}
 }
 
 ///  Describes a block of an instant view web page 
@@ -1811,6 +2177,9 @@ public indirect enum PageBlock: Codable, Equatable, FunctionResult, TDEnum, Equa
 	///  A subheader 
 	/// - subheader: Subheader
 	case subheader(subheader: RichText)
+	///  A kicker 
+	/// - kicker: Kicker
+	case kicker(kicker: RichText)
 	///  A text paragraph 
 	/// - text: Paragraph text
 	case paragraph(text: RichText)
@@ -1826,37 +2195,37 @@ public indirect enum PageBlock: Codable, Equatable, FunctionResult, TDEnum, Equa
 	///  An invisible anchor on a page, which can be used in a URL to open the page from the specified anchor 
 	/// - name: Name of the anchor
 	case anchor(name: String)
-	///  A list of texts 
-	/// - items: Texts 
-	/// - isOrdered: True, if the items should be marked with numbers
-	case list(items: [RichText], isOrdered: Bool)
+	///  A list of data blocks 
+	/// - items: The items of the list
+	case list(items: [PageBlockListItem])
 	///  A block quote 
 	/// - text: Quote text 
-	/// - caption: Quote caption
-	case blockQuote(text: RichText, caption: RichText)
+	/// - credit: Quote credit
+	case blockQuote(text: RichText, credit: RichText)
 	///  A pull quote 
 	/// - text: Quote text 
-	/// - caption: Quote caption
-	case pullQuote(text: RichText, caption: RichText)
+	/// - credit: Quote credit
+	case pullQuote(text: RichText, credit: RichText)
 	///  An animation 
 	/// - animation: Animation file; may be null 
 	/// - caption: Animation caption 
 	/// - needAutoplay: True, if the animation should be played automatically
-	case animation(animation: Animation?, caption: RichText, needAutoplay: Bool)
+	case animation(animation: Animation?, caption: PageBlockCaption, needAutoplay: Bool)
 	///  An audio file 
 	/// - audio: Audio file; may be null 
 	/// - caption: Audio file caption
-	case audio(audio: Audio?, caption: RichText)
+	case audio(audio: Audio?, caption: PageBlockCaption)
 	///  A photo 
 	/// - photo: Photo file; may be null 
-	/// - caption: Photo caption
-	case photo(photo: Photo?, caption: RichText)
+	/// - caption: Photo caption 
+	/// - url: URL that needs to be opened when the photo is clicked
+	case photo(photo: Photo?, caption: PageBlockCaption, url: String)
 	///  A video 
 	/// - video: Video file; may be null 
 	/// - caption: Video caption 
 	/// - needAutoplay: True, if the video should be played automatically 
 	/// - isLooped: True, if the video should be looped
-	case video(video: Video?, caption: RichText, needAutoplay: Bool, isLooped: Bool)
+	case video(video: Video?, caption: PageBlockCaption, needAutoplay: Bool, isLooped: Bool)
 	///  A page cover 
 	/// - cover: Cover
 	case cover(cover: PageBlock)
@@ -1864,12 +2233,12 @@ public indirect enum PageBlock: Codable, Equatable, FunctionResult, TDEnum, Equa
 	/// - url: Web page URL, if available 
 	/// - html: HTML-markup of the embedded page 
 	/// - posterPhoto: Poster photo, if available; may be null 
-	/// - width: Block width 
-	/// - height: Block height 
+	/// - width: Block width, 0 if unknown 
+	/// - height: Block height, 0 if unknown 
 	/// - caption: Block caption 
 	/// - isFullWidth: True, if the block should be full width 
 	/// - allowScrolling: True, if scrolling should be allowed
-	case embedded(url: String, html: String, posterPhoto: Photo?, width: Int32, height: Int32, caption: RichText, isFullWidth: Bool, allowScrolling: Bool)
+	case embedded(url: String, html: String, posterPhoto: Photo?, width: Int32, height: Int32, caption: PageBlockCaption, isFullWidth: Bool, allowScrolling: Bool)
 	///  An embedded post 
 	/// - url: Web page URL 
 	/// - author: Post author 
@@ -1877,34 +2246,68 @@ public indirect enum PageBlock: Codable, Equatable, FunctionResult, TDEnum, Equa
 	/// - date: Point in time (Unix timestamp) when the post was created; 0 if unknown 
 	/// - pageBlocks: Post content 
 	/// - caption: Post caption
-	case embeddedPost(url: String, author: String, authorPhoto: Photo, date: Int32, pageBlocks: [PageBlock], caption: RichText)
+	case embeddedPost(url: String, author: String, authorPhoto: Photo, date: Int32, pageBlocks: [PageBlock], caption: PageBlockCaption)
 	///  A collage 
 	/// - pageBlocks: Collage item contents 
 	/// - caption: Block caption
-	case collage(pageBlocks: [PageBlock], caption: RichText)
+	case collage(pageBlocks: [PageBlock], caption: PageBlockCaption)
 	///  A slideshow 
 	/// - pageBlocks: Slideshow item contents 
 	/// - caption: Block caption
-	case slideshow(pageBlocks: [PageBlock], caption: RichText)
+	case slideshow(pageBlocks: [PageBlock], caption: PageBlockCaption)
 	///  A link to a chat 
 	/// - title: Chat title 
 	/// - photo: Chat photo; may be null 
 	/// - username: Chat username, by which all other information about the chat should be resolved
 	case chatLink(title: String, photo: ChatPhoto?, username: String)
+	///  A table 
+	/// - caption: Table caption 
+	/// - cells: Table cells 
+	/// - isBordered: True, if the table is bordered 
+	/// - isStriped: True, if the table is striped
+	case table(caption: RichText, cells: [[PageBlockTableCell]], isBordered: Bool, isStriped: Bool)
+	///  A collapsible block 
+	/// - header: Always visible heading for the block 
+	/// - pageBlocks: Block contents 
+	/// - isOpen: True, if the block is open by default
+	case details(header: RichText, pageBlocks: [PageBlock], isOpen: Bool)
+	///  Related articles 
+	/// - header: Block header 
+	/// - articles: List of related articles
+	case relatedArticles(header: RichText, articles: [PageBlockRelatedArticle])
+	///  A map 
+	/// - location: Location of the map center 
+	/// - zoom: Map zoom level 
+	/// - width: Map width 
+	/// - height: Map height 
+	/// - caption: Block caption
+	case map(location: Location, zoom: Int32, width: Int32, height: Int32, caption: PageBlockCaption)
 }
 
 ///  Describes an instant view page for a web page 
 public struct WebPageInstantView: Codable, Equatable, FunctionResult {
 	///  Content of the web page 
 	public let pageBlocks: [PageBlock]
+	///  Version of the instant view, currently can be 1 or 2 
+	public let version: Int32
+	///  Instant view URL; may be different from WebPage.url and must be used for the correct anchors handling 
+	public let url: String
+	///  True, if the instant view must be shown from right to left 
+	public let isRtl: Bool
 	///  True, if the instant view contains the full page. A network request might be needed to get the full web page instant view
 	public let isFull: Bool
 	/// Describes an instant view page for a web page 
 	/// - Parameters:
 	///   - pageBlocks: Content of the web page 
+	///   - version: Version of the instant view, currently can be 1 or 2 
+	///   - url: Instant view URL; may be different from WebPage.url and must be used for the correct anchors handling 
+	///   - isRtl: True, if the instant view must be shown from right to left 
 	///   - isFull: True, if the instant view contains the full page. A network request might be needed to get the full web page instant view
-	public init(pageBlocks: [PageBlock], isFull: Bool) {
+	public init(pageBlocks: [PageBlock], version: Int32, url: String, isRtl: Bool, isFull: Bool) {
 		self.pageBlocks = pageBlocks
+		self.version = version
+		self.url = url
+		self.isRtl = isRtl
 		self.isFull = isFull
 	}
 }
@@ -1951,8 +2354,8 @@ public struct WebPage: Codable, Equatable, FunctionResult {
 	public let videoNote: VideoNote?
 	///  Preview of the content as a voice note, if available; may be null 
 	public let voiceNote: VoiceNote?
-	///  True, if the web page has an instant view
-	public let hasInstantView: Bool
+	///  Version of instant view, available for the web page (currently can be 1 or 2), 0 if none
+	public let instantViewVersion: Int32
 	/// Describes a web page preview 
 	/// - Parameters:
 	///   - url: Original URL of the link 
@@ -1975,8 +2378,8 @@ public struct WebPage: Codable, Equatable, FunctionResult {
 	///   - video: Preview of the content as a video, if available; may be null 
 	///   - videoNote: Preview of the content as a video note, if available; may be null 
 	///   - voiceNote: Preview of the content as a voice note, if available; may be null 
-	///   - hasInstantView: True, if the web page has an instant view
-	public init(url: String, displayUrl: String, type: String, siteName: String, title: String, description: String, photo: Photo?, embedUrl: String, embedType: String, embedWidth: Int32, embedHeight: Int32, duration: Int32, author: String, animation: Animation?, audio: Audio?, document: Document?, sticker: Sticker?, video: Video?, videoNote: VideoNote?, voiceNote: VoiceNote?, hasInstantView: Bool) {
+	///   - instantViewVersion: Version of instant view, available for the web page (currently can be 1 or 2), 0 if none
+	public init(url: String, displayUrl: String, type: String, siteName: String, title: String, description: String, photo: Photo?, embedUrl: String, embedType: String, embedWidth: Int32, embedHeight: Int32, duration: Int32, author: String, animation: Animation?, audio: Audio?, document: Document?, sticker: Sticker?, video: Video?, videoNote: VideoNote?, voiceNote: VoiceNote?, instantViewVersion: Int32) {
 		self.url = url
 		self.displayUrl = displayUrl
 		self.type = type
@@ -1997,7 +2400,39 @@ public struct WebPage: Codable, Equatable, FunctionResult {
 		self.video = video
 		self.videoNote = videoNote
 		self.voiceNote = voiceNote
-		self.hasInstantView = hasInstantView
+		self.instantViewVersion = instantViewVersion
+	}
+}
+
+///  Describes an address 
+public struct Address: Codable, Equatable, FunctionResult {
+	///  A two-letter ISO 3166-1 alpha-2 country code 
+	public let countryCode: String
+	///  State, if applicable 
+	public let state: String
+	///  City 
+	public let city: String
+	///  First line of the address 
+	public let streetLine1: String
+	///  Second line of the address 
+	public let streetLine2: String
+	///  Address postal code
+	public let postalCode: String
+	/// Describes an address 
+	/// - Parameters:
+	///   - countryCode: A two-letter ISO 3166-1 alpha-2 country code 
+	///   - state: State, if applicable 
+	///   - city: City 
+	///   - streetLine1: First line of the address 
+	///   - streetLine2: Second line of the address 
+	///   - postalCode: Address postal code
+	public init(countryCode: String, state: String, city: String, streetLine1: String, streetLine2: String, postalCode: String) {
+		self.countryCode = countryCode
+		self.state = state
+		self.city = city
+		self.streetLine1 = streetLine1
+		self.streetLine2 = streetLine2
+		self.postalCode = postalCode
 	}
 }
 
@@ -2065,38 +2500,6 @@ public struct Invoice: Codable, Equatable, FunctionResult {
 	}
 }
 
-///  Describes a shipping address 
-public struct ShippingAddress: Codable, Equatable, FunctionResult {
-	///  Two-letter ISO 3166-1 alpha-2 country code 
-	public let countryCode: String
-	///  State, if applicable 
-	public let state: String
-	///  City 
-	public let city: String
-	///  First line of the address 
-	public let streetLine1: String
-	///  Second line of the address 
-	public let streetLine2: String
-	///  Address postal code
-	public let postalCode: String
-	/// Describes a shipping address 
-	/// - Parameters:
-	///   - countryCode: Two-letter ISO 3166-1 alpha-2 country code 
-	///   - state: State, if applicable 
-	///   - city: City 
-	///   - streetLine1: First line of the address 
-	///   - streetLine2: Second line of the address 
-	///   - postalCode: Address postal code
-	public init(countryCode: String, state: String, city: String, streetLine1: String, streetLine2: String, postalCode: String) {
-		self.countryCode = countryCode
-		self.state = state
-		self.city = city
-		self.streetLine1 = streetLine1
-		self.streetLine2 = streetLine2
-		self.postalCode = postalCode
-	}
-}
-
 ///  Order information 
 public struct OrderInfo: Codable, Equatable, FunctionResult {
 	///  Name of the user 
@@ -2106,14 +2509,14 @@ public struct OrderInfo: Codable, Equatable, FunctionResult {
 	///  Email address of the user 
 	public let emailAddress: String
 	///  Shipping address for this order; may be null
-	public let shippingAddress: ShippingAddress?
+	public let shippingAddress: Address?
 	/// Order information 
 	/// - Parameters:
 	///   - name: Name of the user 
 	///   - phoneNumber: Phone number of the user 
 	///   - emailAddress: Email address of the user 
 	///   - shippingAddress: Shipping address for this order; may be null
-	public init(name: String, phoneNumber: String, emailAddress: String, shippingAddress: ShippingAddress?) {
+	public init(name: String, phoneNumber: String, emailAddress: String, shippingAddress: Address?) {
 		self.name = name
 		self.phoneNumber = phoneNumber
 		self.emailAddress = emailAddress
@@ -2298,6 +2701,547 @@ public struct PaymentReceipt: Codable, Equatable, FunctionResult {
 	}
 }
 
+///  File with the date it was uploaded 
+public struct DatedFile: Codable, Equatable, FunctionResult {
+	///  The file 
+	public let file: File
+	///  Point in time (Unix timestamp) when the file was uploaded
+	public let date: Int32
+	/// File with the date it was uploaded 
+	/// - Parameters:
+	///   - file: The file 
+	///   - date: Point in time (Unix timestamp) when the file was uploaded
+	public init(file: File, date: Int32) {
+		self.file = file
+		self.date = date
+	}
+}
+
+///  Contains the type of a Telegram Passport element 
+public indirect enum PassportElementType: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
+	///  A Telegram Passport element containing the user's personal details
+	case personalDetails
+	///  A Telegram Passport element containing the user's passport
+	case passport
+	///  A Telegram Passport element containing the user's driver license
+	case driverLicense
+	///  A Telegram Passport element containing the user's identity card
+	case identityCard
+	///  A Telegram Passport element containing the user's internal passport
+	case internalPassport
+	///  A Telegram Passport element containing the user's address
+	case address
+	///  A Telegram Passport element containing the user's utility bill
+	case utilityBill
+	///  A Telegram Passport element containing the user's bank statement
+	case bankStatement
+	///  A Telegram Passport element containing the user's rental agreement
+	case rentalAgreement
+	///  A Telegram Passport element containing the registration page of the user's passport
+	case passportRegistration
+	///  A Telegram Passport element containing the user's temporary registration
+	case temporaryRegistration
+	///  A Telegram Passport element containing the user's phone number
+	case phoneNumber
+	///  A Telegram Passport element containing the user's email address
+	case emailAddress
+}
+
+///  Represents a date according to the Gregorian calendar 
+public struct Date: Codable, Equatable, FunctionResult {
+	///  Day of the month, 1-31 
+	public let day: Int32
+	///  Month, 1-12 
+	public let month: Int32
+	///  Year, 1-9999
+	public let year: Int32
+	/// Represents a date according to the Gregorian calendar 
+	/// - Parameters:
+	///   - day: Day of the month, 1-31 
+	///   - month: Month, 1-12 
+	///   - year: Year, 1-9999
+	public init(day: Int32, month: Int32, year: Int32) {
+		self.day = day
+		self.month = month
+		self.year = year
+	}
+}
+
+///  Contains the user's personal details 
+public struct PersonalDetails: Codable, Equatable, FunctionResult {
+	///  First name of the user written in English; 1-255 characters 
+	public let firstName: String
+	///  Middle name of the user written in English; 0-255 characters 
+	public let middleName: String
+	///  Last name of the user written in English; 1-255 characters 
+	public let lastName: String
+	///  Native first name of the user; 1-255 characters 
+	public let nativeFirstName: String
+	///  Native middle name of the user; 0-255 characters 
+	public let nativeMiddleName: String
+	///  Native last name of the user; 1-255 characters 
+	public let nativeLastName: String
+	///  Birthdate of the user 
+	public let birthdate: Date
+	///  Gender of the user, "male" or "female" 
+	public let gender: String
+	///  A two-letter ISO 3166-1 alpha-2 country code of the user's country 
+	public let countryCode: String
+	///  A two-letter ISO 3166-1 alpha-2 country code of the user's residence country
+	public let residenceCountryCode: String
+	/// Contains the user's personal details 
+	/// - Parameters:
+	///   - firstName: First name of the user written in English; 1-255 characters 
+	///   - middleName: Middle name of the user written in English; 0-255 characters 
+	///   - lastName: Last name of the user written in English; 1-255 characters 
+	///   - nativeFirstName: Native first name of the user; 1-255 characters 
+	///   - nativeMiddleName: Native middle name of the user; 0-255 characters 
+	///   - nativeLastName: Native last name of the user; 1-255 characters 
+	///   - birthdate: Birthdate of the user 
+	///   - gender: Gender of the user, "male" or "female" 
+	///   - countryCode: A two-letter ISO 3166-1 alpha-2 country code of the user's country 
+	///   - residenceCountryCode: A two-letter ISO 3166-1 alpha-2 country code of the user's residence country
+	public init(firstName: String, middleName: String, lastName: String, nativeFirstName: String, nativeMiddleName: String, nativeLastName: String, birthdate: Date, gender: String, countryCode: String, residenceCountryCode: String) {
+		self.firstName = firstName
+		self.middleName = middleName
+		self.lastName = lastName
+		self.nativeFirstName = nativeFirstName
+		self.nativeMiddleName = nativeMiddleName
+		self.nativeLastName = nativeLastName
+		self.birthdate = birthdate
+		self.gender = gender
+		self.countryCode = countryCode
+		self.residenceCountryCode = residenceCountryCode
+	}
+}
+
+///  An identity document 
+public struct IdentityDocument: Codable, Equatable, FunctionResult {
+	///  Document number; 1-24 characters 
+	public let number: String
+	///  Document expiry date; may be null 
+	public let expiryDate: Date?
+	///  Front side of the document 
+	public let frontSide: DatedFile
+	///  Reverse side of the document; only for driver license and identity card 
+	public let reverseSide: DatedFile
+	///  Selfie with the document; may be null 
+	public let selfie: DatedFile?
+	///  List of files containing a certified English translation of the document
+	public let translation: [DatedFile]
+	/// An identity document 
+	/// - Parameters:
+	///   - number: Document number; 1-24 characters 
+	///   - expiryDate: Document expiry date; may be null 
+	///   - frontSide: Front side of the document 
+	///   - reverseSide: Reverse side of the document; only for driver license and identity card 
+	///   - selfie: Selfie with the document; may be null 
+	///   - translation: List of files containing a certified English translation of the document
+	public init(number: String, expiryDate: Date?, frontSide: DatedFile, reverseSide: DatedFile, selfie: DatedFile?, translation: [DatedFile]) {
+		self.number = number
+		self.expiryDate = expiryDate
+		self.frontSide = frontSide
+		self.reverseSide = reverseSide
+		self.selfie = selfie
+		self.translation = translation
+	}
+}
+
+///  An identity document to be saved to Telegram Passport 
+public struct InputIdentityDocument: Codable, Equatable, FunctionResult {
+	///  Document number; 1-24 characters 
+	public let number: String
+	///  Document expiry date, if available 
+	public let expiryDate: Date
+	///  Front side of the document 
+	public let frontSide: InputFile
+	///  Reverse side of the document; only for driver license and identity card 
+	public let reverseSide: InputFile
+	///  Selfie with the document, if available 
+	public let selfie: InputFile
+	///  List of files containing a certified English translation of the document
+	public let translation: [InputFile]
+	/// An identity document to be saved to Telegram Passport 
+	/// - Parameters:
+	///   - number: Document number; 1-24 characters 
+	///   - expiryDate: Document expiry date, if available 
+	///   - frontSide: Front side of the document 
+	///   - reverseSide: Reverse side of the document; only for driver license and identity card 
+	///   - selfie: Selfie with the document, if available 
+	///   - translation: List of files containing a certified English translation of the document
+	public init(number: String, expiryDate: Date, frontSide: InputFile, reverseSide: InputFile, selfie: InputFile, translation: [InputFile]) {
+		self.number = number
+		self.expiryDate = expiryDate
+		self.frontSide = frontSide
+		self.reverseSide = reverseSide
+		self.selfie = selfie
+		self.translation = translation
+	}
+}
+
+///  A personal document, containing some information about a user 
+public struct PersonalDocument: Codable, Equatable, FunctionResult {
+	///  List of files containing the pages of the document 
+	public let files: [DatedFile]
+	///  List of files containing a certified English translation of the document
+	public let translation: [DatedFile]
+	/// A personal document, containing some information about a user 
+	/// - Parameters:
+	///   - files: List of files containing the pages of the document 
+	///   - translation: List of files containing a certified English translation of the document
+	public init(files: [DatedFile], translation: [DatedFile]) {
+		self.files = files
+		self.translation = translation
+	}
+}
+
+///  A personal document to be saved to Telegram Passport 
+public struct InputPersonalDocument: Codable, Equatable, FunctionResult {
+	///  List of files containing the pages of the document 
+	public let files: [InputFile]
+	///  List of files containing a certified English translation of the document
+	public let translation: [InputFile]
+	/// A personal document to be saved to Telegram Passport 
+	/// - Parameters:
+	///   - files: List of files containing the pages of the document 
+	///   - translation: List of files containing a certified English translation of the document
+	public init(files: [InputFile], translation: [InputFile]) {
+		self.files = files
+		self.translation = translation
+	}
+}
+
+///  Contains information about a Telegram Passport element 
+public indirect enum PassportElement: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
+	///  A Telegram Passport element containing the user's personal details 
+	/// - personalDetails: Personal details of the user
+	case personalDetails(personalDetails: PersonalDetails)
+	///  A Telegram Passport element containing the user's passport 
+	/// - passport: Passport
+	case passport(passport: IdentityDocument)
+	///  A Telegram Passport element containing the user's driver license 
+	/// - driverLicense: Driver license
+	case driverLicense(driverLicense: IdentityDocument)
+	///  A Telegram Passport element containing the user's identity card 
+	/// - identityCard: Identity card
+	case identityCard(identityCard: IdentityDocument)
+	///  A Telegram Passport element containing the user's internal passport 
+	/// - internalPassport: Internal passport
+	case internalPassport(internalPassport: IdentityDocument)
+	///  A Telegram Passport element containing the user's address 
+	/// - address: Address
+	case address(address: Address)
+	///  A Telegram Passport element containing the user's utility bill 
+	/// - utilityBill: Utility bill
+	case utilityBill(utilityBill: PersonalDocument)
+	///  A Telegram Passport element containing the user's bank statement 
+	/// - bankStatement: Bank statement
+	case bankStatement(bankStatement: PersonalDocument)
+	///  A Telegram Passport element containing the user's rental agreement 
+	/// - rentalAgreement: Rental agreement
+	case rentalAgreement(rentalAgreement: PersonalDocument)
+	///  A Telegram Passport element containing the user's passport registration pages 
+	/// - passportRegistration: Passport registration pages
+	case passportRegistration(passportRegistration: PersonalDocument)
+	///  A Telegram Passport element containing the user's temporary registration 
+	/// - temporaryRegistration: Temporary registration
+	case temporaryRegistration(temporaryRegistration: PersonalDocument)
+	///  A Telegram Passport element containing the user's phone number 
+	/// - phoneNumber: Phone number
+	case phoneNumber(phoneNumber: String)
+	///  A Telegram Passport element containing the user's email address 
+	/// - emailAddress: Email address
+	case emailAddress(emailAddress: String)
+}
+
+///  Contains information about a Telegram Passport element to be saved 
+public indirect enum InputPassportElement: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
+	///  A Telegram Passport element to be saved containing the user's personal details 
+	/// - personalDetails: Personal details of the user
+	case personalDetails(personalDetails: PersonalDetails)
+	///  A Telegram Passport element to be saved containing the user's passport 
+	/// - passport: The passport to be saved
+	case passport(passport: InputIdentityDocument)
+	///  A Telegram Passport element to be saved containing the user's driver license 
+	/// - driverLicense: The driver license to be saved
+	case driverLicense(driverLicense: InputIdentityDocument)
+	///  A Telegram Passport element to be saved containing the user's identity card 
+	/// - identityCard: The identity card to be saved
+	case identityCard(identityCard: InputIdentityDocument)
+	///  A Telegram Passport element to be saved containing the user's internal passport 
+	/// - internalPassport: The internal passport to be saved
+	case internalPassport(internalPassport: InputIdentityDocument)
+	///  A Telegram Passport element to be saved containing the user's address 
+	/// - address: The address to be saved
+	case address(address: Address)
+	///  A Telegram Passport element to be saved containing the user's utility bill 
+	/// - utilityBill: The utility bill to be saved
+	case utilityBill(utilityBill: InputPersonalDocument)
+	///  A Telegram Passport element to be saved containing the user's bank statement 
+	/// - bankStatement: The bank statement to be saved
+	case bankStatement(bankStatement: InputPersonalDocument)
+	///  A Telegram Passport element to be saved containing the user's rental agreement 
+	/// - rentalAgreement: The rental agreement to be saved
+	case rentalAgreement(rentalAgreement: InputPersonalDocument)
+	///  A Telegram Passport element to be saved containing the user's passport registration 
+	/// - passportRegistration: The passport registration page to be saved
+	case passportRegistration(passportRegistration: InputPersonalDocument)
+	///  A Telegram Passport element to be saved containing the user's temporary registration 
+	/// - temporaryRegistration: The temporary registration document to be saved
+	case temporaryRegistration(temporaryRegistration: InputPersonalDocument)
+	///  A Telegram Passport element to be saved containing the user's phone number 
+	/// - phoneNumber: The phone number to be saved
+	case phoneNumber(phoneNumber: String)
+	///  A Telegram Passport element to be saved containing the user's email address 
+	/// - emailAddress: The email address to be saved
+	case emailAddress(emailAddress: String)
+}
+
+///  Contains information about saved Telegram Passport elements 
+public struct PassportElements: Codable, Equatable, FunctionResult {
+	///  Telegram Passport elements
+	public let elements: [PassportElement]
+	/// Contains information about saved Telegram Passport elements 
+	/// - Parameters:
+	///   - elements: Telegram Passport elements
+	public init(elements: [PassportElement]) {
+		self.elements = elements
+	}
+}
+
+///  Contains the description of an error in a Telegram Passport element 
+public indirect enum PassportElementErrorSource: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
+	///  The element contains an error in an unspecified place. The error will be considered resolved when new data is added
+	case unspecified
+	///  One of the data fields contains an error. The error will be considered resolved when the value of the field changes 
+	/// - fieldName: Field name
+	case dataField(fieldName: String)
+	///  The front side of the document contains an error. The error will be considered resolved when the file with the front side changes
+	case frontSide
+	///  The reverse side of the document contains an error. The error will be considered resolved when the file with the reverse side changes
+	case reverseSide
+	///  The selfie with the document contains an error. The error will be considered resolved when the file with the selfie changes
+	case selfie
+	///  One of files with the translation of the document contains an error. The error will be considered resolved when the file changes 
+	/// - fileIndex: Index of a file with the error
+	case translationFile(fileIndex: Int32)
+	///  The translation of the document contains an error. The error will be considered resolved when the list of translation files changes
+	case translationFiles
+	///  The file contains an error. The error will be considered resolved when the file changes 
+	/// - fileIndex: Index of a file with the error
+	case file(fileIndex: Int32)
+	///  The list of attached files contains an error. The error will be considered resolved when the list of files changes
+	case files
+}
+
+///  Contains the description of an error in a Telegram Passport element 
+public struct PassportElementError: Codable, Equatable, FunctionResult {
+	///  Type of the Telegram Passport element which has the error 
+	public let type: PassportElementType
+	///  Error message 
+	public let message: String
+	///  Error source
+	public let source: PassportElementErrorSource
+	/// Contains the description of an error in a Telegram Passport element 
+	/// - Parameters:
+	///   - type: Type of the Telegram Passport element which has the error 
+	///   - message: Error message 
+	///   - source: Error source
+	public init(type: PassportElementType, message: String, source: PassportElementErrorSource) {
+		self.type = type
+		self.message = message
+		self.source = source
+	}
+}
+
+///  Contains information about a Telegram Passport element that was requested by a service 
+public struct PassportSuitableElement: Codable, Equatable, FunctionResult {
+	///  Type of the element 
+	public let type: PassportElementType
+	///  True, if a selfie is required with the identity document 
+	public let isSelfieRequired: Bool
+	///  True, if a certified English translation is required with the document 
+	public let isTranslationRequired: Bool
+	///  True, if personal details must include the user's name in the language of their country of residence
+	public let isNativeNameRequired: Bool
+	/// Contains information about a Telegram Passport element that was requested by a service 
+	/// - Parameters:
+	///   - type: Type of the element 
+	///   - isSelfieRequired: True, if a selfie is required with the identity document 
+	///   - isTranslationRequired: True, if a certified English translation is required with the document 
+	///   - isNativeNameRequired: True, if personal details must include the user's name in the language of their country of residence
+	public init(type: PassportElementType, isSelfieRequired: Bool, isTranslationRequired: Bool, isNativeNameRequired: Bool) {
+		self.type = type
+		self.isSelfieRequired = isSelfieRequired
+		self.isTranslationRequired = isTranslationRequired
+		self.isNativeNameRequired = isNativeNameRequired
+	}
+}
+
+///  Contains a description of the required Telegram Passport element that was requested by a service 
+public struct PassportRequiredElement: Codable, Equatable, FunctionResult {
+	///  List of Telegram Passport elements any of which is enough to provide
+	public let suitableElements: [PassportSuitableElement]
+	/// Contains a description of the required Telegram Passport element that was requested by a service 
+	/// - Parameters:
+	///   - suitableElements: List of Telegram Passport elements any of which is enough to provide
+	public init(suitableElements: [PassportSuitableElement]) {
+		self.suitableElements = suitableElements
+	}
+}
+
+///  Contains information about a Telegram Passport authorization form that was requested 
+public struct PassportAuthorizationForm: Codable, Equatable, FunctionResult {
+	///  Unique identifier of the authorization form 
+	public let id: Int32
+	///  Information about the Telegram Passport elements that need to be provided to complete the form 
+	public let requiredElements: [PassportRequiredElement]
+	///  URL for the privacy policy of the service; may be empty
+	public let privacyPolicyUrl: String
+	/// Contains information about a Telegram Passport authorization form that was requested 
+	/// - Parameters:
+	///   - id: Unique identifier of the authorization form 
+	///   - requiredElements: Information about the Telegram Passport elements that need to be provided to complete the form 
+	///   - privacyPolicyUrl: URL for the privacy policy of the service; may be empty
+	public init(id: Int32, requiredElements: [PassportRequiredElement], privacyPolicyUrl: String) {
+		self.id = id
+		self.requiredElements = requiredElements
+		self.privacyPolicyUrl = privacyPolicyUrl
+	}
+}
+
+///  Contains information about a Telegram Passport elements and corresponding errors 
+public struct PassportElementsWithErrors: Codable, Equatable, FunctionResult {
+	///  Telegram Passport elements 
+	public let elements: [PassportElement]
+	///  Errors in the elements that are already available
+	public let errors: [PassportElementError]
+	/// Contains information about a Telegram Passport elements and corresponding errors 
+	/// - Parameters:
+	///   - elements: Telegram Passport elements 
+	///   - errors: Errors in the elements that are already available
+	public init(elements: [PassportElement], errors: [PassportElementError]) {
+		self.elements = elements
+		self.errors = errors
+	}
+}
+
+///  Contains encrypted Telegram Passport data credentials 
+public struct EncryptedCredentials: Codable, Equatable, FunctionResult {
+	///  The encrypted credentials 
+	public let data: Bytes
+	///  The decrypted data hash 
+	public let hash: Bytes
+	///  Secret for data decryption, encrypted with the service's public key
+	public let secret: Bytes
+	/// Contains encrypted Telegram Passport data credentials 
+	/// - Parameters:
+	///   - data: The encrypted credentials 
+	///   - hash: The decrypted data hash 
+	///   - secret: Secret for data decryption, encrypted with the service's public key
+	public init(data: Bytes, hash: Bytes, secret: Bytes) {
+		self.data = data
+		self.hash = hash
+		self.secret = secret
+	}
+}
+
+///  Contains information about an encrypted Telegram Passport element; for bots only 
+public struct EncryptedPassportElement: Codable, Equatable, FunctionResult {
+	///  Type of Telegram Passport element 
+	public let type: PassportElementType
+	///  Encrypted JSON-encoded data about the user 
+	public let data: Bytes
+	///  The front side of an identity document 
+	public let frontSide: DatedFile
+	///  The reverse side of an identity document; may be null 
+	public let reverseSide: DatedFile?
+	///  Selfie with the document; may be null 
+	public let selfie: DatedFile?
+	///  List of files containing a certified English translation of the document 
+	public let translation: [DatedFile]
+	///  List of attached files 
+	public let files: [DatedFile]
+	///  Unencrypted data, phone number or email address 
+	public let value: String
+	///  Hash of the entire element
+	public let hash: String
+	/// Contains information about an encrypted Telegram Passport element; for bots only 
+	/// - Parameters:
+	///   - type: Type of Telegram Passport element 
+	///   - data: Encrypted JSON-encoded data about the user 
+	///   - frontSide: The front side of an identity document 
+	///   - reverseSide: The reverse side of an identity document; may be null 
+	///   - selfie: Selfie with the document; may be null 
+	///   - translation: List of files containing a certified English translation of the document 
+	///   - files: List of attached files 
+	///   - value: Unencrypted data, phone number or email address 
+	///   - hash: Hash of the entire element
+	public init(type: PassportElementType, data: Bytes, frontSide: DatedFile, reverseSide: DatedFile?, selfie: DatedFile?, translation: [DatedFile], files: [DatedFile], value: String, hash: String) {
+		self.type = type
+		self.data = data
+		self.frontSide = frontSide
+		self.reverseSide = reverseSide
+		self.selfie = selfie
+		self.translation = translation
+		self.files = files
+		self.value = value
+		self.hash = hash
+	}
+}
+
+///  Contains the description of an error in a Telegram Passport element; for bots only 
+public indirect enum InputPassportElementErrorSource: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
+	///  The element contains an error in an unspecified place. The error will be considered resolved when new data is added 
+	/// - elementHash: Current hash of the entire element
+	case unspecified(elementHash: Bytes)
+	///  A data field contains an error. The error is considered resolved when the field's value changes 
+	/// - fieldName: Field name 
+	/// - dataHash: Current data hash
+	case dataField(fieldName: String, dataHash: Bytes)
+	///  The front side of the document contains an error. The error is considered resolved when the file with the front side of the document changes 
+	/// - fileHash: Current hash of the file containing the front side
+	case frontSide(fileHash: Bytes)
+	///  The reverse side of the document contains an error. The error is considered resolved when the file with the reverse side of the document changes 
+	/// - fileHash: Current hash of the file containing the reverse side
+	case reverseSide(fileHash: Bytes)
+	///  The selfie contains an error. The error is considered resolved when the file with the selfie changes 
+	/// - fileHash: Current hash of the file containing the selfie
+	case selfie(fileHash: Bytes)
+	///  One of the files containing the translation of the document contains an error. The error is considered resolved when the file with the translation changes 
+	/// - fileHash: Current hash of the file containing the translation
+	case translationFile(fileHash: Bytes)
+	///  The translation of the document contains an error. The error is considered resolved when the list of files changes 
+	/// - fileHashes: Current hashes of all files with the translation
+	case translationFiles(fileHashes: [Bytes])
+	///  The file contains an error. The error is considered resolved when the file changes 
+	/// - fileHash: Current hash of the file which has the error
+	case file(fileHash: Bytes)
+	///  The list of attached files contains an error. The error is considered resolved when the file list changes 
+	/// - fileHashes: Current hashes of all attached files
+	case files(fileHashes: [Bytes])
+}
+
+///  Contains the description of an error in a Telegram Passport element; for bots only 
+public struct InputPassportElementError: Codable, Equatable, FunctionResult {
+	///  Type of Telegram Passport element that has the error 
+	public let type: PassportElementType
+	///  Error message 
+	public let message: String
+	///  Error source
+	public let source: InputPassportElementErrorSource
+	/// Contains the description of an error in a Telegram Passport element; for bots only 
+	/// - Parameters:
+	///   - type: Type of Telegram Passport element that has the error 
+	///   - message: Error message 
+	///   - source: Error source
+	public init(type: PassportElementType, message: String, source: InputPassportElementErrorSource) {
+		self.type = type
+		self.message = message
+		self.source = source
+	}
+}
+
 ///  Contains the content of a message 
 // sourcery: noPrefix = true
 public indirect enum MessageContent: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
@@ -2359,6 +3303,9 @@ public indirect enum MessageContent: Codable, Equatable, FunctionResult, TDEnum,
 	///  A message with a game 
 	/// - game: Game
 	case messageGame(game: Game)
+	///  A message with a poll 
+	/// - poll: Poll
+	case messagePoll(poll: Poll)
 	///  A message with an invoice from a bot 
 	/// - title: Product title 
 	/// - description: Product description 
@@ -2405,7 +3352,7 @@ public indirect enum MessageContent: Codable, Equatable, FunctionResult, TDEnum,
 	/// - basicGroupId: The identifier of the original basic group
 	case messageChatUpgradeFrom(title: String, basicGroupId: Int32)
 	///  A message has been pinned 
-	/// - messageId: Identifier of the pinned message, can be an identifier of a deleted message
+	/// - messageId: Identifier of the pinned message, can be an identifier of a deleted message or 0
 	case messagePinMessage(messageId: Int53)
 	///  A screenshot of a message in the chat has been taken
 	case messageScreenshotTaken
@@ -2417,7 +3364,7 @@ public indirect enum MessageContent: Codable, Equatable, FunctionResult, TDEnum,
 	case messageCustomServiceAction(text: String)
 	///  A new high score was achieved in a game 
 	/// - gameMessageId: Identifier of the message with the game, can be an identifier of a deleted message 
-	/// - gameId: Identifier of the game, may be different from the games presented in the message with the game 
+	/// - gameId: Identifier of the game; may be different from the games presented in the message with the game 
 	/// - score: New score
 	case messageGameScore(gameMessageId: Int53, gameId: TDInt64, score: Int32)
 	///  A payment has been completed 
@@ -2430,7 +3377,7 @@ public indirect enum MessageContent: Codable, Equatable, FunctionResult, TDEnum,
 	/// - currency: Currency for price of the product 
 	/// - totalAmount: Total price for the product, in the minimal quantity of the currency 
 	/// - invoicePayload: Invoice payload 
-	/// - shippingOptionId: Identifier of the shipping option chosen by the user, may be empty if not applicable 
+	/// - shippingOptionId: Identifier of the shipping option chosen by the user; may be empty if not applicable 
 	/// - orderInfo: Information about the order; may be null 
 	/// - telegramPaymentChargeId: Telegram payment identifier 
 	/// - providerPaymentChargeId: Provider payment identifier
@@ -2440,6 +3387,13 @@ public indirect enum MessageContent: Codable, Equatable, FunctionResult, TDEnum,
 	///  The current user has connected a website by logging in using Telegram Login Widget on it 
 	/// - domainName: Domain name of the connected website
 	case messageWebsiteConnected(domainName: String)
+	///  Telegram Passport data has been sent 
+	/// - types: List of Telegram Passport element types sent
+	case messagePassportDataSent(types: [PassportElementType])
+	///  Telegram Passport data has been received; for bots only 
+	/// - elements: List of received Telegram Passport elements 
+	/// - credentials: Encrypted data credentials
+	case messagePassportDataReceived(elements: [EncryptedPassportElement], credentials: EncryptedCredentials)
 	///  Message content that is not supported by the client
 	case messageUnsupported
 }
@@ -2470,7 +3424,7 @@ public indirect enum TextEntityType: Codable, Equatable, FunctionResult, TDEnum,
 	/// - language: Programming language of the code; as defined by the sender
 	case preCode(language: String)
 	///  A text description shown instead of a raw URL 
-	/// - url: URL to be opened when the link is clicked
+	/// - url: HTTP or tg:// URL to be opened when the link is clicked
 	case textUrl(url: String)
 	///  A text shows instead of a raw mention of the user (e.g., when the user has no username) 
 	/// - userId: Identifier of the mentioned user
@@ -2483,15 +3437,15 @@ public indirect enum TextEntityType: Codable, Equatable, FunctionResult, TDEnum,
 public struct InputThumbnail: Codable, Equatable, FunctionResult {
 	///  Thumbnail file to send. Sending thumbnails by file_id is currently not supported 
 	public let thumbnail: InputFile
-	///  Thumbnail width, usually shouldn't exceed 90. Use 0 if unknown 
+	///  Thumbnail width, usually shouldn't exceed 320. Use 0 if unknown 
 	public let width: Int32
-	///  Thumbnail height, usually shouldn't exceed 90. Use 0 if unknown
+	///  Thumbnail height, usually shouldn't exceed 320. Use 0 if unknown
 	public let height: Int32
 	/// A thumbnail to be sent along with a file; should be in JPEG or WEBP format for stickers, and less than 200 kB in size 
 	/// - Parameters:
 	///   - thumbnail: Thumbnail file to send. Sending thumbnails by file_id is currently not supported 
-	///   - width: Thumbnail width, usually shouldn't exceed 90. Use 0 if unknown 
-	///   - height: Thumbnail height, usually shouldn't exceed 90. Use 0 if unknown
+	///   - width: Thumbnail width, usually shouldn't exceed 320. Use 0 if unknown 
+	///   - height: Thumbnail height, usually shouldn't exceed 320. Use 0 if unknown
 	public init(thumbnail: InputFile, width: Int32, height: Int32) {
 		self.thumbnail = thumbnail
 		self.width = width
@@ -2503,7 +3457,7 @@ public struct InputThumbnail: Codable, Equatable, FunctionResult {
 // sourcery: noPrefix = true
 public indirect enum InputMessageContent: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  A text message 
-	/// - text: Formatted text to be sent. Only Bold, Italic, Code, Pre, PreCode and TextUrl entities are allowed to be specified manually 
+	/// - text: Formatted text to be sent; 1-GetOption("message_text_length_max") characters. Only Bold, Italic, Code, Pre, PreCode and TextUrl entities are allowed to be specified manually 
 	/// - disableWebPagePreview: True, if rich web page previews for URLs in the message text should be disabled 
 	/// - clearDraft: True, if a chat message draft should be deleted
 	case inputMessageText(text: FormattedText, disableWebPagePreview: Bool, clearDraft: Bool)
@@ -2513,7 +3467,7 @@ public indirect enum InputMessageContent: Codable, Equatable, FunctionResult, TD
 	/// - duration: Duration of the animation, in seconds 
 	/// - width: Width of the animation; may be replaced by the server 
 	/// - height: Height of the animation; may be replaced by the server 
-	/// - caption: Animation caption; 0-200 characters
+	/// - caption: Animation caption; 0-GetOption("message_caption_length_max") characters
 	case inputMessageAnimation(animation: InputFile, thumbnail: InputThumbnail, duration: Int32, width: Int32, height: Int32, caption: FormattedText)
 	///  An audio message 
 	/// - audio: Audio file to be sent 
@@ -2521,12 +3475,12 @@ public indirect enum InputMessageContent: Codable, Equatable, FunctionResult, TD
 	/// - duration: Duration of the audio, in seconds; may be replaced by the server 
 	/// - title: Title of the audio; 0-64 characters; may be replaced by the server 
 	/// - performer: Performer of the audio; 0-64 characters, may be replaced by the server 
-	/// - caption: Audio caption; 0-200 characters
+	/// - caption: Audio caption; 0-GetOption("message_caption_length_max") characters
 	case inputMessageAudio(audio: InputFile, albumCoverThumbnail: InputThumbnail, duration: Int32, title: String, performer: String, caption: FormattedText)
 	///  A document message (general file) 
 	/// - document: Document to be sent 
 	/// - thumbnail: Document thumbnail, if available 
-	/// - caption: Document caption; 0-200 characters
+	/// - caption: Document caption; 0-GetOption("message_caption_length_max") characters
 	case inputMessageDocument(document: InputFile, thumbnail: InputThumbnail, caption: FormattedText)
 	///  A photo message 
 	/// - photo: Photo to send 
@@ -2534,7 +3488,7 @@ public indirect enum InputMessageContent: Codable, Equatable, FunctionResult, TD
 	/// - addedStickerFileIds: File identifiers of the stickers added to the photo, if applicable 
 	/// - width: Photo width 
 	/// - height: Photo height 
-	/// - caption: Photo caption; 0-200 characters 
+	/// - caption: Photo caption; 0-GetOption("message_caption_length_max") characters 
 	/// - ttl: Photo TTL (Time To Live), in seconds (0-60). A non-zero TTL can be specified only in private chats
 	case inputMessagePhoto(photo: InputFile, thumbnail: InputThumbnail, addedStickerFileIds: [Int32], width: Int32, height: Int32, caption: FormattedText, ttl: Int32)
 	///  A sticker message 
@@ -2551,7 +3505,7 @@ public indirect enum InputMessageContent: Codable, Equatable, FunctionResult, TD
 	/// - width: Video width 
 	/// - height: Video height 
 	/// - supportsStreaming: True, if the video should be tried to be streamed 
-	/// - caption: Video caption; 0-200 characters 
+	/// - caption: Video caption; 0-GetOption("message_caption_length_max") characters 
 	/// - ttl: Video TTL (Time To Live), in seconds (0-60). A non-zero TTL can be specified only in private chats
 	case inputMessageVideo(video: InputFile, thumbnail: InputThumbnail, addedStickerFileIds: [Int32], duration: Int32, width: Int32, height: Int32, supportsStreaming: Bool, caption: FormattedText, ttl: Int32)
 	///  A video note message 
@@ -2564,7 +3518,7 @@ public indirect enum InputMessageContent: Codable, Equatable, FunctionResult, TD
 	/// - voiceNote: Voice note to be sent 
 	/// - duration: Duration of the voice note, in seconds 
 	/// - waveform: Waveform representation of the voice note, in 5-bit format 
-	/// - caption: Voice note caption; 0-200 characters
+	/// - caption: Voice note caption; 0-GetOption("message_caption_length_max") characters
 	case inputMessageVoiceNote(voiceNote: InputFile, duration: Int32, waveform: Bytes, caption: FormattedText)
 	///  A message with a location 
 	/// - location: Location to be sent 
@@ -2593,6 +3547,10 @@ public indirect enum InputMessageContent: Codable, Equatable, FunctionResult, TD
 	/// - providerData: JSON-encoded data about the invoice, which will be shared with the payment provider 
 	/// - startParameter: Unique invoice bot start_parameter for the generation of this invoice
 	case inputMessageInvoice(invoice: Invoice, title: String, description: String, photoUrl: String, photoSize: Int32, photoWidth: Int32, photoHeight: Int32, payload: Bytes, providerToken: String, providerData: String, startParameter: String)
+	///  A message with a poll. Polls can't be sent to private or secret chats 
+	/// - question: Poll question, 1-255 characters 
+	/// - options: List of poll answer options, 2-10 strings 1-100 characters each
+	case inputMessagePoll(question: String, options: [String])
 	///  A forwarded message 
 	/// - fromChatId: Identifier for the chat this forwarded message came from 
 	/// - messageId: Identifier of the message to forward 
@@ -2632,7 +3590,7 @@ public indirect enum SearchMessagesFilter: Codable, Equatable, FunctionResult, T
 	case voiceAndVideoNote
 	///  Returns only messages with mentions of the current user, or messages that are replies to their messages
 	case mention
-	///  Returns only messages with unread mentions of the current user or messages that are replies to their messages. When using this filter the results can't be additionally filtered by a query or by the sending user
+	///  Returns only messages with unread mentions of the current user, or messages that are replies to their messages. When using this filter the results can't be additionally filtered by a query or by the sending user
 	case unreadMention
 }
 
@@ -2916,8 +3874,9 @@ public indirect enum CallState: Codable, Equatable, FunctionResult, TDEnum, Equa
 	/// - connections: Available UDP reflectors 
 	/// - config: A JSON-encoded call config 
 	/// - encryptionKey: Call encryption key 
-	/// - emojis: Encryption key emojis fingerprint
-	case ready(protocol: CallProtocol, connections: [CallConnection], config: String, encryptionKey: Bytes, emojis: [String])
+	/// - emojis: Encryption key emojis fingerprint 
+	/// - allowP2p: True, if peer-to-peer connection is allowed by users privacy settings
+	case ready(protocol: CallProtocol, connections: [CallConnection], config: String, encryptionKey: Bytes, emojis: [String], allowP2p: Bool)
 	///  The call is hanging up after discardCall has been called
 	case hangingUp
 	///  The call has ended successfully 
@@ -2979,6 +3938,18 @@ public struct ImportedContacts: Codable, Equatable, FunctionResult {
 	public init(userIds: [Int32], importerCount: [Int32]) {
 		self.userIds = userIds
 		self.importerCount = importerCount
+	}
+}
+
+///  Contains an HTTP URL 
+public struct HttpUrl: Codable, Equatable, FunctionResult {
+	///  The URL
+	public let url: String
+	/// Contains an HTTP URL 
+	/// - Parameters:
+	///   - url: The URL
+	public init(url: String) {
+		self.url = url
 	}
 }
 
@@ -3434,45 +4405,176 @@ public struct ChatEventLogFilters: Codable, Equatable, FunctionResult {
 	}
 }
 
-///  Represents a data needed to subscribe for push notifications. To use specific push notification service, you must specify the correct application platform and upload valid server authentication data at https://my.telegram.org 
+///  Represents the value of a string in a language pack 
+public indirect enum LanguagePackStringValue: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
+	///  An ordinary language pack string 
+	/// - value: String value
+	case ordinary(value: String)
+	///  A language pack string which has different forms based on the number of some object it mentions. See https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html for more info 
+	/// - zeroValue: Value for zero objects 
+	/// - oneValue: Value for one object 
+	/// - twoValue: Value for two objects 
+	/// - fewValue: Value for few objects 
+	/// - manyValue: Value for many objects 
+	/// - otherValue: Default value
+	case pluralized(zeroValue: String, oneValue: String, twoValue: String, fewValue: String, manyValue: String, otherValue: String)
+	///  A deleted language pack string, the value should be taken from the built-in english language pack
+	case deleted
+}
+
+///  Represents one language pack string 
+public struct LanguagePackString: Codable, Equatable, FunctionResult {
+	///  String key 
+	public let key: String
+	///  String value
+	public let value: LanguagePackStringValue
+	/// Represents one language pack string 
+	/// - Parameters:
+	///   - key: String key 
+	///   - value: String value
+	public init(key: String, value: LanguagePackStringValue) {
+		self.key = key
+		self.value = value
+	}
+}
+
+///  Contains a list of language pack strings 
+public struct LanguagePackStrings: Codable, Equatable, FunctionResult {
+	///  A list of language pack strings
+	public let strings: [LanguagePackString]
+	/// Contains a list of language pack strings 
+	/// - Parameters:
+	///   - strings: A list of language pack strings
+	public init(strings: [LanguagePackString]) {
+		self.strings = strings
+	}
+}
+
+///  Contains information about a language pack 
+public struct LanguagePackInfo: Codable, Equatable, FunctionResult {
+	///  Unique language pack identifier 
+	public let id: String
+	///  Identifier of a base language pack; may be empty. If a string is missed in the language pack, then it should be fetched from base language pack. Unsupported in custom language packs 
+	public let baseLanguagePackId: String
+	///  Language name 
+	public let name: String
+	///  Name of the language in that language 
+	public let nativeName: String
+	///  A language code to be used to apply plural forms. See https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html for more info 
+	public let pluralCode: String
+	///  True, if the language pack is official 
+	public let isOfficial: Bool
+	///  True, if the language pack strings are RTL 
+	public let isRtl: Bool
+	///  True, if the language pack is a beta language pack 
+	public let isBeta: Bool
+	///  True, if the language pack is installed by the current user 
+	public let isInstalled: Bool
+	///  Total number of non-deleted strings from the language pack 
+	public let totalStringCount: Int32
+	///  Total number of translated strings from the language pack 
+	public let translatedStringCount: Int32
+	///  Total number of non-deleted strings from the language pack available locally 
+	public let localStringCount: Int32
+	///  Link to language translation interface; empty for custom local language packs
+	public let translationUrl: String
+	/// Contains information about a language pack 
+	/// - Parameters:
+	///   - id: Unique language pack identifier 
+	///   - baseLanguagePackId: Identifier of a base language pack; may be empty. If a string is missed in the language pack, then it should be fetched from base language pack. Unsupported in custom language packs 
+	///   - name: Language name 
+	///   - nativeName: Name of the language in that language 
+	///   - pluralCode: A language code to be used to apply plural forms. See https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html for more info 
+	///   - isOfficial: True, if the language pack is official 
+	///   - isRtl: True, if the language pack strings are RTL 
+	///   - isBeta: True, if the language pack is a beta language pack 
+	///   - isInstalled: True, if the language pack is installed by the current user 
+	///   - totalStringCount: Total number of non-deleted strings from the language pack 
+	///   - translatedStringCount: Total number of translated strings from the language pack 
+	///   - localStringCount: Total number of non-deleted strings from the language pack available locally 
+	///   - translationUrl: Link to language translation interface; empty for custom local language packs
+	public init(id: String, baseLanguagePackId: String, name: String, nativeName: String, pluralCode: String, isOfficial: Bool, isRtl: Bool, isBeta: Bool, isInstalled: Bool, totalStringCount: Int32, translatedStringCount: Int32, localStringCount: Int32, translationUrl: String) {
+		self.id = id
+		self.baseLanguagePackId = baseLanguagePackId
+		self.name = name
+		self.nativeName = nativeName
+		self.pluralCode = pluralCode
+		self.isOfficial = isOfficial
+		self.isRtl = isRtl
+		self.isBeta = isBeta
+		self.isInstalled = isInstalled
+		self.totalStringCount = totalStringCount
+		self.translatedStringCount = translatedStringCount
+		self.localStringCount = localStringCount
+		self.translationUrl = translationUrl
+	}
+}
+
+///  Contains information about the current localization target 
+public struct LocalizationTargetInfo: Codable, Equatable, FunctionResult {
+	///  List of available language packs for this application
+	public let languagePacks: [LanguagePackInfo]
+	/// Contains information about the current localization target 
+	/// - Parameters:
+	///   - languagePacks: List of available language packs for this application
+	public init(languagePacks: [LanguagePackInfo]) {
+		self.languagePacks = languagePacks
+	}
+}
+
+///  Represents a data needed to subscribe for push notifications through registerDevice method. To use specific push notification service, you must specify the correct application platform and upload valid server authentication data at https://my.telegram.org 
 public indirect enum DeviceToken: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
-	///  A token for Google Cloud Messaging 
-	/// - token: Device registration token, may be empty to de-register a device
-	case googleCloudMessaging(token: String)
+	///  A token for Firebase Cloud Messaging 
+	/// - token: Device registration token; may be empty to de-register a device 
+	/// - encrypt: True, if push notifications should be additionally encrypted
+	case firebaseCloudMessaging(token: String, encrypt: Bool)
 	///  A token for Apple Push Notification service 
-	/// - deviceToken: Device token, may be empty to de-register a device 
+	/// - deviceToken: Device token; may be empty to de-register a device 
 	/// - isAppSandbox: True, if App Sandbox is enabled
 	case applePush(deviceToken: String, isAppSandbox: Bool)
 	///  A token for Apple Push Notification service VoIP notifications 
-	/// - deviceToken: Device token, may be empty to de-register a device 
-	/// - isAppSandbox: True, if App Sandbox is enabled
-	case applePushVoIP(deviceToken: String, isAppSandbox: Bool)
+	/// - deviceToken: Device token; may be empty to de-register a device 
+	/// - isAppSandbox: True, if App Sandbox is enabled 
+	/// - encrypt: True, if push notifications should be additionally encrypted
+	case applePushVoIP(deviceToken: String, isAppSandbox: Bool, encrypt: Bool)
 	///  A token for Windows Push Notification Services 
-	/// - accessToken: The access token that will be used to send notifications, may be empty to de-register a device
+	/// - accessToken: The access token that will be used to send notifications; may be empty to de-register a device
 	case windowsPush(accessToken: String)
 	///  A token for Microsoft Push Notification Service 
-	/// - channelUri: Push notification channel URI, may be empty to de-register a device
+	/// - channelUri: Push notification channel URI; may be empty to de-register a device
 	case microsoftPush(channelUri: String)
 	///  A token for Microsoft Push Notification Service VoIP channel 
-	/// - channelUri: Push notification channel URI, may be empty to de-register a device
+	/// - channelUri: Push notification channel URI; may be empty to de-register a device
 	case microsoftPushVoIP(channelUri: String)
 	///  A token for web Push API 
-	/// - endpoint: Absolute URL exposed by the push service where the application server can send push messages, may be empty to de-register a device 
+	/// - endpoint: Absolute URL exposed by the push service where the application server can send push messages; may be empty to de-register a device 
 	/// - p256dhBase64url: Base64url-encoded P-256 elliptic curve Diffie-Hellman public key 
 	/// - authBase64url: Base64url-encoded authentication secret
 	case webPush(endpoint: String, p256dhBase64url: String, authBase64url: String)
 	///  A token for Simple Push API for Firefox OS 
-	/// - endpoint: Absolute URL exposed by the push service where the application server can send push messages, may be empty to de-register a device
+	/// - endpoint: Absolute URL exposed by the push service where the application server can send push messages; may be empty to de-register a device
 	case simplePush(endpoint: String)
 	///  A token for Ubuntu Push Client service 
-	/// - token: Token, may be empty to de-register a device
+	/// - token: Token; may be empty to de-register a device
 	case ubuntuPush(token: String)
 	///  A token for BlackBerry Push Service 
-	/// - token: Token, may be empty to de-register a device
+	/// - token: Token; may be empty to de-register a device
 	case blackBerryPush(token: String)
 	///  A token for Tizen Push Service 
-	/// - regId: Push service registration identifier, may be empty to de-register a device
+	/// - regId: Push service registration identifier; may be empty to de-register a device
 	case tizenPush(regId: String)
+}
+
+///  Contains a globally unique push receiver identifier, which can be used to identify which account has received a push notification 
+public struct PushReceiverId: Codable, Equatable, FunctionResult {
+	///  The globally unique identifier of push notification subscription
+	public let id: TDInt64
+	/// Contains a globally unique push receiver identifier, which can be used to identify which account has received a push notification 
+	/// - Parameters:
+	///   - id: The globally unique identifier of push notification subscription
+	public init(id: TDInt64) {
+		self.id = id
+	}
 }
 
 ///  Contains information about a wallpaper 
@@ -3533,19 +4635,238 @@ public indirect enum CheckChatUsernameResult: Codable, Equatable, FunctionResult
 	case publicGroupsUnavailable
 }
 
+///  Contains content of a push message notification 
+public indirect enum PushMessageContent: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
+	///  A general message with hidden content 
+	/// - isPinned: True, if the message is a pinned message with the specified content
+	case hidden(isPinned: Bool)
+	///  An animation message (GIF-style) 
+	/// - animation: Message content; may be null 
+	/// - caption: Animation caption 
+	/// - isPinned: True, if the message is a pinned message with the specified content
+	case animation(animation: Animation?, caption: String, isPinned: Bool)
+	///  An audio message 
+	/// - audio: Message content; may be null 
+	/// - isPinned: True, if the message is a pinned message with the specified content
+	case audio(audio: Audio?, isPinned: Bool)
+	///  A message with a user contact 
+	/// - name: Contact's name 
+	/// - isPinned: True, if the message is a pinned message with the specified content
+	case contact(name: String, isPinned: Bool)
+	///  A contact has registered with Telegram
+	case contactRegistered
+	///  A document message (a general file) 
+	/// - document: Message content; may be null 
+	/// - isPinned: True, if the message is a pinned message with the specified content
+	case document(document: Document?, isPinned: Bool)
+	///  A message with a game 
+	/// - title: Game title, empty for pinned game message 
+	/// - isPinned: True, if the message is a pinned message with the specified content
+	case game(title: String, isPinned: Bool)
+	///  A new high score was achieved in a game 
+	/// - title: Game title, empty for pinned message 
+	/// - score: New score, 0 for pinned message 
+	/// - isPinned: True, if the message is a pinned message with the specified content
+	case gameScore(title: String, score: Int32, isPinned: Bool)
+	///  A message with an invoice from a bot 
+	/// - price: Product price 
+	/// - isPinned: True, if the message is a pinned message with the specified content
+	case invoice(price: String, isPinned: Bool)
+	///  A message with a location 
+	/// - isLive: True, if the location is live 
+	/// - isPinned: True, if the message is a pinned message with the specified content
+	case location(isLive: Bool, isPinned: Bool)
+	///  A photo message 
+	/// - photo: Message content; may be null 
+	/// - caption: Photo caption 
+	/// - isSecret: True, if the photo is secret 
+	/// - isPinned: True, if the message is a pinned message with the specified content
+	case photo(photo: Photo?, caption: String, isSecret: Bool, isPinned: Bool)
+	///  A message with a poll 
+	/// - question: Poll question 
+	/// - isPinned: True, if the message is a pinned message with the specified content
+	case poll(question: String, isPinned: Bool)
+	///  A screenshot of a message in the chat has been taken
+	case screenshotTaken
+	///  A message with a sticker 
+	/// - sticker: Message content; may be null 
+	/// - emoji: Emoji corresponding to the sticker; may be empty 
+	/// - isPinned: True, if the message is a pinned message with the specified content
+	case sticker(sticker: Sticker?, emoji: String, isPinned: Bool)
+	///  A text message 
+	/// - text: Message text 
+	/// - isPinned: True, if the message is a pinned message with the specified content
+	case text(text: String, isPinned: Bool)
+	///  A video message 
+	/// - video: Message content; may be null 
+	/// - caption: Video caption 
+	/// - isSecret: True, if the video is secret 
+	/// - isPinned: True, if the message is a pinned message with the specified content
+	case video(video: Video?, caption: String, isSecret: Bool, isPinned: Bool)
+	///  A video note message 
+	/// - videoNote: Message content; may be null 
+	/// - isPinned: True, if the message is a pinned message with the specified content
+	case videoNote(videoNote: VideoNote?, isPinned: Bool)
+	///  A voice note message 
+	/// - voiceNote: Message content; may be null 
+	/// - isPinned: True, if the message is a pinned message with the specified content
+	case voiceNote(voiceNote: VoiceNote?, isPinned: Bool)
+	///  A newly created basic group
+	case basicGroupChatCreate
+	///  New chat members were invited to a group 
+	/// - memberName: Name of the added member 
+	/// - isCurrentUser: True, if the current user was added to the group 
+	/// - isReturned: True, if the user has returned to the group himself
+	case chatAddMembers(memberName: String, isCurrentUser: Bool, isReturned: Bool)
+	///  A chat photo was edited
+	case chatChangePhoto
+	///  A chat title was edited 
+	/// - title: New chat title
+	case chatChangeTitle(title: String)
+	///  A chat member was deleted 
+	/// - memberName: Name of the deleted member 
+	/// - isCurrentUser: True, if the current user was deleted from the group 
+	/// - isLeft: True, if the user has left the group himself
+	case chatDeleteMember(memberName: String, isCurrentUser: Bool, isLeft: Bool)
+	///  A new member joined the chat by invite link
+	case chatJoinByLink
+	///  A forwarded messages 
+	/// - totalCount: Number of forwarded messages
+	case messageForwards(totalCount: Int32)
+	///  A media album 
+	/// - totalCount: Number of messages in the album 
+	/// - hasPhotos: True, if the album has at least one photo 
+	/// - hasVideos: True, if the album has at least one video
+	case mediaAlbum(totalCount: Int32, hasPhotos: Bool, hasVideos: Bool)
+}
+
+///  Contains detailed information about a notification 
+public indirect enum NotificationType: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
+	///  New message was received 
+	/// - message: The message
+	case newMessage(message: Message)
+	///  New secret chat was created
+	case newSecretChat
+	///  New call was received 
+	/// - callId: Call identifier
+	case newCall(callId: Int32)
+	///  New message was received through a push notification 
+	/// - messageId: The message identifier. The message will not be available in the chat history, but the ID can be used in viewMessages and as reply_to_message_id 
+	/// - senderUserId: Sender of the message. Corresponding user may be inaccessible 
+	/// - content: Push message content
+	case newPushMessage(messageId: Int53, senderUserId: Int32, content: PushMessageContent)
+}
+
+///  Describes type of notifications in the group 
+public indirect enum NotificationGroupType: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
+	///  A group containing notifications of type notificationTypeNewMessage and notificationTypeNewPushMessage with ordinary unread messages
+	case messages
+	///  A group containing notifications of type notificationTypeNewMessage and notificationTypeNewPushMessage with unread mentions of the current user, replies to their messages, or a pinned message
+	case mentions
+	///  A group containing a notification of type notificationTypeNewSecretChat
+	case secretChat
+	///  A group containing notifications of type notificationTypeNewCall
+	case calls
+}
+
+///  Contains information about a notification 
+public struct Notification: Codable, Equatable, FunctionResult {
+	///  Unique persistent identifier of this notification 
+	public let id: Int32
+	///  Notification date 
+	public let date: Int32
+	///  Notification type
+	public let type: NotificationType
+	/// Contains information about a notification 
+	/// - Parameters:
+	///   - id: Unique persistent identifier of this notification 
+	///   - date: Notification date 
+	///   - type: Notification type
+	public init(id: Int32, date: Int32, type: NotificationType) {
+		self.id = id
+		self.date = date
+		self.type = type
+	}
+}
+
+///  Describes a group of notifications 
+public struct NotificationGroup: Codable, Equatable, FunctionResult {
+	///  Unique persistent auto-incremented from 1 identifier of the notification group 
+	public let id: Int32
+	///  Type of the group 
+	public let type: NotificationGroupType
+	///  Identifier of a chat to which all notifications in the group belong 
+	public let chatId: Int53
+	///  Total number of active notifications in the group 
+	public let totalCount: Int32
+	///  The list of active notifications
+	public let notifications: [Notification]
+	/// Describes a group of notifications 
+	/// - Parameters:
+	///   - id: Unique persistent auto-incremented from 1 identifier of the notification group 
+	///   - type: Type of the group 
+	///   - chatId: Identifier of a chat to which all notifications in the group belong 
+	///   - totalCount: Total number of active notifications in the group 
+	///   - notifications: The list of active notifications
+	public init(id: Int32, type: NotificationGroupType, chatId: Int53, totalCount: Int32, notifications: [Notification]) {
+		self.id = id
+		self.type = type
+		self.chatId = chatId
+		self.totalCount = totalCount
+		self.notifications = notifications
+	}
+}
+
 ///  Represents the value of an option 
 public indirect enum OptionValue: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
-	///  Boolean option 
+	///  Represents a boolean option 
 	/// - value: The value of the option
 	case boolean(value: Bool)
-	///  An unknown option or an option which has a default value
+	///  Represents an unknown option or an option which has a default value
 	case empty
-	///  An integer option 
+	///  Represents an integer option 
 	/// - value: The value of the option
 	case integer(value: Int32)
-	///  A string option 
+	///  Represents a string option 
 	/// - value: The value of the option
 	case string(value: String)
+}
+
+///  Represents one member of a JSON object 
+public struct JsonObjectMember: Codable, Equatable, FunctionResult {
+	///  Member's key 
+	public let key: String
+	///  Member's value
+	public let value: JsonValue
+	/// Represents one member of a JSON object 
+	/// - Parameters:
+	///   - key: Member's key 
+	///   - value: Member's value
+	public init(key: String, value: JsonValue) {
+		self.key = key
+		self.value = value
+	}
+}
+
+///  Represents a JSON value 
+public indirect enum JsonValue: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
+	///  Represents a null JSON value
+	case null
+	///  Represents a boolean JSON value 
+	/// - value: The value
+	case boolean(value: Bool)
+	///  Represents a numeric JSON value 
+	/// - value: The value
+	case number(value: Double)
+	///  Represents a string JSON value 
+	/// - value: The value
+	case string(value: String)
+	///  Represents a JSON array 
+	/// - values: The list of array elements
+	case array(values: [JsonValue])
+	///  Represents a JSON object 
+	/// - members: The list of object members
+	case object(members: [JsonObjectMember])
 }
 
 ///  Represents a single rule for managing privacy settings 
@@ -3586,6 +4907,8 @@ public indirect enum UserPrivacySetting: Codable, Equatable, FunctionResult, TDE
 	case allowChatInvites
 	///  A privacy setting for managing whether the user can be called
 	case allowCalls
+	///  A privacy setting for managing whether peer-to-peer connections can be used for calls
+	case allowPeerToPeerCalls
 }
 
 ///  Contains information about the period of inactivity after which the current user's account will automatically be deleted 
@@ -3600,12 +4923,14 @@ public struct AccountTtl: Codable, Equatable, FunctionResult {
 	}
 }
 
-///  Contains information about one session in a Telegram application used by the current user 
+///  Contains information about one session in a Telegram application used by the current user. Sessions should be shown to the user in the returned order 
 public struct Session: Codable, Equatable, FunctionResult {
 	///  Session identifier 
 	public let id: TDInt64
 	///  True, if this session is the current session 
 	public let isCurrent: Bool
+	///  True, if a password is needed to complete authorization of the session 
+	public let isPasswordPending: Bool
 	///  Telegram API identifier, as provided by the application 
 	public let apiId: Int32
 	///  Name of the application, as provided by the application 
@@ -3630,10 +4955,11 @@ public struct Session: Codable, Equatable, FunctionResult {
 	public let country: String
 	///  Region code from which the session was created, based on the IP address
 	public let region: String
-	/// Contains information about one session in a Telegram application used by the current user 
+	/// Contains information about one session in a Telegram application used by the current user. Sessions should be shown to the user in the returned order 
 	/// - Parameters:
 	///   - id: Session identifier 
 	///   - isCurrent: True, if this session is the current session 
+	///   - isPasswordPending: True, if a password is needed to complete authorization of the session 
 	///   - apiId: Telegram API identifier, as provided by the application 
 	///   - applicationName: Name of the application, as provided by the application 
 	///   - applicationVersion: The version of the application, as provided by the application 
@@ -3646,9 +4972,10 @@ public struct Session: Codable, Equatable, FunctionResult {
 	///   - ip: IP address from which the session was created, in human-readable format 
 	///   - country: A two-letter country code for the country from which the session was created, based on the IP address 
 	///   - region: Region code from which the session was created, based on the IP address
-	public init(id: TDInt64, isCurrent: Bool, apiId: Int32, applicationName: String, applicationVersion: String, isOfficialApplication: Bool, deviceModel: String, platform: String, systemVersion: String, logInDate: Int32, lastActiveDate: Int32, ip: String, country: String, region: String) {
+	public init(id: TDInt64, isCurrent: Bool, isPasswordPending: Bool, apiId: Int32, applicationName: String, applicationVersion: String, isOfficialApplication: Bool, deviceModel: String, platform: String, systemVersion: String, logInDate: Int32, lastActiveDate: Int32, ip: String, country: String, region: String) {
 		self.id = id
 		self.isCurrent = isCurrent
+		self.isPasswordPending = isPasswordPending
 		self.apiId = apiId
 		self.applicationName = applicationName
 		self.applicationVersion = applicationVersion
@@ -3752,6 +5079,10 @@ public indirect enum ChatReportReason: Codable, Equatable, FunctionResult, TDEnu
 	case violence
 	///  The chat contains pornographic messages
 	case pornography
+	///  The chat has child abuse related content
+	case childAbuse
+	///  The chat contains copyrighted content
+	case copyright
 	///  A custom reason provided by the user 
 	/// - text: Report text
 	case custom(text: String)
@@ -3773,6 +5104,18 @@ public struct PublicMessageLink: Codable, Equatable, FunctionResult {
 	}
 }
 
+///  Contains a part of a file 
+public struct FilePart: Codable, Equatable, FunctionResult {
+	///  File bytes
+	public let data: Bytes
+	/// Contains a part of a file 
+	/// - Parameters:
+	///   - data: File bytes
+	public init(data: Bytes) {
+		self.data = data
+	}
+}
+
 ///  Represents the type of a file 
 public indirect enum FileType: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  The data is not a file
@@ -3789,6 +5132,10 @@ public indirect enum FileType: Codable, Equatable, FunctionResult, TDEnum, Equat
 	case profilePhoto
 	///  The file was sent to a secret chat (the file type is not known to the server)
 	case secret
+	///  The file is a thumbnail of a file from a secret chat
+	case secretThumbnail
+	///  The file is a file from Secure storage used for storing Telegram Passport files
+	case secure
 	///  The file is a sticker
 	case sticker
 	///  The file is a thumbnail of another file
@@ -3803,8 +5150,6 @@ public indirect enum FileType: Codable, Equatable, FunctionResult, TDEnum, Equat
 	case voiceNote
 	///  The file is a wallpaper
 	case wallpaper
-	///  The file is a thumbnail of a file from a secret chat
-	case secretThumbnail
 }
 
 ///  Contains the storage usage statistics for a specific file type 
@@ -3877,17 +5222,37 @@ public struct StorageStatisticsFast: Codable, Equatable, FunctionResult {
 	public let filesSize: Int53
 	///  Approximate number of files 
 	public let fileCount: Int32
-	///  Size of the database
+	///  Size of the database 
 	public let databaseSize: Int53
+	///  Size of the language pack database 
+	public let languagePackDatabaseSize: Int53
+	///  Size of the TDLib internal log
+	public let logSize: Int53
 	/// Contains approximate storage usage statistics, excluding files of unknown file type 
 	/// - Parameters:
 	///   - filesSize: Approximate total size of files 
 	///   - fileCount: Approximate number of files 
-	///   - databaseSize: Size of the database
-	public init(filesSize: Int53, fileCount: Int32, databaseSize: Int53) {
+	///   - databaseSize: Size of the database 
+	///   - languagePackDatabaseSize: Size of the language pack database 
+	///   - logSize: Size of the TDLib internal log
+	public init(filesSize: Int53, fileCount: Int32, databaseSize: Int53, languagePackDatabaseSize: Int53, logSize: Int53) {
 		self.filesSize = filesSize
 		self.fileCount = fileCount
 		self.databaseSize = databaseSize
+		self.languagePackDatabaseSize = languagePackDatabaseSize
+		self.logSize = logSize
+	}
+}
+
+///  Contains database statistics 
+public struct DatabaseStatistics: Codable, Equatable, FunctionResult {
+	///  Database statistics in an unspecified human-readable format
+	public let statistics: String
+	/// Contains database statistics 
+	/// - Parameters:
+	///   - statistics: Database statistics in an unspecified human-readable format
+	public init(statistics: String) {
+		self.statistics = statistics
 	}
 }
 
@@ -4035,6 +5400,34 @@ public struct Text: Codable, Equatable, FunctionResult {
 	}
 }
 
+///  Contains a value representing a number of seconds 
+public struct Seconds: Codable, Equatable, FunctionResult {
+	///  Number of seconds
+	public let seconds: Double
+	/// Contains a value representing a number of seconds 
+	/// - Parameters:
+	///   - seconds: Number of seconds
+	public init(seconds: Double) {
+		self.seconds = seconds
+	}
+}
+
+///  Contains information about a tg:// deep link 
+public struct DeepLinkInfo: Codable, Equatable, FunctionResult {
+	///  Text to be shown to the user 
+	public let text: FormattedText
+	///  True, if user should be asked to update the application
+	public let needUpdateApplication: Bool
+	/// Contains information about a tg:// deep link 
+	/// - Parameters:
+	///   - text: Text to be shown to the user 
+	///   - needUpdateApplication: True, if user should be asked to update the application
+	public init(text: FormattedText, needUpdateApplication: Bool) {
+		self.text = text
+		self.needUpdateApplication = needUpdateApplication
+	}
+}
+
 ///  Describes the way the text should be parsed for TextEntities 
 public indirect enum TextParseMode: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  The text should be parsed in markdown-style
@@ -4043,16 +5436,64 @@ public indirect enum TextParseMode: Codable, Equatable, FunctionResult, TDEnum, 
 	case hTML
 }
 
-///  Contains information about a proxy server 
-public indirect enum Proxy: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
-	///  An empty proxy server
-	case empty
+///  Describes the type of the proxy server 
+public indirect enum ProxyType: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  A SOCKS5 proxy server 
-	/// - server: Proxy server IP address 
-	/// - port: Proxy server port 
-	/// - username: Username for logging in 
-	/// - password: Password for logging in
-	case socks5(server: String, port: Int32, username: String, password: String)
+	/// - username: Username for logging in; may be empty 
+	/// - password: Password for logging in; may be empty
+	case socks5(username: String, password: String)
+	///  A HTTP transparent proxy server 
+	/// - username: Username for logging in; may be empty 
+	/// - password: Password for logging in; may be empty 
+	/// - httpOnly: Pass true, if the proxy supports only HTTP requests and doesn't support transparent TCP connections via HTTP CONNECT method
+	case http(username: String, password: String, httpOnly: Bool)
+	///  An MTProto proxy server 
+	/// - secret: The proxy's secret in hexadecimal encoding
+	case mtproto(secret: String)
+}
+
+///  Contains information about a proxy server 
+public struct Proxy: Codable, Equatable, FunctionResult {
+	///  Unique identifier of the proxy 
+	public let id: Int32
+	///  Proxy server IP address 
+	public let server: String
+	///  Proxy server port 
+	public let port: Int32
+	///  Point in time (Unix timestamp) when the proxy was last used; 0 if never 
+	public let lastUsedDate: Int32
+	///  True, if the proxy is enabled now 
+	public let isEnabled: Bool
+	///  Type of the proxy
+	public let type: ProxyType
+	/// Contains information about a proxy server 
+	/// - Parameters:
+	///   - id: Unique identifier of the proxy 
+	///   - server: Proxy server IP address 
+	///   - port: Proxy server port 
+	///   - lastUsedDate: Point in time (Unix timestamp) when the proxy was last used; 0 if never 
+	///   - isEnabled: True, if the proxy is enabled now 
+	///   - type: Type of the proxy
+	public init(id: Int32, server: String, port: Int32, lastUsedDate: Int32, isEnabled: Bool, type: ProxyType) {
+		self.id = id
+		self.server = server
+		self.port = port
+		self.lastUsedDate = lastUsedDate
+		self.isEnabled = isEnabled
+		self.type = type
+	}
+}
+
+///  Represents a list of proxy servers 
+public struct Proxies: Codable, Equatable, FunctionResult {
+	///  List of proxy servers
+	public let proxies: [Proxy]
+	/// Represents a list of proxy servers 
+	/// - Parameters:
+	///   - proxies: List of proxy servers
+	public init(proxies: [Proxy]) {
+		self.proxies = proxies
+	}
 }
 
 ///  Describes a sticker that should be added to a sticker set 
@@ -4081,10 +5522,8 @@ public indirect enum Update: Codable, Equatable, FunctionResult, TDEnum, Equatab
 	/// - authorizationState: New authorization state
 	case authorizationState(authorizationState: AuthorizationState)
 	///  A new message was received; can also be an outgoing message 
-	/// - message: The new message 
-	/// - disableNotification: True, if this message must not generate a notification 
-	/// - containsMention: True, if the message contains a mention of the current user
-	case newMessage(message: Message, disableNotification: Bool, containsMention: Bool)
+	/// - message: The new message
+	case newMessage(message: Message)
 	///  A request to send a message has reached the Telegram server. This doesn't mean that the message will be sent successfully or even that the send message request will be processed. This update will be sent only if the option "use_quick_ack" is set to true. This update may be sent multiple times for the same message 
 	/// - chatId: The chat identifier of the sent message 
 	/// - messageId: A temporary message identifier
@@ -4140,7 +5579,7 @@ public indirect enum Update: Codable, Equatable, FunctionResult, TDEnum, Equatab
 	/// - lastMessage: The new last message in the chat; may be null 
 	/// - order: New value of the chat order
 	case chatLastMessage(chatId: Int53, lastMessage: Message?, order: TDInt64)
-	///  The order of the chat in the chats list has changed. Instead of this update updateChatLastMessage, updateChatIsPinned or updateChatDraftMessage might be sent 
+	///  The order of the chat in the chat list has changed. Instead of this update updateChatLastMessage, updateChatIsPinned or updateChatDraftMessage might be sent 
 	/// - chatId: Chat identifier 
 	/// - order: New value of the order
 	case chatOrder(chatId: Int53, order: TDInt64)
@@ -4149,6 +5588,19 @@ public indirect enum Update: Codable, Equatable, FunctionResult, TDEnum, Equatab
 	/// - isPinned: New value of is_pinned 
 	/// - order: New value of the chat order
 	case chatIsPinned(chatId: Int53, isPinned: Bool, order: TDInt64)
+	///  A chat was marked as unread or was read 
+	/// - chatId: Chat identifier 
+	/// - isMarkedAsUnread: New value of is_marked_as_unread
+	case chatIsMarkedAsUnread(chatId: Int53, isMarkedAsUnread: Bool)
+	///  A chat's is_sponsored field has changed 
+	/// - chatId: Chat identifier 
+	/// - isSponsored: New value of is_sponsored 
+	/// - order: New value of chat order
+	case chatIsSponsored(chatId: Int53, isSponsored: Bool, order: TDInt64)
+	///  The value of the default disable_notification parameter, used when a message is sent to the chat, was changed 
+	/// - chatId: Chat identifier 
+	/// - defaultDisableNotification: The new default_disable_notification value
+	case chatDefaultDisableNotification(chatId: Int53, defaultDisableNotification: Bool)
 	///  Incoming messages were read or number of unread messages has been changed 
 	/// - chatId: Chat identifier 
 	/// - lastReadInboxMessageId: Identifier of the last read incoming message 
@@ -4162,23 +5614,56 @@ public indirect enum Update: Codable, Equatable, FunctionResult, TDEnum, Equatab
 	/// - chatId: Chat identifier 
 	/// - unreadMentionCount: The number of unread mention messages left in the chat
 	case chatUnreadMentionCount(chatId: Int53, unreadMentionCount: Int32)
-	///  Notification settings for some chats were updated 
+	///  Notification settings for a chat were changed 
+	/// - chatId: Chat identifier 
+	/// - notificationSettings: The new notification settings
+	case chatNotificationSettings(chatId: Int53, notificationSettings: ChatNotificationSettings)
+	///  Notification settings for some type of chats were updated 
 	/// - scope: Types of chats for which notification settings were updated 
 	/// - notificationSettings: The new notification settings
-	case notificationSettings(scope: NotificationSettingsScope, notificationSettings: NotificationSettings)
+	case scopeNotificationSettings(scope: NotificationSettingsScope, notificationSettings: ScopeNotificationSettings)
+	///  The chat pinned message was changed 
+	/// - chatId: Chat identifier 
+	/// - pinnedMessageId: The new identifier of the pinned message; 0 if there is no pinned message in the chat
+	case chatPinnedMessage(chatId: Int53, pinnedMessageId: Int53)
 	///  The default chat reply markup was changed. Can occur because new messages with reply markup were received or because an old reply markup was hidden by the user 
 	/// - chatId: Chat identifier 
 	/// - replyMarkupMessageId: Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat
 	case chatReplyMarkup(chatId: Int53, replyMarkupMessageId: Int53)
-	///  A draft has changed. Be aware that the update may come in the currently opened chat but with old content of the draft. If the user has changed the content of the draft, this update shouldn't be applied 
+	///  A chat draft has changed. Be aware that the update may come in the currently opened chat but with old content of the draft. If the user has changed the content of the draft, this update shouldn't be applied 
 	/// - chatId: Chat identifier 
 	/// - draftMessage: The new draft message; may be null 
 	/// - order: New value of the chat order
 	case chatDraftMessage(chatId: Int53, draftMessage: DraftMessage?, order: TDInt64)
+	///  The number of online group members has changed. This update with non-zero count is sent only for currently opened chats. There is no guarantee that it will be sent just after the count has changed 
+	/// - chatId: Identifier of the chat 
+	/// - onlineMemberCount: New number of online members in the chat, or 0 if unknown
+	case chatOnlineMemberCount(chatId: Int53, onlineMemberCount: Int32)
+	///  A notification was changed 
+	/// - notificationGroupId: Unique notification group identifier 
+	/// - notification: Changed notification
+	case notification(notificationGroupId: Int32, notification: Notification)
+	///  A list of active notifications in a notification group has changed 
+	/// - notificationGroupId: Unique notification group identifier 
+	/// - type: New type of the notification group 
+	/// - chatId: Identifier of a chat to which all notifications in the group belong 
+	/// - notificationSettingsChatId: Chat identifier, which notification settings must be applied to the added notifications 
+	/// - isSilent: True, if the notifications should be shown without sound 
+	/// - totalCount: Total number of unread notifications in the group, can be bigger than number of active notifications 
+	/// - addedNotifications: List of added group notifications, sorted by notification ID 
+	/// - removedNotificationIds: Identifiers of removed group notifications, sorted by notification ID
+	case notificationGroup(notificationGroupId: Int32, type: NotificationGroupType, chatId: Int53, notificationSettingsChatId: Int53, isSilent: Bool, totalCount: Int32, addedNotifications: [Notification], removedNotificationIds: [Int32])
+	///  Contains active notifications that was shown on previous application launches. This update is sent only if a message database is used. In that case it comes once before any updateNotification and updateNotificationGroup update 
+	/// - groups: Lists of active notification groups
+	case activeNotifications(groups: [NotificationGroup])
+	///  Describes, whether there are some pending notification updates. Can be used to prevent application from killing, while there are some pending notifications 
+	/// - haveDelayedNotifications: True, if there are some delayed notification updates, which will be sent soon 
+	/// - haveUnreceivedNotifications: True, if there can be some yet unreceived notifications, which are being fetched from the server
+	case havePendingNotifications(haveDelayedNotifications: Bool, haveUnreceivedNotifications: Bool)
 	///  Some messages were deleted 
 	/// - chatId: Chat identifier 
 	/// - messageIds: Identifiers of the deleted messages 
-	/// - isPermanent: True, if the messages are permanently deleted by a user (as opposed to just becoming unaccessible) 
+	/// - isPermanent: True, if the messages are permanently deleted by a user (as opposed to just becoming inaccessible) 
 	/// - fromCache: True, if the messages are deleted only from the cache and can possibly be retrieved again in the future
 	case deleteMessages(chatId: Int53, messageIds: [Int53], isPermanent: Bool, fromCache: Bool)
 	///  User activity in the chat has changed 
@@ -4215,7 +5700,7 @@ public indirect enum Update: Codable, Equatable, FunctionResult, TDEnum, Equatab
 	/// - supergroupFullInfo: New full information about the supergroup
 	case supergroupFullInfo(supergroupId: Int32, supergroupFullInfo: SupergroupFullInfo)
 	///  Service notification from the server. Upon receiving this the client must show a popup with the content of the notification 
-	/// - type: Notification type 
+	/// - type: Notification type. If type begins with "AUTH_KEY_DROP_", then two buttons "Cancel" and "Log out" should be shown under notification; if user presses the second, all local data should be destroyed using Destroy method 
 	/// - content: Notification content
 	case serviceNotification(type: String, content: MessageContent)
 	///  Information about a file was updated 
@@ -4223,9 +5708,9 @@ public indirect enum Update: Codable, Equatable, FunctionResult, TDEnum, Equatab
 	case file(file: File)
 	///  The file generation process needs to be started by the client 
 	/// - generationId: Unique identifier for the generation process 
-	/// - originalPath: The path to a file from which a new file is generated, may be empty 
+	/// - originalPath: The path to a file from which a new file is generated; may be empty 
 	/// - destinationPath: The path to a file that should be created and where the new file should be generated 
-	/// - conversion: String specifying the conversion applied to the original file. If conversion is "#url#" than original_path contains a HTTP/HTTPS URL of a file, which should be downloaded by the client
+	/// - conversion: String specifying the conversion applied to the original file. If conversion is "#url#" than original_path contains an HTTP/HTTPS URL of a file, which should be downloaded by the client
 	case fileGenerationStart(generationId: TDInt64, originalPath: String, destinationPath: String, conversion: String)
 	///  File generation is no longer needed 
 	/// - generationId: Unique identifier for the generation process
@@ -4241,6 +5726,12 @@ public indirect enum Update: Codable, Equatable, FunctionResult, TDEnum, Equatab
 	/// - unreadCount: Total number of unread messages 
 	/// - unreadUnmutedCount: Total number of unread messages in unmuted chats
 	case unreadMessageCount(unreadCount: Int32, unreadUnmutedCount: Int32)
+	///  Number of unread chats, i.e. with unread messages or marked as unread, has changed. This update is sent only if a message database is used 
+	/// - unreadCount: Total number of unread chats 
+	/// - unreadUnmutedCount: Total number of unread unmuted chats 
+	/// - markedAsUnreadCount: Total number of chats marked as unread 
+	/// - markedAsUnreadUnmutedCount: Total number of unmuted chats marked as unread
+	case unreadChatCount(unreadCount: Int32, unreadUnmutedCount: Int32, markedAsUnreadCount: Int32, markedAsUnreadUnmutedCount: Int32)
 	///  An option changed its value 
 	/// - name: The option name 
 	/// - value: The new option value
@@ -4262,9 +5753,18 @@ public indirect enum Update: Codable, Equatable, FunctionResult, TDEnum, Equatab
 	///  The list of saved animations was updated 
 	/// - animationIds: The new list of file identifiers of saved animations
 	case savedAnimations(animationIds: [Int32])
+	///  Some language pack strings have been updated 
+	/// - localizationTarget: Localization target to which the language pack belongs 
+	/// - languagePackId: Identifier of the updated language pack 
+	/// - strings: List of changed language pack strings
+	case languagePackStrings(localizationTarget: String, languagePackId: String, strings: [LanguagePackString])
 	///  The connection state has changed 
 	/// - state: The new connection state
 	case connectionState(state: ConnectionState)
+	///  New terms of service must be accepted by the user. If the terms of service are declined, then the deleteAccount method should be called with the reason "Decline ToS update" 
+	/// - termsOfServiceId: Identifier of the terms of service 
+	/// - termsOfService: The new terms of service
+	case termsOfService(termsOfServiceId: String, termsOfService: TermsOfService)
 	///  A new incoming inline query; for bots only 
 	/// - id: Unique query identifier 
 	/// - senderUserId: Identifier of the user who sent the query 
@@ -4299,7 +5799,7 @@ public indirect enum Update: Codable, Equatable, FunctionResult, TDEnum, Equatab
 	/// - senderUserId: Identifier of the user who sent the query 
 	/// - invoicePayload: Invoice payload 
 	/// - shippingAddress: User shipping address
-	case newShippingQuery(id: TDInt64, senderUserId: Int32, invoicePayload: String, shippingAddress: ShippingAddress)
+	case newShippingQuery(id: TDInt64, senderUserId: Int32, invoicePayload: String, shippingAddress: Address)
 	///  A new incoming pre-checkout query; for bots only. Contains full information about a checkout 
 	/// - id: Unique query identifier 
 	/// - senderUserId: Identifier of the user who sent the query 
@@ -4317,6 +5817,57 @@ public indirect enum Update: Codable, Equatable, FunctionResult, TDEnum, Equatab
 	/// - data: JSON-serialized query data 
 	/// - timeout: Query timeout
 	case newCustomQuery(id: TDInt64, data: String, timeout: Int32)
+	///  Information about a poll was updated; for bots only 
+	/// - poll: New data about the poll
+	case poll(poll: Poll)
+}
+
+///  Contains a list of updates 
+public struct Updates: Codable, Equatable, FunctionResult {
+	///  List of updates
+	public let updates: [Update]
+	/// Contains a list of updates 
+	/// - Parameters:
+	///   - updates: List of updates
+	public init(updates: [Update]) {
+		self.updates = updates
+	}
+}
+
+///  Describes a stream to which TDLib internal log is written 
+public indirect enum LogStream: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
+	///  The log is written to stderr or an OS specific log
+	case `default`
+	///  The log is written to a file 
+	/// - path: Path to the file to where the internal TDLib log will be written 
+	/// - maxFileSize: Maximum size of the file to where the internal TDLib log is written before the file will be auto-rotated
+	case file(path: String, maxFileSize: Int53)
+	///  The log is written nowhere
+	case empty
+}
+
+///  Contains a TDLib internal log verbosity level 
+public struct LogVerbosityLevel: Codable, Equatable, FunctionResult {
+	///  Log verbosity level
+	public let verbosityLevel: Int32
+	/// Contains a TDLib internal log verbosity level 
+	/// - Parameters:
+	///   - verbosityLevel: Log verbosity level
+	public init(verbosityLevel: Int32) {
+		self.verbosityLevel = verbosityLevel
+	}
+}
+
+///  Contains a list of available TDLib internal log tags 
+public struct LogTags: Codable, Equatable, FunctionResult {
+	///  List of log tags
+	public let tags: [String]
+	/// Contains a list of available TDLib internal log tags 
+	/// - Parameters:
+	///   - tags: List of log tags
+	public init(tags: [String]) {
+		self.tags = tags
+	}
 }
 
 ///  A simple object containing a number; for testing only 
@@ -4471,15 +6022,15 @@ public struct CheckAuthenticationCode: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  The verification code received via SMS, Telegram message, phone call, or flash call 
 	public let code: String
-	///  If the user is not yet registered, the first name of the user; 1-255 characters 
+	///  If the user is not yet registered, the first name of the user; 1-64 characters. You can also pass an empty string for unregistered user there to check verification code validness. In the latter case PHONE_NUMBER_UNOCCUPIED error will be returned for a valid code 
 	public let firstName: String
-	///  If the user is not yet registered; the last name of the user; optional; 0-255 characters
+	///  If the user is not yet registered; the last name of the user; optional; 0-64 characters
 	public let lastName: String
 	/// Checks the authentication code. Works only when the current authorization state is authorizationStateWaitCode 
 	/// - Parameters:
 	///   - code: The verification code received via SMS, Telegram message, phone call, or flash call 
-	///   - firstName: If the user is not yet registered, the first name of the user; 1-255 characters 
-	///   - lastName: If the user is not yet registered; the last name of the user; optional; 0-255 characters
+	///   - firstName: If the user is not yet registered, the first name of the user; 1-64 characters. You can also pass an empty string for unregistered user there to check verification code validness. In the latter case PHONE_NUMBER_UNOCCUPIED error will be returned for a valid code 
+	///   - lastName: If the user is not yet registered; the last name of the user; optional; 0-64 characters
 	public init(code: String, firstName: String, lastName: String) {
 		self.code = code
 		self.firstName = firstName
@@ -4558,6 +6109,14 @@ public struct Destroy: Codable, Equatable, TDFunction {
 	}
 }
 
+///  Returns all updates needed to restore current TDLib state, i.e. all actual UpdateAuthorizationState/UpdateUser/UpdateNewChat and others. This is especially usefull if TDLib is run in a separate process. This is an offline method. Can be called before authorization
+public struct GetCurrentState: Codable, Equatable, TDFunction {
+	public typealias Result = Updates
+	/// Returns all updates needed to restore current TDLib state, i.e. all actual UpdateAuthorizationState/UpdateUser/UpdateNewChat and others. This is especially usefull if TDLib is run in a separate process. This is an offline method. Can be called before authorization
+	public init() {
+	}
+}
+
 ///  Changes the database encryption key. Usually the encryption key is never changed and is stored in some OS keychain 
 public struct SetDatabaseEncryptionKey: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
@@ -4579,7 +6138,7 @@ public struct GetPasswordState: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Changes the password for the user. If a new recovery email address is specified, then the error EMAIL_UNCONFIRMED is returned and the password change will not be applied until the new recovery email address has been confirmed. The application should periodically call getPasswordState to check whether the new email address has been confirmed 
+///  Changes the password for the user. If a new recovery email address is specified, then the change will not be applied until the new recovery email address is confirmed 
 public struct SetPassword: Codable, Equatable, TDFunction {
 	public typealias Result = PasswordState
 	///  Previous password of the user 
@@ -4592,7 +6151,7 @@ public struct SetPassword: Codable, Equatable, TDFunction {
 	public let setRecoveryEmailAddress: Bool
 	///  New recovery email address; may be empty
 	public let newRecoveryEmailAddress: String
-	/// Changes the password for the user. If a new recovery email address is specified, then the error EMAIL_UNCONFIRMED is returned and the password change will not be applied until the new recovery email address has been confirmed. The application should periodically call getPasswordState to check whether the new email address has been confirmed 
+	/// Changes the password for the user. If a new recovery email address is specified, then the change will not be applied until the new recovery email address is confirmed 
 	/// - Parameters:
 	///   - oldPassword: Previous password of the user 
 	///   - newPassword: New password of the user; may be empty to remove the password 
@@ -4608,12 +6167,12 @@ public struct SetPassword: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Returns a recovery email address that was previously set up. This method can be used to verify a password provided by the user 
+///  Returns a 2-step verification recovery email address that was previously set up. This method can be used to verify a password provided by the user 
 public struct GetRecoveryEmailAddress: Codable, Equatable, TDFunction {
 	public typealias Result = RecoveryEmailAddress
 	///  The password for the current user
 	public let password: String
-	/// Returns a recovery email address that was previously set up. This method can be used to verify a password provided by the user 
+	/// Returns a 2-step verification recovery email address that was previously set up. This method can be used to verify a password provided by the user 
 	/// - Parameters:
 	///   - password: The password for the current user
 	public init(password: String) {
@@ -4621,14 +6180,14 @@ public struct GetRecoveryEmailAddress: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Changes the recovery email address of the user. If a new recovery email address is specified, then the error EMAIL_UNCONFIRMED is returned and the email address will not be changed until the new email has been confirmed. The application should periodically call getPasswordState to check whether the email address has been confirmed. -If new_recovery_email_address is the same as the email address that is currently set up, this call succeeds immediately and aborts all other requests waiting for an email confirmation 
+///  Changes the 2-step verification recovery email address of the user. If a new recovery email address is specified, then the change will not be applied until the new recovery email address is confirmed -If new_recovery_email_address is the same as the email address that is currently set up, this call succeeds immediately and aborts all other requests waiting for an email confirmation 
 public struct SetRecoveryEmailAddress: Codable, Equatable, TDFunction {
 	public typealias Result = PasswordState
 	///  Password of the current user 
 	public let password: String
 	///  New recovery email address
 	public let newRecoveryEmailAddress: String
-	/// Changes the recovery email address of the user. If a new recovery email address is specified, then the error EMAIL_UNCONFIRMED is returned and the email address will not be changed until the new email has been confirmed. The application should periodically call getPasswordState to check whether the email address has been confirmed. -If new_recovery_email_address is the same as the email address that is currently set up, this call succeeds immediately and aborts all other requests waiting for an email confirmation 
+	/// Changes the 2-step verification recovery email address of the user. If a new recovery email address is specified, then the change will not be applied until the new recovery email address is confirmed -If new_recovery_email_address is the same as the email address that is currently set up, this call succeeds immediately and aborts all other requests waiting for an email confirmation 
 	/// - Parameters:
 	///   - password: Password of the current user 
 	///   - newRecoveryEmailAddress: New recovery email address
@@ -4638,9 +6197,30 @@ public struct SetRecoveryEmailAddress: Codable, Equatable, TDFunction {
 	}
 }
 
+///  Checks the 2-step verification recovery email address verification code 
+public struct CheckRecoveryEmailAddressCode: Codable, Equatable, TDFunction {
+	public typealias Result = PasswordState
+	///  Verification code
+	public let code: String
+	/// Checks the 2-step verification recovery email address verification code 
+	/// - Parameters:
+	///   - code: Verification code
+	public init(code: String) {
+		self.code = code
+	}
+}
+
+///  Resends the 2-step verification recovery email address verification code
+public struct ResendRecoveryEmailAddressCode: Codable, Equatable, TDFunction {
+	public typealias Result = PasswordState
+	/// Resends the 2-step verification recovery email address verification code
+	public init() {
+	}
+}
+
 ///  Requests to send a password recovery code to an email address that was previously set up
 public struct RequestPasswordRecovery: Codable, Equatable, TDFunction {
-	public typealias Result = PasswordRecoveryInfo
+	public typealias Result = EmailAddressAuthenticationCodeInfo
 	/// Requests to send a password recovery code to an email address that was previously set up
 	public init() {
 	}
@@ -4681,23 +6261,6 @@ public struct GetTemporaryPasswordState: Codable, Equatable, TDFunction {
 	public typealias Result = TemporaryPasswordState
 	/// Returns information about the current temporary password
 	public init() {
-	}
-}
-
-///  Handles a DC_UPDATE push service notification. Can be called before authorization 
-public struct ProcessDcUpdate: Codable, Equatable, TDFunction {
-	public typealias Result = Ok
-	///  Value of the "dc" parameter of the notification 
-	public let dc: String
-	///  Value of the "addr" parameter of the notification
-	public let addr: String
-	/// Handles a DC_UPDATE push service notification. Can be called before authorization 
-	/// - Parameters:
-	///   - dc: Value of the "dc" parameter of the notification 
-	///   - addr: Value of the "addr" parameter of the notification
-	public init(dc: String, addr: String) {
-		self.dc = dc
-		self.addr = addr
 	}
 }
 
@@ -4830,6 +6393,23 @@ public struct GetMessage: Codable, Equatable, TDFunction {
 	}
 }
 
+///  Returns information about a message, if it is available locally without sending network request. This is an offline request 
+public struct GetMessageLocally: Codable, Equatable, TDFunction {
+	public typealias Result = Message
+	///  Identifier of the chat the message belongs to 
+	public let chatId: Int53
+	///  Identifier of the message to get
+	public let messageId: Int53
+	/// Returns information about a message, if it is available locally without sending network request. This is an offline request 
+	/// - Parameters:
+	///   - chatId: Identifier of the chat the message belongs to 
+	///   - messageId: Identifier of the message to get
+	public init(chatId: Int53, messageId: Int53) {
+		self.chatId = chatId
+		self.messageId = messageId
+	}
+}
+
 ///  Returns information about a message that is replied by given message 
 public struct GetRepliedMessage: Codable, Equatable, TDFunction {
 	public typealias Result = Message
@@ -4907,7 +6487,7 @@ public struct GetRemoteFile: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Returns an ordered list of chats. Chats are sorted by the pair (order, chat_id) in decreasing order. (For example, to get a list of chats from the beginning, the offset_order should be equal to 2^63 - 1). -For optimal performance the number of returned chats is chosen by the library. 
+///  Returns an ordered list of chats. Chats are sorted by the pair (order, chat_id) in decreasing order. (For example, to get a list of chats from the beginning, the offset_order should be equal to a biggest signed 64-bit number 9223372036854775807 == 2^63 - 1). -For optimal performance the number of returned chats is chosen by the library. 
 public struct GetChats: Codable, Equatable, TDFunction {
 	public typealias Result = Chats
 	///  Chat order to return chats from 
@@ -4916,7 +6496,7 @@ public struct GetChats: Codable, Equatable, TDFunction {
 	public let offsetChatId: Int53
 	///  The maximum number of chats to be returned. It is possible that fewer chats than the limit are returned even if the end of the list is not reached
 	public let limit: Int32
-	/// Returns an ordered list of chats. Chats are sorted by the pair (order, chat_id) in decreasing order. (For example, to get a list of chats from the beginning, the offset_order should be equal to 2^63 - 1). -For optimal performance the number of returned chats is chosen by the library. 
+	/// Returns an ordered list of chats. Chats are sorted by the pair (order, chat_id) in decreasing order. (For example, to get a list of chats from the beginning, the offset_order should be equal to a biggest signed 64-bit number 9223372036854775807 == 2^63 - 1). -For optimal performance the number of returned chats is chosen by the library. 
 	/// - Parameters:
 	///   - offsetOrder: Chat order to return chats from 
 	///   - offsetChatId: Chat identifier to return chats from 
@@ -5060,14 +6640,14 @@ public struct ClearRecentlyFoundChats: Codable, Equatable, TDFunction {
 public struct CheckChatUsername: Codable, Equatable, TDFunction {
 	public typealias Result = CheckChatUsernameResult
 	///  Chat identifier; should be identifier of a supergroup chat, or a channel chat, or a private chat with self, or zero if chat is being created 
-	public let chatId: TDInt64
+	public let chatId: Int53
 	///  Username to be checked
 	public let username: String
 	/// Checks whether a username can be set for a chat 
 	/// - Parameters:
 	///   - chatId: Chat identifier; should be identifier of a supergroup chat, or a channel chat, or a private chat with self, or zero if chat is being created 
 	///   - username: Username to be checked
-	public init(chatId: TDInt64, username: String) {
+	public init(chatId: Int53, username: String) {
 		self.chatId = chatId
 		self.username = username
 	}
@@ -5081,7 +6661,7 @@ public struct GetCreatedPublicChats: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Returns a list of common chats with a given user. Chats are sorted by their type and creation date 
+///  Returns a list of common group chats with a given user. Chats are sorted by their type and creation date 
 public struct GetGroupsInCommon: Codable, Equatable, TDFunction {
 	public typealias Result = Chats
 	///  User identifier 
@@ -5090,7 +6670,7 @@ public struct GetGroupsInCommon: Codable, Equatable, TDFunction {
 	public let offsetChatId: Int53
 	///  Maximum number of chats to be returned; up to 100
 	public let limit: Int32
-	/// Returns a list of common chats with a given user. Chats are sorted by their type and creation date 
+	/// Returns a list of common group chats with a given user. Chats are sorted by their type and creation date 
 	/// - Parameters:
 	///   - userId: User identifier 
 	///   - offsetChatId: Chat identifier starting from which to return chats; use 0 for the first request 
@@ -5107,20 +6687,20 @@ public struct GetChatHistory: Codable, Equatable, TDFunction {
 	public typealias Result = Messages
 	///  Chat identifier 
 	public let chatId: Int53
-	///  Identifier of the message starting from which history must be fetched; use 0 to get results from the beginning (i.e., from oldest to newest) 
+	///  Identifier of the message starting from which history must be fetched; use 0 to get results from the last message 
 	public let fromMessageId: Int53
-	///  Specify 0 to get results from exactly the from_message_id or a negative offset to get the specified message and some newer messages 
+	///  Specify 0 to get results from exactly the from_message_id or a negative offset up to 99 to get additionally some newer messages 
 	public let offset: Int32
-	///  The maximum number of messages to be returned; must be positive and can't be greater than 100. If the offset is negative, the limit must be greater than -offset. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached 
+	///  The maximum number of messages to be returned; must be positive and can't be greater than 100. If the offset is negative, the limit must be greater or equal to -offset. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached 
 	public let limit: Int32
 	///  If true, returns only messages that are available locally without sending network requests
 	public let onlyLocal: Bool
 	/// Returns messages in a chat. The messages are returned in a reverse chronological order (i.e., in order of decreasing message_id). -For optimal performance the number of returned messages is chosen by the library. This is an offline request if only_local is true 
 	/// - Parameters:
 	///   - chatId: Chat identifier 
-	///   - fromMessageId: Identifier of the message starting from which history must be fetched; use 0 to get results from the beginning (i.e., from oldest to newest) 
-	///   - offset: Specify 0 to get results from exactly the from_message_id or a negative offset to get the specified message and some newer messages 
-	///   - limit: The maximum number of messages to be returned; must be positive and can't be greater than 100. If the offset is negative, the limit must be greater than -offset. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached 
+	///   - fromMessageId: Identifier of the message starting from which history must be fetched; use 0 to get results from the last message 
+	///   - offset: Specify 0 to get results from exactly the from_message_id or a negative offset up to 99 to get additionally some newer messages 
+	///   - limit: The maximum number of messages to be returned; must be positive and can't be greater than 100. If the offset is negative, the limit must be greater or equal to -offset. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached 
 	///   - onlyLocal: If true, returns only messages that are available locally without sending network requests
 	public init(chatId: Int53, fromMessageId: Int53, offset: Int32, limit: Int32, onlyLocal: Bool) {
 		self.chatId = chatId
@@ -5131,20 +6711,24 @@ public struct GetChatHistory: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Deletes all messages in the chat only for the user. Cannot be used in channels and public supergroups 
+///  Deletes all messages in the chat. Use Chat.can_be_deleted_only_for_self and Chat.can_be_deleted_for_all_users fields to find whether and how the method can be applied to the chat 
 public struct DeleteChatHistory: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier 
 	public let chatId: Int53
-	///  Pass true if the chat should be removed from the chats list
+	///  Pass true if the chat should be removed from the chat list 
 	public let removeFromChatList: Bool
-	/// Deletes all messages in the chat only for the user. Cannot be used in channels and public supergroups 
+	///  Pass true to try to delete chat history for all users
+	public let revoke: Bool
+	/// Deletes all messages in the chat. Use Chat.can_be_deleted_only_for_self and Chat.can_be_deleted_for_all_users fields to find whether and how the method can be applied to the chat 
 	/// - Parameters:
 	///   - chatId: Chat identifier 
-	///   - removeFromChatList: Pass true if the chat should be removed from the chats list
-	public init(chatId: Int53, removeFromChatList: Bool) {
+	///   - removeFromChatList: Pass true if the chat should be removed from the chat list 
+	///   - revoke: Pass true to try to delete chat history for all users
+	public init(chatId: Int53, removeFromChatList: Bool, revoke: Bool) {
 		self.chatId = chatId
 		self.removeFromChatList = removeFromChatList
+		self.revoke = revoke
 	}
 }
 
@@ -5157,7 +6741,7 @@ public struct SearchChatMessages: Codable, Equatable, TDFunction {
 	public let query: String
 	///  If not 0, only messages sent by the specified user will be returned. Not supported in secret chats 
 	public let senderUserId: Int32
-	///  Identifier of the message starting from which history must be fetched; use 0 to get results from the beginning 
+	///  Identifier of the message starting from which history must be fetched; use 0 to get results from the last message 
 	public let fromMessageId: Int53
 	///  Specify 0 to get results from exactly the from_message_id or a negative offset to get the specified message and some newer messages 
 	public let offset: Int32
@@ -5170,7 +6754,7 @@ public struct SearchChatMessages: Codable, Equatable, TDFunction {
 	///   - chatId: Identifier of the chat in which to search messages 
 	///   - query: Query to search for 
 	///   - senderUserId: If not 0, only messages sent by the specified user will be returned. Not supported in secret chats 
-	///   - fromMessageId: Identifier of the message starting from which history must be fetched; use 0 to get results from the beginning 
+	///   - fromMessageId: Identifier of the message starting from which history must be fetched; use 0 to get results from the last message 
 	///   - offset: Specify 0 to get results from exactly the from_message_id or a negative offset to get the specified message and some newer messages 
 	///   - limit: The maximum number of messages to be returned; must be positive and can't be greater than 100. If the offset is negative, the limit must be greater than -offset. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached 
 	///   - filter: Filter for message content in the search results
@@ -5190,7 +6774,7 @@ public struct SearchMessages: Codable, Equatable, TDFunction {
 	public typealias Result = Messages
 	///  Query to search for 
 	public let query: String
-	///  The date of the message starting from which the results should be fetched. Use 0 or any date in the future to get results from the beginning 
+	///  The date of the message starting from which the results should be fetched. Use 0 or any date in the future to get results from the last message 
 	public let offsetDate: Int32
 	///  The chat identifier of the last found message, or 0 for the first request 
 	public let offsetChatId: Int53
@@ -5201,7 +6785,7 @@ public struct SearchMessages: Codable, Equatable, TDFunction {
 	/// Searches for messages in all chats except secret chats. Returns the results in reverse chronological order (i.e., in order of decreasing (date, chat_id, message_id)). -For optimal performance the number of returned messages is chosen by the library 
 	/// - Parameters:
 	///   - query: Query to search for 
-	///   - offsetDate: The date of the message starting from which the results should be fetched. Use 0 or any date in the future to get results from the beginning 
+	///   - offsetDate: The date of the message starting from which the results should be fetched. Use 0 or any date in the future to get results from the last message 
 	///   - offsetChatId: The chat identifier of the last found message, or 0 for the first request 
 	///   - offsetMessageId: The message identifier of the last found message, or 0 for the first request 
 	///   - limit: The maximum number of messages to be returned, up to 100. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached
@@ -5221,7 +6805,7 @@ public struct SearchSecretMessages: Codable, Equatable, TDFunction {
 	public let chatId: Int53
 	///  Query to search for. If empty, searchChatMessages should be used instead 
 	public let query: String
-	///  The identifier from the result of a previous request, use 0 to get results from the beginning 
+	///  The identifier from the result of a previous request, use 0 to get results from the last message 
 	public let fromSearchId: TDInt64
 	///  Maximum number of messages to be returned; up to 100. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached 
 	public let limit: Int32
@@ -5231,7 +6815,7 @@ public struct SearchSecretMessages: Codable, Equatable, TDFunction {
 	/// - Parameters:
 	///   - chatId: Identifier of the chat in which to search. Specify 0 to search in all secret chats 
 	///   - query: Query to search for. If empty, searchChatMessages should be used instead 
-	///   - fromSearchId: The identifier from the result of a previous request, use 0 to get results from the beginning 
+	///   - fromSearchId: The identifier from the result of a previous request, use 0 to get results from the last message 
 	///   - limit: Maximum number of messages to be returned; up to 100. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached 
 	///   - filter: A filter for the content of messages in the search results
 	public init(chatId: Int53, query: String, fromSearchId: TDInt64, limit: Int32, filter: SearchMessagesFilter) {
@@ -5246,7 +6830,7 @@ public struct SearchSecretMessages: Codable, Equatable, TDFunction {
 ///  Searches for call messages. Returns the results in reverse chronological order (i. e., in order of decreasing message_id). For optimal performance the number of returned messages is chosen by the library 
 public struct SearchCallMessages: Codable, Equatable, TDFunction {
 	public typealias Result = Messages
-	///  Identifier of the message from which to search; use 0 to get results from the beginning 
+	///  Identifier of the message from which to search; use 0 to get results from the last message 
 	public let fromMessageId: Int53
 	///  The maximum number of messages to be returned; up to 100. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached 
 	public let limit: Int32
@@ -5254,7 +6838,7 @@ public struct SearchCallMessages: Codable, Equatable, TDFunction {
 	public let onlyMissed: Bool
 	/// Searches for call messages. Returns the results in reverse chronological order (i. e., in order of decreasing message_id). For optimal performance the number of returned messages is chosen by the library 
 	/// - Parameters:
-	///   - fromMessageId: Identifier of the message from which to search; use 0 to get results from the beginning 
+	///   - fromMessageId: Identifier of the message from which to search; use 0 to get results from the last message 
 	///   - limit: The maximum number of messages to be returned; up to 100. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached 
 	///   - onlyMissed: If true, returns only messages with missed calls
 	public init(fromMessageId: Int53, limit: Int32, onlyMissed: Bool) {
@@ -5306,6 +6890,61 @@ public struct GetChatMessageByDate: Codable, Equatable, TDFunction {
 	}
 }
 
+///  Returns approximate number of messages of the specified type in the chat 
+public struct GetChatMessageCount: Codable, Equatable, TDFunction {
+	public typealias Result = Count
+	///  Identifier of the chat in which to count messages 
+	public let chatId: Int53
+	///  Filter for message content; searchMessagesFilterEmpty is unsupported in this function 
+	public let filter: SearchMessagesFilter
+	///  If true, returns count that is available locally without sending network requests, returning -1 if the number of messages is unknown
+	public let returnLocal: Bool
+	/// Returns approximate number of messages of the specified type in the chat 
+	/// - Parameters:
+	///   - chatId: Identifier of the chat in which to count messages 
+	///   - filter: Filter for message content; searchMessagesFilterEmpty is unsupported in this function 
+	///   - returnLocal: If true, returns count that is available locally without sending network requests, returning -1 if the number of messages is unknown
+	public init(chatId: Int53, filter: SearchMessagesFilter, returnLocal: Bool) {
+		self.chatId = chatId
+		self.filter = filter
+		self.returnLocal = returnLocal
+	}
+}
+
+///  Removes an active notification from notification list. Needs to be called only if the notification is removed by the current user 
+public struct RemoveNotification: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Identifier of notification group to which the notification belongs 
+	public let notificationGroupId: Int32
+	///  Identifier of removed notification
+	public let notificationId: Int32
+	/// Removes an active notification from notification list. Needs to be called only if the notification is removed by the current user 
+	/// - Parameters:
+	///   - notificationGroupId: Identifier of notification group to which the notification belongs 
+	///   - notificationId: Identifier of removed notification
+	public init(notificationGroupId: Int32, notificationId: Int32) {
+		self.notificationGroupId = notificationGroupId
+		self.notificationId = notificationId
+	}
+}
+
+///  Removes a group of active notifications. Needs to be called only if the notification group is removed by the current user 
+public struct RemoveNotificationGroup: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Notification group identifier 
+	public let notificationGroupId: Int32
+	///  Maximum identifier of removed notifications
+	public let maxNotificationId: Int32
+	/// Removes a group of active notifications. Needs to be called only if the notification group is removed by the current user 
+	/// - Parameters:
+	///   - notificationGroupId: Notification group identifier 
+	///   - maxNotificationId: Maximum identifier of removed notifications
+	public init(notificationGroupId: Int32, maxNotificationId: Int32) {
+		self.notificationGroupId = notificationGroupId
+		self.maxNotificationId = maxNotificationId
+	}
+}
+
 ///  Returns a public HTTPS link to a message. Available only for messages in public supergroups and channels 
 public struct GetPublicMessageLink: Codable, Equatable, TDFunction {
 	public typealias Result = PublicMessageLink
@@ -5324,6 +6963,23 @@ public struct GetPublicMessageLink: Codable, Equatable, TDFunction {
 		self.chatId = chatId
 		self.messageId = messageId
 		self.forAlbum = forAlbum
+	}
+}
+
+///  Returns a private HTTPS link to a message in a chat. Available only for already sent messages in supergroups and channels. The link will work only for members of the chat 
+public struct GetMessageLink: Codable, Equatable, TDFunction {
+	public typealias Result = HttpUrl
+	///  Identifier of the chat to which the message belongs 
+	public let chatId: Int53
+	///  Identifier of the message
+	public let messageId: Int53
+	/// Returns a private HTTPS link to a message in a chat. Available only for already sent messages in supergroups and channels. The link will work only for members of the chat 
+	/// - Parameters:
+	///   - chatId: Identifier of the chat to which the message belongs 
+	///   - messageId: Identifier of the message
+	public init(chatId: Int53, messageId: Int53) {
+		self.chatId = chatId
+		self.messageId = messageId
 	}
 }
 
@@ -5423,8 +7079,10 @@ public struct SendInlineQueryResultMessage: Codable, Equatable, TDFunction {
 	public let fromBackground: Bool
 	///  Identifier of the inline query 
 	public let queryId: TDInt64
-	///  Identifier of the inline result
+	///  Identifier of the inline result 
 	public let resultId: String
+	///  If true, there will be no mention of a bot, via which the message is sent. Can be used only for bots GetOption("animation_search_bot_username"), GetOption("photo_search_bot_username") and GetOption("venue_search_bot_username")
+	public let hideViaBot: Bool
 	/// Sends the result of an inline query as a message. Returns the sent message. Always clears a chat draft message 
 	/// - Parameters:
 	///   - chatId: Target chat 
@@ -5432,14 +7090,16 @@ public struct SendInlineQueryResultMessage: Codable, Equatable, TDFunction {
 	///   - disableNotification: Pass true to disable notification for the message. Not supported in secret chats 
 	///   - fromBackground: Pass true if the message is sent from background 
 	///   - queryId: Identifier of the inline query 
-	///   - resultId: Identifier of the inline result
-	public init(chatId: Int53, replyToMessageId: Int53, disableNotification: Bool, fromBackground: Bool, queryId: TDInt64, resultId: String) {
+	///   - resultId: Identifier of the inline result 
+	///   - hideViaBot: If true, there will be no mention of a bot, via which the message is sent. Can be used only for bots GetOption("animation_search_bot_username"), GetOption("photo_search_bot_username") and GetOption("venue_search_bot_username")
+	public init(chatId: Int53, replyToMessageId: Int53, disableNotification: Bool, fromBackground: Bool, queryId: TDInt64, resultId: String, hideViaBot: Bool) {
 		self.chatId = chatId
 		self.replyToMessageId = replyToMessageId
 		self.disableNotification = disableNotification
 		self.fromBackground = fromBackground
 		self.queryId = queryId
 		self.resultId = resultId
+		self.hideViaBot = hideViaBot
 	}
 }
 
@@ -5506,6 +7166,35 @@ public struct SendChatScreenshotTakenNotification: Codable, Equatable, TDFunctio
 	}
 }
 
+///  Adds a local message to a chat. The message is persistent across application restarts only if the message database is used. Returns the added message 
+public struct AddLocalMessage: Codable, Equatable, TDFunction {
+	public typealias Result = Message
+	///  Target chat 
+	public let chatId: Int53
+	///  Identifier of the user who will be shown as the sender of the message; may be 0 for channel posts 
+	public let senderUserId: Int32
+	///  Identifier of the message to reply to or 0 
+	public let replyToMessageId: Int53
+	///  Pass true to disable notification for the message 
+	public let disableNotification: Bool
+	///  The content of the message to be added
+	public let inputMessageContent: InputMessageContent
+	/// Adds a local message to a chat. The message is persistent across application restarts only if the message database is used. Returns the added message 
+	/// - Parameters:
+	///   - chatId: Target chat 
+	///   - senderUserId: Identifier of the user who will be shown as the sender of the message; may be 0 for channel posts 
+	///   - replyToMessageId: Identifier of the message to reply to or 0 
+	///   - disableNotification: Pass true to disable notification for the message 
+	///   - inputMessageContent: The content of the message to be added
+	public init(chatId: Int53, senderUserId: Int32, replyToMessageId: Int53, disableNotification: Bool, inputMessageContent: InputMessageContent) {
+		self.chatId = chatId
+		self.senderUserId = senderUserId
+		self.replyToMessageId = replyToMessageId
+		self.disableNotification = disableNotification
+		self.inputMessageContent = inputMessageContent
+	}
+}
+
 ///  Deletes messages 
 public struct DeleteMessages: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
@@ -5513,13 +7202,13 @@ public struct DeleteMessages: Codable, Equatable, TDFunction {
 	public let chatId: Int53
 	///  Identifiers of the messages to be deleted 
 	public let messageIds: [Int53]
-	///  Pass true to try to delete outgoing messages for all chat members (may fail if messages are too old). Always true for supergroups, channels and secret chats
+	///  Pass true to try to delete messages for all chat members. Always true for supergroups, channels and secret chats
 	public let revoke: Bool
 	/// Deletes messages 
 	/// - Parameters:
 	///   - chatId: Chat identifier 
 	///   - messageIds: Identifiers of the messages to be deleted 
-	///   - revoke: Pass true to try to delete outgoing messages for all chat members (may fail if messages are too old). Always true for supergroups, channels and secret chats
+	///   - revoke: Pass true to try to delete messages for all chat members. Always true for supergroups, channels and secret chats
 	public init(chatId: Int53, messageIds: [Int53], revoke: Bool) {
 		self.chatId = chatId
 		self.messageIds = messageIds
@@ -5544,7 +7233,7 @@ public struct DeleteChatMessagesFromUser: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Edits the text of a message (or a text of a game message). Non-bot users can edit messages for a limited period of time. Returns the edited message after the edit is completed on the server side 
+///  Edits the text of a message (or a text of a game message). Returns the edited message after the edit is completed on the server side 
 public struct EditMessageText: Codable, Equatable, TDFunction {
 	public typealias Result = Message
 	///  The chat the message belongs to 
@@ -5555,7 +7244,7 @@ public struct EditMessageText: Codable, Equatable, TDFunction {
 	public let replyMarkup: ReplyMarkup?
 	///  New text content of the message. Should be of type InputMessageText
 	public let inputMessageContent: InputMessageContent
-	/// Edits the text of a message (or a text of a game message). Non-bot users can edit messages for a limited period of time. Returns the edited message after the edit is completed on the server side 
+	/// Edits the text of a message (or a text of a game message). Returns the edited message after the edit is completed on the server side 
 	/// - Parameters:
 	///   - chatId: The chat the message belongs to 
 	///   - messageId: Identifier of the message 
@@ -5569,22 +7258,22 @@ public struct EditMessageText: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Edits the message content of a live location. Messages can be edited for a limited period of time specified in the live location. Returns the edited message after the edit is completed server-side 
+///  Edits the message content of a live location. Messages can be edited for a limited period of time specified in the live location. Returns the edited message after the edit is completed on the server side 
 public struct EditMessageLiveLocation: Codable, Equatable, TDFunction {
 	public typealias Result = Message
 	///  The chat the message belongs to 
 	public let chatId: Int53
 	///  Identifier of the message 
 	public let messageId: Int53
-	///  Tew message reply markup; for bots only 
+	///  The new message reply markup; for bots only 
 	public let replyMarkup: ReplyMarkup?
 	///  New location content of the message; may be null. Pass null to stop sharing the live location
 	public let location: Location?
-	/// Edits the message content of a live location. Messages can be edited for a limited period of time specified in the live location. Returns the edited message after the edit is completed server-side 
+	/// Edits the message content of a live location. Messages can be edited for a limited period of time specified in the live location. Returns the edited message after the edit is completed on the server side 
 	/// - Parameters:
 	///   - chatId: The chat the message belongs to 
 	///   - messageId: Identifier of the message 
-	///   - replyMarkup: Tew message reply markup; for bots only 
+	///   - replyMarkup: The new message reply markup; for bots only 
 	///   - location: New location content of the message; may be null. Pass null to stop sharing the live location
 	public init(chatId: Int53, messageId: Int53, replyMarkup: ReplyMarkup?, location: Location?) {
 		self.chatId = chatId
@@ -5594,7 +7283,32 @@ public struct EditMessageLiveLocation: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Edits the message content caption. Non-bots can edit messages for a limited period of time. Returns the edited message after the edit is completed server-side 
+///  Edits the content of a message with an animation, an audio, a document, a photo or a video. The media in the message can't be replaced if the message was set to self-destruct. Media can't be replaced by self-destructing media. Media in an album can be edited only to contain a photo or a video. Returns the edited message after the edit is completed on the server side 
+public struct EditMessageMedia: Codable, Equatable, TDFunction {
+	public typealias Result = Message
+	///  The chat the message belongs to 
+	public let chatId: Int53
+	///  Identifier of the message 
+	public let messageId: Int53
+	///  The new message reply markup; for bots only 
+	public let replyMarkup: ReplyMarkup?
+	///  New content of the message. Must be one of the following types: InputMessageAnimation, InputMessageAudio, InputMessageDocument, InputMessagePhoto or InputMessageVideo
+	public let inputMessageContent: InputMessageContent
+	/// Edits the content of a message with an animation, an audio, a document, a photo or a video. The media in the message can't be replaced if the message was set to self-destruct. Media can't be replaced by self-destructing media. Media in an album can be edited only to contain a photo or a video. Returns the edited message after the edit is completed on the server side 
+	/// - Parameters:
+	///   - chatId: The chat the message belongs to 
+	///   - messageId: Identifier of the message 
+	///   - replyMarkup: The new message reply markup; for bots only 
+	///   - inputMessageContent: New content of the message. Must be one of the following types: InputMessageAnimation, InputMessageAudio, InputMessageDocument, InputMessagePhoto or InputMessageVideo
+	public init(chatId: Int53, messageId: Int53, replyMarkup: ReplyMarkup?, inputMessageContent: InputMessageContent) {
+		self.chatId = chatId
+		self.messageId = messageId
+		self.replyMarkup = replyMarkup
+		self.inputMessageContent = inputMessageContent
+	}
+}
+
+///  Edits the message content caption. Returns the edited message after the edit is completed on the server side 
 public struct EditMessageCaption: Codable, Equatable, TDFunction {
 	public typealias Result = Message
 	///  The chat the message belongs to 
@@ -5603,14 +7317,14 @@ public struct EditMessageCaption: Codable, Equatable, TDFunction {
 	public let messageId: Int53
 	///  The new message reply markup; for bots only 
 	public let replyMarkup: ReplyMarkup?
-	///  New message content caption; 0-200 characters
+	///  New message content caption; 0-GetOption("message_caption_length_max") characters
 	public let caption: FormattedText
-	/// Edits the message content caption. Non-bots can edit messages for a limited period of time. Returns the edited message after the edit is completed server-side 
+	/// Edits the message content caption. Returns the edited message after the edit is completed on the server side 
 	/// - Parameters:
 	///   - chatId: The chat the message belongs to 
 	///   - messageId: Identifier of the message 
 	///   - replyMarkup: The new message reply markup; for bots only 
-	///   - caption: New message content caption; 0-200 characters
+	///   - caption: New message content caption; 0-GetOption("message_caption_length_max") characters
 	public init(chatId: Int53, messageId: Int53, replyMarkup: ReplyMarkup?, caption: FormattedText) {
 		self.chatId = chatId
 		self.messageId = messageId
@@ -5619,20 +7333,20 @@ public struct EditMessageCaption: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Edits the message reply markup; for bots only. Returns the edited message after the edit is completed server-side 
+///  Edits the message reply markup; for bots only. Returns the edited message after the edit is completed on the server side 
 public struct EditMessageReplyMarkup: Codable, Equatable, TDFunction {
 	public typealias Result = Message
 	///  The chat the message belongs to 
 	public let chatId: Int53
 	///  Identifier of the message 
 	public let messageId: Int53
-	///  New message reply markup
+	///  The new message reply markup
 	public let replyMarkup: ReplyMarkup
-	/// Edits the message reply markup; for bots only. Returns the edited message after the edit is completed server-side 
+	/// Edits the message reply markup; for bots only. Returns the edited message after the edit is completed on the server side 
 	/// - Parameters:
 	///   - chatId: The chat the message belongs to 
 	///   - messageId: Identifier of the message 
-	///   - replyMarkup: New message reply markup
+	///   - replyMarkup: The new message reply markup
 	public init(chatId: Int53, messageId: Int53, replyMarkup: ReplyMarkup) {
 		self.chatId = chatId
 		self.messageId = messageId
@@ -5645,14 +7359,14 @@ public struct EditInlineMessageText: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Inline message identifier 
 	public let inlineMessageId: String
-	///  New message reply markup 
+	///  The new message reply markup 
 	public let replyMarkup: ReplyMarkup
 	///  New text content of the message. Should be of type InputMessageText
 	public let inputMessageContent: InputMessageContent
 	/// Edits the text of an inline text or game message sent via a bot; for bots only 
 	/// - Parameters:
 	///   - inlineMessageId: Inline message identifier 
-	///   - replyMarkup: New message reply markup 
+	///   - replyMarkup: The new message reply markup 
 	///   - inputMessageContent: New text content of the message. Should be of type InputMessageText
 	public init(inlineMessageId: String, replyMarkup: ReplyMarkup, inputMessageContent: InputMessageContent) {
 		self.inlineMessageId = inlineMessageId
@@ -5666,14 +7380,14 @@ public struct EditInlineMessageLiveLocation: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Inline message identifier 
 	public let inlineMessageId: String
-	///  New message reply markup 
+	///  The new message reply markup 
 	public let replyMarkup: ReplyMarkup
 	///  New location content of the message; may be null. Pass null to stop sharing the live location
 	public let location: Location?
 	/// Edits the content of a live location in an inline message sent via a bot; for bots only 
 	/// - Parameters:
 	///   - inlineMessageId: Inline message identifier 
-	///   - replyMarkup: New message reply markup 
+	///   - replyMarkup: The new message reply markup 
 	///   - location: New location content of the message; may be null. Pass null to stop sharing the live location
 	public init(inlineMessageId: String, replyMarkup: ReplyMarkup, location: Location?) {
 		self.inlineMessageId = inlineMessageId
@@ -5682,20 +7396,41 @@ public struct EditInlineMessageLiveLocation: Codable, Equatable, TDFunction {
 	}
 }
 
+///  Edits the content of a message with an animation, an audio, a document, a photo or a video in an inline message sent via a bot; for bots only 
+public struct EditInlineMessageMedia: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Inline message identifier 
+	public let inlineMessageId: String
+	///  The new message reply markup; for bots only 
+	public let replyMarkup: ReplyMarkup?
+	///  New content of the message. Must be one of the following types: InputMessageAnimation, InputMessageAudio, InputMessageDocument, InputMessagePhoto or InputMessageVideo
+	public let inputMessageContent: InputMessageContent
+	/// Edits the content of a message with an animation, an audio, a document, a photo or a video in an inline message sent via a bot; for bots only 
+	/// - Parameters:
+	///   - inlineMessageId: Inline message identifier 
+	///   - replyMarkup: The new message reply markup; for bots only 
+	///   - inputMessageContent: New content of the message. Must be one of the following types: InputMessageAnimation, InputMessageAudio, InputMessageDocument, InputMessagePhoto or InputMessageVideo
+	public init(inlineMessageId: String, replyMarkup: ReplyMarkup?, inputMessageContent: InputMessageContent) {
+		self.inlineMessageId = inlineMessageId
+		self.replyMarkup = replyMarkup
+		self.inputMessageContent = inputMessageContent
+	}
+}
+
 ///  Edits the caption of an inline message sent via a bot; for bots only 
 public struct EditInlineMessageCaption: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Inline message identifier 
 	public let inlineMessageId: String
-	///  New message reply markup 
+	///  The new message reply markup 
 	public let replyMarkup: ReplyMarkup
-	///  New message content caption; 0-200 characters
+	///  New message content caption; 0-GetOption("message_caption_length_max") characters
 	public let caption: FormattedText
 	/// Edits the caption of an inline message sent via a bot; for bots only 
 	/// - Parameters:
 	///   - inlineMessageId: Inline message identifier 
-	///   - replyMarkup: New message reply markup 
-	///   - caption: New message content caption; 0-200 characters
+	///   - replyMarkup: The new message reply markup 
+	///   - caption: New message content caption; 0-GetOption("message_caption_length_max") characters
 	public init(inlineMessageId: String, replyMarkup: ReplyMarkup, caption: FormattedText) {
 		self.inlineMessageId = inlineMessageId
 		self.replyMarkup = replyMarkup
@@ -5708,12 +7443,12 @@ public struct EditInlineMessageReplyMarkup: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Inline message identifier 
 	public let inlineMessageId: String
-	///  New message reply markup
+	///  The new message reply markup
 	public let replyMarkup: ReplyMarkup
 	/// Edits the reply markup of an inline message sent via a bot; for bots only 
 	/// - Parameters:
 	///   - inlineMessageId: Inline message identifier 
-	///   - replyMarkup: New message reply markup
+	///   - replyMarkup: The new message reply markup
 	public init(inlineMessageId: String, replyMarkup: ReplyMarkup) {
 		self.inlineMessageId = inlineMessageId
 		self.replyMarkup = replyMarkup
@@ -5773,6 +7508,112 @@ public struct GetFileExtension: Codable, Equatable, TDFunction {
 	///   - mimeType: The MIME type of the file
 	public init(mimeType: String) {
 		self.mimeType = mimeType
+	}
+}
+
+///  Removes potentially dangerous characters from the name of a file. The encoding of the file name is supposed to be UTF-8. Returns an empty string on failure. This is an offline method. Can be called before authorization. Can be called synchronously 
+public struct CleanFileName: Codable, Equatable, TDFunction {
+	public typealias Result = Text
+	///  File name or path to the file
+	public let fileName: String
+	/// Removes potentially dangerous characters from the name of a file. The encoding of the file name is supposed to be UTF-8. Returns an empty string on failure. This is an offline method. Can be called before authorization. Can be called synchronously 
+	/// - Parameters:
+	///   - fileName: File name or path to the file
+	public init(fileName: String) {
+		self.fileName = fileName
+	}
+}
+
+///  Returns a string stored in the local database from the specified localization target and language pack by its key. Returns a 404 error if the string is not found. This is an offline method. Can be called before authorization. Can be called synchronously 
+public struct GetLanguagePackString: Codable, Equatable, TDFunction {
+	public typealias Result = LanguagePackStringValue
+	///  Path to the language pack database in which strings are stored 
+	public let languagePackDatabasePath: String
+	///  Localization target to which the language pack belongs 
+	public let localizationTarget: String
+	///  Language pack identifier 
+	public let languagePackId: String
+	///  Language pack key of the string to be returned
+	public let key: String
+	/// Returns a string stored in the local database from the specified localization target and language pack by its key. Returns a 404 error if the string is not found. This is an offline method. Can be called before authorization. Can be called synchronously 
+	/// - Parameters:
+	///   - languagePackDatabasePath: Path to the language pack database in which strings are stored 
+	///   - localizationTarget: Localization target to which the language pack belongs 
+	///   - languagePackId: Language pack identifier 
+	///   - key: Language pack key of the string to be returned
+	public init(languagePackDatabasePath: String, localizationTarget: String, languagePackId: String, key: String) {
+		self.languagePackDatabasePath = languagePackDatabasePath
+		self.localizationTarget = localizationTarget
+		self.languagePackId = languagePackId
+		self.key = key
+	}
+}
+
+///  Converts a JSON-serialized string to corresponding JsonValue object. This is an offline method. Can be called before authorization. Can be called synchronously 
+public struct GetJsonValue: Codable, Equatable, TDFunction {
+	public typealias Result = JsonValue
+	///  The JSON-serialized string
+	public let json: String
+	/// Converts a JSON-serialized string to corresponding JsonValue object. This is an offline method. Can be called before authorization. Can be called synchronously 
+	/// - Parameters:
+	///   - json: The JSON-serialized string
+	public init(json: String) {
+		self.json = json
+	}
+}
+
+///  Converts a JsonValue object to corresponding JSON-serialized string. This is an offline method. Can be called before authorization. Can be called synchronously 
+public struct GetJsonString: Codable, Equatable, TDFunction {
+	public typealias Result = Text
+	///  The JsonValue object
+	public let jsonValue: JsonValue
+	/// Converts a JsonValue object to corresponding JSON-serialized string. This is an offline method. Can be called before authorization. Can be called synchronously 
+	/// - Parameters:
+	///   - jsonValue: The JsonValue object
+	public init(jsonValue: JsonValue) {
+		self.jsonValue = jsonValue
+	}
+}
+
+///  Changes user answer to a poll 
+public struct SetPollAnswer: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Identifier of the chat to which the poll belongs 
+	public let chatId: Int53
+	///  Identifier of the message containing the poll 
+	public let messageId: Int53
+	///  0-based identifiers of options, chosen by the user. Currently user can't choose more than 1 option
+	public let optionIds: [Int32]
+	/// Changes user answer to a poll 
+	/// - Parameters:
+	///   - chatId: Identifier of the chat to which the poll belongs 
+	///   - messageId: Identifier of the message containing the poll 
+	///   - optionIds: 0-based identifiers of options, chosen by the user. Currently user can't choose more than 1 option
+	public init(chatId: Int53, messageId: Int53, optionIds: [Int32]) {
+		self.chatId = chatId
+		self.messageId = messageId
+		self.optionIds = optionIds
+	}
+}
+
+///  Stops a poll. A poll in a message can be stopped when the message has can_be_edited flag set 
+public struct StopPoll: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Identifier of the chat to which the poll belongs 
+	public let chatId: Int53
+	///  Identifier of the message containing the poll 
+	public let messageId: Int53
+	///  The new message reply markup; for bots only
+	public let replyMarkup: ReplyMarkup?
+	/// Stops a poll. A poll in a message can be stopped when the message has can_be_edited flag set 
+	/// - Parameters:
+	///   - chatId: Identifier of the chat to which the poll belongs 
+	///   - messageId: Identifier of the message containing the poll 
+	///   - replyMarkup: The new message reply markup; for bots only
+	public init(chatId: Int53, messageId: Int53, replyMarkup: ReplyMarkup?) {
+		self.chatId = chatId
+		self.messageId = messageId
+		self.replyMarkup = replyMarkup
 	}
 }
 
@@ -5933,7 +7774,7 @@ public struct AnswerPreCheckoutQuery: Codable, Equatable, TDFunction {
 ///  Updates the game score of the specified user in the game; for bots only 
 public struct SetGameScore: Codable, Equatable, TDFunction {
 	public typealias Result = Message
-	///  The chat to which the message with the game 
+	///  The chat to which the message with the game belongs 
 	public let chatId: Int53
 	///  Identifier of the message 
 	public let messageId: Int53
@@ -5947,7 +7788,7 @@ public struct SetGameScore: Codable, Equatable, TDFunction {
 	public let force: Bool
 	/// Updates the game score of the specified user in the game; for bots only 
 	/// - Parameters:
-	///   - chatId: The chat to which the message with the game 
+	///   - chatId: The chat to which the message with the game belongs 
 	///   - messageId: Identifier of the message 
 	///   - editMessage: True, if the message should be edited 
 	///   - userId: User identifier 
@@ -6064,12 +7905,12 @@ public struct SendChatAction: Codable, Equatable, TDFunction {
 	}
 }
 
-///  This method should be called if the chat is opened by the user. Many useful activities depend on the chat being opened or closed (e.g., in supergroups and channels all updates are received only for opened chats) 
+///  Informs TDLib that the chat is opened by the user. Many useful activities depend on the chat being opened or closed (e.g., in supergroups and channels all updates are received only for opened chats) 
 public struct OpenChat: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier
 	public let chatId: Int53
-	/// This method should be called if the chat is opened by the user. Many useful activities depend on the chat being opened or closed (e.g., in supergroups and channels all updates are received only for opened chats) 
+	/// Informs TDLib that the chat is opened by the user. Many useful activities depend on the chat being opened or closed (e.g., in supergroups and channels all updates are received only for opened chats) 
 	/// - Parameters:
 	///   - chatId: Chat identifier
 	public init(chatId: Int53) {
@@ -6077,12 +7918,12 @@ public struct OpenChat: Codable, Equatable, TDFunction {
 	}
 }
 
-///  This method should be called if the chat is closed by the user. Many useful activities depend on the chat being opened or closed 
+///  Informs TDLib that the chat is closed by the user. Many useful activities depend on the chat being opened or closed 
 public struct CloseChat: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier
 	public let chatId: Int53
-	/// This method should be called if the chat is closed by the user. Many useful activities depend on the chat being opened or closed 
+	/// Informs TDLib that the chat is closed by the user. Many useful activities depend on the chat being opened or closed 
 	/// - Parameters:
 	///   - chatId: Chat identifier
 	public init(chatId: Int53) {
@@ -6090,7 +7931,7 @@ public struct CloseChat: Codable, Equatable, TDFunction {
 	}
 }
 
-///  This method should be called if messages are being viewed by the user. Many useful activities depend on whether the messages are currently being viewed or not (e.g., marking messages as read, incrementing a view counter, updating a view counter, removing deleted messages in supergroups and channels) 
+///  Informs TDLib that messages are being viewed by the user. Many useful activities depend on whether the messages are currently being viewed or not (e.g., marking messages as read, incrementing a view counter, updating a view counter, removing deleted messages in supergroups and channels) 
 public struct ViewMessages: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier 
@@ -6099,7 +7940,7 @@ public struct ViewMessages: Codable, Equatable, TDFunction {
 	public let messageIds: [Int53]
 	///  True, if messages in closed chats should be marked as read
 	public let forceRead: Bool
-	/// This method should be called if messages are being viewed by the user. Many useful activities depend on whether the messages are currently being viewed or not (e.g., marking messages as read, incrementing a view counter, updating a view counter, removing deleted messages in supergroups and channels) 
+	/// Informs TDLib that messages are being viewed by the user. Many useful activities depend on whether the messages are currently being viewed or not (e.g., marking messages as read, incrementing a view counter, updating a view counter, removing deleted messages in supergroups and channels) 
 	/// - Parameters:
 	///   - chatId: Chat identifier 
 	///   - messageIds: The identifiers of the messages being viewed 
@@ -6111,14 +7952,14 @@ public struct ViewMessages: Codable, Equatable, TDFunction {
 	}
 }
 
-///  This method should be called if the message content has been opened (e.g., the user has opened a photo, video, document, location or venue, or has listened to an audio file or voice note message). An updateMessageContentOpened update will be generated if something has changed 
+///  Informs TDLib that the message content has been opened (e.g., the user has opened a photo, video, document, location or venue, or has listened to an audio file or voice note message). An updateMessageContentOpened update will be generated if something has changed 
 public struct OpenMessageContent: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier of the message 
 	public let chatId: Int53
 	///  Identifier of the message with the opened content
 	public let messageId: Int53
-	/// This method should be called if the message content has been opened (e.g., the user has opened a photo, video, document, location or venue, or has listened to an audio file or voice note message). An updateMessageContentOpened update will be generated if something has changed 
+	/// Informs TDLib that the message content has been opened (e.g., the user has opened a photo, video, document, location or venue, or has listened to an audio file or voice note message). An updateMessageContentOpened update will be generated if something has changed 
 	/// - Parameters:
 	///   - chatId: Chat identifier of the message 
 	///   - messageId: Identifier of the message with the opened content
@@ -6210,12 +8051,12 @@ public struct CreateNewBasicGroupChat: Codable, Equatable, TDFunction {
 	public typealias Result = Chat
 	///  Identifiers of users to be added to the basic group 
 	public let userIds: [Int32]
-	///  Title of the new basic group; 1-255 characters
+	///  Title of the new basic group; 1-128 characters
 	public let title: String
 	/// Creates a new basic group and sends a corresponding messageBasicGroupChatCreate. Returns the newly created chat 
 	/// - Parameters:
 	///   - userIds: Identifiers of users to be added to the basic group 
-	///   - title: Title of the new basic group; 1-255 characters
+	///   - title: Title of the new basic group; 1-128 characters
 	public init(userIds: [Int32], title: String) {
 		self.userIds = userIds
 		self.title = title
@@ -6225,7 +8066,7 @@ public struct CreateNewBasicGroupChat: Codable, Equatable, TDFunction {
 ///  Creates a new supergroup or channel and sends a corresponding messageSupergroupChatCreate. Returns the newly created chat 
 public struct CreateNewSupergroupChat: Codable, Equatable, TDFunction {
 	public typealias Result = Chat
-	///  Title of the new chat; 1-255 characters 
+	///  Title of the new chat; 1-128 characters 
 	public let title: String
 	///  True, if a channel chat should be created 
 	public let isChannel: Bool
@@ -6233,7 +8074,7 @@ public struct CreateNewSupergroupChat: Codable, Equatable, TDFunction {
 	public let description: String
 	/// Creates a new supergroup or channel and sends a corresponding messageSupergroupChatCreate. Returns the newly created chat 
 	/// - Parameters:
-	///   - title: Title of the new chat; 1-255 characters 
+	///   - title: Title of the new chat; 1-128 characters 
 	///   - isChannel: True, if a channel chat should be created 
 	///   - description: Chat description; 0-255 characters
 	public init(title: String, isChannel: Bool, description: String) {
@@ -6274,12 +8115,12 @@ public struct SetChatTitle: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier 
 	public let chatId: Int53
-	///  New title of the chat; 1-255 characters
+	///  New title of the chat; 1-128 characters
 	public let title: String
 	/// Changes the chat title. Supported only for basic groups, supergroups and channels. Requires administrator rights in basic groups and the appropriate administrator rights in supergroups and channels. The title will not be changed until the request to the server has been completed 
 	/// - Parameters:
 	///   - chatId: Chat identifier 
-	///   - title: New title of the chat; 1-255 characters
+	///   - title: New title of the chat; 1-128 characters
 	public init(chatId: Int53, title: String) {
 		self.chatId = chatId
 		self.title = title
@@ -6320,6 +8161,23 @@ public struct SetChatDraftMessage: Codable, Equatable, TDFunction {
 	}
 }
 
+///  Changes the notification settings of a chat 
+public struct SetChatNotificationSettings: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Chat identifier 
+	public let chatId: Int53
+	///  New notification settings for the chat
+	public let notificationSettings: ChatNotificationSettings
+	/// Changes the notification settings of a chat 
+	/// - Parameters:
+	///   - chatId: Chat identifier 
+	///   - notificationSettings: New notification settings for the chat
+	public init(chatId: Int53, notificationSettings: ChatNotificationSettings) {
+		self.chatId = chatId
+		self.notificationSettings = notificationSettings
+	}
+}
+
 ///  Changes the pinned state of a chat. You can pin up to GetOption("pinned_chat_count_max") non-secret chats and the same number of secret chats 
 public struct ToggleChatIsPinned: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
@@ -6334,6 +8192,40 @@ public struct ToggleChatIsPinned: Codable, Equatable, TDFunction {
 	public init(chatId: Int53, isPinned: Bool) {
 		self.chatId = chatId
 		self.isPinned = isPinned
+	}
+}
+
+///  Changes the marked as unread state of a chat 
+public struct ToggleChatIsMarkedAsUnread: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Chat identifier 
+	public let chatId: Int53
+	///  New value of is_marked_as_unread
+	public let isMarkedAsUnread: Bool
+	/// Changes the marked as unread state of a chat 
+	/// - Parameters:
+	///   - chatId: Chat identifier 
+	///   - isMarkedAsUnread: New value of is_marked_as_unread
+	public init(chatId: Int53, isMarkedAsUnread: Bool) {
+		self.chatId = chatId
+		self.isMarkedAsUnread = isMarkedAsUnread
+	}
+}
+
+///  Changes the value of the default disable_notification parameter, used when a message is sent to a chat 
+public struct ToggleChatDefaultDisableNotification: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Chat identifier 
+	public let chatId: Int53
+	///  New value of default_disable_notification
+	public let defaultDisableNotification: Bool
+	/// Changes the value of the default disable_notification parameter, used when a message is sent to a chat 
+	/// - Parameters:
+	///   - chatId: Chat identifier 
+	///   - defaultDisableNotification: New value of default_disable_notification
+	public init(chatId: Int53, defaultDisableNotification: Bool) {
+		self.chatId = chatId
+		self.defaultDisableNotification = defaultDisableNotification
 	}
 }
 
@@ -6354,6 +8246,66 @@ public struct SetChatClientData: Codable, Equatable, TDFunction {
 	}
 }
 
+///  Pins a message in a chat; requires appropriate administrator rights in the group or channel 
+public struct PinChatMessage: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Identifier of the chat 
+	public let chatId: Int53
+	///  Identifier of the new pinned message 
+	public let messageId: Int53
+	///  True, if there should be no notification about the pinned message
+	public let disableNotification: Bool
+	/// Pins a message in a chat; requires appropriate administrator rights in the group or channel 
+	/// - Parameters:
+	///   - chatId: Identifier of the chat 
+	///   - messageId: Identifier of the new pinned message 
+	///   - disableNotification: True, if there should be no notification about the pinned message
+	public init(chatId: Int53, messageId: Int53, disableNotification: Bool) {
+		self.chatId = chatId
+		self.messageId = messageId
+		self.disableNotification = disableNotification
+	}
+}
+
+///  Removes the pinned message from a chat; requires appropriate administrator rights in the group or channel 
+public struct UnpinChatMessage: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Identifier of the chat
+	public let chatId: Int53
+	/// Removes the pinned message from a chat; requires appropriate administrator rights in the group or channel 
+	/// - Parameters:
+	///   - chatId: Identifier of the chat
+	public init(chatId: Int53) {
+		self.chatId = chatId
+	}
+}
+
+///  Adds current user as a new member to a chat. Private and secret chats can't be joined using this method 
+public struct JoinChat: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Chat identifier
+	public let chatId: Int53
+	/// Adds current user as a new member to a chat. Private and secret chats can't be joined using this method 
+	/// - Parameters:
+	///   - chatId: Chat identifier
+	public init(chatId: Int53) {
+		self.chatId = chatId
+	}
+}
+
+///  Removes current user from chat members. Private and secret chats can't be left using this method 
+public struct LeaveChat: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Chat identifier
+	public let chatId: Int53
+	/// Removes current user from chat members. Private and secret chats can't be left using this method 
+	/// - Parameters:
+	///   - chatId: Chat identifier
+	public init(chatId: Int53) {
+		self.chatId = chatId
+	}
+}
+
 ///  Adds a new member to a chat. Members can't be added to private or secret chats. Members will not be added until the chat state has been synchronized with the server 
 public struct AddChatMember: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
@@ -6361,13 +8313,13 @@ public struct AddChatMember: Codable, Equatable, TDFunction {
 	public let chatId: Int53
 	///  Identifier of the user 
 	public let userId: Int32
-	///  The number of earlier messages from the chat to be forwarded to the new member; up to 300. Ignored for supergroups and channels
+	///  The number of earlier messages from the chat to be forwarded to the new member; up to 100. Ignored for supergroups and channels
 	public let forwardLimit: Int32
 	/// Adds a new member to a chat. Members can't be added to private or secret chats. Members will not be added until the chat state has been synchronized with the server 
 	/// - Parameters:
 	///   - chatId: Chat identifier 
 	///   - userId: Identifier of the user 
-	///   - forwardLimit: The number of earlier messages from the chat to be forwarded to the new member; up to 300. Ignored for supergroups and channels
+	///   - forwardLimit: The number of earlier messages from the chat to be forwarded to the new member; up to 100. Ignored for supergroups and channels
 	public init(chatId: Int53, userId: Int32, forwardLimit: Int32) {
 		self.chatId = chatId
 		self.userId = userId
@@ -6437,17 +8389,21 @@ public struct SearchChatMembers: Codable, Equatable, TDFunction {
 	public let chatId: Int53
 	///  Query to search for 
 	public let query: String
-	///  The maximum number of users to be returned
+	///  The maximum number of users to be returned 
 	public let limit: Int32
+	///  The type of users to return. By default, chatMembersFilterMembers
+	public let filter: ChatMembersFilter
 	/// Searches for a specified query in the first name, last name and username of the members of a specified chat. Requires administrator rights in channels 
 	/// - Parameters:
 	///   - chatId: Chat identifier 
 	///   - query: Query to search for 
-	///   - limit: The maximum number of users to be returned
-	public init(chatId: Int53, query: String, limit: Int32) {
+	///   - limit: The maximum number of users to be returned 
+	///   - filter: The type of users to return. By default, chatMembersFilterMembers
+	public init(chatId: Int53, query: String, limit: Int32, filter: ChatMembersFilter) {
 		self.chatId = chatId
 		self.query = query
 		self.limit = limit
+		self.filter = filter
 	}
 }
 
@@ -6464,6 +8420,74 @@ public struct GetChatAdministrators: Codable, Equatable, TDFunction {
 	}
 }
 
+///  Clears draft messages in all chats 
+public struct ClearAllDraftMessages: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  If true, local draft messages in secret chats will not be cleared
+	public let excludeSecretChats: Bool
+	/// Clears draft messages in all chats 
+	/// - Parameters:
+	///   - excludeSecretChats: If true, local draft messages in secret chats will not be cleared
+	public init(excludeSecretChats: Bool) {
+		self.excludeSecretChats = excludeSecretChats
+	}
+}
+
+///  Returns list of chats with non-default notification settings 
+public struct GetChatNotificationSettingsExceptions: Codable, Equatable, TDFunction {
+	public typealias Result = Chats
+	///  If specified, only chats from the specified scope will be returned 
+	public let scope: NotificationSettingsScope
+	///  If true, also chats with non-default sound will be returned
+	public let compareSound: Bool
+	/// Returns list of chats with non-default notification settings 
+	/// - Parameters:
+	///   - scope: If specified, only chats from the specified scope will be returned 
+	///   - compareSound: If true, also chats with non-default sound will be returned
+	public init(scope: NotificationSettingsScope, compareSound: Bool) {
+		self.scope = scope
+		self.compareSound = compareSound
+	}
+}
+
+///  Returns the notification settings for chats of a given type 
+public struct GetScopeNotificationSettings: Codable, Equatable, TDFunction {
+	public typealias Result = ScopeNotificationSettings
+	///  Types of chats for which to return the notification settings information
+	public let scope: NotificationSettingsScope
+	/// Returns the notification settings for chats of a given type 
+	/// - Parameters:
+	///   - scope: Types of chats for which to return the notification settings information
+	public init(scope: NotificationSettingsScope) {
+		self.scope = scope
+	}
+}
+
+///  Changes notification settings for chats of a given type 
+public struct SetScopeNotificationSettings: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Types of chats for which to change the notification settings 
+	public let scope: NotificationSettingsScope
+	///  The new notification settings for the given scope
+	public let notificationSettings: ScopeNotificationSettings
+	/// Changes notification settings for chats of a given type 
+	/// - Parameters:
+	///   - scope: Types of chats for which to change the notification settings 
+	///   - notificationSettings: The new notification settings for the given scope
+	public init(scope: NotificationSettingsScope, notificationSettings: ScopeNotificationSettings) {
+		self.scope = scope
+		self.notificationSettings = notificationSettings
+	}
+}
+
+///  Resets all notification settings to their default values. By default, all chats are unmuted, the sound is set to "default" and message previews are shown
+public struct ResetAllNotificationSettings: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	/// Resets all notification settings to their default values. By default, all chats are unmuted, the sound is set to "default" and message previews are shown
+	public init() {
+	}
+}
+
 ///  Changes the order of pinned chats 
 public struct SetPinnedChats: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
@@ -6477,20 +8501,49 @@ public struct SetPinnedChats: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Asynchronously downloads a file from the cloud. updateFile will be used to notify about the download progress and successful completion of the download. Returns file state just after the download has been started 
+///  Downloads a file from the cloud. Download progress and completion of the download will be notified through updateFile updates 
 public struct DownloadFile: Codable, Equatable, TDFunction {
 	public typealias Result = File
 	///  Identifier of the file to download 
 	public let fileId: Int32
-	///  Priority of the download (1-32). The higher the priority, the earlier the file will be downloaded. If the priorities of two files are equal, then the last one for which downloadFile was called will be downloaded first
+	///  Priority of the download (1-32). The higher the priority, the earlier the file will be downloaded. If the priorities of two files are equal, then the last one for which downloadFile was called will be downloaded first 
 	public let priority: Int32
-	/// Asynchronously downloads a file from the cloud. updateFile will be used to notify about the download progress and successful completion of the download. Returns file state just after the download has been started 
+	///  The starting position from which the file should be downloaded 
+	public let offset: Int32
+	///  Number of bytes which should be downloaded starting from the "offset" position before the download will be automatically cancelled; use 0 to download without a limit 
+	public let limit: Int32
+	///  If false, this request returns file state just after the download has been started. If true, this request returns file state only after -the download has succeeded, has failed, has been cancelled or a new downloadFile request with different offset/limit parameters was sent
+	public let synchronous: Bool
+	/// Downloads a file from the cloud. Download progress and completion of the download will be notified through updateFile updates 
 	/// - Parameters:
 	///   - fileId: Identifier of the file to download 
-	///   - priority: Priority of the download (1-32). The higher the priority, the earlier the file will be downloaded. If the priorities of two files are equal, then the last one for which downloadFile was called will be downloaded first
-	public init(fileId: Int32, priority: Int32) {
+	///   - priority: Priority of the download (1-32). The higher the priority, the earlier the file will be downloaded. If the priorities of two files are equal, then the last one for which downloadFile was called will be downloaded first 
+	///   - offset: The starting position from which the file should be downloaded 
+	///   - limit: Number of bytes which should be downloaded starting from the "offset" position before the download will be automatically cancelled; use 0 to download without a limit 
+	///   - synchronous: If false, this request returns file state just after the download has been started. If true, this request returns file state only after -the download has succeeded, has failed, has been cancelled or a new downloadFile request with different offset/limit parameters was sent
+	public init(fileId: Int32, priority: Int32, offset: Int32, limit: Int32, synchronous: Bool) {
 		self.fileId = fileId
 		self.priority = priority
+		self.offset = offset
+		self.limit = limit
+		self.synchronous = synchronous
+	}
+}
+
+///  Returns file downloaded prefix size from a given offset 
+public struct GetFileDownloadedPrefixSize: Codable, Equatable, TDFunction {
+	public typealias Result = Count
+	///  Identifier of the file 
+	public let fileId: Int32
+	///  Offset from which downloaded prefix size should be calculated
+	public let offset: Int32
+	/// Returns file downloaded prefix size from a given offset 
+	/// - Parameters:
+	///   - fileId: Identifier of the file 
+	///   - offset: Offset from which downloaded prefix size should be calculated
+	public init(fileId: Int32, offset: Int32) {
+		self.fileId = fileId
+		self.offset = offset
 	}
 }
 
@@ -6545,7 +8598,28 @@ public struct CancelUploadFile: Codable, Equatable, TDFunction {
 	}
 }
 
-///  The next part of a file was generated 
+///  Writes a part of a generated file. This method is intended to be used only if the client has no direct access to TDLib's file system, because it is usually slower than a direct write to the destination file 
+public struct WriteGeneratedFilePart: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  The identifier of the generation process 
+	public let generationId: TDInt64
+	///  The offset from which to write the data to the file 
+	public let offset: Int32
+	///  The data to write
+	public let data: Bytes
+	/// Writes a part of a generated file. This method is intended to be used only if the client has no direct access to TDLib's file system, because it is usually slower than a direct write to the destination file 
+	/// - Parameters:
+	///   - generationId: The identifier of the generation process 
+	///   - offset: The offset from which to write the data to the file 
+	///   - data: The data to write
+	public init(generationId: TDInt64, offset: Int32, data: Bytes) {
+		self.generationId = generationId
+		self.offset = offset
+		self.data = data
+	}
+}
+
+///  Informs TDLib on a file generation prograss 
 public struct SetFileGenerationProgress: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  The identifier of the generation process 
@@ -6554,7 +8628,7 @@ public struct SetFileGenerationProgress: Codable, Equatable, TDFunction {
 	public let expectedSize: Int32
 	///  The number of bytes already generated
 	public let localPrefixSize: Int32
-	/// The next part of a file was generated 
+	/// Informs TDLib on a file generation prograss 
 	/// - Parameters:
 	///   - generationId: The identifier of the generation process 
 	///   - expectedSize: Expected size of the generated file, in bytes; 0 if unknown 
@@ -6580,6 +8654,27 @@ public struct FinishFileGeneration: Codable, Equatable, TDFunction {
 	public init(generationId: TDInt64, error: Error) {
 		self.generationId = generationId
 		self.error = error
+	}
+}
+
+///  Reads a part of a file from the TDLib file cache and returns read bytes. This method is intended to be used only if the client has no direct access to TDLib's file system, because it is usually slower than a direct read from the file 
+public struct ReadFilePart: Codable, Equatable, TDFunction {
+	public typealias Result = FilePart
+	///  Identifier of the file. The file must be located in the TDLib file cache 
+	public let fileId: Int32
+	///  The offset from which to read the file 
+	public let offset: Int32
+	///  Number of bytes to read. An error will be returned if there are not enough bytes available in the file from the specified position. Pass 0 to read all available data from the specified position
+	public let count: Int32
+	/// Reads a part of a file from the TDLib file cache and returns read bytes. This method is intended to be used only if the client has no direct access to TDLib's file system, because it is usually slower than a direct read from the file 
+	/// - Parameters:
+	///   - fileId: Identifier of the file. The file must be located in the TDLib file cache 
+	///   - offset: The offset from which to read the file 
+	///   - count: Number of bytes to read. An error will be returned if there are not enough bytes available in the file from the specified position. Pass 0 to read all available data from the specified position
+	public init(fileId: Int32, offset: Int32, count: Int32) {
+		self.fileId = fileId
+		self.offset = offset
+		self.count = count
 	}
 }
 
@@ -6778,26 +8873,34 @@ public struct GetBlockedUsers: Codable, Equatable, TDFunction {
 ///  Adds new contacts or edits existing contacts; contacts' user identifiers are ignored 
 public struct ImportContacts: Codable, Equatable, TDFunction {
 	public typealias Result = ImportedContacts
-	///  The list of contacts to import or edit
+	///  The list of contacts to import or edit, contact's vCard are ignored and are not imported
 	public let contacts: [Contact]
 	/// Adds new contacts or edits existing contacts; contacts' user identifiers are ignored 
 	/// - Parameters:
-	///   - contacts: The list of contacts to import or edit
+	///   - contacts: The list of contacts to import or edit, contact's vCard are ignored and are not imported
 	public init(contacts: [Contact]) {
 		self.contacts = contacts
+	}
+}
+
+///  Returns all user contacts
+public struct GetContacts: Codable, Equatable, TDFunction {
+	public typealias Result = Users
+	/// Returns all user contacts
+	public init() {
 	}
 }
 
 ///  Searches for the specified query in the first names, last names and usernames of the known user contacts 
 public struct SearchContacts: Codable, Equatable, TDFunction {
 	public typealias Result = Users
-	///  Query to search for; can be empty to return all contacts 
+	///  Query to search for; may be empty to return all contacts 
 	public let query: String
 	///  Maximum number of users to be returned
 	public let limit: Int32
 	/// Searches for the specified query in the first names, last names and usernames of the known user contacts 
 	/// - Parameters:
-	///   - query: Query to search for; can be empty to return all contacts 
+	///   - query: Query to search for; may be empty to return all contacts 
 	///   - limit: Maximum number of users to be returned
 	public init(query: String, limit: Int32) {
 		self.query = query
@@ -6805,12 +8908,12 @@ public struct SearchContacts: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Removes users from the contacts list 
+///  Removes users from the contact list 
 public struct RemoveContacts: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Identifiers of users to be deleted
 	public let userIds: [Int32]
-	/// Removes users from the contacts list 
+	/// Removes users from the contact list 
 	/// - Parameters:
 	///   - userIds: Identifiers of users to be deleted
 	public init(userIds: [Int32]) {
@@ -6829,20 +8932,20 @@ public struct GetImportedContactCount: Codable, Equatable, TDFunction {
 ///  Changes imported contacts using the list of current user contacts saved on the device. Imports newly added contacts and, if at least the file database is enabled, deletes recently deleted contacts. -Query result depends on the result of the previous query, so only one query is possible at the same time 
 public struct ChangeImportedContacts: Codable, Equatable, TDFunction {
 	public typealias Result = ImportedContacts
-	///  The new list of contacts
+	///  The new list of contacts, contact's vCard are ignored and are not imported
 	public let contacts: [Contact]
 	/// Changes imported contacts using the list of current user contacts saved on the device. Imports newly added contacts and, if at least the file database is enabled, deletes recently deleted contacts. -Query result depends on the result of the previous query, so only one query is possible at the same time 
 	/// - Parameters:
-	///   - contacts: The new list of contacts
+	///   - contacts: The new list of contacts, contact's vCard are ignored and are not imported
 	public init(contacts: [Contact]) {
 		self.contacts = contacts
 	}
 }
 
-///  Clears all imported contacts
+///  Clears all imported contacts, contact list remains unchanged
 public struct ClearImportedContacts: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
-	/// Clears all imported contacts
+	/// Clears all imported contacts, contact list remains unchanged
 	public init() {
 	}
 }
@@ -7277,44 +9380,6 @@ public struct GetWebPageInstantView: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Returns the notification settings for a given scope 
-public struct GetNotificationSettings: Codable, Equatable, TDFunction {
-	public typealias Result = NotificationSettings
-	///  Scope for which to return the notification settings information
-	public let scope: NotificationSettingsScope
-	/// Returns the notification settings for a given scope 
-	/// - Parameters:
-	///   - scope: Scope for which to return the notification settings information
-	public init(scope: NotificationSettingsScope) {
-		self.scope = scope
-	}
-}
-
-///  Changes notification settings for a given scope 
-public struct SetNotificationSettings: Codable, Equatable, TDFunction {
-	public typealias Result = Ok
-	///  Scope for which to change the notification settings 
-	public let scope: NotificationSettingsScope
-	///  The new notification settings for the given scope
-	public let notificationSettings: NotificationSettings
-	/// Changes notification settings for a given scope 
-	/// - Parameters:
-	///   - scope: Scope for which to change the notification settings 
-	///   - notificationSettings: The new notification settings for the given scope
-	public init(scope: NotificationSettingsScope, notificationSettings: NotificationSettings) {
-		self.scope = scope
-		self.notificationSettings = notificationSettings
-	}
-}
-
-///  Resets all notification settings to their default values. By default, the only muted chats are supergroups, the sound is set to "default" and message previews are shown
-public struct ResetAllNotificationSettings: Codable, Equatable, TDFunction {
-	public typealias Result = Ok
-	/// Resets all notification settings to their default values. By default, the only muted chats are supergroups, the sound is set to "default" and message previews are shown
-	public init() {
-	}
-}
-
 ///  Uploads a new profile photo for the current user. If something changes, updateUser will be sent 
 public struct SetProfilePhoto: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
@@ -7344,14 +9409,14 @@ public struct DeleteProfilePhoto: Codable, Equatable, TDFunction {
 ///  Changes the first and last name of the current user. If something changes, updateUser will be sent 
 public struct SetName: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
-	///  The new value of the first name for the user; 1-255 characters 
+	///  The new value of the first name for the user; 1-64 characters 
 	public let firstName: String
-	///  The new value of the optional last name for the user; 0-255 characters
+	///  The new value of the optional last name for the user; 0-64 characters
 	public let lastName: String
 	/// Changes the first and last name of the current user. If something changes, updateUser will be sent 
 	/// - Parameters:
-	///   - firstName: The new value of the first name for the user; 1-255 characters 
-	///   - lastName: The new value of the optional last name for the user; 0-255 characters
+	///   - firstName: The new value of the first name for the user; 1-64 characters 
+	///   - lastName: The new value of the optional last name for the user; 0-64 characters
 	public init(firstName: String, lastName: String) {
 		self.firstName = firstName
 		self.lastName = lastName
@@ -7603,41 +9668,7 @@ public struct SetSupergroupDescription: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Pins a message in a supergroup or channel; requires appropriate administrator rights in the supergroup or channel 
-public struct PinSupergroupMessage: Codable, Equatable, TDFunction {
-	public typealias Result = Ok
-	///  Identifier of the supergroup or channel 
-	public let supergroupId: Int32
-	///  Identifier of the new pinned message 
-	public let messageId: Int53
-	///  True, if there should be no notification about the pinned message
-	public let disableNotification: Bool
-	/// Pins a message in a supergroup or channel; requires appropriate administrator rights in the supergroup or channel 
-	/// - Parameters:
-	///   - supergroupId: Identifier of the supergroup or channel 
-	///   - messageId: Identifier of the new pinned message 
-	///   - disableNotification: True, if there should be no notification about the pinned message
-	public init(supergroupId: Int32, messageId: Int53, disableNotification: Bool) {
-		self.supergroupId = supergroupId
-		self.messageId = messageId
-		self.disableNotification = disableNotification
-	}
-}
-
-///  Removes the pinned message from a supergroup or channel; requires appropriate administrator rights in the supergroup or channel 
-public struct UnpinSupergroupMessage: Codable, Equatable, TDFunction {
-	public typealias Result = Ok
-	///  Identifier of the supergroup or channel
-	public let supergroupId: Int32
-	/// Removes the pinned message from a supergroup or channel; requires appropriate administrator rights in the supergroup or channel 
-	/// - Parameters:
-	///   - supergroupId: Identifier of the supergroup or channel
-	public init(supergroupId: Int32) {
-		self.supergroupId = supergroupId
-	}
-}
-
-///  Reports some messages from a user in a supergroup as spam 
+///  Reports some messages from a user in a supergroup as spam; requires administrator rights in the supergroup 
 public struct ReportSupergroupSpam: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Supergroup identifier 
@@ -7646,7 +9677,7 @@ public struct ReportSupergroupSpam: Codable, Equatable, TDFunction {
 	public let userId: Int32
 	///  Identifiers of messages sent in the supergroup by the user. This list must be non-empty
 	public let messageIds: [Int53]
-	/// Reports some messages from a user in a supergroup as spam 
+	/// Reports some messages from a user in a supergroup as spam; requires administrator rights in the supergroup 
 	/// - Parameters:
 	///   - supergroupId: Supergroup identifier 
 	///   - userId: User identifier 
@@ -7870,20 +9901,175 @@ public struct GetWallpapers: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Registers the currently used device for receiving push notifications 
-public struct RegisterDevice: Codable, Equatable, TDFunction {
+///  Returns information about the current localization target. This is an offline request if only_local is true. Can be called before authorization 
+public struct GetLocalizationTargetInfo: Codable, Equatable, TDFunction {
+	public typealias Result = LocalizationTargetInfo
+	///  If true, returns only locally available information without sending network requests
+	public let onlyLocal: Bool
+	/// Returns information about the current localization target. This is an offline request if only_local is true. Can be called before authorization 
+	/// - Parameters:
+	///   - onlyLocal: If true, returns only locally available information without sending network requests
+	public init(onlyLocal: Bool) {
+		self.onlyLocal = onlyLocal
+	}
+}
+
+///  Returns information about a language pack. Returned language pack identifier may be different from a provided one. Can be called before authorization 
+public struct GetLanguagePackInfo: Codable, Equatable, TDFunction {
+	public typealias Result = LanguagePackInfo
+	///  Language pack identifier
+	public let languagePackId: String
+	/// Returns information about a language pack. Returned language pack identifier may be different from a provided one. Can be called before authorization 
+	/// - Parameters:
+	///   - languagePackId: Language pack identifier
+	public init(languagePackId: String) {
+		self.languagePackId = languagePackId
+	}
+}
+
+///  Returns strings from a language pack in the current localization target by their keys. Can be called before authorization 
+public struct GetLanguagePackStrings: Codable, Equatable, TDFunction {
+	public typealias Result = LanguagePackStrings
+	///  Language pack identifier of the strings to be returned 
+	public let languagePackId: String
+	///  Language pack keys of the strings to be returned; leave empty to request all available strings
+	public let keys: [String]
+	/// Returns strings from a language pack in the current localization target by their keys. Can be called before authorization 
+	/// - Parameters:
+	///   - languagePackId: Language pack identifier of the strings to be returned 
+	///   - keys: Language pack keys of the strings to be returned; leave empty to request all available strings
+	public init(languagePackId: String, keys: [String]) {
+		self.languagePackId = languagePackId
+		self.keys = keys
+	}
+}
+
+///  Fetches the latest versions of all strings from a language pack in the current localization target from the server. This method doesn't need to be called explicitly for the current used/base language packs. Can be called before authorization 
+public struct SynchronizeLanguagePack: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
+	///  Language pack identifier
+	public let languagePackId: String
+	/// Fetches the latest versions of all strings from a language pack in the current localization target from the server. This method doesn't need to be called explicitly for the current used/base language packs. Can be called before authorization 
+	/// - Parameters:
+	///   - languagePackId: Language pack identifier
+	public init(languagePackId: String) {
+		self.languagePackId = languagePackId
+	}
+}
+
+///  Adds a custom server language pack to the list of installed language packs in current localization target. Can be called before authorization 
+public struct AddCustomServerLanguagePack: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Identifier of a language pack to be added; may be different from a name that is used in an "https://t.me/setlanguage/" link
+	public let languagePackId: String
+	/// Adds a custom server language pack to the list of installed language packs in current localization target. Can be called before authorization 
+	/// - Parameters:
+	///   - languagePackId: Identifier of a language pack to be added; may be different from a name that is used in an "https://t.me/setlanguage/" link
+	public init(languagePackId: String) {
+		self.languagePackId = languagePackId
+	}
+}
+
+///  Adds or changes a custom local language pack to the current localization target 
+public struct SetCustomLanguagePack: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Information about the language pack. Language pack ID must start with 'X', consist only of English letters, digits and hyphens, and must not exceed 64 characters. Can be called before authorization 
+	public let info: LanguagePackInfo
+	///  Strings of the new language pack
+	public let strings: [LanguagePackString]
+	/// Adds or changes a custom local language pack to the current localization target 
+	/// - Parameters:
+	///   - info: Information about the language pack. Language pack ID must start with 'X', consist only of English letters, digits and hyphens, and must not exceed 64 characters. Can be called before authorization 
+	///   - strings: Strings of the new language pack
+	public init(info: LanguagePackInfo, strings: [LanguagePackString]) {
+		self.info = info
+		self.strings = strings
+	}
+}
+
+///  Edits information about a custom local language pack in the current localization target. Can be called before authorization 
+public struct EditCustomLanguagePackInfo: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  New information about the custom local language pack
+	public let info: LanguagePackInfo
+	/// Edits information about a custom local language pack in the current localization target. Can be called before authorization 
+	/// - Parameters:
+	///   - info: New information about the custom local language pack
+	public init(info: LanguagePackInfo) {
+		self.info = info
+	}
+}
+
+///  Adds, edits or deletes a string in a custom local language pack. Can be called before authorization 
+public struct SetCustomLanguagePackString: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Identifier of a previously added custom local language pack in the current localization target 
+	public let languagePackId: String
+	///  New language pack string
+	public let newString: LanguagePackString
+	/// Adds, edits or deletes a string in a custom local language pack. Can be called before authorization 
+	/// - Parameters:
+	///   - languagePackId: Identifier of a previously added custom local language pack in the current localization target 
+	///   - newString: New language pack string
+	public init(languagePackId: String, newString: LanguagePackString) {
+		self.languagePackId = languagePackId
+		self.newString = newString
+	}
+}
+
+///  Deletes all information about a language pack in the current localization target. The language pack which is currently in use (including base language pack) or is being synchronized can't be deleted. Can be called before authorization 
+public struct DeleteLanguagePack: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Identifier of the language pack to delete
+	public let languagePackId: String
+	/// Deletes all information about a language pack in the current localization target. The language pack which is currently in use (including base language pack) or is being synchronized can't be deleted. Can be called before authorization 
+	/// - Parameters:
+	///   - languagePackId: Identifier of the language pack to delete
+	public init(languagePackId: String) {
+		self.languagePackId = languagePackId
+	}
+}
+
+///  Registers the currently used device for receiving push notifications. Returns a globally unique identifier of the push notification subscription 
+public struct RegisterDevice: Codable, Equatable, TDFunction {
+	public typealias Result = PushReceiverId
 	///  Device token 
 	public let deviceToken: DeviceToken
-	///  List of at most 100 user identifiers of other users currently using the client
+	///  List of user identifiers of other users currently using the client
 	public let otherUserIds: [Int32]
-	/// Registers the currently used device for receiving push notifications 
+	/// Registers the currently used device for receiving push notifications. Returns a globally unique identifier of the push notification subscription 
 	/// - Parameters:
 	///   - deviceToken: Device token 
-	///   - otherUserIds: List of at most 100 user identifiers of other users currently using the client
+	///   - otherUserIds: List of user identifiers of other users currently using the client
 	public init(deviceToken: DeviceToken, otherUserIds: [Int32]) {
 		self.deviceToken = deviceToken
 		self.otherUserIds = otherUserIds
+	}
+}
+
+///  Handles a push notification. Returns error with code 406 if the push notification is not supported and connection to the server is required to fetch new data. Can be called before authorization 
+public struct ProcessPushNotification: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  JSON-encoded push notification payload with all fields sent by the server, and "google.sent_time" and "google.notification.sound" fields added
+	public let payload: String
+	/// Handles a push notification. Returns error with code 406 if the push notification is not supported and connection to the server is required to fetch new data. Can be called before authorization 
+	/// - Parameters:
+	///   - payload: JSON-encoded push notification payload with all fields sent by the server, and "google.sent_time" and "google.notification.sound" fields added
+	public init(payload: String) {
+		self.payload = payload
+	}
+}
+
+///  Returns a globally unique push notification subscription identifier for identification of an account, which has received a push notification. This is an offline method. Can be called before authorization. Can be called synchronously 
+public struct GetPushReceiverId: Codable, Equatable, TDFunction {
+	public typealias Result = PushReceiverId
+	///  JSON-encoded push notification payload
+	public let payload: String
+	/// Returns a globally unique push notification subscription identifier for identification of an account, which has received a push notification. This is an offline method. Can be called before authorization. Can be called synchronously 
+	/// - Parameters:
+	///   - payload: JSON-encoded push notification payload
+	public init(payload: String) {
+		self.payload = payload
 	}
 }
 
@@ -7981,12 +10167,12 @@ public struct GetAccountTtl: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Deletes the account of the current user, deleting all information associated with the user from the server. The phone number of the account can be used to create a new account 
+///  Deletes the account of the current user, deleting all information associated with the user from the server. The phone number of the account can be used to create a new account. Can be called before authorization when the current authorization state is authorizationStateWaitPassword 
 public struct DeleteAccount: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  The reason why the account was deleted; optional
 	public let reason: String
-	/// Deletes the account of the current user, deleting all information associated with the user from the server. The phone number of the account can be used to create a new account 
+	/// Deletes the account of the current user, deleting all information associated with the user from the server. The phone number of the account can be used to create a new account. Can be called before authorization when the current authorization state is authorizationStateWaitPassword 
 	/// - Parameters:
 	///   - reason: The reason why the account was deleted; optional
 	public init(reason: String) {
@@ -8007,14 +10193,14 @@ public struct GetChatReportSpamState: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Used to let the server know whether a chat is spam or not. Can be used only if ChatReportSpamState.can_report_spam is true. After this request, ChatReportSpamState.can_report_spam becomes false forever 
+///  Reports to the server whether a chat is a spam chat or not. Can be used only if ChatReportSpamState.can_report_spam is true. After this request, ChatReportSpamState.can_report_spam becomes false forever 
 public struct ChangeChatReportSpamState: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier 
 	public let chatId: Int53
 	///  If true, the chat will be reported as spam; otherwise it will be marked as not spam
 	public let isSpamChat: Bool
-	/// Used to let the server know whether a chat is spam or not. Can be used only if ChatReportSpamState.can_report_spam is true. After this request, ChatReportSpamState.can_report_spam becomes false forever 
+	/// Reports to the server whether a chat is a spam chat or not. Can be used only if ChatReportSpamState.can_report_spam is true. After this request, ChatReportSpamState.can_report_spam becomes false forever 
 	/// - Parameters:
 	///   - chatId: Chat identifier 
 	///   - isSpamChat: If true, the chat will be reported as spam; otherwise it will be marked as not spam
@@ -8045,12 +10231,33 @@ public struct ReportChat: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Returns storage usage statistics 
+///  Returns URL with the chat statistics. Currently this method can be used only for channels 
+public struct GetChatStatisticsUrl: Codable, Equatable, TDFunction {
+	public typealias Result = HttpUrl
+	///  Chat identifier 
+	public let chatId: Int53
+	///  Parameters from "tg://statsrefresh?params=******" link 
+	public let parameters: String
+	///  Pass true if a URL with the dark theme must be returned
+	public let isDark: Bool
+	/// Returns URL with the chat statistics. Currently this method can be used only for channels 
+	/// - Parameters:
+	///   - chatId: Chat identifier 
+	///   - parameters: Parameters from "tg://statsrefresh?params=******" link 
+	///   - isDark: Pass true if a URL with the dark theme must be returned
+	public init(chatId: Int53, parameters: String, isDark: Bool) {
+		self.chatId = chatId
+		self.parameters = parameters
+		self.isDark = isDark
+	}
+}
+
+///  Returns storage usage statistics. Can be called before authorization 
 public struct GetStorageStatistics: Codable, Equatable, TDFunction {
 	public typealias Result = StorageStatistics
 	///  Maximum number of chats with the largest storage usage for which separate statistics should be returned. All other chats will be grouped in entries with chat_id == 0. If the chat info database is not used, the chat_limit is ignored and is always set to 0
 	public let chatLimit: Int32
-	/// Returns storage usage statistics 
+	/// Returns storage usage statistics. Can be called before authorization 
 	/// - Parameters:
 	///   - chatLimit: Maximum number of chats with the largest storage usage for which separate statistics should be returned. All other chats will be grouped in entries with chat_id == 0. If the chat info database is not used, the chat_limit is ignored and is always set to 0
 	public init(chatLimit: Int32) {
@@ -8058,10 +10265,18 @@ public struct GetStorageStatistics: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Quickly returns approximate storage usage statistics
+///  Quickly returns approximate storage usage statistics. Can be called before authorization
 public struct GetStorageStatisticsFast: Codable, Equatable, TDFunction {
 	public typealias Result = StorageStatisticsFast
-	/// Quickly returns approximate storage usage statistics
+	/// Quickly returns approximate storage usage statistics. Can be called before authorization
+	public init() {
+	}
+}
+
+///  Returns database statistics
+public struct GetDatabaseStatistics: Codable, Equatable, TDFunction {
+	public typealias Result = DatabaseStatistics
+	/// Returns database statistics
 	public init() {
 	}
 }
@@ -8151,6 +10366,277 @@ public struct ResetNetworkStatistics: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	/// Resets all network data usage statistics to zero. Can be called before authorization
 	public init() {
+	}
+}
+
+///  Returns one of the available Telegram Passport elements 
+public struct GetPassportElement: Codable, Equatable, TDFunction {
+	public typealias Result = PassportElement
+	///  Telegram Passport element type 
+	public let type: PassportElementType
+	///  Password of the current user
+	public let password: String
+	/// Returns one of the available Telegram Passport elements 
+	/// - Parameters:
+	///   - type: Telegram Passport element type 
+	///   - password: Password of the current user
+	public init(type: PassportElementType, password: String) {
+		self.type = type
+		self.password = password
+	}
+}
+
+///  Returns all available Telegram Passport elements 
+public struct GetAllPassportElements: Codable, Equatable, TDFunction {
+	public typealias Result = PassportElements
+	///  Password of the current user
+	public let password: String
+	/// Returns all available Telegram Passport elements 
+	/// - Parameters:
+	///   - password: Password of the current user
+	public init(password: String) {
+		self.password = password
+	}
+}
+
+///  Adds an element to the user's Telegram Passport. May return an error with a message "PHONE_VERIFICATION_NEEDED" or "EMAIL_VERIFICATION_NEEDED" if the chosen phone number or the chosen email address must be verified first 
+public struct SetPassportElement: Codable, Equatable, TDFunction {
+	public typealias Result = PassportElement
+	///  Input Telegram Passport element 
+	public let element: InputPassportElement
+	///  Password of the current user
+	public let password: String
+	/// Adds an element to the user's Telegram Passport. May return an error with a message "PHONE_VERIFICATION_NEEDED" or "EMAIL_VERIFICATION_NEEDED" if the chosen phone number or the chosen email address must be verified first 
+	/// - Parameters:
+	///   - element: Input Telegram Passport element 
+	///   - password: Password of the current user
+	public init(element: InputPassportElement, password: String) {
+		self.element = element
+		self.password = password
+	}
+}
+
+///  Deletes a Telegram Passport element 
+public struct DeletePassportElement: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Element type
+	public let type: PassportElementType
+	/// Deletes a Telegram Passport element 
+	/// - Parameters:
+	///   - type: Element type
+	public init(type: PassportElementType) {
+		self.type = type
+	}
+}
+
+///  Informs the user that some of the elements in their Telegram Passport contain errors; for bots only. The user will not be able to resend the elements, until the errors are fixed 
+public struct SetPassportElementErrors: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  User identifier 
+	public let userId: Int32
+	///  The errors
+	public let errors: [InputPassportElementError]
+	/// Informs the user that some of the elements in their Telegram Passport contain errors; for bots only. The user will not be able to resend the elements, until the errors are fixed 
+	/// - Parameters:
+	///   - userId: User identifier 
+	///   - errors: The errors
+	public init(userId: Int32, errors: [InputPassportElementError]) {
+		self.userId = userId
+		self.errors = errors
+	}
+}
+
+///  Returns an IETF language tag of the language preferred in the country, which should be used to fill native fields in Telegram Passport personal details. Returns a 404 error if unknown 
+public struct GetPreferredCountryLanguage: Codable, Equatable, TDFunction {
+	public typealias Result = Text
+	///  A two-letter ISO 3166-1 alpha-2 country code
+	public let countryCode: String
+	/// Returns an IETF language tag of the language preferred in the country, which should be used to fill native fields in Telegram Passport personal details. Returns a 404 error if unknown 
+	/// - Parameters:
+	///   - countryCode: A two-letter ISO 3166-1 alpha-2 country code
+	public init(countryCode: String) {
+		self.countryCode = countryCode
+	}
+}
+
+///  Sends a code to verify a phone number to be added to a user's Telegram Passport 
+public struct SendPhoneNumberVerificationCode: Codable, Equatable, TDFunction {
+	public typealias Result = AuthenticationCodeInfo
+	///  The phone number of the user, in international format 
+	public let phoneNumber: String
+	///  Pass true if the authentication code may be sent via flash call to the specified phone number 
+	public let allowFlashCall: Bool
+	///  Pass true if the phone number is used on the current device. Ignored if allow_flash_call is false
+	public let isCurrentPhoneNumber: Bool
+	/// Sends a code to verify a phone number to be added to a user's Telegram Passport 
+	/// - Parameters:
+	///   - phoneNumber: The phone number of the user, in international format 
+	///   - allowFlashCall: Pass true if the authentication code may be sent via flash call to the specified phone number 
+	///   - isCurrentPhoneNumber: Pass true if the phone number is used on the current device. Ignored if allow_flash_call is false
+	public init(phoneNumber: String, allowFlashCall: Bool, isCurrentPhoneNumber: Bool) {
+		self.phoneNumber = phoneNumber
+		self.allowFlashCall = allowFlashCall
+		self.isCurrentPhoneNumber = isCurrentPhoneNumber
+	}
+}
+
+///  Re-sends the code to verify a phone number to be added to a user's Telegram Passport
+public struct ResendPhoneNumberVerificationCode: Codable, Equatable, TDFunction {
+	public typealias Result = AuthenticationCodeInfo
+	/// Re-sends the code to verify a phone number to be added to a user's Telegram Passport
+	public init() {
+	}
+}
+
+///  Checks the phone number verification code for Telegram Passport 
+public struct CheckPhoneNumberVerificationCode: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Verification code
+	public let code: String
+	/// Checks the phone number verification code for Telegram Passport 
+	/// - Parameters:
+	///   - code: Verification code
+	public init(code: String) {
+		self.code = code
+	}
+}
+
+///  Sends a code to verify an email address to be added to a user's Telegram Passport 
+public struct SendEmailAddressVerificationCode: Codable, Equatable, TDFunction {
+	public typealias Result = EmailAddressAuthenticationCodeInfo
+	///  Email address
+	public let emailAddress: String
+	/// Sends a code to verify an email address to be added to a user's Telegram Passport 
+	/// - Parameters:
+	///   - emailAddress: Email address
+	public init(emailAddress: String) {
+		self.emailAddress = emailAddress
+	}
+}
+
+///  Re-sends the code to verify an email address to be added to a user's Telegram Passport
+public struct ResendEmailAddressVerificationCode: Codable, Equatable, TDFunction {
+	public typealias Result = EmailAddressAuthenticationCodeInfo
+	/// Re-sends the code to verify an email address to be added to a user's Telegram Passport
+	public init() {
+	}
+}
+
+///  Checks the email address verification code for Telegram Passport 
+public struct CheckEmailAddressVerificationCode: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Verification code
+	public let code: String
+	/// Checks the email address verification code for Telegram Passport 
+	/// - Parameters:
+	///   - code: Verification code
+	public init(code: String) {
+		self.code = code
+	}
+}
+
+///  Returns a Telegram Passport authorization form for sharing data with a service 
+public struct GetPassportAuthorizationForm: Codable, Equatable, TDFunction {
+	public typealias Result = PassportAuthorizationForm
+	///  User identifier of the service's bot 
+	public let botUserId: Int32
+	///  Telegram Passport element types requested by the service 
+	public let scope: String
+	///  Service's public_key 
+	public let publicKey: String
+	///  Authorization form nonce provided by the service
+	public let nonce: String
+	/// Returns a Telegram Passport authorization form for sharing data with a service 
+	/// - Parameters:
+	///   - botUserId: User identifier of the service's bot 
+	///   - scope: Telegram Passport element types requested by the service 
+	///   - publicKey: Service's public_key 
+	///   - nonce: Authorization form nonce provided by the service
+	public init(botUserId: Int32, scope: String, publicKey: String, nonce: String) {
+		self.botUserId = botUserId
+		self.scope = scope
+		self.publicKey = publicKey
+		self.nonce = nonce
+	}
+}
+
+///  Returns already available Telegram Passport elements suitable for completing a Telegram Passport authorization form. Result can be received only once for each authorization form 
+public struct GetPassportAuthorizationFormAvailableElements: Codable, Equatable, TDFunction {
+	public typealias Result = PassportElementsWithErrors
+	///  Authorization form identifier 
+	public let autorizationFormId: Int32
+	///  Password of the current user
+	public let password: String
+	/// Returns already available Telegram Passport elements suitable for completing a Telegram Passport authorization form. Result can be received only once for each authorization form 
+	/// - Parameters:
+	///   - autorizationFormId: Authorization form identifier 
+	///   - password: Password of the current user
+	public init(autorizationFormId: Int32, password: String) {
+		self.autorizationFormId = autorizationFormId
+		self.password = password
+	}
+}
+
+///  Sends a Telegram Passport authorization form, effectively sharing data with the service. This method must be called after getPassportAuthorizationFormAvailableElements if some previously available elements need to be used 
+public struct SendPassportAuthorizationForm: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Authorization form identifier 
+	public let autorizationFormId: Int32
+	///  Types of Telegram Passport elements chosen by user to complete the authorization form
+	public let types: [PassportElementType]
+	/// Sends a Telegram Passport authorization form, effectively sharing data with the service. This method must be called after getPassportAuthorizationFormAvailableElements if some previously available elements need to be used 
+	/// - Parameters:
+	///   - autorizationFormId: Authorization form identifier 
+	///   - types: Types of Telegram Passport elements chosen by user to complete the authorization form
+	public init(autorizationFormId: Int32, types: [PassportElementType]) {
+		self.autorizationFormId = autorizationFormId
+		self.types = types
+	}
+}
+
+///  Sends phone number confirmation code. Should be called when user presses "https://t.me/confirmphone?phone=*******&hash=**********" or "tg://confirmphone?phone=*******&hash=**********" link 
+public struct SendPhoneNumberConfirmationCode: Codable, Equatable, TDFunction {
+	public typealias Result = AuthenticationCodeInfo
+	///  Value of the "hash" parameter from the link 
+	public let hash: String
+	///  Value of the "phone" parameter from the link 
+	public let phoneNumber: String
+	///  Pass true if the authentication code may be sent via flash call to the specified phone number 
+	public let allowFlashCall: Bool
+	///  Pass true if the phone number is used on the current device. Ignored if allow_flash_call is false
+	public let isCurrentPhoneNumber: Bool
+	/// Sends phone number confirmation code. Should be called when user presses "https://t.me/confirmphone?phone=*******&hash=**********" or "tg://confirmphone?phone=*******&hash=**********" link 
+	/// - Parameters:
+	///   - hash: Value of the "hash" parameter from the link 
+	///   - phoneNumber: Value of the "phone" parameter from the link 
+	///   - allowFlashCall: Pass true if the authentication code may be sent via flash call to the specified phone number 
+	///   - isCurrentPhoneNumber: Pass true if the phone number is used on the current device. Ignored if allow_flash_call is false
+	public init(hash: String, phoneNumber: String, allowFlashCall: Bool, isCurrentPhoneNumber: Bool) {
+		self.hash = hash
+		self.phoneNumber = phoneNumber
+		self.allowFlashCall = allowFlashCall
+		self.isCurrentPhoneNumber = isCurrentPhoneNumber
+	}
+}
+
+///  Resends phone number confirmation code
+public struct ResendPhoneNumberConfirmationCode: Codable, Equatable, TDFunction {
+	public typealias Result = AuthenticationCodeInfo
+	/// Resends phone number confirmation code
+	public init() {
+	}
+}
+
+///  Checks phone number confirmation code 
+public struct CheckPhoneNumberConfirmationCode: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  The phone number confirmation code
+	public let code: String
+	/// Checks phone number confirmation code 
+	/// - Parameters:
+	///   - code: The phone number confirmation code
+	public init(code: String) {
+		self.code = code
 	}
 }
 
@@ -8268,6 +10754,52 @@ public struct RemoveStickerFromSet: Codable, Equatable, TDFunction {
 	}
 }
 
+///  Returns information about a file with a map thumbnail in PNG format. Only map thumbnail files with size less than 1MB can be downloaded 
+public struct GetMapThumbnailFile: Codable, Equatable, TDFunction {
+	public typealias Result = File
+	///  Location of the map center 
+	public let location: Location
+	///  Map zoom level; 13-20 
+	public let zoom: Int32
+	///  Map width in pixels before applying scale; 16-1024 
+	public let width: Int32
+	///  Map height in pixels before applying scale; 16-1024 
+	public let height: Int32
+	///  Map scale; 1-3 
+	public let scale: Int32
+	///  Identifier of a chat, in which the thumbnail will be shown. Use 0 if unknown
+	public let chatId: Int53
+	/// Returns information about a file with a map thumbnail in PNG format. Only map thumbnail files with size less than 1MB can be downloaded 
+	/// - Parameters:
+	///   - location: Location of the map center 
+	///   - zoom: Map zoom level; 13-20 
+	///   - width: Map width in pixels before applying scale; 16-1024 
+	///   - height: Map height in pixels before applying scale; 16-1024 
+	///   - scale: Map scale; 1-3 
+	///   - chatId: Identifier of a chat, in which the thumbnail will be shown. Use 0 if unknown
+	public init(location: Location, zoom: Int32, width: Int32, height: Int32, scale: Int32, chatId: Int53) {
+		self.location = location
+		self.zoom = zoom
+		self.width = width
+		self.height = height
+		self.scale = scale
+		self.chatId = chatId
+	}
+}
+
+///  Accepts Telegram terms of services 
+public struct AcceptTermsOfService: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Terms of service identifier
+	public let termsOfServiceId: String
+	/// Accepts Telegram terms of services 
+	/// - Parameters:
+	///   - termsOfServiceId: Terms of service identifier
+	public init(termsOfServiceId: String) {
+		self.termsOfServiceId = termsOfServiceId
+	}
+}
+
 ///  Sends a custom request; for bots only 
 public struct SendCustomRequest: Codable, Equatable, TDFunction {
 	public typealias Result = CustomRequestResult
@@ -8302,12 +10834,12 @@ public struct AnswerCustomQuery: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Succeeds after a specified amount of time has passed. Can be called before authorization 
+///  Succeeds after a specified amount of time has passed. Can be called before authorization. Can be called before initialization 
 public struct SetAlarm: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Number of seconds before the function returns
 	public let seconds: Double
-	/// Succeeds after a specified amount of time has passed. Can be called before authorization 
+	/// Succeeds after a specified amount of time has passed. Can be called before authorization. Can be called before initialization 
 	/// - Parameters:
 	///   - seconds: Number of seconds before the function returns
 	public init(seconds: Double) {
@@ -8331,49 +10863,281 @@ public struct GetInviteText: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Returns the terms of service. Can be called before authorization
-public struct GetTermsOfService: Codable, Equatable, TDFunction {
-	public typealias Result = Text
-	/// Returns the terms of service. Can be called before authorization
-	public init() {
-	}
-}
-
-///  Sets the proxy server for network requests. Can be called before authorization 
-public struct SetProxy: Codable, Equatable, TDFunction {
-	public typealias Result = Ok
-	///  Proxy server to use. Specify null to remove the proxy server
-	public let proxy: Proxy
-	/// Sets the proxy server for network requests. Can be called before authorization 
+///  Returns information about a tg:// deep link. Use "tg://need_update_for_some_feature" or "tg:some_unsupported_feature" for testing. Returns a 404 error for unknown links. Can be called before authorization 
+public struct GetDeepLinkInfo: Codable, Equatable, TDFunction {
+	public typealias Result = DeepLinkInfo
+	///  The link
+	public let link: String
+	/// Returns information about a tg:// deep link. Use "tg://need_update_for_some_feature" or "tg:some_unsupported_feature" for testing. Returns a 404 error for unknown links. Can be called before authorization 
 	/// - Parameters:
-	///   - proxy: Proxy server to use. Specify null to remove the proxy server
-	public init(proxy: Proxy) {
-		self.proxy = proxy
+	///   - link: The link
+	public init(link: String) {
+		self.link = link
 	}
 }
 
-///  Returns the proxy that is currently set up. Can be called before authorization
-public struct GetProxy: Codable, Equatable, TDFunction {
-	public typealias Result = Proxy
-	/// Returns the proxy that is currently set up. Can be called before authorization
+///  Returns application config, provided by the server. Can be called before authorization
+public struct GetApplicationConfig: Codable, Equatable, TDFunction {
+	public typealias Result = JsonValue
+	/// Returns application config, provided by the server. Can be called before authorization
 	public init() {
 	}
 }
 
-///  Does nothing; for testing only
+///  Saves application log event on the server. Can be called before authorization 
+public struct SaveApplicationLogEvent: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Event type 
+	public let type: String
+	///  Optional chat identifier, associated with the event 
+	public let chatId: Int53
+	///  The log event data
+	public let data: JsonValue
+	/// Saves application log event on the server. Can be called before authorization 
+	/// - Parameters:
+	///   - type: Event type 
+	///   - chatId: Optional chat identifier, associated with the event 
+	///   - data: The log event data
+	public init(type: String, chatId: Int53, data: JsonValue) {
+		self.type = type
+		self.chatId = chatId
+		self.data = data
+	}
+}
+
+///  Adds a proxy server for network requests. Can be called before authorization 
+public struct AddProxy: Codable, Equatable, TDFunction {
+	public typealias Result = Proxy
+	///  Proxy server IP address 
+	public let server: String
+	///  Proxy server port 
+	public let port: Int32
+	///  True, if the proxy should be enabled 
+	public let enable: Bool
+	///  Proxy type
+	public let type: ProxyType
+	/// Adds a proxy server for network requests. Can be called before authorization 
+	/// - Parameters:
+	///   - server: Proxy server IP address 
+	///   - port: Proxy server port 
+	///   - enable: True, if the proxy should be enabled 
+	///   - type: Proxy type
+	public init(server: String, port: Int32, enable: Bool, type: ProxyType) {
+		self.server = server
+		self.port = port
+		self.enable = enable
+		self.type = type
+	}
+}
+
+///  Edits an existing proxy server for network requests. Can be called before authorization 
+public struct EditProxy: Codable, Equatable, TDFunction {
+	public typealias Result = Proxy
+	///  Proxy identifier 
+	public let proxyId: Int32
+	///  Proxy server IP address 
+	public let server: String
+	///  Proxy server port 
+	public let port: Int32
+	///  True, if the proxy should be enabled 
+	public let enable: Bool
+	///  Proxy type
+	public let type: ProxyType
+	/// Edits an existing proxy server for network requests. Can be called before authorization 
+	/// - Parameters:
+	///   - proxyId: Proxy identifier 
+	///   - server: Proxy server IP address 
+	///   - port: Proxy server port 
+	///   - enable: True, if the proxy should be enabled 
+	///   - type: Proxy type
+	public init(proxyId: Int32, server: String, port: Int32, enable: Bool, type: ProxyType) {
+		self.proxyId = proxyId
+		self.server = server
+		self.port = port
+		self.enable = enable
+		self.type = type
+	}
+}
+
+///  Enables a proxy. Only one proxy can be enabled at a time. Can be called before authorization 
+public struct EnableProxy: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Proxy identifier
+	public let proxyId: Int32
+	/// Enables a proxy. Only one proxy can be enabled at a time. Can be called before authorization 
+	/// - Parameters:
+	///   - proxyId: Proxy identifier
+	public init(proxyId: Int32) {
+		self.proxyId = proxyId
+	}
+}
+
+///  Disables the currently enabled proxy. Can be called before authorization
+public struct DisableProxy: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	/// Disables the currently enabled proxy. Can be called before authorization
+	public init() {
+	}
+}
+
+///  Removes a proxy server. Can be called before authorization 
+public struct RemoveProxy: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Proxy identifier
+	public let proxyId: Int32
+	/// Removes a proxy server. Can be called before authorization 
+	/// - Parameters:
+	///   - proxyId: Proxy identifier
+	public init(proxyId: Int32) {
+		self.proxyId = proxyId
+	}
+}
+
+///  Returns list of proxies that are currently set up. Can be called before authorization
+public struct GetProxies: Codable, Equatable, TDFunction {
+	public typealias Result = Proxies
+	/// Returns list of proxies that are currently set up. Can be called before authorization
+	public init() {
+	}
+}
+
+///  Returns an HTTPS link, which can be used to add a proxy. Available only for SOCKS5 and MTProto proxies. Can be called before authorization 
+public struct GetProxyLink: Codable, Equatable, TDFunction {
+	public typealias Result = Text
+	///  Proxy identifier
+	public let proxyId: Int32
+	/// Returns an HTTPS link, which can be used to add a proxy. Available only for SOCKS5 and MTProto proxies. Can be called before authorization 
+	/// - Parameters:
+	///   - proxyId: Proxy identifier
+	public init(proxyId: Int32) {
+		self.proxyId = proxyId
+	}
+}
+
+///  Computes time needed to receive a response from a Telegram server through a proxy. Can be called before authorization 
+public struct PingProxy: Codable, Equatable, TDFunction {
+	public typealias Result = Seconds
+	///  Proxy identifier. Use 0 to ping a Telegram server without a proxy
+	public let proxyId: Int32
+	/// Computes time needed to receive a response from a Telegram server through a proxy. Can be called before authorization 
+	/// - Parameters:
+	///   - proxyId: Proxy identifier. Use 0 to ping a Telegram server without a proxy
+	public init(proxyId: Int32) {
+		self.proxyId = proxyId
+	}
+}
+
+///  Sets new log stream for internal logging of TDLib. This is an offline method. Can be called before authorization. Can be called synchronously 
+public struct SetLogStream: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  New log stream
+	public let logStream: LogStream
+	/// Sets new log stream for internal logging of TDLib. This is an offline method. Can be called before authorization. Can be called synchronously 
+	/// - Parameters:
+	///   - logStream: New log stream
+	public init(logStream: LogStream) {
+		self.logStream = logStream
+	}
+}
+
+///  Returns information about currently used log stream for internal logging of TDLib. This is an offline method. Can be called before authorization. Can be called synchronously
+public struct GetLogStream: Codable, Equatable, TDFunction {
+	public typealias Result = LogStream
+	/// Returns information about currently used log stream for internal logging of TDLib. This is an offline method. Can be called before authorization. Can be called synchronously
+	public init() {
+	}
+}
+
+///  Sets the verbosity level of the internal logging of TDLib. This is an offline method. Can be called before authorization. Can be called synchronously 
+public struct SetLogVerbosityLevel: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  New value of the verbosity level for logging. Value 0 corresponds to fatal errors, value 1 corresponds to errors, value 2 corresponds to warnings and debug warnings, value 3 corresponds to informational, value 4 corresponds to debug, value 5 corresponds to verbose debug, value greater than 5 and up to 1023 can be used to enable even more logging
+	public let newVerbosityLevel: Int32
+	/// Sets the verbosity level of the internal logging of TDLib. This is an offline method. Can be called before authorization. Can be called synchronously 
+	/// - Parameters:
+	///   - newVerbosityLevel: New value of the verbosity level for logging. Value 0 corresponds to fatal errors, value 1 corresponds to errors, value 2 corresponds to warnings and debug warnings, value 3 corresponds to informational, value 4 corresponds to debug, value 5 corresponds to verbose debug, value greater than 5 and up to 1023 can be used to enable even more logging
+	public init(newVerbosityLevel: Int32) {
+		self.newVerbosityLevel = newVerbosityLevel
+	}
+}
+
+///  Returns current verbosity level of the internal logging of TDLib. This is an offline method. Can be called before authorization. Can be called synchronously
+public struct GetLogVerbosityLevel: Codable, Equatable, TDFunction {
+	public typealias Result = LogVerbosityLevel
+	/// Returns current verbosity level of the internal logging of TDLib. This is an offline method. Can be called before authorization. Can be called synchronously
+	public init() {
+	}
+}
+
+///  Returns list of available TDLib internal log tags, for example, ["actor", "binlog", "connections", "notifications", "proxy"]. This is an offline method. Can be called before authorization. Can be called synchronously
+public struct GetLogTags: Codable, Equatable, TDFunction {
+	public typealias Result = LogTags
+	/// Returns list of available TDLib internal log tags, for example, ["actor", "binlog", "connections", "notifications", "proxy"]. This is an offline method. Can be called before authorization. Can be called synchronously
+	public init() {
+	}
+}
+
+///  Sets the verbosity level for a specified TDLib internal log tag. This is an offline method. Can be called before authorization. Can be called synchronously 
+public struct SetLogTagVerbosityLevel: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Logging tag to change verbosity level 
+	public let tag: String
+	///  New verbosity level; 1-1024
+	public let newVerbosityLevel: Int32
+	/// Sets the verbosity level for a specified TDLib internal log tag. This is an offline method. Can be called before authorization. Can be called synchronously 
+	/// - Parameters:
+	///   - tag: Logging tag to change verbosity level 
+	///   - newVerbosityLevel: New verbosity level; 1-1024
+	public init(tag: String, newVerbosityLevel: Int32) {
+		self.tag = tag
+		self.newVerbosityLevel = newVerbosityLevel
+	}
+}
+
+///  Returns current verbosity level for a specified TDLib internal log tag. This is an offline method. Can be called before authorization. Can be called synchronously 
+public struct GetLogTagVerbosityLevel: Codable, Equatable, TDFunction {
+	public typealias Result = LogVerbosityLevel
+	///  Logging tag to change verbosity level
+	public let tag: String
+	/// Returns current verbosity level for a specified TDLib internal log tag. This is an offline method. Can be called before authorization. Can be called synchronously 
+	/// - Parameters:
+	///   - tag: Logging tag to change verbosity level
+	public init(tag: String) {
+		self.tag = tag
+	}
+}
+
+///  Adds a message to TDLib internal log. This is an offline method. Can be called before authorization. Can be called synchronously 
+public struct AddLogMessage: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Minimum verbosity level needed for the message to be logged, 0-1023 
+	public let verbosityLevel: Int32
+	///  Text of a message to log
+	public let text: String
+	/// Adds a message to TDLib internal log. This is an offline method. Can be called before authorization. Can be called synchronously 
+	/// - Parameters:
+	///   - verbosityLevel: Minimum verbosity level needed for the message to be logged, 0-1023 
+	///   - text: Text of a message to log
+	public init(verbosityLevel: Int32, text: String) {
+		self.verbosityLevel = verbosityLevel
+		self.text = text
+	}
+}
+
+///  Does nothing; for testing only. This is an offline method. Can be called before authorization
 public struct TestCallEmpty: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
-	/// Does nothing; for testing only
+	/// Does nothing; for testing only. This is an offline method. Can be called before authorization
 	public init() {
 	}
 }
 
-///  Returns the received string; for testing only 
+///  Returns the received string; for testing only. This is an offline method. Can be called before authorization 
 public struct TestCallString: Codable, Equatable, TDFunction {
 	public typealias Result = TestString
 	///  String to return
 	public let x: String
-	/// Returns the received string; for testing only 
+	/// Returns the received string; for testing only. This is an offline method. Can be called before authorization 
 	/// - Parameters:
 	///   - x: String to return
 	public init(x: String) {
@@ -8381,12 +11145,12 @@ public struct TestCallString: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Returns the received bytes; for testing only 
+///  Returns the received bytes; for testing only. This is an offline method. Can be called before authorization 
 public struct TestCallBytes: Codable, Equatable, TDFunction {
 	public typealias Result = TestBytes
 	///  Bytes to return
 	public let x: Bytes
-	/// Returns the received bytes; for testing only 
+	/// Returns the received bytes; for testing only. This is an offline method. Can be called before authorization 
 	/// - Parameters:
 	///   - x: Bytes to return
 	public init(x: Bytes) {
@@ -8394,12 +11158,12 @@ public struct TestCallBytes: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Returns the received vector of numbers; for testing only 
+///  Returns the received vector of numbers; for testing only. This is an offline method. Can be called before authorization 
 public struct TestCallVectorInt: Codable, Equatable, TDFunction {
 	public typealias Result = TestVectorInt
 	///  Vector of numbers to return
 	public let x: [Int32]
-	/// Returns the received vector of numbers; for testing only 
+	/// Returns the received vector of numbers; for testing only. This is an offline method. Can be called before authorization 
 	/// - Parameters:
 	///   - x: Vector of numbers to return
 	public init(x: [Int32]) {
@@ -8407,12 +11171,12 @@ public struct TestCallVectorInt: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Returns the received vector of objects containing a number; for testing only 
+///  Returns the received vector of objects containing a number; for testing only. This is an offline method. Can be called before authorization 
 public struct TestCallVectorIntObject: Codable, Equatable, TDFunction {
 	public typealias Result = TestVectorIntObject
 	///  Vector of objects to return
 	public let x: [TestInt]
-	/// Returns the received vector of objects containing a number; for testing only 
+	/// Returns the received vector of objects containing a number; for testing only. This is an offline method. Can be called before authorization 
 	/// - Parameters:
 	///   - x: Vector of objects to return
 	public init(x: [TestInt]) {
@@ -8420,12 +11184,12 @@ public struct TestCallVectorIntObject: Codable, Equatable, TDFunction {
 	}
 }
 
-///  For testing only request. Returns the received vector of strings; for testing only 
+///  Returns the received vector of strings; for testing only. This is an offline method. Can be called before authorization 
 public struct TestCallVectorString: Codable, Equatable, TDFunction {
 	public typealias Result = TestVectorString
 	///  Vector of strings to return
 	public let x: [String]
-	/// For testing only request. Returns the received vector of strings; for testing only 
+	/// Returns the received vector of strings; for testing only. This is an offline method. Can be called before authorization 
 	/// - Parameters:
 	///   - x: Vector of strings to return
 	public init(x: [String]) {
@@ -8433,12 +11197,12 @@ public struct TestCallVectorString: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Returns the received vector of objects containing a string; for testing only 
+///  Returns the received vector of objects containing a string; for testing only. This is an offline method. Can be called before authorization 
 public struct TestCallVectorStringObject: Codable, Equatable, TDFunction {
 	public typealias Result = TestVectorStringObject
 	///  Vector of objects to return
 	public let x: [TestString]
-	/// Returns the received vector of objects containing a string; for testing only 
+	/// Returns the received vector of objects containing a string; for testing only. This is an offline method. Can be called before authorization 
 	/// - Parameters:
 	///   - x: Vector of objects to return
 	public init(x: [TestString]) {
@@ -8446,12 +11210,12 @@ public struct TestCallVectorStringObject: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Returns the squared received number; for testing only 
+///  Returns the squared received number; for testing only. This is an offline method. Can be called before authorization 
 public struct TestSquareInt: Codable, Equatable, TDFunction {
 	public typealias Result = TestInt
 	///  Number to square
 	public let x: Int32
-	/// Returns the squared received number; for testing only 
+	/// Returns the squared received number; for testing only. This is an offline method. Can be called before authorization 
 	/// - Parameters:
 	///   - x: Number to square
 	public init(x: Int32) {
@@ -8459,10 +11223,10 @@ public struct TestSquareInt: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Sends a simple network request to the Telegram servers; for testing only
+///  Sends a simple network request to the Telegram servers; for testing only. Can be called before authorization
 public struct TestNetwork: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
-	/// Sends a simple network request to the Telegram servers; for testing only
+	/// Sends a simple network request to the Telegram servers; for testing only. Can be called before authorization
 	public init() {
 	}
 }
@@ -8475,18 +11239,18 @@ public struct TestGetDifference: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Does nothing and ensures that the Update object is used; for testing only
+///  Does nothing and ensures that the Update object is used; for testing only. This is an offline method. Can be called before authorization
 public struct TestUseUpdate: Codable, Equatable, TDFunction {
 	public typealias Result = Update
-	/// Does nothing and ensures that the Update object is used; for testing only
+	/// Does nothing and ensures that the Update object is used; for testing only. This is an offline method. Can be called before authorization
 	public init() {
 	}
 }
 
-///  Does nothing and ensures that the Error object is used; for testing only
+///  Does nothing and ensures that the Error object is used; for testing only. This is an offline method. Can be called before authorization
 public struct TestUseError: Codable, Equatable, TDFunction {
 	public typealias Result = Error
-	/// Does nothing and ensures that the Error object is used; for testing only
+	/// Does nothing and ensures that the Error object is used; for testing only. This is an offline method. Can be called before authorization
 	public init() {
 	}
 }

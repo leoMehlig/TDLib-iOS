@@ -13,14 +13,20 @@ extension Chat {
                     lastMessage: self.lastMessage,
                     order: self.order,
                     isPinned: self.isPinned,
+                    isMarkedAsUnread: self.isMarkedAsUnread,
+                    isSponsored: self.isSponsored,
+                    canBeDeletedOnlyForSelf: self.canBeDeletedOnlyForSelf,
+                    canBeDeletedForAllUsers: self.canBeDeletedForAllUsers,
                     canBeReported: self.canBeReported,
+                    defaultDisableNotification: self.defaultDisableNotification,
                     unreadCount: self.unreadCount,
                     lastReadInboxMessageId: self.lastReadInboxMessageId,
                     lastReadOutboxMessageId: self.lastReadOutboxMessageId,
                     unreadMentionCount: self.unreadMentionCount,
                     notificationSettings: self.notificationSettings,
+                    pinnedMessageId: self.pinnedMessageId,
                     replyMarkupMessageId: self.replyMarkupMessageId,
-                    draftMessage: self.draftMessage,
+                    draftMessage: self.draftMessage ,
                     clientData: clientData)
     }
 }

@@ -24,7 +24,7 @@ class TDType
     end
     string += "\t/// #{@description}\n"
     string += "\t/// - Parameters:\n" unless fields.empty?
-    fields.each_value do | field |
+    fields.each_value do |field|
       string += "\t///   - #{field.formattedName}: #{field.description}\n"
     end
     string += "\tpublic init("
@@ -54,7 +54,7 @@ class TDEnum
     string += "public indirect enum #{name}: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {\n"
     for enum_case in cases do
       string += "\t///  #{enum_case.description}\n"
-      enum_case.fields.each_value do | field |
+      enum_case.fields.each_value do |field|
         string += "\t/// - #{field.formattedName}: #{field.description}\n"
       end
       case_name = enum_case.name.camel_case
@@ -85,6 +85,7 @@ class Field
 
   def escaped_name
     return '`protocol`' if @name == 'protocol'
+    return '`subscript`' if @name == 'subscript'
     @name
   end
 
@@ -93,7 +94,7 @@ class Field
     @type = @type.un_vector
     letters = @type.split('')
     letters.first.upcase!
-    return letters.join + '?' if (@description.include?('may be null') || @description.include?('for bots only'))
+    return letters.join + '?' if @description.include?('may be null') || @description.include?('for bots only')
     letters.join
   end
 end
@@ -106,6 +107,8 @@ class String
   def escaped
     return '`protocol`' if self == 'protocol'
     return '`private`' if self == 'private'
+    return '`subscript`' if self == 'subscript'
+    return '`default`' if self == 'default'
     self
    end
 

@@ -1,4 +1,4 @@
-// Generated using Sourcery 0.11.2 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 0.16.0 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 
 
@@ -51,12 +51,15 @@ extension AuthorizationState {
                 return true
             case (.waitCode(
                 let lhsisRegistered,
+                let lhstermsOfService,
                 let lhscodeInfo),
               .waitCode(
                 let rhsisRegistered,
+                let rhstermsOfService,
                 let rhscodeInfo)):
               return 
                 lhsisRegistered == rhsisRegistered &&
+                lhstermsOfService == rhstermsOfService &&
                 lhscodeInfo == rhscodeInfo
             case (.waitPassword(
                 let lhspasswordHint,
@@ -122,19 +125,22 @@ extension CallState {
                 let lhsconnections,
                 let lhsconfig,
                 let lhsencryptionKey,
-                let lhsemojis),
+                let lhsemojis,
+                let lhsallowP2p),
               .ready(
                 let rhsprotocol,
                 let rhsconnections,
                 let rhsconfig,
                 let rhsencryptionKey,
-                let rhsemojis)):
+                let rhsemojis,
+                let rhsallowP2p)):
               return 
                 lhsprotocol == rhsprotocol &&
                 lhsconnections == rhsconnections &&
                 lhsconfig == rhsconfig &&
                 lhsencryptionKey == rhsencryptionKey &&
-                lhsemojis == rhsemojis
+                lhsemojis == rhsemojis &&
+                lhsallowP2p == rhsallowP2p
             case (.hangingUp, .hangingUp):
                 return true
             case (.discarded(
@@ -445,6 +451,25 @@ extension ChatMemberStatus {
     }
 }
 
+extension ChatMembersFilter {
+   public static func == (lhs: ChatMembersFilter, rhs: ChatMembersFilter) -> Bool {
+        switch (lhs, rhs) {
+            case (.administrators, .administrators):
+                return true
+            case (.members, .members):
+                return true
+            case (.restricted, .restricted):
+                return true
+            case (.banned, .banned):
+                return true
+            case (.bots, .bots):
+                return true
+        default:
+            return false
+        }
+    }
+}
+
 extension ChatReportReason {
    public static func == (lhs: ChatReportReason, rhs: ChatReportReason) -> Bool {
         switch (lhs, rhs) {
@@ -453,6 +478,10 @@ extension ChatReportReason {
             case (.violence, .violence):
                 return true
             case (.pornography, .pornography):
+                return true
+            case (.childAbuse, .childAbuse):
+                return true
+            case (.copyright, .copyright):
                 return true
             case (.custom(
                 let lhstext),
@@ -546,12 +575,15 @@ extension ConnectionState {
 extension DeviceToken {
    public static func == (lhs: DeviceToken, rhs: DeviceToken) -> Bool {
         switch (lhs, rhs) {
-            case (.googleCloudMessaging(
-                let lhstoken),
-              .googleCloudMessaging(
-                let rhstoken)):
+            case (.firebaseCloudMessaging(
+                let lhstoken,
+                let lhsencrypt),
+              .firebaseCloudMessaging(
+                let rhstoken,
+                let rhsencrypt)):
               return 
-                lhstoken == rhstoken
+                lhstoken == rhstoken &&
+                lhsencrypt == rhsencrypt
             case (.applePush(
                 let lhsdeviceToken,
                 let lhsisAppSandbox),
@@ -563,13 +595,16 @@ extension DeviceToken {
                 lhsisAppSandbox == rhsisAppSandbox
             case (.applePushVoIP(
                 let lhsdeviceToken,
-                let lhsisAppSandbox),
+                let lhsisAppSandbox,
+                let lhsencrypt),
               .applePushVoIP(
                 let rhsdeviceToken,
-                let rhsisAppSandbox)):
+                let rhsisAppSandbox,
+                let rhsencrypt)):
               return 
                 lhsdeviceToken == rhsdeviceToken &&
-                lhsisAppSandbox == rhsisAppSandbox
+                lhsisAppSandbox == rhsisAppSandbox &&
+                lhsencrypt == rhsencrypt
             case (.windowsPush(
                 let lhsaccessToken),
               .windowsPush(
@@ -647,6 +682,10 @@ extension FileType {
                 return true
             case (.secret, .secret):
                 return true
+            case (.secretThumbnail, .secretThumbnail):
+                return true
+            case (.secure, .secure):
+                return true
             case (.sticker, .sticker):
                 return true
             case (.thumbnail, .thumbnail):
@@ -660,8 +699,6 @@ extension FileType {
             case (.voiceNote, .voiceNote):
                 return true
             case (.wallpaper, .wallpaper):
-                return true
-            case (.secretThumbnail, .secretThumbnail):
                 return true
         default:
             return false
@@ -1537,6 +1574,15 @@ extension InputMessageContent {
                 lhsproviderToken == rhsproviderToken &&
                 lhsproviderData == rhsproviderData &&
                 lhsstartParameter == rhsstartParameter
+            case (.inputMessagePoll(
+                let lhsquestion,
+                let lhsoptions),
+              .inputMessagePoll(
+                let rhsquestion,
+                let rhsoptions)):
+              return 
+                lhsquestion == rhsquestion &&
+                lhsoptions == rhsoptions
             case (.inputMessageForwarded(
                 let lhsfromChatId,
                 let lhsmessageId,
@@ -1549,6 +1595,200 @@ extension InputMessageContent {
                 lhsfromChatId == rhsfromChatId &&
                 lhsmessageId == rhsmessageId &&
                 lhsinGameShare == rhsinGameShare
+        default:
+            return false
+        }
+    }
+}
+
+extension InputPassportElement {
+   public static func == (lhs: InputPassportElement, rhs: InputPassportElement) -> Bool {
+        switch (lhs, rhs) {
+            case (.personalDetails(
+                let lhspersonalDetails),
+              .personalDetails(
+                let rhspersonalDetails)):
+              return 
+                lhspersonalDetails == rhspersonalDetails
+            case (.passport(
+                let lhspassport),
+              .passport(
+                let rhspassport)):
+              return 
+                lhspassport == rhspassport
+            case (.driverLicense(
+                let lhsdriverLicense),
+              .driverLicense(
+                let rhsdriverLicense)):
+              return 
+                lhsdriverLicense == rhsdriverLicense
+            case (.identityCard(
+                let lhsidentityCard),
+              .identityCard(
+                let rhsidentityCard)):
+              return 
+                lhsidentityCard == rhsidentityCard
+            case (.internalPassport(
+                let lhsinternalPassport),
+              .internalPassport(
+                let rhsinternalPassport)):
+              return 
+                lhsinternalPassport == rhsinternalPassport
+            case (.address(
+                let lhsaddress),
+              .address(
+                let rhsaddress)):
+              return 
+                lhsaddress == rhsaddress
+            case (.utilityBill(
+                let lhsutilityBill),
+              .utilityBill(
+                let rhsutilityBill)):
+              return 
+                lhsutilityBill == rhsutilityBill
+            case (.bankStatement(
+                let lhsbankStatement),
+              .bankStatement(
+                let rhsbankStatement)):
+              return 
+                lhsbankStatement == rhsbankStatement
+            case (.rentalAgreement(
+                let lhsrentalAgreement),
+              .rentalAgreement(
+                let rhsrentalAgreement)):
+              return 
+                lhsrentalAgreement == rhsrentalAgreement
+            case (.passportRegistration(
+                let lhspassportRegistration),
+              .passportRegistration(
+                let rhspassportRegistration)):
+              return 
+                lhspassportRegistration == rhspassportRegistration
+            case (.temporaryRegistration(
+                let lhstemporaryRegistration),
+              .temporaryRegistration(
+                let rhstemporaryRegistration)):
+              return 
+                lhstemporaryRegistration == rhstemporaryRegistration
+            case (.phoneNumber(
+                let lhsphoneNumber),
+              .phoneNumber(
+                let rhsphoneNumber)):
+              return 
+                lhsphoneNumber == rhsphoneNumber
+            case (.emailAddress(
+                let lhsemailAddress),
+              .emailAddress(
+                let rhsemailAddress)):
+              return 
+                lhsemailAddress == rhsemailAddress
+        default:
+            return false
+        }
+    }
+}
+
+extension InputPassportElementErrorSource {
+   public static func == (lhs: InputPassportElementErrorSource, rhs: InputPassportElementErrorSource) -> Bool {
+        switch (lhs, rhs) {
+            case (.unspecified(
+                let lhselementHash),
+              .unspecified(
+                let rhselementHash)):
+              return 
+                lhselementHash == rhselementHash
+            case (.dataField(
+                let lhsfieldName,
+                let lhsdataHash),
+              .dataField(
+                let rhsfieldName,
+                let rhsdataHash)):
+              return 
+                lhsfieldName == rhsfieldName &&
+                lhsdataHash == rhsdataHash
+            case (.frontSide(
+                let lhsfileHash),
+              .frontSide(
+                let rhsfileHash)):
+              return 
+                lhsfileHash == rhsfileHash
+            case (.reverseSide(
+                let lhsfileHash),
+              .reverseSide(
+                let rhsfileHash)):
+              return 
+                lhsfileHash == rhsfileHash
+            case (.selfie(
+                let lhsfileHash),
+              .selfie(
+                let rhsfileHash)):
+              return 
+                lhsfileHash == rhsfileHash
+            case (.translationFile(
+                let lhsfileHash),
+              .translationFile(
+                let rhsfileHash)):
+              return 
+                lhsfileHash == rhsfileHash
+            case (.translationFiles(
+                let lhsfileHashes),
+              .translationFiles(
+                let rhsfileHashes)):
+              return 
+                lhsfileHashes == rhsfileHashes
+            case (.file(
+                let lhsfileHash),
+              .file(
+                let rhsfileHash)):
+              return 
+                lhsfileHash == rhsfileHash
+            case (.files(
+                let lhsfileHashes),
+              .files(
+                let rhsfileHashes)):
+              return 
+                lhsfileHashes == rhsfileHashes
+        default:
+            return false
+        }
+    }
+}
+
+extension JsonValue {
+   public static func == (lhs: JsonValue, rhs: JsonValue) -> Bool {
+        switch (lhs, rhs) {
+            case (.null, .null):
+                return true
+            case (.boolean(
+                let lhsvalue),
+              .boolean(
+                let rhsvalue)):
+              return 
+                lhsvalue == rhsvalue
+            case (.number(
+                let lhsvalue),
+              .number(
+                let rhsvalue)):
+              return 
+                lhsvalue == rhsvalue
+            case (.string(
+                let lhsvalue),
+              .string(
+                let rhsvalue)):
+              return 
+                lhsvalue == rhsvalue
+            case (.array(
+                let lhsvalues),
+              .array(
+                let rhsvalues)):
+              return 
+                lhsvalues == rhsvalues
+            case (.object(
+                let lhsmembers),
+              .object(
+                let rhsmembers)):
+              return 
+                lhsmembers == rhsmembers
         default:
             return false
         }
@@ -1570,6 +1810,44 @@ extension KeyboardButtonType {
     }
 }
 
+extension LanguagePackStringValue {
+   public static func == (lhs: LanguagePackStringValue, rhs: LanguagePackStringValue) -> Bool {
+        switch (lhs, rhs) {
+            case (.ordinary(
+                let lhsvalue),
+              .ordinary(
+                let rhsvalue)):
+              return 
+                lhsvalue == rhsvalue
+            case (.pluralized(
+                let lhszeroValue,
+                let lhsoneValue,
+                let lhstwoValue,
+                let lhsfewValue,
+                let lhsmanyValue,
+                let lhsotherValue),
+              .pluralized(
+                let rhszeroValue,
+                let rhsoneValue,
+                let rhstwoValue,
+                let rhsfewValue,
+                let rhsmanyValue,
+                let rhsotherValue)):
+              return 
+                lhszeroValue == rhszeroValue &&
+                lhsoneValue == rhsoneValue &&
+                lhstwoValue == rhstwoValue &&
+                lhsfewValue == rhsfewValue &&
+                lhsmanyValue == rhsmanyValue &&
+                lhsotherValue == rhsotherValue
+            case (.deleted, .deleted):
+                return true
+        default:
+            return false
+        }
+    }
+}
+
 extension LinkState {
    public static func == (lhs: LinkState, rhs: LinkState) -> Bool {
         switch (lhs, rhs) {
@@ -1578,6 +1856,28 @@ extension LinkState {
             case (.knowsPhoneNumber, .knowsPhoneNumber):
                 return true
             case (.isContact, .isContact):
+                return true
+        default:
+            return false
+        }
+    }
+}
+
+extension LogStream {
+   public static func == (lhs: LogStream, rhs: LogStream) -> Bool {
+        switch (lhs, rhs) {
+            case (.default, .default):
+                return true
+            case (.file(
+                let lhspath,
+                let lhsmaxFileSize),
+              .file(
+                let rhspath,
+                let rhsmaxFileSize)):
+              return 
+                lhspath == rhspath &&
+                lhsmaxFileSize == rhsmaxFileSize
+            case (.empty, .empty):
                 return true
         default:
             return false
@@ -1732,6 +2032,12 @@ extension MessageContent {
                 let rhsgame)):
               return 
                 lhsgame == rhsgame
+            case (.messagePoll(
+                let lhspoll),
+              .messagePoll(
+                let rhspoll)):
+              return 
+                lhspoll == rhspoll
             case (.messageInvoice(
                 let lhstitle,
                 let lhsdescription,
@@ -1908,6 +2214,21 @@ extension MessageContent {
                 let rhsdomainName)):
               return 
                 lhsdomainName == rhsdomainName
+            case (.messagePassportDataSent(
+                let lhstypes),
+              .messagePassportDataSent(
+                let rhstypes)):
+              return 
+                lhstypes == rhstypes
+            case (.messagePassportDataReceived(
+                let lhselements,
+                let lhscredentials),
+              .messagePassportDataReceived(
+                let rhselements,
+                let rhscredentials)):
+              return 
+                lhselements == rhselements &&
+                lhscredentials == rhscredentials
             case (.messageUnsupported, .messageUnsupported):
                 return true
         default:
@@ -1916,45 +2237,33 @@ extension MessageContent {
     }
 }
 
-extension MessageForwardInfo {
-   public static func == (lhs: MessageForwardInfo, rhs: MessageForwardInfo) -> Bool {
+extension MessageForwardOrigin {
+   public static func == (lhs: MessageForwardOrigin, rhs: MessageForwardOrigin) -> Bool {
         switch (lhs, rhs) {
-            case (.messageForwardedFromUser(
-                let lhssenderUserId,
-                let lhsdate,
-                let lhsforwardedFromChatId,
-                let lhsforwardedFromMessageId),
-              .messageForwardedFromUser(
-                let rhssenderUserId,
-                let rhsdate,
-                let rhsforwardedFromChatId,
-                let rhsforwardedFromMessageId)):
+            case (.user(
+                let lhssenderUserId),
+              .user(
+                let rhssenderUserId)):
               return 
-                lhssenderUserId == rhssenderUserId &&
-                lhsdate == rhsdate &&
-                lhsforwardedFromChatId == rhsforwardedFromChatId &&
-                lhsforwardedFromMessageId == rhsforwardedFromMessageId
-            case (.messageForwardedPost(
+                lhssenderUserId == rhssenderUserId
+            case (.hiddenUser(
+                let lhssenderName),
+              .hiddenUser(
+                let rhssenderName)):
+              return 
+                lhssenderName == rhssenderName
+            case (.channel(
                 let lhschatId,
-                let lhsauthorSignature,
-                let lhsdate,
                 let lhsmessageId,
-                let lhsforwardedFromChatId,
-                let lhsforwardedFromMessageId),
-              .messageForwardedPost(
+                let lhsauthorSignature),
+              .channel(
                 let rhschatId,
-                let rhsauthorSignature,
-                let rhsdate,
                 let rhsmessageId,
-                let rhsforwardedFromChatId,
-                let rhsforwardedFromMessageId)):
+                let rhsauthorSignature)):
               return 
                 lhschatId == rhschatId &&
-                lhsauthorSignature == rhsauthorSignature &&
-                lhsdate == rhsdate &&
                 lhsmessageId == rhsmessageId &&
-                lhsforwardedFromChatId == rhsforwardedFromChatId &&
-                lhsforwardedFromMessageId == rhsforwardedFromMessageId
+                lhsauthorSignature == rhsauthorSignature
         default:
             return false
         }
@@ -2032,21 +2341,67 @@ extension NetworkType {
     }
 }
 
+extension NotificationGroupType {
+   public static func == (lhs: NotificationGroupType, rhs: NotificationGroupType) -> Bool {
+        switch (lhs, rhs) {
+            case (.messages, .messages):
+                return true
+            case (.mentions, .mentions):
+                return true
+            case (.secretChat, .secretChat):
+                return true
+            case (.calls, .calls):
+                return true
+        default:
+            return false
+        }
+    }
+}
+
 extension NotificationSettingsScope {
    public static func == (lhs: NotificationSettingsScope, rhs: NotificationSettingsScope) -> Bool {
         switch (lhs, rhs) {
-            case (.chat(
-                let lhschatId),
-              .chat(
-                let rhschatId)):
-              return 
-                lhschatId == rhschatId
             case (.privateChats, .privateChats):
                 return true
-            case (.basicGroupChats, .basicGroupChats):
+            case (.groupChats, .groupChats):
                 return true
-            case (.allChats, .allChats):
+            case (.channelChats, .channelChats):
                 return true
+        default:
+            return false
+        }
+    }
+}
+
+extension NotificationType {
+   public static func == (lhs: NotificationType, rhs: NotificationType) -> Bool {
+        switch (lhs, rhs) {
+            case (.newMessage(
+                let lhsmessage),
+              .newMessage(
+                let rhsmessage)):
+              return 
+                lhsmessage == rhsmessage
+            case (.newSecretChat, .newSecretChat):
+                return true
+            case (.newCall(
+                let lhscallId),
+              .newCall(
+                let rhscallId)):
+              return 
+                lhscallId == rhscallId
+            case (.newPushMessage(
+                let lhsmessageId,
+                let lhssenderUserId,
+                let lhscontent),
+              .newPushMessage(
+                let rhsmessageId,
+                let rhssenderUserId,
+                let rhscontent)):
+              return 
+                lhsmessageId == rhsmessageId &&
+                lhssenderUserId == rhssenderUserId &&
+                lhscontent == rhscontent
         default:
             return false
         }
@@ -2118,6 +2473,12 @@ extension PageBlock {
                 let rhssubheader)):
               return 
                 lhssubheader == rhssubheader
+            case (.kicker(
+                let lhskicker),
+              .kicker(
+                let rhskicker)):
+              return 
+                lhskicker == rhskicker
             case (.paragraph(
                 let lhstext),
               .paragraph(
@@ -2148,32 +2509,29 @@ extension PageBlock {
               return 
                 lhsname == rhsname
             case (.list(
-                let lhsitems,
-                let lhsisOrdered),
+                let lhsitems),
               .list(
-                let rhsitems,
-                let rhsisOrdered)):
+                let rhsitems)):
               return 
-                lhsitems == rhsitems &&
-                lhsisOrdered == rhsisOrdered
+                lhsitems == rhsitems
             case (.blockQuote(
                 let lhstext,
-                let lhscaption),
+                let lhscredit),
               .blockQuote(
                 let rhstext,
-                let rhscaption)):
+                let rhscredit)):
               return 
                 lhstext == rhstext &&
-                lhscaption == rhscaption
+                lhscredit == rhscredit
             case (.pullQuote(
                 let lhstext,
-                let lhscaption),
+                let lhscredit),
               .pullQuote(
                 let rhstext,
-                let rhscaption)):
+                let rhscredit)):
               return 
                 lhstext == rhstext &&
-                lhscaption == rhscaption
+                lhscredit == rhscredit
             case (.animation(
                 let lhsanimation,
                 let lhscaption,
@@ -2197,13 +2555,16 @@ extension PageBlock {
                 lhscaption == rhscaption
             case (.photo(
                 let lhsphoto,
-                let lhscaption),
+                let lhscaption,
+                let lhsurl),
               .photo(
                 let rhsphoto,
-                let rhscaption)):
+                let rhscaption,
+                let rhsurl)):
               return 
                 lhsphoto == rhsphoto &&
-                lhscaption == rhscaption
+                lhscaption == rhscaption &&
+                lhsurl == rhsurl
             case (.video(
                 let lhsvideo,
                 let lhscaption,
@@ -2303,32 +2664,516 @@ extension PageBlock {
                 lhstitle == rhstitle &&
                 lhsphoto == rhsphoto &&
                 lhsusername == rhsusername
+            case (.table(
+                let lhscaption,
+                let lhscells,
+                let lhsisBordered,
+                let lhsisStriped),
+              .table(
+                let rhscaption,
+                let rhscells,
+                let rhsisBordered,
+                let rhsisStriped)):
+              return 
+                lhscaption == rhscaption &&
+                lhscells == rhscells &&
+                lhsisBordered == rhsisBordered &&
+                lhsisStriped == rhsisStriped
+            case (.details(
+                let lhsheader,
+                let lhspageBlocks,
+                let lhsisOpen),
+              .details(
+                let rhsheader,
+                let rhspageBlocks,
+                let rhsisOpen)):
+              return 
+                lhsheader == rhsheader &&
+                lhspageBlocks == rhspageBlocks &&
+                lhsisOpen == rhsisOpen
+            case (.relatedArticles(
+                let lhsheader,
+                let lhsarticles),
+              .relatedArticles(
+                let rhsheader,
+                let rhsarticles)):
+              return 
+                lhsheader == rhsheader &&
+                lhsarticles == rhsarticles
+            case (.map(
+                let lhslocation,
+                let lhszoom,
+                let lhswidth,
+                let lhsheight,
+                let lhscaption),
+              .map(
+                let rhslocation,
+                let rhszoom,
+                let rhswidth,
+                let rhsheight,
+                let rhscaption)):
+              return 
+                lhslocation == rhslocation &&
+                lhszoom == rhszoom &&
+                lhswidth == rhswidth &&
+                lhsheight == rhsheight &&
+                lhscaption == rhscaption
         default:
             return false
         }
     }
 }
 
-extension Proxy {
-   public static func == (lhs: Proxy, rhs: Proxy) -> Bool {
+extension PageBlockHorizontalAlignment {
+   public static func == (lhs: PageBlockHorizontalAlignment, rhs: PageBlockHorizontalAlignment) -> Bool {
         switch (lhs, rhs) {
-            case (.empty, .empty):
+            case (.left, .left):
                 return true
+            case (.center, .center):
+                return true
+            case (.right, .right):
+                return true
+        default:
+            return false
+        }
+    }
+}
+
+extension PageBlockVerticalAlignment {
+   public static func == (lhs: PageBlockVerticalAlignment, rhs: PageBlockVerticalAlignment) -> Bool {
+        switch (lhs, rhs) {
+            case (.top, .top):
+                return true
+            case (.middle, .middle):
+                return true
+            case (.bottom, .bottom):
+                return true
+        default:
+            return false
+        }
+    }
+}
+
+extension PassportElement {
+   public static func == (lhs: PassportElement, rhs: PassportElement) -> Bool {
+        switch (lhs, rhs) {
+            case (.personalDetails(
+                let lhspersonalDetails),
+              .personalDetails(
+                let rhspersonalDetails)):
+              return 
+                lhspersonalDetails == rhspersonalDetails
+            case (.passport(
+                let lhspassport),
+              .passport(
+                let rhspassport)):
+              return 
+                lhspassport == rhspassport
+            case (.driverLicense(
+                let lhsdriverLicense),
+              .driverLicense(
+                let rhsdriverLicense)):
+              return 
+                lhsdriverLicense == rhsdriverLicense
+            case (.identityCard(
+                let lhsidentityCard),
+              .identityCard(
+                let rhsidentityCard)):
+              return 
+                lhsidentityCard == rhsidentityCard
+            case (.internalPassport(
+                let lhsinternalPassport),
+              .internalPassport(
+                let rhsinternalPassport)):
+              return 
+                lhsinternalPassport == rhsinternalPassport
+            case (.address(
+                let lhsaddress),
+              .address(
+                let rhsaddress)):
+              return 
+                lhsaddress == rhsaddress
+            case (.utilityBill(
+                let lhsutilityBill),
+              .utilityBill(
+                let rhsutilityBill)):
+              return 
+                lhsutilityBill == rhsutilityBill
+            case (.bankStatement(
+                let lhsbankStatement),
+              .bankStatement(
+                let rhsbankStatement)):
+              return 
+                lhsbankStatement == rhsbankStatement
+            case (.rentalAgreement(
+                let lhsrentalAgreement),
+              .rentalAgreement(
+                let rhsrentalAgreement)):
+              return 
+                lhsrentalAgreement == rhsrentalAgreement
+            case (.passportRegistration(
+                let lhspassportRegistration),
+              .passportRegistration(
+                let rhspassportRegistration)):
+              return 
+                lhspassportRegistration == rhspassportRegistration
+            case (.temporaryRegistration(
+                let lhstemporaryRegistration),
+              .temporaryRegistration(
+                let rhstemporaryRegistration)):
+              return 
+                lhstemporaryRegistration == rhstemporaryRegistration
+            case (.phoneNumber(
+                let lhsphoneNumber),
+              .phoneNumber(
+                let rhsphoneNumber)):
+              return 
+                lhsphoneNumber == rhsphoneNumber
+            case (.emailAddress(
+                let lhsemailAddress),
+              .emailAddress(
+                let rhsemailAddress)):
+              return 
+                lhsemailAddress == rhsemailAddress
+        default:
+            return false
+        }
+    }
+}
+
+extension PassportElementErrorSource {
+   public static func == (lhs: PassportElementErrorSource, rhs: PassportElementErrorSource) -> Bool {
+        switch (lhs, rhs) {
+            case (.unspecified, .unspecified):
+                return true
+            case (.dataField(
+                let lhsfieldName),
+              .dataField(
+                let rhsfieldName)):
+              return 
+                lhsfieldName == rhsfieldName
+            case (.frontSide, .frontSide):
+                return true
+            case (.reverseSide, .reverseSide):
+                return true
+            case (.selfie, .selfie):
+                return true
+            case (.translationFile(
+                let lhsfileIndex),
+              .translationFile(
+                let rhsfileIndex)):
+              return 
+                lhsfileIndex == rhsfileIndex
+            case (.translationFiles, .translationFiles):
+                return true
+            case (.file(
+                let lhsfileIndex),
+              .file(
+                let rhsfileIndex)):
+              return 
+                lhsfileIndex == rhsfileIndex
+            case (.files, .files):
+                return true
+        default:
+            return false
+        }
+    }
+}
+
+extension PassportElementType {
+   public static func == (lhs: PassportElementType, rhs: PassportElementType) -> Bool {
+        switch (lhs, rhs) {
+            case (.personalDetails, .personalDetails):
+                return true
+            case (.passport, .passport):
+                return true
+            case (.driverLicense, .driverLicense):
+                return true
+            case (.identityCard, .identityCard):
+                return true
+            case (.internalPassport, .internalPassport):
+                return true
+            case (.address, .address):
+                return true
+            case (.utilityBill, .utilityBill):
+                return true
+            case (.bankStatement, .bankStatement):
+                return true
+            case (.rentalAgreement, .rentalAgreement):
+                return true
+            case (.passportRegistration, .passportRegistration):
+                return true
+            case (.temporaryRegistration, .temporaryRegistration):
+                return true
+            case (.phoneNumber, .phoneNumber):
+                return true
+            case (.emailAddress, .emailAddress):
+                return true
+        default:
+            return false
+        }
+    }
+}
+
+extension ProxyType {
+   public static func == (lhs: ProxyType, rhs: ProxyType) -> Bool {
+        switch (lhs, rhs) {
             case (.socks5(
-                let lhsserver,
-                let lhsport,
                 let lhsusername,
                 let lhspassword),
               .socks5(
-                let rhsserver,
-                let rhsport,
                 let rhsusername,
                 let rhspassword)):
               return 
-                lhsserver == rhsserver &&
-                lhsport == rhsport &&
                 lhsusername == rhsusername &&
                 lhspassword == rhspassword
+            case (.http(
+                let lhsusername,
+                let lhspassword,
+                let lhshttpOnly),
+              .http(
+                let rhsusername,
+                let rhspassword,
+                let rhshttpOnly)):
+              return 
+                lhsusername == rhsusername &&
+                lhspassword == rhspassword &&
+                lhshttpOnly == rhshttpOnly
+            case (.mtproto(
+                let lhssecret),
+              .mtproto(
+                let rhssecret)):
+              return 
+                lhssecret == rhssecret
+        default:
+            return false
+        }
+    }
+}
+
+extension PushMessageContent {
+   public static func == (lhs: PushMessageContent, rhs: PushMessageContent) -> Bool {
+        switch (lhs, rhs) {
+            case (.hidden(
+                let lhsisPinned),
+              .hidden(
+                let rhsisPinned)):
+              return 
+                lhsisPinned == rhsisPinned
+            case (.animation(
+                let lhsanimation,
+                let lhscaption,
+                let lhsisPinned),
+              .animation(
+                let rhsanimation,
+                let rhscaption,
+                let rhsisPinned)):
+              return 
+                lhsanimation == rhsanimation &&
+                lhscaption == rhscaption &&
+                lhsisPinned == rhsisPinned
+            case (.audio(
+                let lhsaudio,
+                let lhsisPinned),
+              .audio(
+                let rhsaudio,
+                let rhsisPinned)):
+              return 
+                lhsaudio == rhsaudio &&
+                lhsisPinned == rhsisPinned
+            case (.contact(
+                let lhsname,
+                let lhsisPinned),
+              .contact(
+                let rhsname,
+                let rhsisPinned)):
+              return 
+                lhsname == rhsname &&
+                lhsisPinned == rhsisPinned
+            case (.contactRegistered, .contactRegistered):
+                return true
+            case (.document(
+                let lhsdocument,
+                let lhsisPinned),
+              .document(
+                let rhsdocument,
+                let rhsisPinned)):
+              return 
+                lhsdocument == rhsdocument &&
+                lhsisPinned == rhsisPinned
+            case (.game(
+                let lhstitle,
+                let lhsisPinned),
+              .game(
+                let rhstitle,
+                let rhsisPinned)):
+              return 
+                lhstitle == rhstitle &&
+                lhsisPinned == rhsisPinned
+            case (.gameScore(
+                let lhstitle,
+                let lhsscore,
+                let lhsisPinned),
+              .gameScore(
+                let rhstitle,
+                let rhsscore,
+                let rhsisPinned)):
+              return 
+                lhstitle == rhstitle &&
+                lhsscore == rhsscore &&
+                lhsisPinned == rhsisPinned
+            case (.invoice(
+                let lhsprice,
+                let lhsisPinned),
+              .invoice(
+                let rhsprice,
+                let rhsisPinned)):
+              return 
+                lhsprice == rhsprice &&
+                lhsisPinned == rhsisPinned
+            case (.location(
+                let lhsisLive,
+                let lhsisPinned),
+              .location(
+                let rhsisLive,
+                let rhsisPinned)):
+              return 
+                lhsisLive == rhsisLive &&
+                lhsisPinned == rhsisPinned
+            case (.photo(
+                let lhsphoto,
+                let lhscaption,
+                let lhsisSecret,
+                let lhsisPinned),
+              .photo(
+                let rhsphoto,
+                let rhscaption,
+                let rhsisSecret,
+                let rhsisPinned)):
+              return 
+                lhsphoto == rhsphoto &&
+                lhscaption == rhscaption &&
+                lhsisSecret == rhsisSecret &&
+                lhsisPinned == rhsisPinned
+            case (.poll(
+                let lhsquestion,
+                let lhsisPinned),
+              .poll(
+                let rhsquestion,
+                let rhsisPinned)):
+              return 
+                lhsquestion == rhsquestion &&
+                lhsisPinned == rhsisPinned
+            case (.screenshotTaken, .screenshotTaken):
+                return true
+            case (.sticker(
+                let lhssticker,
+                let lhsemoji,
+                let lhsisPinned),
+              .sticker(
+                let rhssticker,
+                let rhsemoji,
+                let rhsisPinned)):
+              return 
+                lhssticker == rhssticker &&
+                lhsemoji == rhsemoji &&
+                lhsisPinned == rhsisPinned
+            case (.text(
+                let lhstext,
+                let lhsisPinned),
+              .text(
+                let rhstext,
+                let rhsisPinned)):
+              return 
+                lhstext == rhstext &&
+                lhsisPinned == rhsisPinned
+            case (.video(
+                let lhsvideo,
+                let lhscaption,
+                let lhsisSecret,
+                let lhsisPinned),
+              .video(
+                let rhsvideo,
+                let rhscaption,
+                let rhsisSecret,
+                let rhsisPinned)):
+              return 
+                lhsvideo == rhsvideo &&
+                lhscaption == rhscaption &&
+                lhsisSecret == rhsisSecret &&
+                lhsisPinned == rhsisPinned
+            case (.videoNote(
+                let lhsvideoNote,
+                let lhsisPinned),
+              .videoNote(
+                let rhsvideoNote,
+                let rhsisPinned)):
+              return 
+                lhsvideoNote == rhsvideoNote &&
+                lhsisPinned == rhsisPinned
+            case (.voiceNote(
+                let lhsvoiceNote,
+                let lhsisPinned),
+              .voiceNote(
+                let rhsvoiceNote,
+                let rhsisPinned)):
+              return 
+                lhsvoiceNote == rhsvoiceNote &&
+                lhsisPinned == rhsisPinned
+            case (.basicGroupChatCreate, .basicGroupChatCreate):
+                return true
+            case (.chatAddMembers(
+                let lhsmemberName,
+                let lhsisCurrentUser,
+                let lhsisReturned),
+              .chatAddMembers(
+                let rhsmemberName,
+                let rhsisCurrentUser,
+                let rhsisReturned)):
+              return 
+                lhsmemberName == rhsmemberName &&
+                lhsisCurrentUser == rhsisCurrentUser &&
+                lhsisReturned == rhsisReturned
+            case (.chatChangePhoto, .chatChangePhoto):
+                return true
+            case (.chatChangeTitle(
+                let lhstitle),
+              .chatChangeTitle(
+                let rhstitle)):
+              return 
+                lhstitle == rhstitle
+            case (.chatDeleteMember(
+                let lhsmemberName,
+                let lhsisCurrentUser,
+                let lhsisLeft),
+              .chatDeleteMember(
+                let rhsmemberName,
+                let rhsisCurrentUser,
+                let rhsisLeft)):
+              return 
+                lhsmemberName == rhsmemberName &&
+                lhsisCurrentUser == rhsisCurrentUser &&
+                lhsisLeft == rhsisLeft
+            case (.chatJoinByLink, .chatJoinByLink):
+                return true
+            case (.messageForwards(
+                let lhstotalCount),
+              .messageForwards(
+                let rhstotalCount)):
+              return 
+                lhstotalCount == rhstotalCount
+            case (.mediaAlbum(
+                let lhstotalCount,
+                let lhshasPhotos,
+                let lhshasVideos),
+              .mediaAlbum(
+                let rhstotalCount,
+                let rhshasPhotos,
+                let rhshasVideos)):
+              return 
+                lhstotalCount == rhstotalCount &&
+                lhshasPhotos == rhshasPhotos &&
+                lhshasVideos == rhshasVideos
         default:
             return false
         }
@@ -2434,6 +3279,54 @@ extension RichText {
               return 
                 lhstext == rhstext &&
                 lhsemailAddress == rhsemailAddress
+            case (.subscript(
+                let lhstext),
+              .subscript(
+                let rhstext)):
+              return 
+                lhstext == rhstext
+            case (.superscript(
+                let lhstext),
+              .superscript(
+                let rhstext)):
+              return 
+                lhstext == rhstext
+            case (.marked(
+                let lhstext),
+              .marked(
+                let rhstext)):
+              return 
+                lhstext == rhstext
+            case (.phoneNumber(
+                let lhstext,
+                let lhsphoneNumber),
+              .phoneNumber(
+                let rhstext,
+                let rhsphoneNumber)):
+              return 
+                lhstext == rhstext &&
+                lhsphoneNumber == rhsphoneNumber
+            case (.icon(
+                let lhsdocument,
+                let lhswidth,
+                let lhsheight),
+              .icon(
+                let rhsdocument,
+                let rhswidth,
+                let rhsheight)):
+              return 
+                lhsdocument == rhsdocument &&
+                lhswidth == rhswidth &&
+                lhsheight == rhsheight
+            case (.anchor(
+                let lhstext,
+                let lhsname),
+              .anchor(
+                let rhstext,
+                let rhsname)):
+              return 
+                lhstext == rhstext &&
+                lhsname == rhsname
             case (.s(
                 let lhstexts),
               .s(
@@ -2661,17 +3554,11 @@ extension Update {
               return 
                 lhsauthorizationState == rhsauthorizationState
             case (.newMessage(
-                let lhsmessage,
-                let lhsdisableNotification,
-                let lhscontainsMention),
+                let lhsmessage),
               .newMessage(
-                let rhsmessage,
-                let rhsdisableNotification,
-                let rhscontainsMention)):
+                let rhsmessage)):
               return 
-                lhsmessage == rhsmessage &&
-                lhsdisableNotification == rhsdisableNotification &&
-                lhscontainsMention == rhscontainsMention
+                lhsmessage == rhsmessage
             case (.messageSendAcknowledged(
                 let lhschatId,
                 let lhsmessageId),
@@ -2822,6 +3709,36 @@ extension Update {
                 lhschatId == rhschatId &&
                 lhsisPinned == rhsisPinned &&
                 lhsorder == rhsorder
+            case (.chatIsMarkedAsUnread(
+                let lhschatId,
+                let lhsisMarkedAsUnread),
+              .chatIsMarkedAsUnread(
+                let rhschatId,
+                let rhsisMarkedAsUnread)):
+              return 
+                lhschatId == rhschatId &&
+                lhsisMarkedAsUnread == rhsisMarkedAsUnread
+            case (.chatIsSponsored(
+                let lhschatId,
+                let lhsisSponsored,
+                let lhsorder),
+              .chatIsSponsored(
+                let rhschatId,
+                let rhsisSponsored,
+                let rhsorder)):
+              return 
+                lhschatId == rhschatId &&
+                lhsisSponsored == rhsisSponsored &&
+                lhsorder == rhsorder
+            case (.chatDefaultDisableNotification(
+                let lhschatId,
+                let lhsdefaultDisableNotification),
+              .chatDefaultDisableNotification(
+                let rhschatId,
+                let rhsdefaultDisableNotification)):
+              return 
+                lhschatId == rhschatId &&
+                lhsdefaultDisableNotification == rhsdefaultDisableNotification
             case (.chatReadInbox(
                 let lhschatId,
                 let lhslastReadInboxMessageId,
@@ -2852,15 +3769,33 @@ extension Update {
               return 
                 lhschatId == rhschatId &&
                 lhsunreadMentionCount == rhsunreadMentionCount
-            case (.notificationSettings(
+            case (.chatNotificationSettings(
+                let lhschatId,
+                let lhsnotificationSettings),
+              .chatNotificationSettings(
+                let rhschatId,
+                let rhsnotificationSettings)):
+              return 
+                lhschatId == rhschatId &&
+                lhsnotificationSettings == rhsnotificationSettings
+            case (.scopeNotificationSettings(
                 let lhsscope,
                 let lhsnotificationSettings),
-              .notificationSettings(
+              .scopeNotificationSettings(
                 let rhsscope,
                 let rhsnotificationSettings)):
               return 
                 lhsscope == rhsscope &&
                 lhsnotificationSettings == rhsnotificationSettings
+            case (.chatPinnedMessage(
+                let lhschatId,
+                let lhspinnedMessageId),
+              .chatPinnedMessage(
+                let rhschatId,
+                let rhspinnedMessageId)):
+              return 
+                lhschatId == rhschatId &&
+                lhspinnedMessageId == rhspinnedMessageId
             case (.chatReplyMarkup(
                 let lhschatId,
                 let lhsreplyMarkupMessageId),
@@ -2882,6 +3817,66 @@ extension Update {
                 lhschatId == rhschatId &&
                 lhsdraftMessage == rhsdraftMessage &&
                 lhsorder == rhsorder
+            case (.chatOnlineMemberCount(
+                let lhschatId,
+                let lhsonlineMemberCount),
+              .chatOnlineMemberCount(
+                let rhschatId,
+                let rhsonlineMemberCount)):
+              return 
+                lhschatId == rhschatId &&
+                lhsonlineMemberCount == rhsonlineMemberCount
+            case (.notification(
+                let lhsnotificationGroupId,
+                let lhsnotification),
+              .notification(
+                let rhsnotificationGroupId,
+                let rhsnotification)):
+              return 
+                lhsnotificationGroupId == rhsnotificationGroupId &&
+                lhsnotification == rhsnotification
+            case (.notificationGroup(
+                let lhsnotificationGroupId,
+                let lhstype,
+                let lhschatId,
+                let lhsnotificationSettingsChatId,
+                let lhsisSilent,
+                let lhstotalCount,
+                let lhsaddedNotifications,
+                let lhsremovedNotificationIds),
+              .notificationGroup(
+                let rhsnotificationGroupId,
+                let rhstype,
+                let rhschatId,
+                let rhsnotificationSettingsChatId,
+                let rhsisSilent,
+                let rhstotalCount,
+                let rhsaddedNotifications,
+                let rhsremovedNotificationIds)):
+              return 
+                lhsnotificationGroupId == rhsnotificationGroupId &&
+                lhstype == rhstype &&
+                lhschatId == rhschatId &&
+                lhsnotificationSettingsChatId == rhsnotificationSettingsChatId &&
+                lhsisSilent == rhsisSilent &&
+                lhstotalCount == rhstotalCount &&
+                lhsaddedNotifications == rhsaddedNotifications &&
+                lhsremovedNotificationIds == rhsremovedNotificationIds
+            case (.activeNotifications(
+                let lhsgroups),
+              .activeNotifications(
+                let rhsgroups)):
+              return 
+                lhsgroups == rhsgroups
+            case (.havePendingNotifications(
+                let lhshaveDelayedNotifications,
+                let lhshaveUnreceivedNotifications),
+              .havePendingNotifications(
+                let rhshaveDelayedNotifications,
+                let rhshaveUnreceivedNotifications)):
+              return 
+                lhshaveDelayedNotifications == rhshaveDelayedNotifications &&
+                lhshaveUnreceivedNotifications == rhshaveUnreceivedNotifications
             case (.deleteMessages(
                 let lhschatId,
                 let lhsmessageIds,
@@ -3029,6 +4024,21 @@ extension Update {
               return 
                 lhsunreadCount == rhsunreadCount &&
                 lhsunreadUnmutedCount == rhsunreadUnmutedCount
+            case (.unreadChatCount(
+                let lhsunreadCount,
+                let lhsunreadUnmutedCount,
+                let lhsmarkedAsUnreadCount,
+                let lhsmarkedAsUnreadUnmutedCount),
+              .unreadChatCount(
+                let rhsunreadCount,
+                let rhsunreadUnmutedCount,
+                let rhsmarkedAsUnreadCount,
+                let rhsmarkedAsUnreadUnmutedCount)):
+              return 
+                lhsunreadCount == rhsunreadCount &&
+                lhsunreadUnmutedCount == rhsunreadUnmutedCount &&
+                lhsmarkedAsUnreadCount == rhsmarkedAsUnreadCount &&
+                lhsmarkedAsUnreadUnmutedCount == rhsmarkedAsUnreadUnmutedCount
             case (.option(
                 let lhsname,
                 let lhsvalue),
@@ -3074,12 +4084,33 @@ extension Update {
                 let rhsanimationIds)):
               return 
                 lhsanimationIds == rhsanimationIds
+            case (.languagePackStrings(
+                let lhslocalizationTarget,
+                let lhslanguagePackId,
+                let lhsstrings),
+              .languagePackStrings(
+                let rhslocalizationTarget,
+                let rhslanguagePackId,
+                let rhsstrings)):
+              return 
+                lhslocalizationTarget == rhslocalizationTarget &&
+                lhslanguagePackId == rhslanguagePackId &&
+                lhsstrings == rhsstrings
             case (.connectionState(
                 let lhsstate),
               .connectionState(
                 let rhsstate)):
               return 
                 lhsstate == rhsstate
+            case (.termsOfService(
+                let lhstermsOfServiceId,
+                let lhstermsOfService),
+              .termsOfService(
+                let rhstermsOfServiceId,
+                let rhstermsOfService)):
+              return 
+                lhstermsOfServiceId == rhstermsOfServiceId &&
+                lhstermsOfService == rhstermsOfService
             case (.newInlineQuery(
                 let lhsid,
                 let lhssenderUserId,
@@ -3212,6 +4243,12 @@ extension Update {
                 lhsid == rhsid &&
                 lhsdata == rhsdata &&
                 lhstimeout == rhstimeout
+            case (.poll(
+                let lhspoll),
+              .poll(
+                let rhspoll)):
+              return 
+                lhspoll == rhspoll
         default:
             return false
         }
@@ -3226,6 +4263,8 @@ extension UserPrivacySetting {
             case (.allowChatInvites, .allowChatInvites):
                 return true
             case (.allowCalls, .allowCalls):
+                return true
+            case (.allowPeerToPeerCalls, .allowPeerToPeerCalls):
                 return true
         default:
             return false
