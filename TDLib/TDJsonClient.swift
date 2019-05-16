@@ -90,6 +90,5 @@ public class TDJsonClient {
     
     deinit {
         self.close()
-        td_json_client_destroy(client: self.rawClient)
     }
 }

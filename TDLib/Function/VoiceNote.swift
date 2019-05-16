@@ -36,6 +36,6 @@ extension VoiceNote {
                 }
             }
         }
-        return Array(result)
+        return !result.isEmpty ? Array(result) : Array(repeating: 1, count: 67)
     }
 }

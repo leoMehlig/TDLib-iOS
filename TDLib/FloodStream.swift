@@ -32,9 +32,13 @@ public class FloodStream: Stream<Foundation.Date?> {
                         } else {
                             let delay = Double(string.substring(with: match.range(at: 2))) ?? 0
                             self?.lastId = id
-                            print("Flood Delay \(delay) - \(id)")
-
-                            self?.current = Foundation.Date(timeIntervalSinceNow: delay)
+                            let date = Foundation.Date(timeIntervalSinceNow: delay + 1)
+                            if let oldDate = self?.current, date.timeIntervalSince(oldDate) <= 1 {
+                                print("Skipping new flood \(delay) - \(id)")
+                            } else {
+                                print("Flood Delay \(delay) - \(id)")
+                                self?.current = date
+                            }
                         }
                     }
                 }
