@@ -22,6 +22,8 @@ public class TDJsonClient {
     /// Whether the object is still receiving data from `tdjson`.
     public private(set) var isListing = true
 
+    public var isRunning = false
+
     /// Sets the log verbosity level of the `tdlib`.
     public var logLevel: LogLevel = .warnings {
         didSet {
@@ -84,8 +86,12 @@ public class TDJsonClient {
 
     /// Stops receiving data from `tdlib` and destroys the `td_json_client`.
     public func close() {
-        self.isListing = false
-        td_json_client_destroy(client: self.rawClient)
+        if self.isListing {
+            self.isListing = false
+            if self.isRunning {
+                td_json_client_destroy(client: self.rawClient)
+            }
+        }
     }
     
     deinit {

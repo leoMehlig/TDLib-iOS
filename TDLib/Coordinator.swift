@@ -49,6 +49,8 @@ public class Coordinator {
                 _ = strongSelf.send(SetTdlibParameters(parameters: parameters))
             case .waitEncryptionKey?:
                 _ = strongSelf.send(CheckDatabaseEncryptionKey(encryptionKey: encryptionKey))
+            case .ready?, .waitPassword?, .waitPhoneNumber?, .waitPassword?:
+                self.client.isRunning = true
             case .closed?:
                 self.client.close()
             default:
