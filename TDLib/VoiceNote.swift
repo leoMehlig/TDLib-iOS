@@ -1,6 +1,6 @@
 import Foundation
 
-extension VoiceNote {
+public extension VoiceNote {
     private static func getBits(data: UnsafeRawPointer, length: Int, bitOffset: Int, numBits: Int) -> Int32 {
         let normalizedNumBits = Int(pow(2.0, Double(numBits))) - 1
         let byteOffset = bitOffset / 8
@@ -11,7 +11,7 @@ extension VoiceNote {
         if byteOffset + 4 > length {
             let remaining = length - byteOffset
             withUnsafeMutableBytes(of: &value, { (bytes: UnsafeMutableRawBufferPointer) -> Void in
-                memcpy(bytes.baseAddress!, normalizedData, remaining)
+                memcpy(bytes.baseAddress!, normalizedData, remaining) //swiftlint:disable:this force_unwrapping
             })
         } else {
             value = normalizedData.assumingMemoryBound(to: Int32.self).pointee
@@ -19,7 +19,7 @@ extension VoiceNote {
         return (value >> Int32(normalizedBitOffset)) & Int32(normalizedNumBits)
     }
 
-    public var waveformSamples: [UInt8] {
+    var waveformSamples: [UInt8] {
         let numSamples = Int(Float(self.waveform.count * 8) / 5)
         var result = Data()
         result.count = numSamples * 2

@@ -7,20 +7,21 @@ public protocol FunctionResult: Decodable {
     static var type: String { get }
 }
 
-extension FunctionResult {
-    public static var type: String {
+public extension FunctionResult {
+    static var type: String {
         return "\(self)".uncapitalized
     }
 }
-extension TDFunction {
-    public static var type: String {
+
+public extension TDFunction {
+    static var type: String {
         return "\(self)".uncapitalized
     }
 }
 public protocol TDEnum { }
 public protocol EquatableEnum { }
 
-extension String {
+public extension String {
     var uncapitalized: String {
         if let first = self.first {
             return String(first).lowercased() + String(self.dropFirst())

@@ -1,1 +1,0 @@
-tdjson/iOS/lib/libtdjson.dylib filter=lfs diff=lfs merge=lfs -text

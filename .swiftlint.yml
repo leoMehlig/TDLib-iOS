@@ -19,7 +19,6 @@ opt_in_rules:
   - object_literal
   - private_outlet
   - switch_case_on_newline
-  - no_extension_access_modifier
   - array_init
   - contains_over_first_not_nil
   - empty_string

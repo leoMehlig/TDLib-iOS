@@ -1,4 +1,4 @@
-extension JSONDecoder {
+internal extension JSONDecoder {
     static var td: JSONDecoder {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -6,7 +6,7 @@ extension JSONDecoder {
     }
 }
 
-extension JSONEncoder {
+internal extension JSONEncoder {
     static var td: JSONEncoder {
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase
