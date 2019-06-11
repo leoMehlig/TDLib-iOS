@@ -285,6 +285,9 @@
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/Optional.html">Optional</a>
               </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/String.html">String</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -2524,26 +2527,26 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">create</span><span class="p">(</span><span class="nv">useTestDc</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
-                          <span class="nv">databaseDirectory</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-                          <span class="nv">filesDirectory</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-                          <span class="nv">useFileDatabase</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
-                          <span class="nv">useChatInfoDatabase</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
-                          <span class="nv">useMessageDatabase</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
-                          <span class="nv">useSecretChats</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
-                          <span class="nv">apiId</span><span class="p">:</span> <span class="kt">Int32</span><span class="p">,</span>
-                          <span class="nv">apiHash</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-                          <span class="nv">systemLanguageCode</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"en"</span><span class="p">,</span>
-                          <span class="nv">deviceModel</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"iPhone"</span><span class="p">,</span>
-                          <span class="nv">systemVersion</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"11.1"</span><span class="p">,</span>
-                          <span class="nv">applicationVersion</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"1.0"</span><span class="p">,</span>
-                          <span class="nv">enableStorageOptimizer</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
-                          <span class="nv">ignoreFileNames</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">TdlibParameters</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="nf">create</span><span class="p">(</span><span class="nv">useTestDc</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+                   <span class="nv">databaseDirectory</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                   <span class="nv">filesDirectory</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                   <span class="nv">useFileDatabase</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
+                   <span class="nv">useChatInfoDatabase</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
+                   <span class="nv">useMessageDatabase</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
+                   <span class="nv">useSecretChats</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+                   <span class="nv">apiId</span><span class="p">:</span> <span class="kt">Int32</span><span class="p">,</span>
+                   <span class="nv">apiHash</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                   <span class="nv">systemLanguageCode</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"en"</span><span class="p">,</span>
+                   <span class="nv">deviceModel</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"iPhone"</span><span class="p">,</span>
+                   <span class="nv">systemVersion</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"12.1"</span><span class="p">,</span>
+                   <span class="nv">applicationVersion</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"1.0"</span><span class="p">,</span>
+                   <span class="nv">enableStorageOptimizer</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+                   <span class="nv">ignoreFileNames</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">TdlibParameters</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/leoMehlig/TDLib-iOS/tree/master/TDLib/Function/TdlibParameters.swift#L2-L32">Show on GitHub</a>
+                        <a href="https://github.com/leoMehlig/TDLib-iOS/tree/master/TDLib/TdlibParameters.swift#L2-L32">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

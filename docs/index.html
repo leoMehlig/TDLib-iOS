@@ -284,6 +284,9 @@
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Extensions/Optional.html">Optional</a>
               </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/String.html">String</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -1819,9 +1822,83 @@
             
             <h1 id='tblib-ios' class='heading'>TBLib-iOS</h1>
 
+<blockquote>
+<p><strong>TeleStats</strong></p>
+
+<p>If this library makes developing your next Telegram App easier, please download my app <a href="telestats.app">TeleStats</a>. The app shows you fun and interesting statistics about your Telegram Message. All the anlysis and communication with Telegram happens on device using this library!</p>
+</blockquote>
+
 <p><a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible"></a> <a href="https://leomehlig.github.io/TDLib-iOS"><img src="https://leomehlig.github.io/TDLib-iOS/badge.svg" alt="Documentation"></a> <a href="https://travis-ci.com/leoMehlig/TDLib-iOS"><img src="https://travis-ci.com/leoMehlig/TDLib-iOS.svg?token=tNqSosPiNs9ko83zWqJm&branch=master" alt="Build Status"></a></p>
 
-<p>TDLib-iOS is a wrapper around Telegram&rsquo;s <a href="https://github.com/tdlib/td">tdlib</a>.</p>
+<p>TDLib-iOS is a wrapper around Telegram&rsquo;s <a href="https://github.com/tdlib/td">tdlib</a> to interact with the <a href="https://core.telegram.org/api">Telegram API</a> using <strong>Swift</strong>.</p>
+
+<p>This library depends on <a href="https://github.com/leoMehlig/TDJSON">TDJSON</a>, a build of <a href="https://github.com/tdlib/td">tdlib</a> for iOS, and <a href="https://github.com/mxcl/PromiseKit">PromiseKit</a> for better async programming.</p>
+
+<p><em>TDLib-iOS</em> provides a nativ <strong>Swift</strong> interface, that is generated from the <a href="https://github.com/leoMehlig/TDJSON/blob/master/td_api.tl">td_api.tl</a> using the a <a href="TLParser/parser.rb">custom parser</a>. A full documentation of the generated Swift API can be found <a href="https://leomehlig.github.io/TDLib-iOS/">here</a>.</p>
+<h2 id='installation' class='heading'>Installation</h2>
+<h3 id='a-href-https-github-com-carthage-carthage-carthage-a' class='heading'><a href="https://github.com/Carthage/Carthage">Carthage</a>:</h3>
+
+<p>Just add <code>github &quot;leoMehlig/TDLib-iOS&quot;</code> to your <code>Cartfile</code> and do the usual Carthage stuff.</p>
+<h3 id='other-options' class='heading'>Other options:</h3>
+
+<p>Other options are not supported right now, but PR are more then welcome.</p>
+<h2 id='usage' class='heading'>Usage</h2>
+<h3 id='setup' class='heading'>Setup</h3>
+
+<p>Create the coordinator, this instance will take care of sending request, receiving responses and handling all the inital setup.</p>
+<pre class="highlight plaintext"><code>let coordinator = Coordinator(client: TDJsonClient(), apiId: &lt;Telegram API ID&gt;, apiHash: &lt;Telegram API Hash&gt;)
+</code></pre>
+
+<p>You can get an api key from <a href="https://my.telegram.org/auth">Telegram</a>.</p>
+<h3 id='loging-in' class='heading'>Loging in</h3>
+
+<p>You can subscribe to the <code><a href="Classes/Coordinator.html#/s:5TDLib11CoordinatorC18authorizationStateAA6StreamCyAA12LoadingEventOyAA013AuthorizationD0OGGvp">Coordinator.authorizationState</a></code> for updates about the current <em>Auth State</em> of the API. Here is an example of how to handle the sign in flow:</p>
+<pre class="highlight plaintext"><code> coordinator.authorizationState.subscribe(on: .main) { event in
+            guard let state = event.value else {
+                return
+            }
+            switch state {
+            case .waitTdlibParameters, .waitEncryptionKey:
+                // Ignore these! TDLib-iOS will handle them.
+            case .waitPhoneNumber:
+                // Show sign in screen.
+            case .waitCode(let isRegistered, let tos, let codeInfo):
+                // Show code input screen.
+            case .waitPassword(let passwordHint, _, _):
+                // Show passoword screen (will only happen when the user has setup 2FA).
+            case .ready:
+                // Show main view
+            case .loggingOut, .closing, .closed:
+                break
+            }
+
+</code></pre>
+
+<blockquote>
+<p><strong>Stream</strong></p>
+
+<p>The <code><a href="Classes/Stream.html">Stream</a></code> is a custom implementation of a data stream that calls a subscribing function every time a new value is assigned the the <code><a href="Classes/Stream.html#/s:5TDLib6StreamC7currentxvp">Stream.current</a></code> field.</p>
+
+<p>As a user of the library you never have to create a stream and only use them to get respond to changes in the <code>authorizationState</code> and when downloading images/documents.</p>
+
+<p>You can subscribe to stream by adding yourself as an observer using the <code>Stream.subscribe</code> method. The method take an token (optional) to later unsubscribe, a queue (defaults to DispatchQueue.global()) and a callback that provided you with the new events. There is also a convience methos to avoid reference cycles, called <code>subscribeStrong</code>.</p>
+</blockquote>
+<h3 id='sending-a-request' class='heading'>Sending a request</h3>
+
+<p>To send a request to <code>tdlib</code> use the <code>Coordinator.send</code> method.</p>
+<pre class="highlight plaintext"><code>coordinator.send(GetChats(offsetOrder: offsetOrder, offsetChatId: offsetChatId, limit: limit)).done { ids in
+    print("Got chat ids: \(ids)")
+}
+</code></pre>
+
+<p>The send method takes a <code><a href="Protocols/TDFunction.html">TDFunction</a></code> and returns a <code>Promise</code> of the <code>Result</code>  of the function. Of cause this request can also fail!!!</p>
+
+<blockquote>
+<p>For more infos about <code>Promises</code> see the <a href="https://github.com/mxcl/PromiseKit">PromiseKit documentation</a>.</p>
+</blockquote>
+<h2 id='how-it-works' class='heading'>How it works</h2>
+
+<p>The <code><a href="Classes/Coordinator.html">Coordinator</a></code> wraps an instance of a <code><a href="Classes/TDJsonClient.html">TDJsonClient</a></code> with in turn is just an interface to the <code>c++</code> api of <code>tdlib</code>. <code>TDLib-iOS</code> communicates with <code>tdlib</code> via a <code>json</code> interface, which is very error prone when using directly. To prevent typos and wrong json format the library provides a generated Swift version of all avaiable functions. </p>
 
           </div>
         </section>

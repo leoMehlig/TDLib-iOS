@@ -285,6 +285,9 @@
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Extensions/Optional.html">Optional</a>
               </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/String.html">String</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -1861,9 +1864,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5TDLib8GetChatsV"></a>
-                    <a name="//apple_ref/swift/Struct/GetChats" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5TDLib8GetChatsV">GetChats</a>
+                    <a name="/s:5TDLib2OkV"></a>
+                    <a name="//apple_ref/swift/Struct/Ok" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5TDLib2OkV">Ok</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1871,82 +1874,20 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns an ordered list of chats. Chats are sorted by the pair (order, chat_id) in decreasing order. (For example, to get a list of chats from the beginning, the offset_order should be equal to a biggest signed 64-bit number 9223372036854775807 == 2^63 - 1). -For optimal performance the number of returned chats is chosen by the library.</p>
+                        <p>An object of this type is returned on a successful function call for certain functions</p>
 
-                        <a href="Structs/GetChats.html" class="slightly-smaller">See more</a>
+                        <a href="Structs/Ok.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">GetChats</span> <span class="p">:</span> <span class="kt">Codable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt"><a href="Protocols/TDFunction.html">TDFunction</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Ok</span> <span class="p">:</span> <span class="kt">Codable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt"><a href="Protocols/FunctionResult.html">FunctionResult</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/leoMehlig/TDLib-iOS/tree/master/TDLib/Generated/TDLib.generated.swift#L6491-L6509">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:5TDLib4ChatV"></a>
-                    <a name="//apple_ref/swift/Struct/Chat" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5TDLib4ChatV">Chat</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>A chat. (Can be a private chat, basic group, supergroup, or secret chat)</p>
-
-                        <a href="Structs/Chat.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Chat</span> <span class="p">:</span> <span class="kt">Codable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt"><a href="Protocols/FunctionResult.html">FunctionResult</a></span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/leoMehlig/TDLib-iOS/tree/master/TDLib/Generated/TDLib.generated.swift#L1757-L1850">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:5TDLib14GetChatHistoryV"></a>
-                    <a name="//apple_ref/swift/Struct/GetChatHistory" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5TDLib14GetChatHistoryV">GetChatHistory</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Returns messages in a chat. The messages are returned in a reverse chronological order (i.e., in order of decreasing message_id). -For optimal performance the number of returned messages is chosen by the library. This is an offline request if only_local is true</p>
-
-                        <a href="Structs/GetChatHistory.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">GetChatHistory</span> <span class="p">:</span> <span class="kt">Codable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt"><a href="Protocols/TDFunction.html">TDFunction</a></span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/leoMehlig/TDLib-iOS/tree/master/TDLib/Generated/TDLib.generated.swift#L6686-L6712">Show on GitHub</a>
+                        <a href="https://github.com/leoMehlig/TDLib-iOS/tree/master/TDLib/Generated/TDLib.generated.swift#L21-L25">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1978,99 +1919,6 @@
                       </div>
                       <div class="slightly-smaller">
                         <a href="https://github.com/leoMehlig/TDLib-iOS/tree/master/TDLib/Generated/TDLib.generated.swift#L28-L93">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:5TDLib4UserV"></a>
-                    <a name="//apple_ref/swift/Struct/User" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5TDLib4UserV">User</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Represents a user</p>
-
-                        <a href="Structs/User.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">User</span> <span class="p">:</span> <span class="kt">Codable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt"><a href="Protocols/FunctionResult.html">FunctionResult</a></span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/leoMehlig/TDLib-iOS/tree/master/TDLib/Generated/TDLib.generated.swift#L982-L1047">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:5TDLib9VoiceNoteV"></a>
-                    <a name="//apple_ref/swift/Struct/VoiceNote" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5TDLib9VoiceNoteV">VoiceNote</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Describes a voice note. The voice note must be encoded with the Opus codec, and stored inside an OGG container. Voice notes can have only a single audio channel</p>
-
-                        <a href="Structs/VoiceNote.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">VoiceNote</span> <span class="p">:</span> <span class="kt">Codable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt"><a href="Protocols/FunctionResult.html">FunctionResult</a></span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/leoMehlig/TDLib-iOS/tree/master/TDLib/Generated/TDLib.generated.swift#L723-L744">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:5TDLib2OkV"></a>
-                    <a name="//apple_ref/swift/Struct/Ok" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5TDLib2OkV">Ok</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>An object of this type is returned on a successful function call for certain functions</p>
-
-                        <a href="Structs/Ok.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Ok</span> <span class="p">:</span> <span class="kt">Codable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt"><a href="Protocols/FunctionResult.html">FunctionResult</a></span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/leoMehlig/TDLib-iOS/tree/master/TDLib/Generated/TDLib.generated.swift#L21-L25">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2760,6 +2608,37 @@
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:5TDLib9VoiceNoteV"></a>
+                    <a name="//apple_ref/swift/Struct/VoiceNote" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5TDLib9VoiceNoteV">VoiceNote</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Describes a voice note. The voice note must be encoded with the Opus codec, and stored inside an OGG container. Voice notes can have only a single audio channel</p>
+
+                        <a href="Structs/VoiceNote.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">VoiceNote</span> <span class="p">:</span> <span class="kt">Codable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt"><a href="Protocols/FunctionResult.html">FunctionResult</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/leoMehlig/TDLib-iOS/tree/master/TDLib/Generated/TDLib.generated.swift#L723-L744">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:5TDLib7ContactV"></a>
                     <a name="//apple_ref/swift/Struct/Contact" class="dashAnchor"></a>
                     <a class="token" href="#/s:5TDLib7ContactV">Contact</a>
@@ -3032,6 +2911,37 @@
                       </div>
                       <div class="slightly-smaller">
                         <a href="https://github.com/leoMehlig/TDLib-iOS/tree/master/TDLib/Generated/TDLib.generated.swift#L966-L979">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5TDLib4UserV"></a>
+                    <a name="//apple_ref/swift/Struct/User" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5TDLib4UserV">User</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents a user</p>
+
+                        <a href="Structs/User.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">User</span> <span class="p">:</span> <span class="kt">Codable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt"><a href="Protocols/FunctionResult.html">FunctionResult</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/leoMehlig/TDLib-iOS/tree/master/TDLib/Generated/TDLib.generated.swift#L982-L1047">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3590,6 +3500,37 @@
                       </div>
                       <div class="slightly-smaller">
                         <a href="https://github.com/leoMehlig/TDLib-iOS/tree/master/TDLib/Generated/TDLib.generated.swift#L1723-L1736">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5TDLib4ChatV"></a>
+                    <a name="//apple_ref/swift/Struct/Chat" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5TDLib4ChatV">Chat</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A chat. (Can be a private chat, basic group, supergroup, or secret chat)</p>
+
+                        <a href="Structs/Chat.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Chat</span> <span class="p">:</span> <span class="kt">Codable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt"><a href="Protocols/FunctionResult.html">FunctionResult</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/leoMehlig/TDLib-iOS/tree/master/TDLib/Generated/TDLib.generated.swift#L1757-L1850">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8092,6 +8033,37 @@
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:5TDLib8GetChatsV"></a>
+                    <a name="//apple_ref/swift/Struct/GetChats" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5TDLib8GetChatsV">GetChats</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an ordered list of chats. Chats are sorted by the pair (order, chat_id) in decreasing order. (For example, to get a list of chats from the beginning, the offset_order should be equal to a biggest signed 64-bit number 9223372036854775807 == 2^63 - 1). -For optimal performance the number of returned chats is chosen by the library.</p>
+
+                        <a href="Structs/GetChats.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">GetChats</span> <span class="p">:</span> <span class="kt">Codable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt"><a href="Protocols/TDFunction.html">TDFunction</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/leoMehlig/TDLib-iOS/tree/master/TDLib/Generated/TDLib.generated.swift#L6491-L6509">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:5TDLib16SearchPublicChatV"></a>
                     <a name="//apple_ref/swift/Struct/SearchPublicChat" class="dashAnchor"></a>
                     <a class="token" href="#/s:5TDLib16SearchPublicChatV">SearchPublicChat</a>
@@ -8457,6 +8429,37 @@
                       </div>
                       <div class="slightly-smaller">
                         <a href="https://github.com/leoMehlig/TDLib-iOS/tree/master/TDLib/Generated/TDLib.generated.swift#L6665-L6683">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5TDLib14GetChatHistoryV"></a>
+                    <a name="//apple_ref/swift/Struct/GetChatHistory" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5TDLib14GetChatHistoryV">GetChatHistory</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns messages in a chat. The messages are returned in a reverse chronological order (i.e., in order of decreasing message_id). -For optimal performance the number of returned messages is chosen by the library. This is an offline request if only_local is true</p>
+
+                        <a href="Structs/GetChatHistory.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">GetChatHistory</span> <span class="p">:</span> <span class="kt">Codable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt"><a href="Protocols/TDFunction.html">TDFunction</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/leoMehlig/TDLib-iOS/tree/master/TDLib/Generated/TDLib.generated.swift#L6686-L6712">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

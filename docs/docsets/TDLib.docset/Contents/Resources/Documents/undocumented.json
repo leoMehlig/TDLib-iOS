@@ -1,2882 +1,2882 @@
 {
   "warnings": [
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/AutoLockStream.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/AutoLockStream.swift",
       "line": 1,
       "symbol": "MergableEvent",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/AutoLockStream.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/AutoLockStream.swift",
       "line": 2,
       "symbol": "MergableEvent.merge(with:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/AutoLockStream.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/AutoLockStream.swift",
       "line": 5,
       "symbol": "AutoLockStream",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/AutoLockStream.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/AutoLockStream.swift",
       "line": 8,
       "symbol": "AutoLockStream.unlock(after:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/AutoLockStream.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/AutoLockStream.swift",
       "line": 17,
       "symbol": "AutoLockStream.notified",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Coordinator.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Coordinator.swift",
       "line": 25,
       "symbol": "Coordinator.floodStream",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Coordinator.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Coordinator.swift",
       "line": 85,
       "symbol": "Coordinator.recreateClient(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Error.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Error.swift",
       "line": 4,
       "symbol": "Error.localizedDescriptionIdentifier",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Event.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Event.swift",
       "line": 1,
       "symbol": "Event",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Event.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Event.swift",
       "line": 2,
       "symbol": "Event.inital",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Event.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Event.swift",
       "line": 5,
       "symbol": "PromiseEvent",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Event.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Event.swift",
       "line": 6,
       "symbol": "PromiseEvent.isPending",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Event.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Event.swift",
       "line": 10,
       "symbol": "Optional.inital",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Event.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Event.swift",
       "line": 14,
       "symbol": "Array.inital",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Event.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Event.swift",
       "line": 17,
       "symbol": "LoadingFailableEvent",
       "symbol_kind": "source.lang.swift.decl.enum",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Event.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Event.swift",
       "line": 18,
       "symbol": "LoadingFailableEvent.pending",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Event.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Event.swift",
       "line": 19,
       "symbol": "LoadingFailableEvent.value(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Event.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Event.swift",
       "line": 20,
       "symbol": "LoadingFailableEvent.error(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Event.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Event.swift",
       "line": 21,
       "symbol": "LoadingFailableEvent.inital",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Event.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Event.swift",
       "line": 22,
       "symbol": "LoadingFailableEvent.isPending",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Event.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Event.swift",
       "line": 32,
       "symbol": "LoadingEvent",
       "symbol_kind": "source.lang.swift.decl.enum",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Event.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Event.swift",
       "line": 33,
       "symbol": "LoadingEvent.inital",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Event.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Event.swift",
       "line": 35,
       "symbol": "LoadingEvent.pending",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Event.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Event.swift",
       "line": 36,
       "symbol": "LoadingEvent.value(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Event.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Event.swift",
       "line": 38,
       "symbol": "LoadingEvent.value",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Event.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Event.swift",
       "line": 48,
       "symbol": "DownloadEvent",
       "symbol_kind": "source.lang.swift.decl.enum",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Event.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Event.swift",
       "line": 49,
       "symbol": "DownloadEvent.isPending",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Event.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Event.swift",
       "line": 58,
       "symbol": "DownloadEvent.inital",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Event.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Event.swift",
       "line": 60,
       "symbol": "DownloadEvent.loading(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Event.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Event.swift",
       "line": 61,
       "symbol": "DownloadEvent.completed(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Event.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Event.swift",
       "line": 62,
       "symbol": "DownloadEvent.failled(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/FloodStream.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/FloodStream.swift",
       "line": 1,
       "symbol": "FloodStream",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Function/Chat.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Chat.swift",
       "line": 2,
       "symbol": "GetChats.create(offsetOrder:offsetChatId:limit:)",
       "symbol_kind": "source.lang.swift.decl.function.method.static",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Function/Chat.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Chat.swift",
       "line": 8,
       "symbol": "Chat.set(clientData:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Function/Function.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Function.swift",
       "line": null,
       "symbol": "FunctionResult",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Function/Function.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Function.swift",
       "line": null,
       "symbol": "TDFunction",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Function/Function.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Function.swift",
       "line": 1,
       "symbol": "TDFunction",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Function/Function.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Function.swift",
       "line": 2,
       "symbol": "TDFunction.Result",
       "symbol_kind": "source.lang.swift.decl.associatedtype",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Function/Function.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Function.swift",
       "line": 3,
       "symbol": "TDFunction.type",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Function/Function.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Function.swift",
       "line": 6,
       "symbol": "FunctionResult",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Function/Function.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Function.swift",
       "line": 7,
       "symbol": "FunctionResult.type",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Function/Function.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Function.swift",
       "line": 11,
       "symbol": "FunctionResult.type",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Function/Function.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Function.swift",
       "line": 16,
       "symbol": "TDFunction.type",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Function/Function.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Function.swift",
       "line": 20,
       "symbol": "TDEnum",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Function/Function.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Function.swift",
       "line": 21,
       "symbol": "EquatableEnum",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Function/Message.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Message.swift",
       "line": 2,
       "symbol": "GetChatHistory.firstMessage(in:fromMessageId:)",
       "symbol_kind": "source.lang.swift.decl.function.method.static",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Function/Message.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Message.swift",
       "line": 19,
       "symbol": "MessageContent.isPhoto",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Function/TDInt64.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/TDInt64.swift",
       "line": 1,
       "symbol": "TDInt64",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Function/TdlibParameters.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/TdlibParameters.swift",
       "line": 2,
       "symbol": "TdlibParameters.create(useTestDc:databaseDirectory:filesDirectory:useFileDatabase:useChatInfoDatabase:useMessageDatabase:useSecretChats:apiId:apiHash:systemLanguageCode:deviceModel:systemVersion:applicationVersion:enableStorageOptimizer:ignoreFileNames:)",
       "symbol_kind": "source.lang.swift.decl.function.method.static",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Function/User.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/User.swift",
       "line": 2,
       "symbol": "User.displayName",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Function/VoiceNote.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/VoiceNote.swift",
       "line": 22,
       "symbol": "VoiceNote.waveformSamples",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": null,
       "symbol": "MessageContent",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 1,
       "symbol": "Int53",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 2,
       "symbol": "Bytes",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 3247,
       "symbol": "MessageContent",
       "symbol_kind": "source.lang.swift.decl.enum",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 3458,
       "symbol": "InputMessageContent",
       "symbol_kind": "source.lang.swift.decl.enum",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 4262,
       "symbol": "ChatEventAction",
       "symbol_kind": "source.lang.swift.decl.enum",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 5959,
       "symbol": "GetAuthorizationState.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 5967,
       "symbol": "SetTdlibParameters.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 5980,
       "symbol": "CheckDatabaseEncryptionKey.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 5993,
       "symbol": "SetAuthenticationPhoneNumber.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6014,
       "symbol": "ResendAuthenticationCode.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6022,
       "symbol": "CheckAuthenticationCode.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6043,
       "symbol": "CheckAuthenticationPassword.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6056,
       "symbol": "RequestAuthenticationPasswordRecovery.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6064,
       "symbol": "RecoverAuthenticationPassword.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6077,
       "symbol": "CheckAuthenticationBotToken.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6090,
       "symbol": "LogOut.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6098,
       "symbol": "Close.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6106,
       "symbol": "Destroy.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6114,
       "symbol": "GetCurrentState.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6122,
       "symbol": "SetDatabaseEncryptionKey.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6135,
       "symbol": "GetPasswordState.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6143,
       "symbol": "SetPassword.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6172,
       "symbol": "GetRecoveryEmailAddress.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6185,
       "symbol": "SetRecoveryEmailAddress.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6202,
       "symbol": "CheckRecoveryEmailAddressCode.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6215,
       "symbol": "ResendRecoveryEmailAddressCode.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6223,
       "symbol": "RequestPasswordRecovery.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6231,
       "symbol": "RecoverPassword.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6244,
       "symbol": "CreateTemporaryPassword.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6261,
       "symbol": "GetTemporaryPasswordState.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6269,
       "symbol": "GetMe.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6277,
       "symbol": "GetUser.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6290,
       "symbol": "GetUserFullInfo.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6303,
       "symbol": "GetBasicGroup.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6316,
       "symbol": "GetBasicGroupFullInfo.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6329,
       "symbol": "GetSupergroup.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6342,
       "symbol": "GetSupergroupFullInfo.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6355,
       "symbol": "GetSecretChat.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6368,
       "symbol": "GetChat.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6381,
       "symbol": "GetMessage.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6398,
       "symbol": "GetMessageLocally.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6415,
       "symbol": "GetRepliedMessage.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6432,
       "symbol": "GetChatPinnedMessage.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6445,
       "symbol": "GetMessages.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6462,
       "symbol": "GetFile.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6475,
       "symbol": "GetRemoteFile.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6492,
       "symbol": "GetChats.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6513,
       "symbol": "SearchPublicChat.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6526,
       "symbol": "SearchPublicChats.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6539,
       "symbol": "SearchChats.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6556,
       "symbol": "SearchChatsOnServer.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6573,
       "symbol": "GetTopChats.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6590,
       "symbol": "RemoveTopChat.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6607,
       "symbol": "AddRecentlyFoundChat.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6620,
       "symbol": "RemoveRecentlyFoundChat.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6633,
       "symbol": "ClearRecentlyFoundChats.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6641,
       "symbol": "CheckChatUsername.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6658,
       "symbol": "GetCreatedPublicChats.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6666,
       "symbol": "GetGroupsInCommon.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6687,
       "symbol": "GetChatHistory.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6716,
       "symbol": "DeleteChatHistory.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6737,
       "symbol": "SearchChatMessages.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6774,
       "symbol": "SearchMessages.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6803,
       "symbol": "SearchSecretMessages.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6832,
       "symbol": "SearchCallMessages.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6853,
       "symbol": "SearchChatRecentLocationMessages.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6870,
       "symbol": "GetActiveLiveLocationMessages.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6878,
       "symbol": "GetChatMessageByDate.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6895,
       "symbol": "GetChatMessageCount.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6916,
       "symbol": "RemoveNotification.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6933,
       "symbol": "RemoveNotificationGroup.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6950,
       "symbol": "GetPublicMessageLink.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6971,
       "symbol": "GetMessageLink.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 6988,
       "symbol": "SendMessage.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7021,
       "symbol": "SendMessageAlbum.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7050,
       "symbol": "SendBotStartMessage.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7071,
       "symbol": "SendInlineQueryResultMessage.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7108,
       "symbol": "ForwardMessages.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7141,
       "symbol": "SendChatSetTtlMessage.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7158,
       "symbol": "SendChatScreenshotTakenNotification.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7171,
       "symbol": "AddLocalMessage.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7200,
       "symbol": "DeleteMessages.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7221,
       "symbol": "DeleteChatMessagesFromUser.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7238,
       "symbol": "EditMessageText.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7263,
       "symbol": "EditMessageLiveLocation.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7288,
       "symbol": "EditMessageMedia.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7313,
       "symbol": "EditMessageCaption.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7338,
       "symbol": "EditMessageReplyMarkup.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7359,
       "symbol": "EditInlineMessageText.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7380,
       "symbol": "EditInlineMessageLiveLocation.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7401,
       "symbol": "EditInlineMessageMedia.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7422,
       "symbol": "EditInlineMessageCaption.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7443,
       "symbol": "EditInlineMessageReplyMarkup.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7460,
       "symbol": "GetTextEntities.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7473,
       "symbol": "ParseTextEntities.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7490,
       "symbol": "GetFileMimeType.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7503,
       "symbol": "GetFileExtension.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7516,
       "symbol": "CleanFileName.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7529,
       "symbol": "GetLanguagePackString.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7554,
       "symbol": "GetJsonValue.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7567,
       "symbol": "GetJsonString.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7580,
       "symbol": "SetPollAnswer.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7601,
       "symbol": "StopPoll.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7622,
       "symbol": "GetInlineQueryResults.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7651,
       "symbol": "AnswerInlineQuery.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7688,
       "symbol": "GetCallbackQueryAnswer.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7709,
       "symbol": "AnswerCallbackQuery.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7738,
       "symbol": "AnswerShippingQuery.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7759,
       "symbol": "AnswerPreCheckoutQuery.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7776,
       "symbol": "SetGameScore.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7809,
       "symbol": "SetInlineGameScore.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7838,
       "symbol": "GetGameHighScores.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7859,
       "symbol": "GetInlineGameHighScores.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7876,
       "symbol": "DeleteChatReplyMarkup.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7893,
       "symbol": "SendChatAction.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7910,
       "symbol": "OpenChat.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7923,
       "symbol": "CloseChat.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7936,
       "symbol": "ViewMessages.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7957,
       "symbol": "OpenMessageContent.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7974,
       "symbol": "ReadAllChatMentions.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 7987,
       "symbol": "CreatePrivateChat.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8004,
       "symbol": "CreateBasicGroupChat.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8021,
       "symbol": "CreateSupergroupChat.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8038,
       "symbol": "CreateSecretChat.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8051,
       "symbol": "CreateNewBasicGroupChat.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8068,
       "symbol": "CreateNewSupergroupChat.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8089,
       "symbol": "CreateNewSecretChat.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8102,
       "symbol": "UpgradeBasicGroupChatToSupergroupChat.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8115,
       "symbol": "SetChatTitle.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8132,
       "symbol": "SetChatPhoto.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8149,
       "symbol": "SetChatDraftMessage.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8166,
       "symbol": "SetChatNotificationSettings.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8183,
       "symbol": "ToggleChatIsPinned.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8200,
       "symbol": "ToggleChatIsMarkedAsUnread.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8217,
       "symbol": "ToggleChatDefaultDisableNotification.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8234,
       "symbol": "SetChatClientData.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8251,
       "symbol": "PinChatMessage.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8272,
       "symbol": "UnpinChatMessage.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8285,
       "symbol": "JoinChat.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8298,
       "symbol": "LeaveChat.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8311,
       "symbol": "AddChatMember.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8332,
       "symbol": "AddChatMembers.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8349,
       "symbol": "SetChatMemberStatus.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8370,
       "symbol": "GetChatMember.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8387,
       "symbol": "SearchChatMembers.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8412,
       "symbol": "GetChatAdministrators.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8425,
       "symbol": "ClearAllDraftMessages.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8438,
       "symbol": "GetChatNotificationSettingsExceptions.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8455,
       "symbol": "GetScopeNotificationSettings.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8468,
       "symbol": "SetScopeNotificationSettings.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8485,
       "symbol": "ResetAllNotificationSettings.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8493,
       "symbol": "SetPinnedChats.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8506,
       "symbol": "DownloadFile.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8535,
       "symbol": "GetFileDownloadedPrefixSize.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8552,
       "symbol": "CancelDownloadFile.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8569,
       "symbol": "UploadFile.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8590,
       "symbol": "CancelUploadFile.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8603,
       "symbol": "WriteGeneratedFilePart.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8624,
       "symbol": "SetFileGenerationProgress.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8645,
       "symbol": "FinishFileGeneration.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8662,
       "symbol": "ReadFilePart.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8683,
       "symbol": "DeleteFile.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8696,
       "symbol": "GenerateChatInviteLink.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8709,
       "symbol": "CheckChatInviteLink.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8722,
       "symbol": "JoinChatByInviteLink.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8735,
       "symbol": "CreateCall.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8752,
       "symbol": "AcceptCall.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8769,
       "symbol": "DiscardCall.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8794,
       "symbol": "SendCallRating.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8815,
       "symbol": "SendCallDebugInformation.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8832,
       "symbol": "BlockUser.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8845,
       "symbol": "UnblockUser.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8858,
       "symbol": "GetBlockedUsers.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8875,
       "symbol": "ImportContacts.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8888,
       "symbol": "GetContacts.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8896,
       "symbol": "SearchContacts.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8913,
       "symbol": "RemoveContacts.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8926,
       "symbol": "GetImportedContactCount.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8934,
       "symbol": "ChangeImportedContacts.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8947,
       "symbol": "ClearImportedContacts.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8955,
       "symbol": "GetUserProfilePhotos.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8976,
       "symbol": "GetStickers.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 8993,
       "symbol": "SearchStickers.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9010,
       "symbol": "GetInstalledStickerSets.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9023,
       "symbol": "GetArchivedStickerSets.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9044,
       "symbol": "GetTrendingStickerSets.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9052,
       "symbol": "GetAttachedStickerSets.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9065,
       "symbol": "GetStickerSet.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9078,
       "symbol": "SearchStickerSet.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9091,
       "symbol": "SearchInstalledStickerSets.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9112,
       "symbol": "SearchStickerSets.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9125,
       "symbol": "ChangeStickerSet.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9146,
       "symbol": "ViewTrendingStickerSets.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9159,
       "symbol": "ReorderInstalledStickerSets.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9176,
       "symbol": "GetRecentStickers.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9189,
       "symbol": "AddRecentSticker.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9206,
       "symbol": "RemoveRecentSticker.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9223,
       "symbol": "ClearRecentStickers.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9236,
       "symbol": "GetFavoriteStickers.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9244,
       "symbol": "AddFavoriteSticker.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9257,
       "symbol": "RemoveFavoriteSticker.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9270,
       "symbol": "GetStickerEmojis.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9283,
       "symbol": "GetSavedAnimations.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9291,
       "symbol": "AddSavedAnimation.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9304,
       "symbol": "RemoveSavedAnimation.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9317,
       "symbol": "GetRecentInlineBots.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9325,
       "symbol": "SearchHashtags.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9342,
       "symbol": "RemoveRecentHashtag.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9355,
       "symbol": "GetWebPagePreview.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9368,
       "symbol": "GetWebPageInstantView.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9385,
       "symbol": "SetProfilePhoto.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9398,
       "symbol": "DeleteProfilePhoto.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9411,
       "symbol": "SetName.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9428,
       "symbol": "SetBio.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9441,
       "symbol": "SetUsername.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9454,
       "symbol": "ChangePhoneNumber.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9475,
       "symbol": "ResendChangePhoneNumberCode.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9483,
       "symbol": "CheckChangePhoneNumberCode.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9496,
       "symbol": "GetActiveSessions.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9504,
       "symbol": "TerminateSession.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9517,
       "symbol": "TerminateAllOtherSessions.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9525,
       "symbol": "GetConnectedWebsites.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9533,
       "symbol": "DisconnectWebsite.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9546,
       "symbol": "DisconnectAllWebsites.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9554,
       "symbol": "ToggleBasicGroupAdministrators.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9571,
       "symbol": "SetSupergroupUsername.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9588,
       "symbol": "SetSupergroupStickerSet.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9605,
       "symbol": "ToggleSupergroupInvites.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9622,
       "symbol": "ToggleSupergroupSignMessages.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9639,
       "symbol": "ToggleSupergroupIsAllHistoryAvailable.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9656,
       "symbol": "SetSupergroupDescription.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9673,
       "symbol": "ReportSupergroupSpam.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9694,
       "symbol": "GetSupergroupMembers.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9719,
       "symbol": "DeleteSupergroup.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9732,
       "symbol": "CloseSecretChat.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9745,
       "symbol": "GetChatEventLog.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9778,
       "symbol": "GetPaymentForm.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9795,
       "symbol": "ValidateOrderInfo.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9820,
       "symbol": "SendPaymentForm.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9849,
       "symbol": "GetPaymentReceipt.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9866,
       "symbol": "GetSavedOrderInfo.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9874,
       "symbol": "DeleteSavedOrderInfo.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9882,
       "symbol": "DeleteSavedCredentials.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9890,
       "symbol": "GetSupportUser.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9898,
       "symbol": "GetWallpapers.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9906,
       "symbol": "GetLocalizationTargetInfo.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9919,
       "symbol": "GetLanguagePackInfo.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9932,
       "symbol": "GetLanguagePackStrings.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9949,
       "symbol": "SynchronizeLanguagePack.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9962,
       "symbol": "AddCustomServerLanguagePack.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9975,
       "symbol": "SetCustomLanguagePack.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 9992,
       "symbol": "EditCustomLanguagePackInfo.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10005,
       "symbol": "SetCustomLanguagePackString.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10022,
       "symbol": "DeleteLanguagePack.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10035,
       "symbol": "RegisterDevice.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10052,
       "symbol": "ProcessPushNotification.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10065,
       "symbol": "GetPushReceiverId.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10078,
       "symbol": "GetRecentlyVisitedTMeUrls.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10091,
       "symbol": "SetUserPrivacySettingRules.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10108,
       "symbol": "GetUserPrivacySettingRules.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10121,
       "symbol": "GetOption.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10134,
       "symbol": "SetOption.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10151,
       "symbol": "SetAccountTtl.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10164,
       "symbol": "GetAccountTtl.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10172,
       "symbol": "DeleteAccount.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10185,
       "symbol": "GetChatReportSpamState.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10198,
       "symbol": "ChangeChatReportSpamState.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10215,
       "symbol": "ReportChat.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10236,
       "symbol": "GetChatStatisticsUrl.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10257,
       "symbol": "GetStorageStatistics.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10270,
       "symbol": "GetStorageStatisticsFast.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10278,
       "symbol": "GetDatabaseStatistics.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10286,
       "symbol": "OptimizeStorage.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10327,
       "symbol": "SetNetworkType.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10340,
       "symbol": "GetNetworkStatistics.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10353,
       "symbol": "AddNetworkStatistics.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10366,
       "symbol": "ResetNetworkStatistics.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10374,
       "symbol": "GetPassportElement.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10391,
       "symbol": "GetAllPassportElements.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10404,
       "symbol": "SetPassportElement.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10421,
       "symbol": "DeletePassportElement.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10434,
       "symbol": "SetPassportElementErrors.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10451,
       "symbol": "GetPreferredCountryLanguage.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10464,
       "symbol": "SendPhoneNumberVerificationCode.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10485,
       "symbol": "ResendPhoneNumberVerificationCode.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10493,
       "symbol": "CheckPhoneNumberVerificationCode.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10506,
       "symbol": "SendEmailAddressVerificationCode.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10519,
       "symbol": "ResendEmailAddressVerificationCode.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10527,
       "symbol": "CheckEmailAddressVerificationCode.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10540,
       "symbol": "GetPassportAuthorizationForm.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10565,
       "symbol": "GetPassportAuthorizationFormAvailableElements.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10582,
       "symbol": "SendPassportAuthorizationForm.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10599,
       "symbol": "SendPhoneNumberConfirmationCode.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10624,
       "symbol": "ResendPhoneNumberConfirmationCode.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10632,
       "symbol": "CheckPhoneNumberConfirmationCode.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10645,
       "symbol": "SetBotUpdatesStatus.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10662,
       "symbol": "UploadStickerFile.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10679,
       "symbol": "CreateNewStickerSet.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10708,
       "symbol": "AddStickerToSet.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10729,
       "symbol": "SetStickerPositionInSet.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10746,
       "symbol": "RemoveStickerFromSet.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10759,
       "symbol": "GetMapThumbnailFile.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10792,
       "symbol": "AcceptTermsOfService.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10805,
       "symbol": "SendCustomRequest.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10822,
       "symbol": "AnswerCustomQuery.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10839,
       "symbol": "SetAlarm.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10852,
       "symbol": "GetCountryCode.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10860,
       "symbol": "GetInviteText.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10868,
       "symbol": "GetDeepLinkInfo.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10881,
       "symbol": "GetApplicationConfig.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10889,
       "symbol": "SaveApplicationLogEvent.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10910,
       "symbol": "AddProxy.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10935,
       "symbol": "EditProxy.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10964,
       "symbol": "EnableProxy.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10977,
       "symbol": "DisableProxy.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10985,
       "symbol": "RemoveProxy.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 10998,
       "symbol": "GetProxies.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 11006,
       "symbol": "GetProxyLink.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 11019,
       "symbol": "PingProxy.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 11032,
       "symbol": "SetLogStream.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 11045,
       "symbol": "GetLogStream.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 11053,
       "symbol": "SetLogVerbosityLevel.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 11066,
       "symbol": "GetLogVerbosityLevel.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 11074,
       "symbol": "GetLogTags.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 11082,
       "symbol": "SetLogTagVerbosityLevel.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 11099,
       "symbol": "GetLogTagVerbosityLevel.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 11112,
       "symbol": "AddLogMessage.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 11129,
       "symbol": "TestCallEmpty.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 11137,
       "symbol": "TestCallString.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 11150,
       "symbol": "TestCallBytes.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 11163,
       "symbol": "TestCallVectorInt.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 11176,
       "symbol": "TestCallVectorIntObject.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 11189,
       "symbol": "TestCallVectorString.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 11202,
       "symbol": "TestCallVectorStringObject.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 11215,
       "symbol": "TestSquareInt.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 11228,
       "symbol": "TestNetwork.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 11236,
       "symbol": "TestGetDifference.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 11244,
       "symbol": "TestUseUpdate.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
       "line": 11252,
       "symbol": "TestUseError.Result",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Stream.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Stream.swift",
       "line": null,
       "symbol": "Stream",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Stream.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Stream.swift",
       "line": 1,
       "symbol": "Stream",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Stream.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Stream.swift",
       "line": 2,
       "symbol": "Stream.Subscriber",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Stream.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Stream.swift",
       "line": 18,
       "symbol": "Stream.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Stream.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Stream.swift",
       "line": 19,
       "symbol": "Stream.current",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Stream.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Stream.swift",
       "line": 35,
       "symbol": "Stream.subscribe(with:on:with:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Stream.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Stream.swift",
       "line": 44,
       "symbol": "Stream.subscribeStrong(_:with:on:with:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Stream.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Stream.swift",
       "line": 55,
       "symbol": "Stream.unsubscribe(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/Stream.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Stream.swift",
       "line": 63,
       "symbol": "Stream.unsubscribeAll()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/StreamPromise.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/StreamPromise.swift",
       "line": 4,
       "symbol": "Stream.when(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/TDJsonClient.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/TDJsonClient.swift",
       "line": 10,
       "symbol": "TDJsonClient.LogLevel.all",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/TDJsonClient.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/TDJsonClient.swift",
       "line": 10,
       "symbol": "TDJsonClient.LogLevel.debug",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/TDJsonClient.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/TDJsonClient.swift",
       "line": 10,
       "symbol": "TDJsonClient.LogLevel.errors",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/TDJsonClient.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/TDJsonClient.swift",
       "line": 10,
       "symbol": "TDJsonClient.LogLevel.fatalErrors",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/TDJsonClient.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/TDJsonClient.swift",
       "line": 10,
       "symbol": "TDJsonClient.LogLevel.info",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/TDJsonClient.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/TDJsonClient.swift",
       "line": 10,
       "symbol": "TDJsonClient.LogLevel.verbose",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/TDJsonClient.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/TDJsonClient.swift",
       "line": 10,
       "symbol": "TDJsonClient.LogLevel.warnings",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/TDJsonClient.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/TDJsonClient.swift",
       "line": 25,
       "symbol": "TDJsonClient.isRunning",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/TDJsonClient.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/TDJsonClient.swift",
       "line": 34,
       "symbol": "TDJsonClient.logPath",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/leo/Developer/Telegram/TDLib-iOS/TDLib/TDJsonClient.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/TDJsonClient.swift",
       "line": 97,
       "symbol": "TDJsonClient.deinit",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     }
   ],
-  "source_directory": "/Users/leo/Developer/Telegram/TDLib-iOS"
+  "source_directory": "/Users/travis/build/leoMehlig/TDLib-iOS"
 }

@@ -50,13 +50,6 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Error.swift",
-      "line": 4,
-      "symbol": "Error.localizedDescriptionIdentifier",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
       "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Event.swift",
       "line": 1,
       "symbol": "Event",
@@ -225,143 +218,87 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Chat.swift",
-      "line": 2,
-      "symbol": "GetChats.create(offsetOrder:offsetChatId:limit:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.static",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Chat.swift",
-      "line": 8,
-      "symbol": "Chat.set(clientData:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Function.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function.swift",
       "line": null,
       "symbol": "FunctionResult",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Function.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function.swift",
       "line": null,
       "symbol": "TDFunction",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Function.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function.swift",
       "line": 1,
       "symbol": "TDFunction",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Function.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function.swift",
       "line": 2,
       "symbol": "TDFunction.Result",
       "symbol_kind": "source.lang.swift.decl.associatedtype",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Function.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function.swift",
       "line": 3,
       "symbol": "TDFunction.type",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Function.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function.swift",
       "line": 6,
       "symbol": "FunctionResult",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Function.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function.swift",
       "line": 7,
       "symbol": "FunctionResult.type",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Function.swift",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function.swift",
       "line": 11,
       "symbol": "FunctionResult.type",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Function.swift",
-      "line": 16,
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function.swift",
+      "line": 17,
       "symbol": "TDFunction.type",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Function.swift",
-      "line": 20,
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function.swift",
+      "line": 21,
       "symbol": "TDEnum",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Function.swift",
-      "line": 21,
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function.swift",
+      "line": 22,
       "symbol": "EquatableEnum",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Message.swift",
-      "line": 2,
-      "symbol": "GetChatHistory.firstMessage(in:fromMessageId:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.static",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/Message.swift",
-      "line": 19,
-      "symbol": "MessageContent.isPhoto",
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function.swift",
+      "line": 25,
+      "symbol": "String.uncapitalized",
       "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/TDInt64.swift",
-      "line": 1,
-      "symbol": "TDInt64",
-      "symbol_kind": "source.lang.swift.decl.typealias",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/TdlibParameters.swift",
-      "line": 2,
-      "symbol": "TdlibParameters.create(useTestDc:databaseDirectory:filesDirectory:useFileDatabase:useChatInfoDatabase:useMessageDatabase:useSecretChats:apiId:apiHash:systemLanguageCode:deviceModel:systemVersion:applicationVersion:enableStorageOptimizer:ignoreFileNames:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.static",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/User.swift",
-      "line": 2,
-      "symbol": "User.displayName",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Function/VoiceNote.swift",
-      "line": 22,
-      "symbol": "VoiceNote.waveformSamples",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/Generated/TDLib.generated.swift",
-      "line": null,
-      "symbol": "MessageContent",
-      "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
@@ -2808,6 +2745,13 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/TDInt64.swift",
+      "line": 1,
+      "symbol": "TDInt64",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/TDJsonClient.swift",
       "line": 10,
       "symbol": "TDJsonClient.LogLevel.all",
@@ -2875,6 +2819,20 @@
       "line": 97,
       "symbol": "TDJsonClient.deinit",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/TdlibParameters.swift",
+      "line": 2,
+      "symbol": "TdlibParameters.create(useTestDc:databaseDirectory:filesDirectory:useFileDatabase:useChatInfoDatabase:useMessageDatabase:useSecretChats:apiId:apiHash:systemLanguageCode:deviceModel:systemVersion:applicationVersion:enableStorageOptimizer:ignoreFileNames:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travis/build/leoMehlig/TDLib-iOS/TDLib/VoiceNote.swift",
+      "line": 22,
+      "symbol": "VoiceNote.waveformSamples",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     }
   ],
