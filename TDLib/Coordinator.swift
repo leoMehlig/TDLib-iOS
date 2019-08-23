@@ -22,6 +22,10 @@ public class Coordinator {
     /// The stream of the current connection state.
     public let connectionState = Stream<LoadingEvent<ConnectionState>>()
 
+    /// The stream of all updates.
+    /// - Note: TDLib handles `authorizationState`, `connectionState` and `file` updates.
+    public let updateStream = Stream<Update?>()
+
     public let floodStream: FloodStream
 
     private let logPath: String
@@ -42,7 +46,7 @@ public class Coordinator {
         self.floodStream = FloodStream(logPath: self.logPath)
 
         self.setupClient()
-        
+
         self.authorizationState.subscribeStrong(self) { strongSelf, event in
             switch event.value {
             case .waitTdlibParameters?:
@@ -98,17 +102,17 @@ public class Coordinator {
     }
 
     private func process(data: Data) {
-//        print("Received: \(String(data: data, encoding: .utf8) ?? "nil")")
+        //        print("Received: \(String(data: data, encoding: .utf8) ?? "nil")")
         if let extra = try? JSONDecoder.td.decode(Extra.self, from: data) {
             self.processFunction(with: extra, data: data)
         } else if let update = try? JSONDecoder.td.decode(Update.self, from: data) {
             self.process(update: update)
         }
     }
-    
+
     private func processFunction(with extra: Extra, data: Data) {
         self.functionQueue.async(flags: .barrier) {
-//            print("Received extra: \(extra.extra) - \(extra.type)")
+            //            print("Received extra: \(extra.extra) - \(extra.type)")
             if let resolver = self.runningFunctions[extra.extra] {
                 self.runningFunctions[extra.extra] = nil
                 if extra.type == "error" {
@@ -122,13 +126,14 @@ public class Coordinator {
                     resolver.fulfill(data)
                 }
             } else {
-//                print("Unassigned function result: \(extra)")
+                //                print("Unassigned function result: \(extra)")
             }
         }
     }
 
     private func process(update: Update) {
         self.updateQueue.async(flags: .barrier) {
+            self.updateStream.current = update
             switch update {
             case let .authorizationState(state):
                 self.authorizationState.current = .value(state)
@@ -153,11 +158,11 @@ public class Coordinator {
                 }
             default:
                 ()
-//                print("Unhandled update: \(update)")
+                //                print("Unhandled update: \(update)")
             }
         }
     }
-    
+
     private func stream(forFile file: File) -> Stream<DownloadEvent<File>> {
         var stream: Stream<DownloadEvent<File>>! //swiftlint:disable:this implicitly_unwrapped_optional
         self.updateQueue.sync {
@@ -170,7 +175,7 @@ public class Coordinator {
         }
         return stream
     }
-    
+
     /// Downloads a new file.
     ///
     /// - Parameters:
