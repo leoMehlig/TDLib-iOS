@@ -200,14 +200,14 @@ public struct FormattedText: Codable, Equatable, FunctionResult {
 public struct TermsOfService: Codable, Equatable, FunctionResult {
 	///  Text of the terms of service 
 	public let text: FormattedText
-	///  Mininum age of a user to be able to accept the terms; 0 if any 
+	///  Minimum age of a user to be able to accept the terms; 0 if any 
 	public let minUserAge: Int32
 	///  True, if a blocking popup with terms of service must be shown to the user
 	public let showPopup: Bool
 	/// Contains Telegram terms of service 
 	/// - Parameters:
 	///   - text: Text of the terms of service 
-	///   - minUserAge: Mininum age of a user to be able to accept the terms; 0 if any 
+	///   - minUserAge: Minimum age of a user to be able to accept the terms; 0 if any 
 	///   - showPopup: True, if a blocking popup with terms of service must be shown to the user
 	public init(text: FormattedText, minUserAge: Int32, showPopup: Bool) {
 		self.text = text
@@ -225,14 +225,15 @@ public indirect enum AuthorizationState: Codable, Equatable, FunctionResult, TDE
 	case waitEncryptionKey(isEncrypted: Bool)
 	///  TDLib needs the user's phone number to authorize
 	case waitPhoneNumber
-	///  TDLib needs the user's authentication code to finalize authorization 
-	/// - isRegistered: True, if the user is already registered 
-	/// - termsOfService: Telegram terms of service, which should be accepted before user can continue registration; may be null 
+	///  TDLib needs the user's authentication code to authorize 
 	/// - codeInfo: Information about the authorization code that was sent
-	case waitCode(isRegistered: Bool, termsOfService: TermsOfService?, codeInfo: AuthenticationCodeInfo)
+	case waitCode(codeInfo: AuthenticationCodeInfo)
+	///  The user is unregistered and need to accept terms of service and enter their first name and last name to finish registration 
+	/// - termsOfService: Telegram terms of service
+	case waitRegistration(termsOfService: TermsOfService)
 	///  The user has been authorized, but needs to enter a password to start using the application 
 	/// - passwordHint: Hint for the password; may be empty 
-	/// - hasRecoveryEmailAddress: True if a recovery email address has been set up 
+	/// - hasRecoveryEmailAddress: True, if a recovery email address has been set up 
 	/// - recoveryEmailAddressPattern: Pattern of the email address to which the recovery email was sent; empty until a recovery email has been sent
 	case waitPassword(passwordHint: String, hasRecoveryEmailAddress: Bool, recoveryEmailAddressPattern: String)
 	///  The user has been successfully authorized. TDLib is now ready to answer queries
@@ -435,6 +436,26 @@ public struct PhotoSize: Codable, Equatable, FunctionResult {
 	}
 }
 
+///  Thumbnail image of a very poor quality and low resolution 
+public struct Minithumbnail: Codable, Equatable, FunctionResult {
+	///  Thumbnail width, usually doesn't exceed 40 
+	public let width: Int32
+	///  Thumbnail height, usually doesn't exceed 40 
+	public let height: Int32
+	///  The thumbnail in JPEG format
+	public let data: Bytes
+	/// Thumbnail image of a very poor quality and low resolution 
+	/// - Parameters:
+	///   - width: Thumbnail width, usually doesn't exceed 40 
+	///   - height: Thumbnail height, usually doesn't exceed 40 
+	///   - data: The thumbnail in JPEG format
+	public init(width: Int32, height: Int32, data: Bytes) {
+		self.width = width
+		self.height = height
+		self.data = data
+	}
+}
+
 ///  Part of the face, relative to which a mask should be placed 
 public indirect enum MaskPoint: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  A mask should be placed relatively to the forehead
@@ -511,6 +532,8 @@ public struct Animation: Codable, Equatable, FunctionResult {
 	public let fileName: String
 	///  MIME type of the file, usually "image/gif" or "video/mp4" 
 	public let mimeType: String
+	///  Animation minithumbnail; may be null 
+	public let minithumbnail: Minithumbnail?
 	///  Animation thumbnail; may be null 
 	public let thumbnail: PhotoSize?
 	///  File containing the animation
@@ -522,14 +545,16 @@ public struct Animation: Codable, Equatable, FunctionResult {
 	///   - height: Height of the animation 
 	///   - fileName: Original name of the file; as defined by the sender 
 	///   - mimeType: MIME type of the file, usually "image/gif" or "video/mp4" 
+	///   - minithumbnail: Animation minithumbnail; may be null 
 	///   - thumbnail: Animation thumbnail; may be null 
 	///   - animation: File containing the animation
-	public init(duration: Int32, width: Int32, height: Int32, fileName: String, mimeType: String, thumbnail: PhotoSize?, animation: File) {
+	public init(duration: Int32, width: Int32, height: Int32, fileName: String, mimeType: String, minithumbnail: Minithumbnail?, thumbnail: PhotoSize?, animation: File) {
 		self.duration = duration
 		self.width = width
 		self.height = height
 		self.fileName = fileName
 		self.mimeType = mimeType
+		self.minithumbnail = minithumbnail
 		self.thumbnail = thumbnail
 		self.animation = animation
 	}
@@ -547,6 +572,8 @@ public struct Audio: Codable, Equatable, FunctionResult {
 	public let fileName: String
 	///  The MIME type of the file; as defined by the sender 
 	public let mimeType: String
+	///  The minithumbnail of the album cover; may be null 
+	public let albumCoverMinithumbnail: Minithumbnail?
 	///  The thumbnail of the album cover; as defined by the sender. The full size thumbnail should be extracted from the downloaded file; may be null 
 	public let albumCoverThumbnail: PhotoSize?
 	///  File containing the audio
@@ -558,14 +585,16 @@ public struct Audio: Codable, Equatable, FunctionResult {
 	///   - performer: Performer of the audio; as defined by the sender 
 	///   - fileName: Original name of the file; as defined by the sender 
 	///   - mimeType: The MIME type of the file; as defined by the sender 
+	///   - albumCoverMinithumbnail: The minithumbnail of the album cover; may be null 
 	///   - albumCoverThumbnail: The thumbnail of the album cover; as defined by the sender. The full size thumbnail should be extracted from the downloaded file; may be null 
 	///   - audio: File containing the audio
-	public init(duration: Int32, title: String, performer: String, fileName: String, mimeType: String, albumCoverThumbnail: PhotoSize?, audio: File) {
+	public init(duration: Int32, title: String, performer: String, fileName: String, mimeType: String, albumCoverMinithumbnail: Minithumbnail?, albumCoverThumbnail: PhotoSize?, audio: File) {
 		self.duration = duration
 		self.title = title
 		self.performer = performer
 		self.fileName = fileName
 		self.mimeType = mimeType
+		self.albumCoverMinithumbnail = albumCoverMinithumbnail
 		self.albumCoverThumbnail = albumCoverThumbnail
 		self.audio = audio
 	}
@@ -577,7 +606,9 @@ public struct Document: Codable, Equatable, FunctionResult {
 	public let fileName: String
 	///  MIME type of the file; as defined by the sender 
 	public let mimeType: String
-	///  Document thumbnail; as defined by the sender; may be null 
+	///  Document minithumbnail; may be null 
+	public let minithumbnail: Minithumbnail?
+	///  Document thumbnail in JPEG or PNG format (PNG will be used only for background patterns); as defined by the sender; may be null 
 	public let thumbnail: PhotoSize?
 	///  File containing the document
 	public let document: File
@@ -585,11 +616,13 @@ public struct Document: Codable, Equatable, FunctionResult {
 	/// - Parameters:
 	///   - fileName: Original name of the file; as defined by the sender 
 	///   - mimeType: MIME type of the file; as defined by the sender 
-	///   - thumbnail: Document thumbnail; as defined by the sender; may be null 
+	///   - minithumbnail: Document minithumbnail; may be null 
+	///   - thumbnail: Document thumbnail in JPEG or PNG format (PNG will be used only for background patterns); as defined by the sender; may be null 
 	///   - document: File containing the document
-	public init(fileName: String, mimeType: String, thumbnail: PhotoSize?, document: File) {
+	public init(fileName: String, mimeType: String, minithumbnail: Minithumbnail?, thumbnail: PhotoSize?, document: File) {
 		self.fileName = fileName
 		self.mimeType = mimeType
+		self.minithumbnail = minithumbnail
 		self.thumbnail = thumbnail
 		self.document = document
 	}
@@ -599,14 +632,18 @@ public struct Document: Codable, Equatable, FunctionResult {
 public struct Photo: Codable, Equatable, FunctionResult {
 	///  True, if stickers were added to the photo 
 	public let hasStickers: Bool
+	///  Photo minithumbnail; may be null 
+	public let minithumbnail: Minithumbnail?
 	///  Available variants of the photo, in different sizes
 	public let sizes: [PhotoSize]
 	/// Describes a photo 
 	/// - Parameters:
 	///   - hasStickers: True, if stickers were added to the photo 
+	///   - minithumbnail: Photo minithumbnail; may be null 
 	///   - sizes: Available variants of the photo, in different sizes
-	public init(hasStickers: Bool, sizes: [PhotoSize]) {
+	public init(hasStickers: Bool, minithumbnail: Minithumbnail?, sizes: [PhotoSize]) {
 		self.hasStickers = hasStickers
+		self.minithumbnail = minithumbnail
 		self.sizes = sizes
 	}
 }
@@ -621,6 +658,8 @@ public struct Sticker: Codable, Equatable, FunctionResult {
 	public let height: Int32
 	///  Emoji corresponding to the sticker 
 	public let emoji: String
+	///  True, if the sticker is an animated sticker in TGS format 
+	public let isAnimated: Bool
 	///  True, if the sticker is a mask 
 	public let isMask: Bool
 	///  Position where the mask should be placed; may be null 
@@ -635,15 +674,17 @@ public struct Sticker: Codable, Equatable, FunctionResult {
 	///   - width: Sticker width; as defined by the sender 
 	///   - height: Sticker height; as defined by the sender 
 	///   - emoji: Emoji corresponding to the sticker 
+	///   - isAnimated: True, if the sticker is an animated sticker in TGS format 
 	///   - isMask: True, if the sticker is a mask 
 	///   - maskPosition: Position where the mask should be placed; may be null 
 	///   - thumbnail: Sticker thumbnail in WEBP or JPEG format; may be null 
 	///   - sticker: File containing the sticker
-	public init(setId: TDInt64, width: Int32, height: Int32, emoji: String, isMask: Bool, maskPosition: MaskPosition?, thumbnail: PhotoSize?, sticker: File) {
+	public init(setId: TDInt64, width: Int32, height: Int32, emoji: String, isAnimated: Bool, isMask: Bool, maskPosition: MaskPosition?, thumbnail: PhotoSize?, sticker: File) {
 		self.setId = setId
 		self.width = width
 		self.height = height
 		self.emoji = emoji
+		self.isAnimated = isAnimated
 		self.isMask = isMask
 		self.maskPosition = maskPosition
 		self.thumbnail = thumbnail
@@ -667,6 +708,8 @@ public struct Video: Codable, Equatable, FunctionResult {
 	public let hasStickers: Bool
 	///  True, if the video should be tried to be streamed 
 	public let supportsStreaming: Bool
+	///  Video minithumbnail; may be null 
+	public let minithumbnail: Minithumbnail?
 	///  Video thumbnail; as defined by the sender; may be null 
 	public let thumbnail: PhotoSize?
 	///  File containing the video
@@ -680,9 +723,10 @@ public struct Video: Codable, Equatable, FunctionResult {
 	///   - mimeType: MIME type of the file; as defined by the sender 
 	///   - hasStickers: True, if stickers were added to the photo 
 	///   - supportsStreaming: True, if the video should be tried to be streamed 
+	///   - minithumbnail: Video minithumbnail; may be null 
 	///   - thumbnail: Video thumbnail; as defined by the sender; may be null 
 	///   - video: File containing the video
-	public init(duration: Int32, width: Int32, height: Int32, fileName: String, mimeType: String, hasStickers: Bool, supportsStreaming: Bool, thumbnail: PhotoSize?, video: File) {
+	public init(duration: Int32, width: Int32, height: Int32, fileName: String, mimeType: String, hasStickers: Bool, supportsStreaming: Bool, minithumbnail: Minithumbnail?, thumbnail: PhotoSize?, video: File) {
 		self.duration = duration
 		self.width = width
 		self.height = height
@@ -690,6 +734,7 @@ public struct Video: Codable, Equatable, FunctionResult {
 		self.mimeType = mimeType
 		self.hasStickers = hasStickers
 		self.supportsStreaming = supportsStreaming
+		self.minithumbnail = minithumbnail
 		self.thumbnail = thumbnail
 		self.video = video
 	}
@@ -701,6 +746,8 @@ public struct VideoNote: Codable, Equatable, FunctionResult {
 	public let duration: Int32
 	///  Video width and height; as defined by the sender 
 	public let length: Int32
+	///  Video minithumbnail; may be null 
+	public let minithumbnail: Minithumbnail?
 	///  Video thumbnail; as defined by the sender; may be null 
 	public let thumbnail: PhotoSize?
 	///  File containing the video
@@ -709,11 +756,13 @@ public struct VideoNote: Codable, Equatable, FunctionResult {
 	/// - Parameters:
 	///   - duration: Duration of the video, in seconds; as defined by the sender 
 	///   - length: Video width and height; as defined by the sender 
+	///   - minithumbnail: Video minithumbnail; may be null 
 	///   - thumbnail: Video thumbnail; as defined by the sender; may be null 
 	///   - video: File containing the video
-	public init(duration: Int32, length: Int32, thumbnail: PhotoSize?, video: File) {
+	public init(duration: Int32, length: Int32, minithumbnail: Minithumbnail?, thumbnail: PhotoSize?, video: File) {
 		self.duration = duration
 		self.length = length
+		self.minithumbnail = minithumbnail
 		self.thumbnail = thumbnail
 		self.video = video
 	}
@@ -887,15 +936,15 @@ public struct Poll: Codable, Equatable, FunctionResult {
 public struct ProfilePhoto: Codable, Equatable, FunctionResult {
 	///  Photo identifier; 0 for an empty photo. Can be used to find a photo in a list of userProfilePhotos 
 	public let id: TDInt64
-	///  A small (160x160) user profile photo 
+	///  A small (160x160) user profile photo. The file can be downloaded only before the photo is changed 
 	public let small: File
-	///  A big (640x640) user profile photo
+	///  A big (640x640) user profile photo. The file can be downloaded only before the photo is changed
 	public let big: File
 	/// Describes a user profile photo 
 	/// - Parameters:
 	///   - id: Photo identifier; 0 for an empty photo. Can be used to find a photo in a list of userProfilePhotos 
-	///   - small: A small (160x160) user profile photo 
-	///   - big: A big (640x640) user profile photo
+	///   - small: A small (160x160) user profile photo. The file can be downloaded only before the photo is changed 
+	///   - big: A big (640x640) user profile photo. The file can be downloaded only before the photo is changed
 	public init(id: TDInt64, small: File, big: File) {
 		self.id = id
 		self.small = small
@@ -905,14 +954,14 @@ public struct ProfilePhoto: Codable, Equatable, FunctionResult {
 
 ///  Describes the photo of a chat 
 public struct ChatPhoto: Codable, Equatable, FunctionResult {
-	///  A small (160x160) chat photo 
+	///  A small (160x160) chat photo. The file can be downloaded only before the photo is changed 
 	public let small: File
-	///  A big (640x640) chat photo
+	///  A big (640x640) chat photo. The file can be downloaded only before the photo is changed
 	public let big: File
 	/// Describes the photo of a chat 
 	/// - Parameters:
-	///   - small: A small (160x160) chat photo 
-	///   - big: A big (640x640) chat photo
+	///   - small: A small (160x160) chat photo. The file can be downloaded only before the photo is changed 
+	///   - big: A big (640x640) chat photo. The file can be downloaded only before the photo is changed
 	public init(small: File, big: File) {
 		self.small = small
 		self.big = big
@@ -1004,6 +1053,8 @@ public struct User: Codable, Equatable, FunctionResult {
 	public let isSupport: Bool
 	///  If non-empty, it contains the reason why access to this user must be restricted. The format of the string is "{type}: {description}". -{type} contains the type of the restriction and at least one of the suffixes "-all", "-ios", "-android", or "-wp", which describe the platforms on which access should be restricted. (For example, "terms-ios-android". {description} contains a human-readable description of the restriction, which can be shown to the user) 
 	public let restrictionReason: String
+	///  True, if many users reported this user as a scam 
+	public let isScam: Bool
 	///  If false, the user is inaccessible, and the only information known about the user is inside this class. It can't be passed to any method except GetUser 
 	public let haveAccess: Bool
 	///  Type of the user 
@@ -1024,10 +1075,11 @@ public struct User: Codable, Equatable, FunctionResult {
 	///   - isVerified: True, if the user is verified 
 	///   - isSupport: True, if the user is Telegram support account 
 	///   - restrictionReason: If non-empty, it contains the reason why access to this user must be restricted. The format of the string is "{type}: {description}". -{type} contains the type of the restriction and at least one of the suffixes "-all", "-ios", "-android", or "-wp", which describe the platforms on which access should be restricted. (For example, "terms-ios-android". {description} contains a human-readable description of the restriction, which can be shown to the user) 
+	///   - isScam: True, if many users reported this user as a scam 
 	///   - haveAccess: If false, the user is inaccessible, and the only information known about the user is inside this class. It can't be passed to any method except GetUser 
 	///   - type: Type of the user 
 	///   - languageCode: IETF language tag of the user's language; only available to bots
-	public init(id: Int32, firstName: String, lastName: String, username: String, phoneNumber: String, status: UserStatus, profilePhoto: ProfilePhoto?, outgoingLink: LinkState, incomingLink: LinkState, isVerified: Bool, isSupport: Bool, restrictionReason: String, haveAccess: Bool, type: UserType, languageCode: String) {
+	public init(id: Int32, firstName: String, lastName: String, username: String, phoneNumber: String, status: UserStatus, profilePhoto: ProfilePhoto?, outgoingLink: LinkState, incomingLink: LinkState, isVerified: Bool, isSupport: Bool, restrictionReason: String, isScam: Bool, haveAccess: Bool, type: UserType, languageCode: String) {
 		self.id = id
 		self.firstName = firstName
 		self.lastName = lastName
@@ -1040,6 +1092,7 @@ public struct User: Codable, Equatable, FunctionResult {
 		self.isVerified = isVerified
 		self.isSupport = isSupport
 		self.restrictionReason = restrictionReason
+		self.isScam = isScam
 		self.haveAccess = haveAccess
 		self.type = type
 		self.languageCode = languageCode
@@ -1134,6 +1187,46 @@ public struct Users: Codable, Equatable, FunctionResult {
 	}
 }
 
+///  Describes actions that a user is allowed to take in a chat 
+public struct ChatPermissions: Codable, Equatable, FunctionResult {
+	///  True, if the user can send text messages, contacts, locations, and venues 
+	public let canSendMessages: Bool
+	///  True, if the user can send audio files, documents, photos, videos, video notes, and voice notes. Implies can_send_messages permissions 
+	public let canSendMediaMessages: Bool
+	///  True, if the user can send polls. Implies can_send_messages permissions 
+	public let canSendPolls: Bool
+	///  True, if the user can send animations, games, and stickers and use inline bots. Implies can_send_messages permissions 
+	public let canSendOtherMessages: Bool
+	///  True, if the user may add a web page preview to their messages. Implies can_send_messages permissions 
+	public let canAddWebPagePreviews: Bool
+	///  True, if the user can change the chat title, photo, and other settings 
+	public let canChangeInfo: Bool
+	///  True, if the user can invite new users to the chat 
+	public let canInviteUsers: Bool
+	///  True, if the user can pin messages
+	public let canPinMessages: Bool
+	/// Describes actions that a user is allowed to take in a chat 
+	/// - Parameters:
+	///   - canSendMessages: True, if the user can send text messages, contacts, locations, and venues 
+	///   - canSendMediaMessages: True, if the user can send audio files, documents, photos, videos, video notes, and voice notes. Implies can_send_messages permissions 
+	///   - canSendPolls: True, if the user can send polls. Implies can_send_messages permissions 
+	///   - canSendOtherMessages: True, if the user can send animations, games, and stickers and use inline bots. Implies can_send_messages permissions 
+	///   - canAddWebPagePreviews: True, if the user may add a web page preview to their messages. Implies can_send_messages permissions 
+	///   - canChangeInfo: True, if the user can change the chat title, photo, and other settings 
+	///   - canInviteUsers: True, if the user can invite new users to the chat 
+	///   - canPinMessages: True, if the user can pin messages
+	public init(canSendMessages: Bool, canSendMediaMessages: Bool, canSendPolls: Bool, canSendOtherMessages: Bool, canAddWebPagePreviews: Bool, canChangeInfo: Bool, canInviteUsers: Bool, canPinMessages: Bool) {
+		self.canSendMessages = canSendMessages
+		self.canSendMediaMessages = canSendMediaMessages
+		self.canSendPolls = canSendPolls
+		self.canSendOtherMessages = canSendOtherMessages
+		self.canAddWebPagePreviews = canAddWebPagePreviews
+		self.canChangeInfo = canChangeInfo
+		self.canInviteUsers = canInviteUsers
+		self.canPinMessages = canPinMessages
+	}
+}
+
 ///  Provides information about the status of a member in a chat 
 public indirect enum ChatMemberStatus: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  The user is the creator of a chat and has all the administrator privileges 
@@ -1148,18 +1241,15 @@ public indirect enum ChatMemberStatus: Codable, Equatable, FunctionResult, TDEnu
 	/// - canInviteUsers: True, if the administrator can invite new users to the chat 
 	/// - canRestrictMembers: True, if the administrator can restrict, ban, or unban chat members 
 	/// - canPinMessages: True, if the administrator can pin messages; applicable to groups only 
-	/// - canPromoteMembers: True, if the administrator can add new administrators with a subset of his own privileges or demote administrators that were directly or indirectly promoted by him
+	/// - canPromoteMembers: True, if the administrator can add new administrators with a subset of their own privileges or demote administrators that were directly or indirectly promoted by him
 	case administrator(canBeEdited: Bool, canChangeInfo: Bool, canPostMessages: Bool, canEditMessages: Bool, canDeleteMessages: Bool, canInviteUsers: Bool, canRestrictMembers: Bool, canPinMessages: Bool, canPromoteMembers: Bool)
 	///  The user is a member of a chat, without any additional privileges or restrictions
 	case member
 	///  The user is under certain restrictions in the chat. Not supported in basic groups and channels 
 	/// - isMember: True, if the user is a member of the chat 
 	/// - restrictedUntilDate: Point in time (Unix timestamp) when restrictions will be lifted from the user; 0 if never. If the user is restricted for more than 366 days or for less than 30 seconds from the current time, the user is considered to be restricted forever 
-	/// - canSendMessages: True, if the user can send text messages, contacts, locations, and venues 
-	/// - canSendMediaMessages: True, if the user can send audio files, documents, photos, videos, video notes, and voice notes. Implies can_send_messages permissions 
-	/// - canSendOtherMessages: True, if the user can send animations, games, and stickers and use inline bots. Implies can_send_media_messages permissions 
-	/// - canAddWebPagePreviews: True, if the user may add a web page preview to his messages. Implies can_send_messages permissions
-	case restricted(isMember: Bool, restrictedUntilDate: Int32, canSendMessages: Bool, canSendMediaMessages: Bool, canSendOtherMessages: Bool, canAddWebPagePreviews: Bool)
+	/// - permissions: User permissions in the chat
+	case restricted(isMember: Bool, restrictedUntilDate: Int32, permissions: ChatPermissions)
 	///  The user is not a chat member
 	case left
 	///  The user was banned (and hence is not a member of the chat). Implies the user can't return to the chat or view messages 
@@ -1213,6 +1303,8 @@ public struct ChatMembers: Codable, Equatable, FunctionResult {
 
 ///  Specifies the kind of chat members to return in searchChatMembers 
 public indirect enum ChatMembersFilter: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
+	///  Returns contacts of the user
+	case contacts
 	///  Returns the creator and administrators
 	case administrators
 	///  Returns all chat members, including restricted chat members
@@ -1229,6 +1321,9 @@ public indirect enum ChatMembersFilter: Codable, Equatable, FunctionResult, TDEn
 public indirect enum SupergroupMembersFilter: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  Returns recently active users in reverse chronological order
 	case recent
+	///  Returns contacts of the user, which are members of the supergroup or channel 
+	/// - query: Query to search for
+	case contacts(query: String)
 	///  Returns the creator and administrators
 	case administrators
 	///  Used to search for supergroup or channel members via a (string) query 
@@ -1252,8 +1347,6 @@ public struct BasicGroup: Codable, Equatable, FunctionResult {
 	public let memberCount: Int32
 	///  Status of the current user in the group 
 	public let status: ChatMemberStatus
-	///  True, if all members have been granted administrator rights in the group 
-	public let everyoneIsAdministrator: Bool
 	///  True, if the group is active 
 	public let isActive: Bool
 	///  Identifier of the supergroup to which this group was upgraded; 0 if none
@@ -1263,14 +1356,12 @@ public struct BasicGroup: Codable, Equatable, FunctionResult {
 	///   - id: Group identifier 
 	///   - memberCount: Number of members in the group 
 	///   - status: Status of the current user in the group 
-	///   - everyoneIsAdministrator: True, if all members have been granted administrator rights in the group 
 	///   - isActive: True, if the group is active 
 	///   - upgradedToSupergroupId: Identifier of the supergroup to which this group was upgraded; 0 if none
-	public init(id: Int32, memberCount: Int32, status: ChatMemberStatus, everyoneIsAdministrator: Bool, isActive: Bool, upgradedToSupergroupId: Int32) {
+	public init(id: Int32, memberCount: Int32, status: ChatMemberStatus, isActive: Bool, upgradedToSupergroupId: Int32) {
 		self.id = id
 		self.memberCount = memberCount
 		self.status = status
-		self.everyoneIsAdministrator = everyoneIsAdministrator
 		self.isActive = isActive
 		self.upgradedToSupergroupId = upgradedToSupergroupId
 	}
@@ -1278,6 +1369,8 @@ public struct BasicGroup: Codable, Equatable, FunctionResult {
 
 ///  Contains full information about a basic group 
 public struct BasicGroupFullInfo: Codable, Equatable, FunctionResult {
+	///  Group description 
+	public let description: String
 	///  User identifier of the creator of the group; 0 if unknown 
 	public let creatorUserId: Int32
 	///  Group members 
@@ -1286,10 +1379,12 @@ public struct BasicGroupFullInfo: Codable, Equatable, FunctionResult {
 	public let inviteLink: String
 	/// Contains full information about a basic group 
 	/// - Parameters:
+	///   - description: Group description 
 	///   - creatorUserId: User identifier of the creator of the group; 0 if unknown 
 	///   - members: Group members 
 	///   - inviteLink: Invite link for this group; available only for the group creator and only after it has been generated at least once
-	public init(creatorUserId: Int32, members: [ChatMember], inviteLink: String) {
+	public init(description: String, creatorUserId: Int32, members: [ChatMember], inviteLink: String) {
+		self.description = description
 		self.creatorUserId = creatorUserId
 		self.members = members
 		self.inviteLink = inviteLink
@@ -1308,16 +1403,16 @@ public struct Supergroup: Codable, Equatable, FunctionResult {
 	public let status: ChatMemberStatus
 	///  Member count; 0 if unknown. Currently it is guaranteed to be known only if the supergroup or channel was found through SearchPublicChats 
 	public let memberCount: Int32
-	///  True, if any member of the supergroup can invite other members. This field has no meaning for channels 
-	public let anyoneCanInvite: Bool
 	///  True, if messages sent to the channel should contain information about the sender. This field is only applicable to channels 
 	public let signMessages: Bool
 	///  True, if the supergroup is a channel 
 	public let isChannel: Bool
 	///  True, if the supergroup or channel is verified 
 	public let isVerified: Bool
-	///  If non-empty, contains the reason why access to this supergroup or channel must be restricted. Format of the string is "{type}: {description}". -{type} Contains the type of the restriction and at least one of the suffixes "-all", "-ios", "-android", or "-wp", which describe the platforms on which access should be restricted. (For example, "terms-ios-android". {description} contains a human-readable description of the restriction, which can be shown to the user)
+	///  If non-empty, contains the reason why access to this supergroup or channel must be restricted. Format of the string is "{type}: {description}". -{type} Contains the type of the restriction and at least one of the suffixes "-all", "-ios", "-android", or "-wp", which describe the platforms on which access should be restricted. (For example, "terms-ios-android". {description} contains a human-readable description of the restriction, which can be shown to the user) 
 	public let restrictionReason: String
+	///  True, if many users reported this supergroup as a scam
+	public let isScam: Bool
 	/// Represents a supergroup or channel with zero or more members (subscribers in the case of channels). From the point of view of the system, a channel is a special kind of a supergroup: only administrators can post and see the list of members, and posts from all administrators use the name and photo of the channel instead of individual names and profile photos. Unlike supergroups, channels can have an unlimited number of subscribers 
 	/// - Parameters:
 	///   - id: Supergroup or channel identifier 
@@ -1325,22 +1420,22 @@ public struct Supergroup: Codable, Equatable, FunctionResult {
 	///   - date: Point in time (Unix timestamp) when the current user joined, or the point in time when the supergroup or channel was created, in case the user is not a member 
 	///   - status: Status of the current user in the supergroup or channel 
 	///   - memberCount: Member count; 0 if unknown. Currently it is guaranteed to be known only if the supergroup or channel was found through SearchPublicChats 
-	///   - anyoneCanInvite: True, if any member of the supergroup can invite other members. This field has no meaning for channels 
 	///   - signMessages: True, if messages sent to the channel should contain information about the sender. This field is only applicable to channels 
 	///   - isChannel: True, if the supergroup is a channel 
 	///   - isVerified: True, if the supergroup or channel is verified 
-	///   - restrictionReason: If non-empty, contains the reason why access to this supergroup or channel must be restricted. Format of the string is "{type}: {description}". -{type} Contains the type of the restriction and at least one of the suffixes "-all", "-ios", "-android", or "-wp", which describe the platforms on which access should be restricted. (For example, "terms-ios-android". {description} contains a human-readable description of the restriction, which can be shown to the user)
-	public init(id: Int32, username: String, date: Int32, status: ChatMemberStatus, memberCount: Int32, anyoneCanInvite: Bool, signMessages: Bool, isChannel: Bool, isVerified: Bool, restrictionReason: String) {
+	///   - restrictionReason: If non-empty, contains the reason why access to this supergroup or channel must be restricted. Format of the string is "{type}: {description}". -{type} Contains the type of the restriction and at least one of the suffixes "-all", "-ios", "-android", or "-wp", which describe the platforms on which access should be restricted. (For example, "terms-ios-android". {description} contains a human-readable description of the restriction, which can be shown to the user) 
+	///   - isScam: True, if many users reported this supergroup as a scam
+	public init(id: Int32, username: String, date: Int32, status: ChatMemberStatus, memberCount: Int32, signMessages: Bool, isChannel: Bool, isVerified: Bool, restrictionReason: String, isScam: Bool) {
 		self.id = id
 		self.username = username
 		self.date = date
 		self.status = status
 		self.memberCount = memberCount
-		self.anyoneCanInvite = anyoneCanInvite
 		self.signMessages = signMessages
 		self.isChannel = isChannel
 		self.isVerified = isVerified
 		self.restrictionReason = restrictionReason
+		self.isScam = isScam
 	}
 }
 
@@ -1459,7 +1554,7 @@ public indirect enum MessageForwardOrigin: Codable, Equatable, FunctionResult, T
 	///  The message was originally written by a known user 
 	/// - senderUserId: Identifier of the user that originally sent the message
 	case user(senderUserId: Int32)
-	///  The message was originally written by a user, which is hidden by his privacy settings 
+	///  The message was originally written by a user, which is hidden by their privacy settings 
 	/// - senderName: Name of the sender
 	case hiddenUser(senderName: String)
 	///  The message was originally a post in a channel 
@@ -1475,16 +1570,16 @@ public struct MessageForwardInfo: Codable, Equatable, FunctionResult {
 	public let origin: MessageForwardOrigin
 	///  Point in time (Unix timestamp) when the message was originally sent 
 	public let date: Int32
-	///  For messages forwarded to the chat with the current user (saved messages), the identifier of the chat from which the message was forwarded last time; 0 if unknown 
+	///  For messages forwarded to the chat with the current user (saved messages) or to the channel discussion supergroup, the identifier of the chat from which the message was forwarded last time; 0 if unknown 
 	public let fromChatId: Int53
-	///  For messages forwarded to the chat with the current user (saved messages), the identifier of the original message from which the new message was forwarded last time; 0 if unknown
+	///  For messages forwarded to the chat with the current user (saved messages) or to the channel discussion supergroup, the identifier of the original message from which the new message was forwarded last time; 0 if unknown
 	public let fromMessageId: Int53
 	/// Contains information about a forwarded message 
 	/// - Parameters:
 	///   - origin: Origin of a forwarded message 
 	///   - date: Point in time (Unix timestamp) when the message was originally sent 
-	///   - fromChatId: For messages forwarded to the chat with the current user (saved messages), the identifier of the chat from which the message was forwarded last time; 0 if unknown 
-	///   - fromMessageId: For messages forwarded to the chat with the current user (saved messages), the identifier of the original message from which the new message was forwarded last time; 0 if unknown
+	///   - fromChatId: For messages forwarded to the chat with the current user (saved messages) or to the channel discussion supergroup, the identifier of the chat from which the message was forwarded last time; 0 if unknown 
+	///   - fromMessageId: For messages forwarded to the chat with the current user (saved messages) or to the channel discussion supergroup, the identifier of the original message from which the new message was forwarded last time; 0 if unknown
 	public init(origin: MessageForwardOrigin, date: Int32, fromChatId: Int53, fromMessageId: Int53) {
 		self.origin = origin
 		self.date = date
@@ -1497,15 +1592,19 @@ public struct MessageForwardInfo: Codable, Equatable, FunctionResult {
 public indirect enum MessageSendingState: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  The message is being sent now, but has not yet been delivered to the server
 	case pending
-	///  The message failed to be sent
-	case failed
+	///  The message failed to be sent 
+	/// - errorCode: An error code; 0 if unknown 
+	/// - errorMessage: Error message 
+	/// - canRetry: True, if the message can be re-sent 
+	/// - retryAfter: Time left before the message can be re-sent, in seconds. No update is sent when this field changes
+	case failed(errorCode: Int32, errorMessage: String, canRetry: Bool, retryAfter: Double)
 }
 
 ///  Describes a message 
 public struct Message: Codable, Equatable, FunctionResult {
 	///  Message identifier, unique for the chat to which the message belongs 
 	public let id: Int53
-	///  Identifier of the user who sent the message; 0 if unknown. It is unknown for channel posts 
+	///  Identifier of the user who sent the message; 0 if unknown. Currently, it is unknown for channel posts and for channel posts automatically forwarded to discussion group 
 	public let senderUserId: Int32
 	///  Chat identifier 
 	public let chatId: Int53
@@ -1552,7 +1651,7 @@ public struct Message: Codable, Equatable, FunctionResult {
 	/// Describes a message 
 	/// - Parameters:
 	///   - id: Message identifier, unique for the chat to which the message belongs 
-	///   - senderUserId: Identifier of the user who sent the message; 0 if unknown. It is unknown for channel posts 
+	///   - senderUserId: Identifier of the user who sent the message; 0 if unknown. Currently, it is unknown for channel posts and for channel posts automatically forwarded to discussion group 
 	///   - chatId: Chat identifier 
 	///   - sendingState: Information about the sending state of the message; may be null 
 	///   - isOutgoing: True, if the message is outgoing 
@@ -1763,6 +1862,8 @@ public struct Chat: Codable, Equatable, FunctionResult {
 	public let title: String
 	///  Chat photo; may be null 
 	public let photo: ChatPhoto?
+	///  Actions that non-administrator chat members are allowed to take in the chat 
+	public let permissions: ChatPermissions
 	///  Last message in the chat; may be null 
 	public let lastMessage: Message?
 	///  Descending parameter by which chats are sorted in the main chat list. If the order number of two chats is the same, they must be sorted in descending order by ID. If 0, the position of the chat in the list is undetermined 
@@ -1805,6 +1906,7 @@ public struct Chat: Codable, Equatable, FunctionResult {
 	///   - type: Type of the chat 
 	///   - title: Chat title 
 	///   - photo: Chat photo; may be null 
+	///   - permissions: Actions that non-administrator chat members are allowed to take in the chat 
 	///   - lastMessage: Last message in the chat; may be null 
 	///   - order: Descending parameter by which chats are sorted in the main chat list. If the order number of two chats is the same, they must be sorted in descending order by ID. If 0, the position of the chat in the list is undetermined 
 	///   - isPinned: True, if the chat is pinned 
@@ -1823,11 +1925,12 @@ public struct Chat: Codable, Equatable, FunctionResult {
 	///   - replyMarkupMessageId: Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat 
 	///   - draftMessage: A draft of a message in the chat; may be null 
 	///   - clientData: Contains client-specific data associated with the chat. (For example, the chat position or local chat notification settings can be stored here.) Persistent if a message database is used
-	public init(id: Int53, type: ChatType, title: String, photo: ChatPhoto?, lastMessage: Message?, order: TDInt64, isPinned: Bool, isMarkedAsUnread: Bool, isSponsored: Bool, canBeDeletedOnlyForSelf: Bool, canBeDeletedForAllUsers: Bool, canBeReported: Bool, defaultDisableNotification: Bool, unreadCount: Int32, lastReadInboxMessageId: Int53, lastReadOutboxMessageId: Int53, unreadMentionCount: Int32, notificationSettings: ChatNotificationSettings, pinnedMessageId: Int53, replyMarkupMessageId: Int53, draftMessage: DraftMessage?, clientData: String) {
+	public init(id: Int53, type: ChatType, title: String, photo: ChatPhoto?, permissions: ChatPermissions, lastMessage: Message?, order: TDInt64, isPinned: Bool, isMarkedAsUnread: Bool, isSponsored: Bool, canBeDeletedOnlyForSelf: Bool, canBeDeletedForAllUsers: Bool, canBeReported: Bool, defaultDisableNotification: Bool, unreadCount: Int32, lastReadInboxMessageId: Int53, lastReadOutboxMessageId: Int53, unreadMentionCount: Int32, notificationSettings: ChatNotificationSettings, pinnedMessageId: Int53, replyMarkupMessageId: Int53, draftMessage: DraftMessage?, clientData: String) {
 		self.id = id
 		self.type = type
 		self.title = title
 		self.photo = photo
+		self.permissions = permissions
 		self.lastMessage = lastMessage
 		self.order = order
 		self.isPinned = isPinned
@@ -1887,7 +1990,7 @@ public struct ChatInviteLinkInfo: Codable, Equatable, FunctionResult {
 	public let memberCount: Int32
 	///  User identifiers of some chat members that may be known to the current user 
 	public let memberUserIds: [Int32]
-	///  True, if the chat is a public supergroup or channel with a username
+	///  True, if the chat is a public supergroup or a channel with a username
 	public let isPublic: Bool
 	/// Contains information about a chat invite link 
 	/// - Parameters:
@@ -1897,7 +2000,7 @@ public struct ChatInviteLinkInfo: Codable, Equatable, FunctionResult {
 	///   - photo: Chat photo; may be null 
 	///   - memberCount: Number of members 
 	///   - memberUserIds: User identifiers of some chat members that may be known to the current user 
-	///   - isPublic: True, if the chat is a public supergroup or channel with a username
+	///   - isPublic: True, if the chat is a public supergroup or a channel with a username
 	public init(chatId: Int53, type: ChatType, title: String, photo: ChatPhoto?, memberCount: Int32, memberUserIds: [Int32], isPublic: Bool) {
 		self.chatId = chatId
 		self.type = type
@@ -1940,6 +2043,11 @@ public indirect enum InlineKeyboardButtonType: Codable, Equatable, FunctionResul
 	///  A button that opens a specified URL 
 	/// - url: HTTP or tg:// URL to open
 	case url(url: String)
+	///  A button that opens a specified URL and automatically logs in in current user if they allowed to do that 
+	/// - url: HTTP URL to open 
+	/// - id: Unique button identifier 
+	/// - forwardText: If non-empty, new text of the button in forwarded messages
+	case loginUrl(url: String, id: Int32, forwardText: String)
 	///  A button that sends a special callback query to a bot 
 	/// - data: Data to be sent to the bot via a callback query
 	case callback(data: Bytes)
@@ -2031,8 +2139,8 @@ public indirect enum RichText: Codable, Equatable, FunctionResult, TDEnum, Equat
 	case phoneNumber(text: RichText, phoneNumber: String)
 	///  A small image inside the text 
 	/// - document: The image represented as a document. The image can be in GIF, JPEG or PNG format 
-	/// - width: Width of a bounding box in which the image should be shown, 0 if unknown 
-	/// - height: Height of a bounding box in which the image should be shown, 0 if unknown
+	/// - width: Width of a bounding box in which the image should be shown; 0 if unknown 
+	/// - height: Height of a bounding box in which the image should be shown; 0 if unknown
 	case icon(document: Document, width: Int32, height: Int32)
 	///  A rich text anchor 
 	/// - text: Text 
@@ -2233,8 +2341,8 @@ public indirect enum PageBlock: Codable, Equatable, FunctionResult, TDEnum, Equa
 	/// - url: Web page URL, if available 
 	/// - html: HTML-markup of the embedded page 
 	/// - posterPhoto: Poster photo, if available; may be null 
-	/// - width: Block width, 0 if unknown 
-	/// - height: Block height, 0 if unknown 
+	/// - width: Block width; 0 if unknown 
+	/// - height: Block height; 0 if unknown 
 	/// - caption: Block caption 
 	/// - isFullWidth: True, if the block should be full width 
 	/// - allowScrolling: True, if scrolling should be allowed
@@ -2242,11 +2350,11 @@ public indirect enum PageBlock: Codable, Equatable, FunctionResult, TDEnum, Equa
 	///  An embedded post 
 	/// - url: Web page URL 
 	/// - author: Post author 
-	/// - authorPhoto: Post author photo 
+	/// - authorPhoto: Post author photo; may be null 
 	/// - date: Point in time (Unix timestamp) when the post was created; 0 if unknown 
 	/// - pageBlocks: Post content 
 	/// - caption: Post caption
-	case embeddedPost(url: String, author: String, authorPhoto: Photo, date: Int32, pageBlocks: [PageBlock], caption: PageBlockCaption)
+	case embeddedPost(url: String, author: String, authorPhoto: Photo?, date: Int32, pageBlocks: [PageBlock], caption: PageBlockCaption)
 	///  A collage 
 	/// - pageBlocks: Collage item contents 
 	/// - caption: Block caption
@@ -3554,8 +3662,10 @@ public indirect enum InputMessageContent: Codable, Equatable, FunctionResult, TD
 	///  A forwarded message 
 	/// - fromChatId: Identifier for the chat this forwarded message came from 
 	/// - messageId: Identifier of the message to forward 
-	/// - inGameShare: True, if a game message should be shared within a launched game; applies only to game messages
-	case inputMessageForwarded(fromChatId: Int53, messageId: Int53, inGameShare: Bool)
+	/// - inGameShare: True, if a game message should be shared within a launched game; applies only to game messages 
+	/// - sendCopy: True, if content of the message needs to be copied without a link to the original message. Always true if the message is forwarded to a secret chat 
+	/// - removeCaption: True, if media caption of the message copy needs to be removed. Ignored if send_copy is false
+	case inputMessageForwarded(fromChatId: Int53, messageId: Int53, inGameShare: Bool, sendCopy: Bool, removeCaption: Bool)
 }
 
 ///  Represents a filter for message search results 
@@ -3659,11 +3769,11 @@ public struct Stickers: Codable, Equatable, FunctionResult {
 	}
 }
 
-///  Represents a list of all emoji corresponding to a sticker in a sticker set. The list is only for informational purposes, because a sticker is always sent with a fixed emoji from the corresponding Sticker object 
-public struct StickerEmojis: Codable, Equatable, FunctionResult {
+///  Represents a list of emoji 
+public struct Emojis: Codable, Equatable, FunctionResult {
 	///  List of emojis
 	public let emojis: [String]
-	/// Represents a list of all emoji corresponding to a sticker in a sticker set. The list is only for informational purposes, because a sticker is always sent with a fixed emoji from the corresponding Sticker object 
+	/// Represents a list of emoji 
 	/// - Parameters:
 	///   - emojis: List of emojis
 	public init(emojis: [String]) {
@@ -3679,39 +3789,47 @@ public struct StickerSet: Codable, Equatable, FunctionResult {
 	public let title: String
 	///  Name of the sticker set 
 	public let name: String
+	///  Sticker set thumbnail in WEBP format with width and height 100; may be null. The file can be downloaded only before the thumbnail is changed 
+	public let thumbnail: PhotoSize?
 	///  True, if the sticker set has been installed by the current user 
 	public let isInstalled: Bool
 	///  True, if the sticker set has been archived. A sticker set can't be installed and archived simultaneously 
 	public let isArchived: Bool
 	///  True, if the sticker set is official 
 	public let isOfficial: Bool
+	///  True, is the stickers in the set are animated 
+	public let isAnimated: Bool
 	///  True, if the stickers in the set are masks 
 	public let isMasks: Bool
 	///  True for already viewed trending sticker sets 
 	public let isViewed: Bool
 	///  List of stickers in this set 
 	public let stickers: [Sticker]
-	///  A list of emoji corresponding to the stickers in the same order
-	public let emojis: [StickerEmojis]
+	///  A list of emoji corresponding to the stickers in the same order. The list is only for informational purposes, because a sticker is always sent with a fixed emoji from the corresponding Sticker object
+	public let emojis: [Emojis]
 	/// Represents a sticker set 
 	/// - Parameters:
 	///   - id: Identifier of the sticker set 
 	///   - title: Title of the sticker set 
 	///   - name: Name of the sticker set 
+	///   - thumbnail: Sticker set thumbnail in WEBP format with width and height 100; may be null. The file can be downloaded only before the thumbnail is changed 
 	///   - isInstalled: True, if the sticker set has been installed by the current user 
 	///   - isArchived: True, if the sticker set has been archived. A sticker set can't be installed and archived simultaneously 
 	///   - isOfficial: True, if the sticker set is official 
+	///   - isAnimated: True, is the stickers in the set are animated 
 	///   - isMasks: True, if the stickers in the set are masks 
 	///   - isViewed: True for already viewed trending sticker sets 
 	///   - stickers: List of stickers in this set 
-	///   - emojis: A list of emoji corresponding to the stickers in the same order
-	public init(id: TDInt64, title: String, name: String, isInstalled: Bool, isArchived: Bool, isOfficial: Bool, isMasks: Bool, isViewed: Bool, stickers: [Sticker], emojis: [StickerEmojis]) {
+	///   - emojis: A list of emoji corresponding to the stickers in the same order. The list is only for informational purposes, because a sticker is always sent with a fixed emoji from the corresponding Sticker object
+	public init(id: TDInt64, title: String, name: String, thumbnail: PhotoSize?, isInstalled: Bool, isArchived: Bool, isOfficial: Bool, isAnimated: Bool, isMasks: Bool, isViewed: Bool, stickers: [Sticker], emojis: [Emojis]) {
 		self.id = id
 		self.title = title
 		self.name = name
+		self.thumbnail = thumbnail
 		self.isInstalled = isInstalled
 		self.isArchived = isArchived
 		self.isOfficial = isOfficial
+		self.isAnimated = isAnimated
 		self.isMasks = isMasks
 		self.isViewed = isViewed
 		self.stickers = stickers
@@ -3727,12 +3845,16 @@ public struct StickerSetInfo: Codable, Equatable, FunctionResult {
 	public let title: String
 	///  Name of the sticker set 
 	public let name: String
+	///  Sticker set thumbnail in WEBP format with width and height 100; may be null 
+	public let thumbnail: PhotoSize?
 	///  True, if the sticker set has been installed by current user 
 	public let isInstalled: Bool
 	///  True, if the sticker set has been archived. A sticker set can't be installed and archived simultaneously 
 	public let isArchived: Bool
 	///  True, if the sticker set is official 
 	public let isOfficial: Bool
+	///  True, is the stickers in the set are animated 
+	public let isAnimated: Bool
 	///  True, if the stickers in the set are masks 
 	public let isMasks: Bool
 	///  True for already viewed trending sticker sets 
@@ -3746,20 +3868,24 @@ public struct StickerSetInfo: Codable, Equatable, FunctionResult {
 	///   - id: Identifier of the sticker set 
 	///   - title: Title of the sticker set 
 	///   - name: Name of the sticker set 
+	///   - thumbnail: Sticker set thumbnail in WEBP format with width and height 100; may be null 
 	///   - isInstalled: True, if the sticker set has been installed by current user 
 	///   - isArchived: True, if the sticker set has been archived. A sticker set can't be installed and archived simultaneously 
 	///   - isOfficial: True, if the sticker set is official 
+	///   - isAnimated: True, is the stickers in the set are animated 
 	///   - isMasks: True, if the stickers in the set are masks 
 	///   - isViewed: True for already viewed trending sticker sets 
 	///   - size: Total number of stickers in the set 
 	///   - covers: Contains up to the first 5 stickers from the set, depending on the context. If the client needs more stickers the full set should be requested
-	public init(id: TDInt64, title: String, name: String, isInstalled: Bool, isArchived: Bool, isOfficial: Bool, isMasks: Bool, isViewed: Bool, size: Int32, covers: [Sticker]) {
+	public init(id: TDInt64, title: String, name: String, thumbnail: PhotoSize?, isInstalled: Bool, isArchived: Bool, isOfficial: Bool, isAnimated: Bool, isMasks: Bool, isViewed: Bool, size: Int32, covers: [Sticker]) {
 		self.id = id
 		self.title = title
 		self.name = name
+		self.thumbnail = thumbnail
 		self.isInstalled = isInstalled
 		self.isArchived = isArchived
 		self.isOfficial = isOfficial
+		self.isAnimated = isAnimated
 		self.isMasks = isMasks
 		self.isViewed = isViewed
 		self.size = size
@@ -3889,6 +4015,24 @@ public indirect enum CallState: Codable, Equatable, FunctionResult, TDEnum, Equa
 	case error(error: Error)
 }
 
+///  Describes the exact type of a problem with a call 
+public indirect enum CallProblem: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
+	///  The user heard their own voice
+	case echo
+	///  The user heard background noise
+	case noise
+	///  The other side kept disappearing
+	case interruptions
+	///  The speech was distorted
+	case distortedSpeech
+	///  The user couldn't hear the other side
+	case silentLocal
+	///  The other side couldn't hear the user
+	case silentRemote
+	///  The call ended unexpectedly
+	case dropped
+}
+
 ///  Describes a call 
 public struct Call: Codable, Equatable, FunctionResult {
 	///  Call identifier, not persistent 
@@ -3910,6 +4054,26 @@ public struct Call: Codable, Equatable, FunctionResult {
 		self.userId = userId
 		self.isOutgoing = isOutgoing
 		self.state = state
+	}
+}
+
+///  Contains settings for the authentication of the user's phone number 
+public struct PhoneNumberAuthenticationSettings: Codable, Equatable, FunctionResult {
+	///  Pass true if the authentication code may be sent via flash call to the specified phone number 
+	public let allowFlashCall: Bool
+	///  Pass true if the authenticated phone number is used on the current device 
+	public let isCurrentPhoneNumber: Bool
+	///  For official applications only. True, if the app can use Android SMS Retriever API (requires Google Play Services >= 10.2) to automatically receive the authentication code from the SMS. See https://developers.google.com/identity/sms-retriever/ for more details
+	public let allowSmsRetrieverApi: Bool
+	/// Contains settings for the authentication of the user's phone number 
+	/// - Parameters:
+	///   - allowFlashCall: Pass true if the authentication code may be sent via flash call to the specified phone number 
+	///   - isCurrentPhoneNumber: Pass true if the authenticated phone number is used on the current device 
+	///   - allowSmsRetrieverApi: For official applications only. True, if the app can use Android SMS Retriever API (requires Google Play Services >= 10.2) to automatically receive the authentication code from the SMS. See https://developers.google.com/identity/sms-retriever/ for more details
+	public init(allowFlashCall: Bool, isCurrentPhoneNumber: Bool, allowSmsRetrieverApi: Bool) {
+		self.allowFlashCall = allowFlashCall
+		self.isCurrentPhoneNumber = isCurrentPhoneNumber
+		self.allowSmsRetrieverApi = allowSmsRetrieverApi
 	}
 }
 
@@ -4046,10 +4210,10 @@ public indirect enum InputInlineQueryResult: Codable, Equatable, FunctionResult,
 	/// - replyMarkup: The message reply markup. Must be of type replyMarkupInlineKeyboard or null 
 	/// - inputMessageContent: The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessagePhoto, InputMessageLocation, InputMessageVenue or InputMessageContact
 	case photo(id: String, title: String, description: String, thumbnailUrl: String, photoUrl: String, photoWidth: Int32, photoHeight: Int32, replyMarkup: ReplyMarkup, inputMessageContent: InputMessageContent)
-	///  Represents a link to a WEBP sticker 
+	///  Represents a link to a WEBP or a TGS sticker 
 	/// - id: Unique identifier of the query result 
 	/// - thumbnailUrl: URL of the sticker thumbnail, if it exists 
-	/// - stickerUrl: The URL of the WEBP sticker (sticker file size must not exceed 5MB) 
+	/// - stickerUrl: The URL of the WEBP or a TGS sticker (sticker file size must not exceed 5MB) 
 	/// - stickerWidth: Width of the sticker 
 	/// - stickerHeight: Height of the sticker 
 	/// - replyMarkup: The message reply markup. Must be of type replyMarkupInlineKeyboard or null 
@@ -4267,6 +4431,9 @@ public indirect enum ChatEventAction: Codable, Equatable, FunctionResult, TDEnum
 	///  A message was deleted 
 	/// - message: Deleted message
 	case chatEventMessageDeleted(message: Message)
+	///  A poll in a message was stopped 
+	/// - message: The message with the poll
+	case chatEventPollStopped(message: Message)
 	///  A message was pinned 
 	/// - message: Pinned message
 	case chatEventMessagePinned(message: Message)
@@ -4294,6 +4461,10 @@ public indirect enum ChatEventAction: Codable, Equatable, FunctionResult, TDEnum
 	/// - oldTitle: Previous chat title 
 	/// - newTitle: New chat title
 	case chatEventTitleChanged(oldTitle: String, newTitle: String)
+	///  The chat permissions was changed 
+	/// - oldPermissions: Previous chat permissions 
+	/// - newPermissions: New chat permissions
+	case chatEventPermissionsChanged(oldPermissions: ChatPermissions, newPermissions: ChatPermissions)
 	///  The chat description was changed 
 	/// - oldDescription: Previous chat description 
 	/// - newDescription: New chat description
@@ -4305,10 +4476,10 @@ public indirect enum ChatEventAction: Codable, Equatable, FunctionResult, TDEnum
 	///  The chat photo was changed 
 	/// - oldPhoto: Previous chat photo value; may be null 
 	/// - newPhoto: New chat photo value; may be null
-	case chatEventPhotoChanged(oldPhoto: ChatPhoto?, newPhoto: ChatPhoto?)
-	///  The anyone_can_invite setting of a supergroup chat was toggled 
-	/// - anyoneCanInvite: New value of anyone_can_invite
-	case chatEventInvitesToggled(anyoneCanInvite: Bool)
+	case chatEventPhotoChanged(oldPhoto: Photo?, newPhoto: Photo?)
+	///  The can_invite_users permission of a supergroup chat was toggled 
+	/// - canInviteUsers: New value of can_invite_users permission
+	case chatEventInvitesToggled(canInviteUsers: Bool)
 	///  The sign_messages setting of a channel was toggled 
 	/// - signMessages: New value of sign_messages
 	case chatEventSignMessagesToggled(signMessages: Bool)
@@ -4577,36 +4748,74 @@ public struct PushReceiverId: Codable, Equatable, FunctionResult {
 	}
 }
 
-///  Contains information about a wallpaper 
-public struct Wallpaper: Codable, Equatable, FunctionResult {
-	///  Unique persistent wallpaper identifier 
-	public let id: Int32
-	///  Available variants of the wallpaper in different sizes. These photos can only be downloaded; they can't be sent in a message 
-	public let sizes: [PhotoSize]
-	///  Main color of the wallpaper in RGB24 format; should be treated as background color if no photos are specified
-	public let color: Int32
-	/// Contains information about a wallpaper 
+///  Describes a type of a background 
+public indirect enum BackgroundType: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
+	///  A wallpaper in JPEG format 
+	/// - isBlurred: True, if the wallpaper must be downscaled to fit in 450x450 square and then box-blurred with radius 12 
+	/// - isMoving: True, if the background needs to be slightly moved when device is rotated
+	case wallpaper(isBlurred: Bool, isMoving: Bool)
+	///  A PNG pattern to be combined with the color chosen by the user 
+	/// - isMoving: True, if the background needs to be slightly moved when device is rotated 
+	/// - color: Main color of the background in RGB24 format 
+	/// - intensity: Intensity of the pattern when it is shown above the main background color, 0-100
+	case pattern(isMoving: Bool, color: Int32, intensity: Int32)
+	///  A solid background 
+	/// - color: A color of the background in RGB24 format
+	case solid(color: Int32)
+}
+
+///  Describes a chat background 
+public struct Background: Codable, Equatable, FunctionResult {
+	///  Unique background identifier 
+	public let id: TDInt64
+	///  True, if this is one of default backgrounds 
+	public let isDefault: Bool
+	///  True, if the background is dark and is recommended to be used with dark theme 
+	public let isDark: Bool
+	///  Unique background name 
+	public let name: String
+	///  Document with the background; may be null. Null only for solid backgrounds 
+	public let document: Document?
+	///  Type of the background
+	public let type: BackgroundType
+	/// Describes a chat background 
 	/// - Parameters:
-	///   - id: Unique persistent wallpaper identifier 
-	///   - sizes: Available variants of the wallpaper in different sizes. These photos can only be downloaded; they can't be sent in a message 
-	///   - color: Main color of the wallpaper in RGB24 format; should be treated as background color if no photos are specified
-	public init(id: Int32, sizes: [PhotoSize], color: Int32) {
+	///   - id: Unique background identifier 
+	///   - isDefault: True, if this is one of default backgrounds 
+	///   - isDark: True, if the background is dark and is recommended to be used with dark theme 
+	///   - name: Unique background name 
+	///   - document: Document with the background; may be null. Null only for solid backgrounds 
+	///   - type: Type of the background
+	public init(id: TDInt64, isDefault: Bool, isDark: Bool, name: String, document: Document?, type: BackgroundType) {
 		self.id = id
-		self.sizes = sizes
-		self.color = color
+		self.isDefault = isDefault
+		self.isDark = isDark
+		self.name = name
+		self.document = document
+		self.type = type
 	}
 }
 
-///  Contains a list of wallpapers 
-public struct Wallpapers: Codable, Equatable, FunctionResult {
-	///  A list of wallpapers
-	public let wallpapers: [Wallpaper]
-	/// Contains a list of wallpapers 
+///  Contains a list of backgrounds 
+public struct Backgrounds: Codable, Equatable, FunctionResult {
+	///  A list of backgrounds
+	public let backgrounds: [Background]
+	/// Contains a list of backgrounds 
 	/// - Parameters:
-	///   - wallpapers: A list of wallpapers
-	public init(wallpapers: [Wallpaper]) {
-		self.wallpapers = wallpapers
+	///   - backgrounds: A list of backgrounds
+	public init(backgrounds: [Background]) {
+		self.backgrounds = backgrounds
 	}
+}
+
+///  Contains information about background to set 
+public indirect enum InputBackground: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
+	///  A background from a local file 
+	/// - background: Background file to use. Only inputFileLocal and inputFileGenerated are supported. The file nust be in JPEG format for wallpapers and in PNG format for patterns
+	case local(background: InputFile)
+	///  A background from the server 
+	/// - backgroundId: The background identifier
+	case remote(backgroundId: TDInt64)
 }
 
 ///  Contains a list of hashtags 
@@ -4629,7 +4838,7 @@ public indirect enum CheckChatUsernameResult: Codable, Equatable, FunctionResult
 	case usernameInvalid
 	///  The username is occupied
 	case usernameOccupied
-	///  The user has too much public chats, one of them should be made private first
+	///  The user has too much chats with username, one of them should be made private first
 	case publicChatsTooMuch
 	///  The user can't be a member of a public supergroup
 	case publicGroupsUnavailable
@@ -4640,7 +4849,7 @@ public indirect enum PushMessageContent: Codable, Equatable, FunctionResult, TDE
 	///  A general message with hidden content 
 	/// - isPinned: True, if the message is a pinned message with the specified content
 	case hidden(isPinned: Bool)
-	///  An animation message (GIF-style) 
+	///  An animation message (GIF-style). 
 	/// - animation: Message content; may be null 
 	/// - caption: Animation caption 
 	/// - isPinned: True, if the message is a pinned message with the specified content
@@ -4903,6 +5112,10 @@ public struct UserPrivacySettingRules: Codable, Equatable, FunctionResult {
 public indirect enum UserPrivacySetting: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  A privacy setting for managing whether the user's online status is visible
 	case showStatus
+	///  A privacy setting for managing whether the user's profile photo is visible
+	case showProfilePhoto
+	///  A privacy setting for managing whether a link to the user's account is included in forwarded messages
+	case showLinkInForwardedMessages
 	///  A privacy setting for managing whether the user can be invited to chats
 	case allowChatInvites
 	///  A privacy setting for managing whether the user can be called
@@ -5088,19 +5301,43 @@ public indirect enum ChatReportReason: Codable, Equatable, FunctionResult, TDEnu
 	case custom(text: String)
 }
 
-///  Contains a public HTTPS link to a message in a public supergroup or channel 
+///  Contains a public HTTPS link to a message in a public supergroup or channel with a username 
 public struct PublicMessageLink: Codable, Equatable, FunctionResult {
 	///  Message link 
 	public let link: String
 	///  HTML-code for embedding the message
 	public let html: String
-	/// Contains a public HTTPS link to a message in a public supergroup or channel 
+	/// Contains a public HTTPS link to a message in a public supergroup or channel with a username 
 	/// - Parameters:
 	///   - link: Message link 
 	///   - html: HTML-code for embedding the message
 	public init(link: String, html: String) {
 		self.link = link
 		self.html = html
+	}
+}
+
+///  Contains information about a link to a message in a chat 
+public struct MessageLinkInfo: Codable, Equatable, FunctionResult {
+	///  True, if the link is a public link for a message in a chat 
+	public let isPublic: Bool
+	///  If found, identifier of the chat to which the message belongs, 0 otherwise 
+	public let chatId: Int53
+	///  If found, the linked message; may be null 
+	public let message: Message?
+	///  True, if the whole media album to which the message belongs is linked
+	public let forAlbum: Bool
+	/// Contains information about a link to a message in a chat 
+	/// - Parameters:
+	///   - isPublic: True, if the link is a public link for a message in a chat 
+	///   - chatId: If found, identifier of the chat to which the message belongs, 0 otherwise 
+	///   - message: If found, the linked message; may be null 
+	///   - forAlbum: True, if the whole media album to which the message belongs is linked
+	public init(isPublic: Bool, chatId: Int53, message: Message?, forAlbum: Bool) {
+		self.isPublic = isPublic
+		self.chatId = chatId
+		self.message = message
+		self.forAlbum = forAlbum
 	}
 }
 
@@ -5148,7 +5385,7 @@ public indirect enum FileType: Codable, Equatable, FunctionResult, TDEnum, Equat
 	case videoNote
 	///  The file is a voice note
 	case voiceNote
-	///  The file is a wallpaper
+	///  The file is a wallpaper or a background pattern
 	case wallpaper
 }
 
@@ -5302,9 +5539,65 @@ public struct NetworkStatistics: Codable, Equatable, FunctionResult {
 	}
 }
 
+///  Contains auto-download settings 
+public struct AutoDownloadSettings: Codable, Equatable, FunctionResult {
+	///  True, if the auto-download is enabled 
+	public let isAutoDownloadEnabled: Bool
+	///  Maximum size of a photo file to be auto-downloaded 
+	public let maxPhotoFileSize: Int32
+	///  Maximum size of a video file to be auto-downloaded 
+	public let maxVideoFileSize: Int32
+	///  Maximum size of other file types to be auto-downloaded 
+	public let maxOtherFileSize: Int32
+	///  True, if the beginning of videos needs to be preloaded for instant playback 
+	public let preloadLargeVideos: Bool
+	///  True, if the next audio track needs to be preloaded while the user is listening to an audio file 
+	public let preloadNextAudio: Bool
+	///  True, if "use less data for calls" option needs to be enabled
+	public let useLessDataForCalls: Bool
+	/// Contains auto-download settings 
+	/// - Parameters:
+	///   - isAutoDownloadEnabled: True, if the auto-download is enabled 
+	///   - maxPhotoFileSize: Maximum size of a photo file to be auto-downloaded 
+	///   - maxVideoFileSize: Maximum size of a video file to be auto-downloaded 
+	///   - maxOtherFileSize: Maximum size of other file types to be auto-downloaded 
+	///   - preloadLargeVideos: True, if the beginning of videos needs to be preloaded for instant playback 
+	///   - preloadNextAudio: True, if the next audio track needs to be preloaded while the user is listening to an audio file 
+	///   - useLessDataForCalls: True, if "use less data for calls" option needs to be enabled
+	public init(isAutoDownloadEnabled: Bool, maxPhotoFileSize: Int32, maxVideoFileSize: Int32, maxOtherFileSize: Int32, preloadLargeVideos: Bool, preloadNextAudio: Bool, useLessDataForCalls: Bool) {
+		self.isAutoDownloadEnabled = isAutoDownloadEnabled
+		self.maxPhotoFileSize = maxPhotoFileSize
+		self.maxVideoFileSize = maxVideoFileSize
+		self.maxOtherFileSize = maxOtherFileSize
+		self.preloadLargeVideos = preloadLargeVideos
+		self.preloadNextAudio = preloadNextAudio
+		self.useLessDataForCalls = useLessDataForCalls
+	}
+}
+
+///  Contains auto-download settings presets for the user 
+public struct AutoDownloadSettingsPresets: Codable, Equatable, FunctionResult {
+	///  Preset with lowest settings; supposed to be used by default when roaming 
+	public let low: AutoDownloadSettings
+	///  Preset with medium settings; supposed to be used by default when using mobile data 
+	public let medium: AutoDownloadSettings
+	///  Preset with highest settings; supposed to be used by default when connected on Wi-Fi
+	public let high: AutoDownloadSettings
+	/// Contains auto-download settings presets for the user 
+	/// - Parameters:
+	///   - low: Preset with lowest settings; supposed to be used by default when roaming 
+	///   - medium: Preset with medium settings; supposed to be used by default when using mobile data 
+	///   - high: Preset with highest settings; supposed to be used by default when connected on Wi-Fi
+	public init(low: AutoDownloadSettings, medium: AutoDownloadSettings, high: AutoDownloadSettings) {
+		self.low = low
+		self.medium = medium
+		self.high = high
+	}
+}
+
 ///  Describes the current state of the connection to Telegram servers 
 public indirect enum ConnectionState: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
-	///  Currently waiting for the network to become available. Use SetNetworkType to change the available network type
+	///  Currently waiting for the network to become available. Use setNetworkType to change the available network type
 	case waitingForNetwork
 	///  Currently establishing a connection with a proxy server
 	case connectingToProxy
@@ -5533,7 +5826,7 @@ public indirect enum Update: Codable, Equatable, FunctionResult, TDEnum, Equatab
 	/// - oldMessageId: The previous temporary message identifier
 	case messageSendSucceeded(message: Message, oldMessageId: Int53)
 	///  A message failed to send. Be aware that some messages being sent can be irrecoverably deleted, in which case updateDeleteMessages will be received instead of this update 
-	/// - message: Contains information about the message that failed to send 
+	/// - message: Contains information about the message which failed to send 
 	/// - oldMessageId: The previous temporary message identifier 
 	/// - errorCode: An error code 
 	/// - errorMessage: Error message
@@ -5574,6 +5867,10 @@ public indirect enum Update: Codable, Equatable, FunctionResult, TDEnum, Equatab
 	/// - chatId: Chat identifier 
 	/// - photo: The new chat photo; may be null
 	case chatPhoto(chatId: Int53, photo: ChatPhoto?)
+	///  Chat permissions was changed 
+	/// - chatId: Chat identifier 
+	/// - permissions: The new chat permissions
+	case chatPermissions(chatId: Int53, permissions: ChatPermissions)
 	///  The last message of a chat was changed. If last_message is null then the last message in the chat became unknown. Some new unknown messages might be added to the chat in this case 
 	/// - chatId: Chat identifier 
 	/// - lastMessage: The new last message in the chat; may be null 
@@ -5753,6 +6050,10 @@ public indirect enum Update: Codable, Equatable, FunctionResult, TDEnum, Equatab
 	///  The list of saved animations was updated 
 	/// - animationIds: The new list of file identifiers of saved animations
 	case savedAnimations(animationIds: [Int32])
+	///  The selected background has changed 
+	/// - forDarkTheme: True, if background for dark theme has changed 
+	/// - background: The new selected background; may be null
+	case selectedBackground(forDarkTheme: Bool, background: Background?)
 	///  Some language pack strings have been updated 
 	/// - localizationTarget: Localization target to which the language pack belongs 
 	/// - languagePackId: Identifier of the updated language pack 
@@ -5988,24 +6289,20 @@ public struct CheckDatabaseEncryptionKey: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Sets the phone number of the user and sends an authentication code to the user. Works only when the current authorization state is authorizationStateWaitPhoneNumber 
+///  Sets the phone number of the user and sends an authentication code to the user. Works only when the current authorization state is authorizationStateWaitPhoneNumber, -or if there is no pending authentication query and the current authorization state is authorizationStateWaitCode or authorizationStateWaitPassword 
 public struct SetAuthenticationPhoneNumber: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  The phone number of the user, in international format 
 	public let phoneNumber: String
-	///  Pass true if the authentication code may be sent via flash call to the specified phone number 
-	public let allowFlashCall: Bool
-	///  Pass true if the phone number is used on the current device. Ignored if allow_flash_call is false
-	public let isCurrentPhoneNumber: Bool
-	/// Sets the phone number of the user and sends an authentication code to the user. Works only when the current authorization state is authorizationStateWaitPhoneNumber 
+	///  Settings for the authentication of the user's phone number
+	public let settings: PhoneNumberAuthenticationSettings
+	/// Sets the phone number of the user and sends an authentication code to the user. Works only when the current authorization state is authorizationStateWaitPhoneNumber, -or if there is no pending authentication query and the current authorization state is authorizationStateWaitCode or authorizationStateWaitPassword 
 	/// - Parameters:
 	///   - phoneNumber: The phone number of the user, in international format 
-	///   - allowFlashCall: Pass true if the authentication code may be sent via flash call to the specified phone number 
-	///   - isCurrentPhoneNumber: Pass true if the phone number is used on the current device. Ignored if allow_flash_call is false
-	public init(phoneNumber: String, allowFlashCall: Bool, isCurrentPhoneNumber: Bool) {
+	///   - settings: Settings for the authentication of the user's phone number
+	public init(phoneNumber: String, settings: PhoneNumberAuthenticationSettings) {
 		self.phoneNumber = phoneNumber
-		self.allowFlashCall = allowFlashCall
-		self.isCurrentPhoneNumber = isCurrentPhoneNumber
+		self.settings = settings
 	}
 }
 
@@ -6020,19 +6317,28 @@ public struct ResendAuthenticationCode: Codable, Equatable, TDFunction {
 ///  Checks the authentication code. Works only when the current authorization state is authorizationStateWaitCode 
 public struct CheckAuthenticationCode: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
-	///  The verification code received via SMS, Telegram message, phone call, or flash call 
+	///  The verification code received via SMS, Telegram message, phone call, or flash call
 	public let code: String
-	///  If the user is not yet registered, the first name of the user; 1-64 characters. You can also pass an empty string for unregistered user there to check verification code validness. In the latter case PHONE_NUMBER_UNOCCUPIED error will be returned for a valid code 
-	public let firstName: String
-	///  If the user is not yet registered; the last name of the user; optional; 0-64 characters
-	public let lastName: String
 	/// Checks the authentication code. Works only when the current authorization state is authorizationStateWaitCode 
 	/// - Parameters:
-	///   - code: The verification code received via SMS, Telegram message, phone call, or flash call 
-	///   - firstName: If the user is not yet registered, the first name of the user; 1-64 characters. You can also pass an empty string for unregistered user there to check verification code validness. In the latter case PHONE_NUMBER_UNOCCUPIED error will be returned for a valid code 
-	///   - lastName: If the user is not yet registered; the last name of the user; optional; 0-64 characters
-	public init(code: String, firstName: String, lastName: String) {
+	///   - code: The verification code received via SMS, Telegram message, phone call, or flash call
+	public init(code: String) {
 		self.code = code
+	}
+}
+
+///  Finishes user registration. Works only when the current authorization state is authorizationStateWaitRegistration 
+public struct RegisterUser: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  The first name of the user; 1-64 characters 
+	public let firstName: String
+	///  The last name of the user; 0-64 characters
+	public let lastName: String
+	/// Finishes user registration. Works only when the current authorization state is authorizationStateWaitRegistration 
+	/// - Parameters:
+	///   - firstName: The first name of the user; 1-64 characters 
+	///   - lastName: The last name of the user; 0-64 characters
+	public init(firstName: String, lastName: String) {
 		self.firstName = firstName
 		self.lastName = lastName
 	}
@@ -6180,14 +6486,14 @@ public struct GetRecoveryEmailAddress: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Changes the 2-step verification recovery email address of the user. If a new recovery email address is specified, then the change will not be applied until the new recovery email address is confirmed -If new_recovery_email_address is the same as the email address that is currently set up, this call succeeds immediately and aborts all other requests waiting for an email confirmation 
+///  Changes the 2-step verification recovery email address of the user. If a new recovery email address is specified, then the change will not be applied until the new recovery email address is confirmed. -If new_recovery_email_address is the same as the email address that is currently set up, this call succeeds immediately and aborts all other requests waiting for an email confirmation 
 public struct SetRecoveryEmailAddress: Codable, Equatable, TDFunction {
 	public typealias Result = PasswordState
 	///  Password of the current user 
 	public let password: String
 	///  New recovery email address
 	public let newRecoveryEmailAddress: String
-	/// Changes the 2-step verification recovery email address of the user. If a new recovery email address is specified, then the change will not be applied until the new recovery email address is confirmed -If new_recovery_email_address is the same as the email address that is currently set up, this call succeeds immediately and aborts all other requests waiting for an email confirmation 
+	/// Changes the 2-step verification recovery email address of the user. If a new recovery email address is specified, then the change will not be applied until the new recovery email address is confirmed. -If new_recovery_email_address is the same as the email address that is currently set up, this call succeeds immediately and aborts all other requests waiting for an email confirmation 
 	/// - Parameters:
 	///   - password: Password of the current user 
 	///   - newRecoveryEmailAddress: New recovery email address
@@ -6487,7 +6793,7 @@ public struct GetRemoteFile: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Returns an ordered list of chats. Chats are sorted by the pair (order, chat_id) in decreasing order. (For example, to get a list of chats from the beginning, the offset_order should be equal to a biggest signed 64-bit number 9223372036854775807 == 2^63 - 1). -For optimal performance the number of returned chats is chosen by the library. 
+///  Returns an ordered list of chats. Chats are sorted by the pair (order, chat_id) in decreasing order. (For example, to get a list of chats from the beginning, the offset_order should be equal to a biggest signed 64-bit number 9223372036854775807 == 2^63 - 1). -For optimal performance the number of returned chats is chosen by the library 
 public struct GetChats: Codable, Equatable, TDFunction {
 	public typealias Result = Chats
 	///  Chat order to return chats from 
@@ -6496,7 +6802,7 @@ public struct GetChats: Codable, Equatable, TDFunction {
 	public let offsetChatId: Int53
 	///  The maximum number of chats to be returned. It is possible that fewer chats than the limit are returned even if the end of the list is not reached
 	public let limit: Int32
-	/// Returns an ordered list of chats. Chats are sorted by the pair (order, chat_id) in decreasing order. (For example, to get a list of chats from the beginning, the offset_order should be equal to a biggest signed 64-bit number 9223372036854775807 == 2^63 - 1). -For optimal performance the number of returned chats is chosen by the library. 
+	/// Returns an ordered list of chats. Chats are sorted by the pair (order, chat_id) in decreasing order. (For example, to get a list of chats from the beginning, the offset_order should be equal to a biggest signed 64-bit number 9223372036854775807 == 2^63 - 1). -For optimal performance the number of returned chats is chosen by the library 
 	/// - Parameters:
 	///   - offsetOrder: Chat order to return chats from 
 	///   - offsetChatId: Chat identifier to return chats from 
@@ -6653,10 +6959,10 @@ public struct CheckChatUsername: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Returns a list of public chats created by the user
+///  Returns a list of public chats with username created by the user
 public struct GetCreatedPublicChats: Codable, Equatable, TDFunction {
 	public typealias Result = Chats
-	/// Returns a list of public chats created by the user
+	/// Returns a list of public chats with username created by the user
 	public init() {
 	}
 }
@@ -6945,7 +7251,7 @@ public struct RemoveNotificationGroup: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Returns a public HTTPS link to a message. Available only for messages in public supergroups and channels 
+///  Returns a public HTTPS link to a message. Available only for messages in supergroups and channels with username 
 public struct GetPublicMessageLink: Codable, Equatable, TDFunction {
 	public typealias Result = PublicMessageLink
 	///  Identifier of the chat to which the message belongs 
@@ -6954,7 +7260,7 @@ public struct GetPublicMessageLink: Codable, Equatable, TDFunction {
 	public let messageId: Int53
 	///  Pass true if a link for a whole media album should be returned
 	public let forAlbum: Bool
-	/// Returns a public HTTPS link to a message. Available only for messages in public supergroups and channels 
+	/// Returns a public HTTPS link to a message. Available only for messages in supergroups and channels with username 
 	/// - Parameters:
 	///   - chatId: Identifier of the chat to which the message belongs 
 	///   - messageId: Identifier of the message 
@@ -6980,6 +7286,19 @@ public struct GetMessageLink: Codable, Equatable, TDFunction {
 	public init(chatId: Int53, messageId: Int53) {
 		self.chatId = chatId
 		self.messageId = messageId
+	}
+}
+
+///  Returns information about a public or private message link 
+public struct GetMessageLinkInfo: Codable, Equatable, TDFunction {
+	public typealias Result = MessageLinkInfo
+	///  The message link in the format "https://t.me/c/...", or "tg://privatepost?...", or "https://t.me/username/...", or "tg://resolve?..."
+	public let url: String
+	/// Returns information about a public or private message link 
+	/// - Parameters:
+	///   - url: The message link in the format "https://t.me/c/...", or "tg://privatepost?...", or "https://t.me/username/...", or "tg://resolve?..."
+	public init(url: String) {
+		self.url = url
 	}
 }
 
@@ -7052,13 +7371,13 @@ public struct SendBotStartMessage: Codable, Equatable, TDFunction {
 	public let botUserId: Int32
 	///  Identifier of the target chat 
 	public let chatId: Int53
-	///  A hidden parameter sent to the bot for deep linking purposes (https://api.telegram.org/bots#deep-linking)
+	///  A hidden parameter sent to the bot for deep linking purposes (https://core.telegram.org/bots#deep-linking)
 	public let parameter: String
 	/// Invites a bot to a chat (if it is not yet a member) and sends it the /start command. Bots can't be invited to a private chat other than the chat with the bot. Bots can't be invited to channels (although they can be added as admins) and secret chats. Returns the sent message 
 	/// - Parameters:
 	///   - botUserId: Identifier of the bot 
 	///   - chatId: Identifier of the target chat 
-	///   - parameter: A hidden parameter sent to the bot for deep linking purposes (https://api.telegram.org/bots#deep-linking)
+	///   - parameter: A hidden parameter sent to the bot for deep linking purposes (https://core.telegram.org/bots#deep-linking)
 	public init(botUserId: Int32, chatId: Int53, parameter: String) {
 		self.botUserId = botUserId
 		self.chatId = chatId
@@ -7114,25 +7433,50 @@ public struct ForwardMessages: Codable, Equatable, TDFunction {
 	public let messageIds: [Int53]
 	///  Pass true to disable notification for the message, doesn't work if messages are forwarded to a secret chat 
 	public let disableNotification: Bool
-	///  Pass true if the message is sent from the background 
+	///  Pass true if the messages are sent from the background 
 	public let fromBackground: Bool
-	///  True, if the messages should be grouped into an album after forwarding. For this to work, no more than 10 messages may be forwarded, and all of them must be photo or video messages
+	///  True, if the messages should be grouped into an album after forwarding. For this to work, no more than 10 messages may be forwarded, and all of them must be photo or video messages 
 	public let asAlbum: Bool
+	///  True, if content of the messages needs to be copied without links to the original messages. Always true if the messages are forwarded to a secret chat 
+	public let sendCopy: Bool
+	///  True, if media captions of message copies needs to be removed. Ignored if send_copy is false
+	public let removeCaption: Bool
 	/// Forwards previously sent messages. Returns the forwarded messages in the same order as the message identifiers passed in message_ids. If a message can't be forwarded, null will be returned instead of the message 
 	/// - Parameters:
 	///   - chatId: Identifier of the chat to which to forward messages 
 	///   - fromChatId: Identifier of the chat from which to forward messages 
 	///   - messageIds: Identifiers of the messages to forward 
 	///   - disableNotification: Pass true to disable notification for the message, doesn't work if messages are forwarded to a secret chat 
-	///   - fromBackground: Pass true if the message is sent from the background 
-	///   - asAlbum: True, if the messages should be grouped into an album after forwarding. For this to work, no more than 10 messages may be forwarded, and all of them must be photo or video messages
-	public init(chatId: Int53, fromChatId: Int53, messageIds: [Int53], disableNotification: Bool, fromBackground: Bool, asAlbum: Bool) {
+	///   - fromBackground: Pass true if the messages are sent from the background 
+	///   - asAlbum: True, if the messages should be grouped into an album after forwarding. For this to work, no more than 10 messages may be forwarded, and all of them must be photo or video messages 
+	///   - sendCopy: True, if content of the messages needs to be copied without links to the original messages. Always true if the messages are forwarded to a secret chat 
+	///   - removeCaption: True, if media captions of message copies needs to be removed. Ignored if send_copy is false
+	public init(chatId: Int53, fromChatId: Int53, messageIds: [Int53], disableNotification: Bool, fromBackground: Bool, asAlbum: Bool, sendCopy: Bool, removeCaption: Bool) {
 		self.chatId = chatId
 		self.fromChatId = fromChatId
 		self.messageIds = messageIds
 		self.disableNotification = disableNotification
 		self.fromBackground = fromBackground
 		self.asAlbum = asAlbum
+		self.sendCopy = sendCopy
+		self.removeCaption = removeCaption
+	}
+}
+
+///  Resends messages which failed to send. Can be called only for messages for which messageSendingStateFailed.can_retry is true and after specified in messageSendingStateFailed.retry_after time passed. -If a message is re-sent, the corresponding failed to send message is deleted. Returns the sent messages in the same order as the message identifiers passed in message_ids. If a message can't be re-sent, null will be returned instead of the message 
+public struct ResendMessages: Codable, Equatable, TDFunction {
+	public typealias Result = Messages
+	///  Identifier of the chat to send messages 
+	public let chatId: Int53
+	///  Identifiers of the messages to resend. Message identifiers must be in a strictly increasing order
+	public let messageIds: [Int53]
+	/// Resends messages which failed to send. Can be called only for messages for which messageSendingStateFailed.can_retry is true and after specified in messageSendingStateFailed.retry_after time passed. -If a message is re-sent, the corresponding failed to send message is deleted. Returns the sent messages in the same order as the message identifiers passed in message_ids. If a message can't be re-sent, null will be returned instead of the message 
+	/// - Parameters:
+	///   - chatId: Identifier of the chat to send messages 
+	///   - messageIds: Identifiers of the messages to resend. Message identifiers must be in a strictly increasing order
+	public init(chatId: Int53, messageIds: [Int53]) {
+		self.chatId = chatId
+		self.messageIds = messageIds
 	}
 }
 
@@ -8097,12 +8441,12 @@ public struct CreateNewSecretChat: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Creates a new supergroup from an existing basic group and sends a corresponding messageChatUpgradeTo and messageChatUpgradeFrom. Deactivates the original basic group 
+///  Creates a new supergroup from an existing basic group and sends a corresponding messageChatUpgradeTo and messageChatUpgradeFrom; requires creator privileges. Deactivates the original basic group 
 public struct UpgradeBasicGroupChatToSupergroupChat: Codable, Equatable, TDFunction {
 	public typealias Result = Chat
 	///  Identifier of the chat to upgrade
 	public let chatId: Int53
-	/// Creates a new supergroup from an existing basic group and sends a corresponding messageChatUpgradeTo and messageChatUpgradeFrom. Deactivates the original basic group 
+	/// Creates a new supergroup from an existing basic group and sends a corresponding messageChatUpgradeTo and messageChatUpgradeFrom; requires creator privileges. Deactivates the original basic group 
 	/// - Parameters:
 	///   - chatId: Identifier of the chat to upgrade
 	public init(chatId: Int53) {
@@ -8110,14 +8454,14 @@ public struct UpgradeBasicGroupChatToSupergroupChat: Codable, Equatable, TDFunct
 	}
 }
 
-///  Changes the chat title. Supported only for basic groups, supergroups and channels. Requires administrator rights in basic groups and the appropriate administrator rights in supergroups and channels. The title will not be changed until the request to the server has been completed 
+///  Changes the chat title. Supported only for basic groups, supergroups and channels. Requires can_change_info rights. The title will not be changed until the request to the server has been completed 
 public struct SetChatTitle: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier 
 	public let chatId: Int53
 	///  New title of the chat; 1-128 characters
 	public let title: String
-	/// Changes the chat title. Supported only for basic groups, supergroups and channels. Requires administrator rights in basic groups and the appropriate administrator rights in supergroups and channels. The title will not be changed until the request to the server has been completed 
+	/// Changes the chat title. Supported only for basic groups, supergroups and channels. Requires can_change_info rights. The title will not be changed until the request to the server has been completed 
 	/// - Parameters:
 	///   - chatId: Chat identifier 
 	///   - title: New title of the chat; 1-128 characters
@@ -8127,20 +8471,37 @@ public struct SetChatTitle: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Changes the photo of a chat. Supported only for basic groups, supergroups and channels. Requires administrator rights in basic groups and the appropriate administrator rights in supergroups and channels. The photo will not be changed before request to the server has been completed 
+///  Changes the photo of a chat. Supported only for basic groups, supergroups and channels. Requires can_change_info rights. The photo will not be changed before request to the server has been completed 
 public struct SetChatPhoto: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Chat identifier 
 	public let chatId: Int53
 	///  New chat photo. You can use a zero InputFileId to delete the chat photo. Files that are accessible only by HTTP URL are not acceptable
 	public let photo: InputFile
-	/// Changes the photo of a chat. Supported only for basic groups, supergroups and channels. Requires administrator rights in basic groups and the appropriate administrator rights in supergroups and channels. The photo will not be changed before request to the server has been completed 
+	/// Changes the photo of a chat. Supported only for basic groups, supergroups and channels. Requires can_change_info rights. The photo will not be changed before request to the server has been completed 
 	/// - Parameters:
 	///   - chatId: Chat identifier 
 	///   - photo: New chat photo. You can use a zero InputFileId to delete the chat photo. Files that are accessible only by HTTP URL are not acceptable
 	public init(chatId: Int53, photo: InputFile) {
 		self.chatId = chatId
 		self.photo = photo
+	}
+}
+
+///  Changes the chat members permissions. Supported only for basic groups and supergroups. Requires can_restrict_members administrator right 
+public struct SetChatPermissions: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Chat identifier 
+	public let chatId: Int53
+	///  New non-administrator members permissions in the chat
+	public let permissions: ChatPermissions
+	/// Changes the chat members permissions. Supported only for basic groups and supergroups. Requires can_restrict_members administrator right 
+	/// - Parameters:
+	///   - chatId: Chat identifier 
+	///   - permissions: New non-administrator members permissions in the chat
+	public init(chatId: Int53, permissions: ChatPermissions) {
+		self.chatId = chatId
+		self.permissions = permissions
 	}
 }
 
@@ -8246,7 +8607,24 @@ public struct SetChatClientData: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Pins a message in a chat; requires appropriate administrator rights in the group or channel 
+///  Changes information about a chat. Available for basic groups, supergroups, and channels. Requires can_change_info rights 
+public struct SetChatDescription: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Identifier of the chat 
+	public let chatId: Int53
+	///  New chat description; 0-255 characters
+	public let description: String
+	/// Changes information about a chat. Available for basic groups, supergroups, and channels. Requires can_change_info rights 
+	/// - Parameters:
+	///   - chatId: Identifier of the chat 
+	///   - description: New chat description; 0-255 characters
+	public init(chatId: Int53, description: String) {
+		self.chatId = chatId
+		self.description = description
+	}
+}
+
+///  Pins a message in a chat; requires can_pin_messages rights 
 public struct PinChatMessage: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Identifier of the chat 
@@ -8255,7 +8633,7 @@ public struct PinChatMessage: Codable, Equatable, TDFunction {
 	public let messageId: Int53
 	///  True, if there should be no notification about the pinned message
 	public let disableNotification: Bool
-	/// Pins a message in a chat; requires appropriate administrator rights in the group or channel 
+	/// Pins a message in a chat; requires can_pin_messages rights 
 	/// - Parameters:
 	///   - chatId: Identifier of the chat 
 	///   - messageId: Identifier of the new pinned message 
@@ -8267,12 +8645,12 @@ public struct PinChatMessage: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Removes the pinned message from a chat; requires appropriate administrator rights in the group or channel 
+///  Removes the pinned message from a chat; requires can_pin_messages rights in the group or channel 
 public struct UnpinChatMessage: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Identifier of the chat
 	public let chatId: Int53
-	/// Removes the pinned message from a chat; requires appropriate administrator rights in the group or channel 
+	/// Removes the pinned message from a chat; requires can_pin_messages rights in the group or channel 
 	/// - Parameters:
 	///   - chatId: Identifier of the chat
 	public init(chatId: Int53) {
@@ -8691,12 +9069,12 @@ public struct DeleteFile: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Generates a new invite link for a chat; the previously generated link is revoked. Available for basic groups, supergroups, and channels. In basic groups this can be called only by the group's creator; in supergroups and channels this requires appropriate administrator rights 
+///  Generates a new invite link for a chat; the previously generated link is revoked. Available for basic groups, supergroups, and channels. Requires administrator privileges and can_invite_users right 
 public struct GenerateChatInviteLink: Codable, Equatable, TDFunction {
 	public typealias Result = ChatInviteLink
 	///  Chat identifier
 	public let chatId: Int53
-	/// Generates a new invite link for a chat; the previously generated link is revoked. Available for basic groups, supergroups, and channels. In basic groups this can be called only by the group's creator; in supergroups and channels this requires appropriate administrator rights 
+	/// Generates a new invite link for a chat; the previously generated link is revoked. Available for basic groups, supergroups, and channels. Requires administrator privileges and can_invite_users right 
 	/// - Parameters:
 	///   - chatId: Chat identifier
 	public init(chatId: Int53) {
@@ -8796,17 +9174,21 @@ public struct SendCallRating: Codable, Equatable, TDFunction {
 	public let callId: Int32
 	///  Call rating; 1-5 
 	public let rating: Int32
-	///  An optional user comment if the rating is less than 5
+	///  An optional user comment if the rating is less than 5 
 	public let comment: String
+	///  List of the exact types of problems with the call, specified by the user
+	public let problems: [CallProblem]
 	/// Sends a call rating 
 	/// - Parameters:
 	///   - callId: Call identifier 
 	///   - rating: Call rating; 1-5 
-	///   - comment: An optional user comment if the rating is less than 5
-	public init(callId: Int32, rating: Int32, comment: String) {
+	///   - comment: An optional user comment if the rating is less than 5 
+	///   - problems: List of the exact types of problems with the call, specified by the user
+	public init(callId: Int32, rating: Int32, comment: String, problems: [CallProblem]) {
 		self.callId = callId
 		self.rating = rating
 		self.comment = comment
+		self.problems = problems
 	}
 }
 
@@ -9265,16 +9647,46 @@ public struct RemoveFavoriteSticker: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Returns emoji corresponding to a sticker 
+///  Returns emoji corresponding to a sticker. The list is only for informational purposes, because a sticker is always sent with a fixed emoji from the corresponding Sticker object 
 public struct GetStickerEmojis: Codable, Equatable, TDFunction {
-	public typealias Result = StickerEmojis
+	public typealias Result = Emojis
 	///  Sticker file identifier
 	public let sticker: InputFile
-	/// Returns emoji corresponding to a sticker 
+	/// Returns emoji corresponding to a sticker. The list is only for informational purposes, because a sticker is always sent with a fixed emoji from the corresponding Sticker object 
 	/// - Parameters:
 	///   - sticker: Sticker file identifier
 	public init(sticker: InputFile) {
 		self.sticker = sticker
+	}
+}
+
+///  Searches for emojis by keywords. Supported only if the file database is enabled 
+public struct SearchEmojis: Codable, Equatable, TDFunction {
+	public typealias Result = Emojis
+	///  Text to search for 
+	public let text: String
+	///  True, if only emojis, which exactly match text needs to be returned
+	public let exactMatch: Bool
+	/// Searches for emojis by keywords. Supported only if the file database is enabled 
+	/// - Parameters:
+	///   - text: Text to search for 
+	///   - exactMatch: True, if only emojis, which exactly match text needs to be returned
+	public init(text: String, exactMatch: Bool) {
+		self.text = text
+		self.exactMatch = exactMatch
+	}
+}
+
+///  Returns an HTTP URL which can be used to automatically log in to the translation platform and suggest new emoji replacements. The URL will be valid for 30 seconds after generation 
+public struct GetEmojiSuggestionsUrl: Codable, Equatable, TDFunction {
+	public typealias Result = HttpUrl
+	///  Language code for which the emoji replacements will be suggested
+	public let languageCode: String
+	/// Returns an HTTP URL which can be used to automatically log in to the translation platform and suggest new emoji replacements. The URL will be valid for 30 seconds after generation 
+	/// - Parameters:
+	///   - languageCode: Language code for which the emoji replacements will be suggested
+	public init(languageCode: String) {
+		self.languageCode = languageCode
 	}
 }
 
@@ -9454,19 +9866,15 @@ public struct ChangePhoneNumber: Codable, Equatable, TDFunction {
 	public typealias Result = AuthenticationCodeInfo
 	///  The new phone number of the user in international format 
 	public let phoneNumber: String
-	///  Pass true if the code can be sent via flash call to the specified phone number 
-	public let allowFlashCall: Bool
-	///  Pass true if the phone number is used on the current device. Ignored if allow_flash_call is false
-	public let isCurrentPhoneNumber: Bool
+	///  Settings for the authentication of the user's phone number
+	public let settings: PhoneNumberAuthenticationSettings
 	/// Changes the phone number of the user and sends an authentication code to the user's new phone number. On success, returns information about the sent code 
 	/// - Parameters:
 	///   - phoneNumber: The new phone number of the user in international format 
-	///   - allowFlashCall: Pass true if the code can be sent via flash call to the specified phone number 
-	///   - isCurrentPhoneNumber: Pass true if the phone number is used on the current device. Ignored if allow_flash_call is false
-	public init(phoneNumber: String, allowFlashCall: Bool, isCurrentPhoneNumber: Bool) {
+	///   - settings: Settings for the authentication of the user's phone number
+	public init(phoneNumber: String, settings: PhoneNumberAuthenticationSettings) {
 		self.phoneNumber = phoneNumber
-		self.allowFlashCall = allowFlashCall
-		self.isCurrentPhoneNumber = isCurrentPhoneNumber
+		self.settings = settings
 	}
 }
 
@@ -9549,23 +9957,6 @@ public struct DisconnectAllWebsites: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Toggles the "All members are admins" setting in basic groups; requires creator privileges in the group 
-public struct ToggleBasicGroupAdministrators: Codable, Equatable, TDFunction {
-	public typealias Result = Ok
-	///  Identifier of the basic group 
-	public let basicGroupId: Int32
-	///  New value of everyone_is_administrator
-	public let everyoneIsAdministrator: Bool
-	/// Toggles the "All members are admins" setting in basic groups; requires creator privileges in the group 
-	/// - Parameters:
-	///   - basicGroupId: Identifier of the basic group 
-	///   - everyoneIsAdministrator: New value of everyone_is_administrator
-	public init(basicGroupId: Int32, everyoneIsAdministrator: Bool) {
-		self.basicGroupId = basicGroupId
-		self.everyoneIsAdministrator = everyoneIsAdministrator
-	}
-}
-
 ///  Changes the username of a supergroup or channel, requires creator privileges in the supergroup or channel 
 public struct SetSupergroupUsername: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
@@ -9583,14 +9974,14 @@ public struct SetSupergroupUsername: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Changes the sticker set of a supergroup; requires appropriate rights in the supergroup 
+///  Changes the sticker set of a supergroup; requires can_change_info rights 
 public struct SetSupergroupStickerSet: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Identifier of the supergroup 
 	public let supergroupId: Int32
 	///  New value of the supergroup sticker set identifier. Use 0 to remove the supergroup sticker set
 	public let stickerSetId: TDInt64
-	/// Changes the sticker set of a supergroup; requires appropriate rights in the supergroup 
+	/// Changes the sticker set of a supergroup; requires can_change_info rights 
 	/// - Parameters:
 	///   - supergroupId: Identifier of the supergroup 
 	///   - stickerSetId: New value of the supergroup sticker set identifier. Use 0 to remove the supergroup sticker set
@@ -9600,31 +9991,14 @@ public struct SetSupergroupStickerSet: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Toggles whether all members of a supergroup can add new members; requires appropriate administrator rights in the supergroup. 
-public struct ToggleSupergroupInvites: Codable, Equatable, TDFunction {
-	public typealias Result = Ok
-	///  Identifier of the supergroup 
-	public let supergroupId: Int32
-	///  New value of anyone_can_invite
-	public let anyoneCanInvite: Bool
-	/// Toggles whether all members of a supergroup can add new members; requires appropriate administrator rights in the supergroup. 
-	/// - Parameters:
-	///   - supergroupId: Identifier of the supergroup 
-	///   - anyoneCanInvite: New value of anyone_can_invite
-	public init(supergroupId: Int32, anyoneCanInvite: Bool) {
-		self.supergroupId = supergroupId
-		self.anyoneCanInvite = anyoneCanInvite
-	}
-}
-
-///  Toggles sender signatures messages sent in a channel; requires appropriate administrator rights in the channel. 
+///  Toggles sender signatures messages sent in a channel; requires can_change_info rights 
 public struct ToggleSupergroupSignMessages: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  Identifier of the channel 
 	public let supergroupId: Int32
 	///  New value of sign_messages
 	public let signMessages: Bool
-	/// Toggles sender signatures messages sent in a channel; requires appropriate administrator rights in the channel. 
+	/// Toggles sender signatures messages sent in a channel; requires can_change_info rights 
 	/// - Parameters:
 	///   - supergroupId: Identifier of the channel 
 	///   - signMessages: New value of sign_messages
@@ -9634,37 +10008,20 @@ public struct ToggleSupergroupSignMessages: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Toggles whether the message history of a supergroup is available to new members; requires appropriate administrator rights in the supergroup. 
+///  Toggles whether the message history of a supergroup is available to new members; requires can_change_info rights 
 public struct ToggleSupergroupIsAllHistoryAvailable: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
 	///  The identifier of the supergroup 
 	public let supergroupId: Int32
 	///  The new value of is_all_history_available
 	public let isAllHistoryAvailable: Bool
-	/// Toggles whether the message history of a supergroup is available to new members; requires appropriate administrator rights in the supergroup. 
+	/// Toggles whether the message history of a supergroup is available to new members; requires can_change_info rights 
 	/// - Parameters:
 	///   - supergroupId: The identifier of the supergroup 
 	///   - isAllHistoryAvailable: The new value of is_all_history_available
 	public init(supergroupId: Int32, isAllHistoryAvailable: Bool) {
 		self.supergroupId = supergroupId
 		self.isAllHistoryAvailable = isAllHistoryAvailable
-	}
-}
-
-///  Changes information about a supergroup or channel; requires appropriate administrator rights 
-public struct SetSupergroupDescription: Codable, Equatable, TDFunction {
-	public typealias Result = Ok
-	///  Identifier of the supergroup or channel 
-	public let supergroupId: Int32
-	///  New supergroup or channel description; 0-255 characters
-	public let description: String
-	/// Changes information about a supergroup or channel; requires appropriate administrator rights 
-	/// - Parameters:
-	///   - supergroupId: Identifier of the supergroup or channel 
-	///   - description: New supergroup or channel description; 0-255 characters
-	public init(supergroupId: Int32, description: String) {
-		self.supergroupId = supergroupId
-		self.description = description
 	}
 }
 
@@ -9893,10 +10250,87 @@ public struct GetSupportUser: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Returns background wallpapers
-public struct GetWallpapers: Codable, Equatable, TDFunction {
-	public typealias Result = Wallpapers
-	/// Returns background wallpapers
+///  Returns backgrounds installed by the user 
+public struct GetBackgrounds: Codable, Equatable, TDFunction {
+	public typealias Result = Backgrounds
+	///  True, if the backgrounds needs to be ordered for dark theme
+	public let forDarkTheme: Bool
+	/// Returns backgrounds installed by the user 
+	/// - Parameters:
+	///   - forDarkTheme: True, if the backgrounds needs to be ordered for dark theme
+	public init(forDarkTheme: Bool) {
+		self.forDarkTheme = forDarkTheme
+	}
+}
+
+///  Constructs a persistent HTTP URL for a background 
+public struct GetBackgroundUrl: Codable, Equatable, TDFunction {
+	public typealias Result = HttpUrl
+	///  Background name 
+	public let name: String
+	///  Background type
+	public let type: BackgroundType
+	/// Constructs a persistent HTTP URL for a background 
+	/// - Parameters:
+	///   - name: Background name 
+	///   - type: Background type
+	public init(name: String, type: BackgroundType) {
+		self.name = name
+		self.type = type
+	}
+}
+
+///  Searches for a background by its name 
+public struct SearchBackground: Codable, Equatable, TDFunction {
+	public typealias Result = Background
+	///  The name of the background
+	public let name: String
+	/// Searches for a background by its name 
+	/// - Parameters:
+	///   - name: The name of the background
+	public init(name: String) {
+		self.name = name
+	}
+}
+
+///  Changes the background selected by the user; adds background to the list of installed backgrounds 
+public struct SetBackground: Codable, Equatable, TDFunction {
+	public typealias Result = Background
+	///  The input background to use, null for solid backgrounds 
+	public let background: InputBackground
+	///  Background type; null for default background. The method will return error 404 if type is null 
+	public let type: BackgroundType
+	///  True, if the background is chosen for dark theme
+	public let forDarkTheme: Bool
+	/// Changes the background selected by the user; adds background to the list of installed backgrounds 
+	/// - Parameters:
+	///   - background: The input background to use, null for solid backgrounds 
+	///   - type: Background type; null for default background. The method will return error 404 if type is null 
+	///   - forDarkTheme: True, if the background is chosen for dark theme
+	public init(background: InputBackground, type: BackgroundType, forDarkTheme: Bool) {
+		self.background = background
+		self.type = type
+		self.forDarkTheme = forDarkTheme
+	}
+}
+
+///  Removes background from the list of installed backgrounds 
+public struct RemoveBackground: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  The background indentifier
+	public let backgroundId: TDInt64
+	/// Removes background from the list of installed backgrounds 
+	/// - Parameters:
+	///   - backgroundId: The background indentifier
+	public init(backgroundId: TDInt64) {
+		self.backgroundId = backgroundId
+	}
+}
+
+///  Resets list of installed backgrounds to its default value
+public struct ResetBackgrounds: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	/// Resets list of installed backgrounds to its default value
 	public init() {
 	}
 }
@@ -10231,7 +10665,7 @@ public struct ReportChat: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Returns URL with the chat statistics. Currently this method can be used only for channels 
+///  Returns an HTTP URL with the chat statistics. Currently this method can be used only for channels 
 public struct GetChatStatisticsUrl: Codable, Equatable, TDFunction {
 	public typealias Result = HttpUrl
 	///  Chat identifier 
@@ -10240,7 +10674,7 @@ public struct GetChatStatisticsUrl: Codable, Equatable, TDFunction {
 	public let parameters: String
 	///  Pass true if a URL with the dark theme must be returned
 	public let isDark: Bool
-	/// Returns URL with the chat statistics. Currently this method can be used only for channels 
+	/// Returns an HTTP URL with the chat statistics. Currently this method can be used only for channels 
 	/// - Parameters:
 	///   - chatId: Chat identifier 
 	///   - parameters: Parameters from "tg://statsrefresh?params=******" link 
@@ -10369,6 +10803,31 @@ public struct ResetNetworkStatistics: Codable, Equatable, TDFunction {
 	}
 }
 
+///  Returns auto-download settings presets for the currently logged in user
+public struct GetAutoDownloadSettingsPresets: Codable, Equatable, TDFunction {
+	public typealias Result = AutoDownloadSettingsPresets
+	/// Returns auto-download settings presets for the currently logged in user
+	public init() {
+	}
+}
+
+///  Sets auto-download settings 
+public struct SetAutoDownloadSettings: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  New user auto-download settings 
+	public let settings: AutoDownloadSettings
+	///  Type of the network for which the new settings are applied
+	public let type: NetworkType
+	/// Sets auto-download settings 
+	/// - Parameters:
+	///   - settings: New user auto-download settings 
+	///   - type: Type of the network for which the new settings are applied
+	public init(settings: AutoDownloadSettings, type: NetworkType) {
+		self.settings = settings
+		self.type = type
+	}
+}
+
 ///  Returns one of the available Telegram Passport elements 
 public struct GetPassportElement: Codable, Equatable, TDFunction {
 	public typealias Result = PassportElement
@@ -10464,19 +10923,15 @@ public struct SendPhoneNumberVerificationCode: Codable, Equatable, TDFunction {
 	public typealias Result = AuthenticationCodeInfo
 	///  The phone number of the user, in international format 
 	public let phoneNumber: String
-	///  Pass true if the authentication code may be sent via flash call to the specified phone number 
-	public let allowFlashCall: Bool
-	///  Pass true if the phone number is used on the current device. Ignored if allow_flash_call is false
-	public let isCurrentPhoneNumber: Bool
+	///  Settings for the authentication of the user's phone number
+	public let settings: PhoneNumberAuthenticationSettings
 	/// Sends a code to verify a phone number to be added to a user's Telegram Passport 
 	/// - Parameters:
 	///   - phoneNumber: The phone number of the user, in international format 
-	///   - allowFlashCall: Pass true if the authentication code may be sent via flash call to the specified phone number 
-	///   - isCurrentPhoneNumber: Pass true if the phone number is used on the current device. Ignored if allow_flash_call is false
-	public init(phoneNumber: String, allowFlashCall: Bool, isCurrentPhoneNumber: Bool) {
+	///   - settings: Settings for the authentication of the user's phone number
+	public init(phoneNumber: String, settings: PhoneNumberAuthenticationSettings) {
 		self.phoneNumber = phoneNumber
-		self.allowFlashCall = allowFlashCall
-		self.isCurrentPhoneNumber = isCurrentPhoneNumber
+		self.settings = settings
 	}
 }
 
@@ -10601,21 +11056,17 @@ public struct SendPhoneNumberConfirmationCode: Codable, Equatable, TDFunction {
 	public let hash: String
 	///  Value of the "phone" parameter from the link 
 	public let phoneNumber: String
-	///  Pass true if the authentication code may be sent via flash call to the specified phone number 
-	public let allowFlashCall: Bool
-	///  Pass true if the phone number is used on the current device. Ignored if allow_flash_call is false
-	public let isCurrentPhoneNumber: Bool
+	///  Settings for the authentication of the user's phone number
+	public let settings: PhoneNumberAuthenticationSettings
 	/// Sends phone number confirmation code. Should be called when user presses "https://t.me/confirmphone?phone=*******&hash=**********" or "tg://confirmphone?phone=*******&hash=**********" link 
 	/// - Parameters:
 	///   - hash: Value of the "hash" parameter from the link 
 	///   - phoneNumber: Value of the "phone" parameter from the link 
-	///   - allowFlashCall: Pass true if the authentication code may be sent via flash call to the specified phone number 
-	///   - isCurrentPhoneNumber: Pass true if the phone number is used on the current device. Ignored if allow_flash_call is false
-	public init(hash: String, phoneNumber: String, allowFlashCall: Bool, isCurrentPhoneNumber: Bool) {
+	///   - settings: Settings for the authentication of the user's phone number
+	public init(hash: String, phoneNumber: String, settings: PhoneNumberAuthenticationSettings) {
 		self.hash = hash
 		self.phoneNumber = phoneNumber
-		self.allowFlashCall = allowFlashCall
-		self.isCurrentPhoneNumber = isCurrentPhoneNumber
+		self.settings = settings
 	}
 }
 
@@ -10847,10 +11298,10 @@ public struct SetAlarm: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Uses current user IP to found his country. Returns two-letter ISO 3166-1 alpha-2 country code. Can be called before authorization
+///  Uses current user IP to found their country. Returns two-letter ISO 3166-1 alpha-2 country code. Can be called before authorization
 public struct GetCountryCode: Codable, Equatable, TDFunction {
 	public typealias Result = Text
-	/// Uses current user IP to found his country. Returns two-letter ISO 3166-1 alpha-2 country code. Can be called before authorization
+	/// Uses current user IP to found their country. Returns two-letter ISO 3166-1 alpha-2 country code. Can be called before authorization
 	public init() {
 	}
 }
@@ -11231,6 +11682,27 @@ public struct TestNetwork: Codable, Equatable, TDFunction {
 	}
 }
 
+///  Sends a simple network request to the Telegram servers via proxy; for testing only. Can be called before authorization 
+public struct TestProxy: Codable, Equatable, TDFunction {
+	public typealias Result = Ok
+	///  Proxy server IP address 
+	public let server: String
+	///  Proxy server port 
+	public let port: Int32
+	///  Proxy type
+	public let type: ProxyType
+	/// Sends a simple network request to the Telegram servers via proxy; for testing only. Can be called before authorization 
+	/// - Parameters:
+	///   - server: Proxy server IP address 
+	///   - port: Proxy server port 
+	///   - type: Proxy type
+	public init(server: String, port: Int32, type: ProxyType) {
+		self.server = server
+		self.port = port
+		self.type = type
+	}
+}
+
 ///  Forces an updates.getDifference call to the Telegram servers; for testing only
 public struct TestGetDifference: Codable, Equatable, TDFunction {
 	public typealias Result = Ok
@@ -11247,11 +11719,16 @@ public struct TestUseUpdate: Codable, Equatable, TDFunction {
 	}
 }
 
-///  Does nothing and ensures that the Error object is used; for testing only. This is an offline method. Can be called before authorization
-public struct TestUseError: Codable, Equatable, TDFunction {
+///  Returns the specified error and ensures that the Error object is used; for testing only. This is an offline method. Can be called before authorization. Can be called synchronously 
+public struct TestReturnError: Codable, Equatable, TDFunction {
 	public typealias Result = Error
-	/// Does nothing and ensures that the Error object is used; for testing only. This is an offline method. Can be called before authorization
-	public init() {
+	///  The error to be returned
+	public let error: Error
+	/// Returns the specified error and ensures that the Error object is used; for testing only. This is an offline method. Can be called before authorization. Can be called synchronously 
+	/// - Parameters:
+	///   - error: The error to be returned
+	public init(error: Error) {
+		self.error = error
 	}
 }
 

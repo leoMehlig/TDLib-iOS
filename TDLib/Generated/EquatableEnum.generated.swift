@@ -1,4 +1,4 @@
-// Generated using Sourcery 0.16.0 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 0.17.0 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 
 
@@ -50,17 +50,17 @@ extension AuthorizationState {
             case (.waitPhoneNumber, .waitPhoneNumber):
                 return true
             case (.waitCode(
-                let lhsisRegistered,
-                let lhstermsOfService,
                 let lhscodeInfo),
               .waitCode(
-                let rhsisRegistered,
-                let rhstermsOfService,
                 let rhscodeInfo)):
               return 
-                lhsisRegistered == rhsisRegistered &&
-                lhstermsOfService == rhstermsOfService &&
                 lhscodeInfo == rhscodeInfo
+            case (.waitRegistration(
+                let lhstermsOfService),
+              .waitRegistration(
+                let rhstermsOfService)):
+              return 
+                lhstermsOfService == rhstermsOfService
             case (.waitPassword(
                 let lhspasswordHint,
                 let lhshasRecoveryEmailAddress,
@@ -87,6 +87,42 @@ extension AuthorizationState {
     }
 }
 
+extension BackgroundType {
+   public static func == (lhs: BackgroundType, rhs: BackgroundType) -> Bool {
+        switch (lhs, rhs) {
+            case (.wallpaper(
+                let lhsisBlurred,
+                let lhsisMoving),
+              .wallpaper(
+                let rhsisBlurred,
+                let rhsisMoving)):
+              return 
+                lhsisBlurred == rhsisBlurred &&
+                lhsisMoving == rhsisMoving
+            case (.pattern(
+                let lhsisMoving,
+                let lhscolor,
+                let lhsintensity),
+              .pattern(
+                let rhsisMoving,
+                let rhscolor,
+                let rhsintensity)):
+              return 
+                lhsisMoving == rhsisMoving &&
+                lhscolor == rhscolor &&
+                lhsintensity == rhsintensity
+            case (.solid(
+                let lhscolor),
+              .solid(
+                let rhscolor)):
+              return 
+                lhscolor == rhscolor
+        default:
+            return false
+        }
+    }
+}
+
 extension CallDiscardReason {
    public static func == (lhs: CallDiscardReason, rhs: CallDiscardReason) -> Bool {
         switch (lhs, rhs) {
@@ -99,6 +135,29 @@ extension CallDiscardReason {
             case (.disconnected, .disconnected):
                 return true
             case (.hungUp, .hungUp):
+                return true
+        default:
+            return false
+        }
+    }
+}
+
+extension CallProblem {
+   public static func == (lhs: CallProblem, rhs: CallProblem) -> Bool {
+        switch (lhs, rhs) {
+            case (.echo, .echo):
+                return true
+            case (.noise, .noise):
+                return true
+            case (.interruptions, .interruptions):
+                return true
+            case (.distortedSpeech, .distortedSpeech):
+                return true
+            case (.silentLocal, .silentLocal):
+                return true
+            case (.silentRemote, .silentRemote):
+                return true
+            case (.dropped, .dropped):
                 return true
         default:
             return false
@@ -261,6 +320,12 @@ extension ChatEventAction {
                 let rhsmessage)):
               return 
                 lhsmessage == rhsmessage
+            case (.chatEventPollStopped(
+                let lhsmessage),
+              .chatEventPollStopped(
+                let rhsmessage)):
+              return 
+                lhsmessage == rhsmessage
             case (.chatEventMessagePinned(
                 let lhsmessage),
               .chatEventMessagePinned(
@@ -315,6 +380,15 @@ extension ChatEventAction {
               return 
                 lhsoldTitle == rhsoldTitle &&
                 lhsnewTitle == rhsnewTitle
+            case (.chatEventPermissionsChanged(
+                let lhsoldPermissions,
+                let lhsnewPermissions),
+              .chatEventPermissionsChanged(
+                let rhsoldPermissions,
+                let rhsnewPermissions)):
+              return 
+                lhsoldPermissions == rhsoldPermissions &&
+                lhsnewPermissions == rhsnewPermissions
             case (.chatEventDescriptionChanged(
                 let lhsoldDescription,
                 let lhsnewDescription),
@@ -343,11 +417,11 @@ extension ChatEventAction {
                 lhsoldPhoto == rhsoldPhoto &&
                 lhsnewPhoto == rhsnewPhoto
             case (.chatEventInvitesToggled(
-                let lhsanyoneCanInvite),
+                let lhscanInviteUsers),
               .chatEventInvitesToggled(
-                let rhsanyoneCanInvite)):
+                let rhscanInviteUsers)):
               return 
-                lhsanyoneCanInvite == rhsanyoneCanInvite
+                lhscanInviteUsers == rhscanInviteUsers
             case (.chatEventSignMessagesToggled(
                 let lhssignMessages),
               .chatEventSignMessagesToggled(
@@ -419,24 +493,15 @@ extension ChatMemberStatus {
             case (.restricted(
                 let lhsisMember,
                 let lhsrestrictedUntilDate,
-                let lhscanSendMessages,
-                let lhscanSendMediaMessages,
-                let lhscanSendOtherMessages,
-                let lhscanAddWebPagePreviews),
+                let lhspermissions),
               .restricted(
                 let rhsisMember,
                 let rhsrestrictedUntilDate,
-                let rhscanSendMessages,
-                let rhscanSendMediaMessages,
-                let rhscanSendOtherMessages,
-                let rhscanAddWebPagePreviews)):
+                let rhspermissions)):
               return 
                 lhsisMember == rhsisMember &&
                 lhsrestrictedUntilDate == rhsrestrictedUntilDate &&
-                lhscanSendMessages == rhscanSendMessages &&
-                lhscanSendMediaMessages == rhscanSendMediaMessages &&
-                lhscanSendOtherMessages == rhscanSendOtherMessages &&
-                lhscanAddWebPagePreviews == rhscanAddWebPagePreviews
+                lhspermissions == rhspermissions
             case (.left, .left):
                 return true
             case (.banned(
@@ -454,6 +519,8 @@ extension ChatMemberStatus {
 extension ChatMembersFilter {
    public static func == (lhs: ChatMembersFilter, rhs: ChatMembersFilter) -> Bool {
         switch (lhs, rhs) {
+            case (.contacts, .contacts):
+                return true
             case (.administrators, .administrators):
                 return true
             case (.members, .members):
@@ -715,6 +782,18 @@ extension InlineKeyboardButtonType {
                 let rhsurl)):
               return 
                 lhsurl == rhsurl
+            case (.loginUrl(
+                let lhsurl,
+                let lhsid,
+                let lhsforwardText),
+              .loginUrl(
+                let rhsurl,
+                let rhsid,
+                let rhsforwardText)):
+              return 
+                lhsurl == rhsurl &&
+                lhsid == rhsid &&
+                lhsforwardText == rhsforwardText
             case (.callback(
                 let lhsdata),
               .callback(
@@ -899,6 +978,27 @@ extension InlineQueryResult {
                 lhsid == rhsid &&
                 lhsvoiceNote == rhsvoiceNote &&
                 lhstitle == rhstitle
+        default:
+            return false
+        }
+    }
+}
+
+extension InputBackground {
+   public static func == (lhs: InputBackground, rhs: InputBackground) -> Bool {
+        switch (lhs, rhs) {
+            case (.local(
+                let lhsbackground),
+              .local(
+                let rhsbackground)):
+              return 
+                lhsbackground == rhsbackground
+            case (.remote(
+                let lhsbackgroundId),
+              .remote(
+                let rhsbackgroundId)):
+              return 
+                lhsbackgroundId == rhsbackgroundId
         default:
             return false
         }
@@ -1586,15 +1686,21 @@ extension InputMessageContent {
             case (.inputMessageForwarded(
                 let lhsfromChatId,
                 let lhsmessageId,
-                let lhsinGameShare),
+                let lhsinGameShare,
+                let lhssendCopy,
+                let lhsremoveCaption),
               .inputMessageForwarded(
                 let rhsfromChatId,
                 let rhsmessageId,
-                let rhsinGameShare)):
+                let rhsinGameShare,
+                let rhssendCopy,
+                let rhsremoveCaption)):
               return 
                 lhsfromChatId == rhsfromChatId &&
                 lhsmessageId == rhsmessageId &&
-                lhsinGameShare == rhsinGameShare
+                lhsinGameShare == rhsinGameShare &&
+                lhssendCopy == rhssendCopy &&
+                lhsremoveCaption == rhsremoveCaption
         default:
             return false
         }
@@ -2275,8 +2381,21 @@ extension MessageSendingState {
         switch (lhs, rhs) {
             case (.pending, .pending):
                 return true
-            case (.failed, .failed):
-                return true
+            case (.failed(
+                let lhserrorCode,
+                let lhserrorMessage,
+                let lhscanRetry,
+                let lhsretryAfter),
+              .failed(
+                let rhserrorCode,
+                let rhserrorMessage,
+                let rhscanRetry,
+                let rhsretryAfter)):
+              return 
+                lhserrorCode == rhserrorCode &&
+                lhserrorMessage == rhserrorMessage &&
+                lhscanRetry == rhscanRetry &&
+                lhsretryAfter == rhsretryAfter
         default:
             return false
         }
@@ -3400,6 +3519,12 @@ extension SupergroupMembersFilter {
         switch (lhs, rhs) {
             case (.recent, .recent):
                 return true
+            case (.contacts(
+                let lhsquery),
+              .contacts(
+                let rhsquery)):
+              return 
+                lhsquery == rhsquery
             case (.administrators, .administrators):
                 return true
             case (.search(
@@ -3676,6 +3801,15 @@ extension Update {
               return 
                 lhschatId == rhschatId &&
                 lhsphoto == rhsphoto
+            case (.chatPermissions(
+                let lhschatId,
+                let lhspermissions),
+              .chatPermissions(
+                let rhschatId,
+                let rhspermissions)):
+              return 
+                lhschatId == rhschatId &&
+                lhspermissions == rhspermissions
             case (.chatLastMessage(
                 let lhschatId,
                 let lhslastMessage,
@@ -4084,6 +4218,15 @@ extension Update {
                 let rhsanimationIds)):
               return 
                 lhsanimationIds == rhsanimationIds
+            case (.selectedBackground(
+                let lhsforDarkTheme,
+                let lhsbackground),
+              .selectedBackground(
+                let rhsforDarkTheme,
+                let rhsbackground)):
+              return 
+                lhsforDarkTheme == rhsforDarkTheme &&
+                lhsbackground == rhsbackground
             case (.languagePackStrings(
                 let lhslocalizationTarget,
                 let lhslanguagePackId,
@@ -4259,6 +4402,10 @@ extension UserPrivacySetting {
    public static func == (lhs: UserPrivacySetting, rhs: UserPrivacySetting) -> Bool {
         switch (lhs, rhs) {
             case (.showStatus, .showStatus):
+                return true
+            case (.showProfilePhoto, .showProfilePhoto):
+                return true
+            case (.showLinkInForwardedMessages, .showLinkInForwardedMessages):
                 return true
             case (.allowChatInvites, .allowChatInvites):
                 return true

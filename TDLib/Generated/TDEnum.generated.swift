@@ -1,4 +1,4 @@
-// Generated using Sourcery 0.16.0 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 0.17.0 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 
 
@@ -90,9 +90,10 @@ extension AuthorizationState {
           case isEncrypted
   }
   enum WaitCodeKeys: String, CodingKey {
-          case isRegistered
-          case termsOfService
           case codeInfo
+  }
+  enum WaitRegistrationKeys: String, CodingKey {
+          case termsOfService
   }
   enum WaitPasswordKeys: String, CodingKey {
           case passwordHint
@@ -116,9 +117,12 @@ extension AuthorizationState {
     case "authorizationStateWaitCode":
       let caseContainer = try decoder.container(keyedBy: WaitCodeKeys.self)
       self = .waitCode(
-            isRegistered: try caseContainer.decode(Bool.self, forKey: .isRegistered),
-              termsOfService: try caseContainer.decodeIfPresent(TermsOfService.self, forKey: .termsOfService),
             codeInfo: try caseContainer.decode(AuthenticationCodeInfo.self, forKey: .codeInfo)
+        )
+    case "authorizationStateWaitRegistration":
+      let caseContainer = try decoder.container(keyedBy: WaitRegistrationKeys.self)
+      self = .waitRegistration(
+            termsOfService: try caseContainer.decode(TermsOfService.self, forKey: .termsOfService)
         )
     case "authorizationStateWaitPassword":
       let caseContainer = try decoder.container(keyedBy: WaitPasswordKeys.self)
@@ -153,14 +157,15 @@ extension AuthorizationState {
             case .waitPhoneNumber:
                try container.encode("authorizationStateWaitPhoneNumber", forKey: .type)
             case .waitCode(
-                let isRegistered,
-                let termsOfService,
                 let codeInfo):
                try container.encode("authorizationStateWaitCode", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: WaitCodeKeys.self)
-                      try caseContainer.encode(isRegistered, forKey: .isRegistered)
-                      try caseContainer.encodeIfPresent(termsOfService, forKey: .termsOfService)
                       try caseContainer.encode(codeInfo, forKey: .codeInfo)
+            case .waitRegistration(
+                let termsOfService):
+               try container.encode("authorizationStateWaitRegistration", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: WaitRegistrationKeys.self)
+                      try caseContainer.encode(termsOfService, forKey: .termsOfService)
             case .waitPassword(
                 let passwordHint,
                 let hasRecoveryEmailAddress,
@@ -178,6 +183,81 @@ extension AuthorizationState {
                try container.encode("authorizationStateClosing", forKey: .type)
             case .closed:
                try container.encode("authorizationStateClosed", forKey: .type)
+        }
+  }
+}
+
+extension BackgroundType {
+  enum CodingKeys: String, CodingKey {
+        case type = "@type"
+  }
+  enum TDError: Swift.Error {
+        case unknownState(String)
+  }
+  enum WallpaperKeys: String, CodingKey {
+          case isBlurred
+          case isMoving
+  }
+  enum PatternKeys: String, CodingKey {
+          case isMoving
+          case color
+          case intensity
+  }
+  enum SolidKeys: String, CodingKey {
+          case color
+  }
+
+  public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let type = try container.decode(String.self, forKey: .type)
+        switch type {
+    case "backgroundTypeWallpaper":
+      let caseContainer = try decoder.container(keyedBy: WallpaperKeys.self)
+      self = .wallpaper(
+            isBlurred: try caseContainer.decode(Bool.self, forKey: .isBlurred),
+            isMoving: try caseContainer.decode(Bool.self, forKey: .isMoving)
+        )
+    case "backgroundTypePattern":
+      let caseContainer = try decoder.container(keyedBy: PatternKeys.self)
+      self = .pattern(
+            isMoving: try caseContainer.decode(Bool.self, forKey: .isMoving),
+            color: try caseContainer.decode(Int32.self, forKey: .color),
+            intensity: try caseContainer.decode(Int32.self, forKey: .intensity)
+        )
+    case "backgroundTypeSolid":
+      let caseContainer = try decoder.container(keyedBy: SolidKeys.self)
+      self = .solid(
+            color: try caseContainer.decode(Int32.self, forKey: .color)
+        )
+    default:
+       throw TDError.unknownState(type)
+        }
+    }
+
+  public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case .wallpaper(
+                let isBlurred,
+                let isMoving):
+               try container.encode("backgroundTypeWallpaper", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: WallpaperKeys.self)
+                      try caseContainer.encode(isBlurred, forKey: .isBlurred)
+                      try caseContainer.encode(isMoving, forKey: .isMoving)
+            case .pattern(
+                let isMoving,
+                let color,
+                let intensity):
+               try container.encode("backgroundTypePattern", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: PatternKeys.self)
+                      try caseContainer.encode(isMoving, forKey: .isMoving)
+                      try caseContainer.encode(color, forKey: .color)
+                      try caseContainer.encode(intensity, forKey: .intensity)
+            case .solid(
+                let color):
+               try container.encode("backgroundTypeSolid", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: SolidKeys.self)
+                      try caseContainer.encode(color, forKey: .color)
         }
   }
 }
@@ -222,6 +302,58 @@ extension CallDiscardReason {
                try container.encode("callDiscardReasonDisconnected", forKey: .type)
             case .hungUp:
                try container.encode("callDiscardReasonHungUp", forKey: .type)
+        }
+  }
+}
+
+extension CallProblem {
+  enum CodingKeys: String, CodingKey {
+        case type = "@type"
+  }
+  enum TDError: Swift.Error {
+        case unknownState(String)
+  }
+
+  public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let type = try container.decode(String.self, forKey: .type)
+        switch type {
+    case "callProblemEcho":
+      self = .echo
+    case "callProblemNoise":
+      self = .noise
+    case "callProblemInterruptions":
+      self = .interruptions
+    case "callProblemDistortedSpeech":
+      self = .distortedSpeech
+    case "callProblemSilentLocal":
+      self = .silentLocal
+    case "callProblemSilentRemote":
+      self = .silentRemote
+    case "callProblemDropped":
+      self = .dropped
+    default:
+       throw TDError.unknownState(type)
+        }
+    }
+
+  public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case .echo:
+               try container.encode("callProblemEcho", forKey: .type)
+            case .noise:
+               try container.encode("callProblemNoise", forKey: .type)
+            case .interruptions:
+               try container.encode("callProblemInterruptions", forKey: .type)
+            case .distortedSpeech:
+               try container.encode("callProblemDistortedSpeech", forKey: .type)
+            case .silentLocal:
+               try container.encode("callProblemSilentLocal", forKey: .type)
+            case .silentRemote:
+               try container.encode("callProblemSilentRemote", forKey: .type)
+            case .dropped:
+               try container.encode("callProblemDropped", forKey: .type)
         }
   }
 }
@@ -527,6 +659,9 @@ extension ChatEventAction {
   enum ChatEventMessageDeletedKeys: String, CodingKey {
           case message
   }
+  enum ChatEventPollStoppedKeys: String, CodingKey {
+          case message
+  }
   enum ChatEventMessagePinnedKeys: String, CodingKey {
           case message
   }
@@ -548,6 +683,10 @@ extension ChatEventAction {
           case oldTitle
           case newTitle
   }
+  enum ChatEventPermissionsChangedKeys: String, CodingKey {
+          case oldPermissions
+          case newPermissions
+  }
   enum ChatEventDescriptionChangedKeys: String, CodingKey {
           case oldDescription
           case newDescription
@@ -561,7 +700,7 @@ extension ChatEventAction {
           case newPhoto
   }
   enum ChatEventInvitesToggledKeys: String, CodingKey {
-          case anyoneCanInvite
+          case canInviteUsers
   }
   enum ChatEventSignMessagesToggledKeys: String, CodingKey {
           case signMessages
@@ -587,6 +726,11 @@ extension ChatEventAction {
     case "chatEventMessageDeleted":
       let caseContainer = try decoder.container(keyedBy: ChatEventMessageDeletedKeys.self)
       self = .chatEventMessageDeleted(
+            message: try caseContainer.decode(Message.self, forKey: .message)
+        )
+    case "chatEventPollStopped":
+      let caseContainer = try decoder.container(keyedBy: ChatEventPollStoppedKeys.self)
+      self = .chatEventPollStopped(
             message: try caseContainer.decode(Message.self, forKey: .message)
         )
     case "chatEventMessagePinned":
@@ -626,6 +770,12 @@ extension ChatEventAction {
             oldTitle: try caseContainer.decode(String.self, forKey: .oldTitle),
             newTitle: try caseContainer.decode(String.self, forKey: .newTitle)
         )
+    case "chatEventPermissionsChanged":
+      let caseContainer = try decoder.container(keyedBy: ChatEventPermissionsChangedKeys.self)
+      self = .chatEventPermissionsChanged(
+            oldPermissions: try caseContainer.decode(ChatPermissions.self, forKey: .oldPermissions),
+            newPermissions: try caseContainer.decode(ChatPermissions.self, forKey: .newPermissions)
+        )
     case "chatEventDescriptionChanged":
       let caseContainer = try decoder.container(keyedBy: ChatEventDescriptionChangedKeys.self)
       self = .chatEventDescriptionChanged(
@@ -641,13 +791,13 @@ extension ChatEventAction {
     case "chatEventPhotoChanged":
       let caseContainer = try decoder.container(keyedBy: ChatEventPhotoChangedKeys.self)
       self = .chatEventPhotoChanged(
-              oldPhoto: try caseContainer.decodeIfPresent(ChatPhoto.self, forKey: .oldPhoto),
-              newPhoto: try caseContainer.decodeIfPresent(ChatPhoto.self, forKey: .newPhoto)
+              oldPhoto: try caseContainer.decodeIfPresent(Photo.self, forKey: .oldPhoto),
+              newPhoto: try caseContainer.decodeIfPresent(Photo.self, forKey: .newPhoto)
         )
     case "chatEventInvitesToggled":
       let caseContainer = try decoder.container(keyedBy: ChatEventInvitesToggledKeys.self)
       self = .chatEventInvitesToggled(
-            anyoneCanInvite: try caseContainer.decode(Bool.self, forKey: .anyoneCanInvite)
+            canInviteUsers: try caseContainer.decode(Bool.self, forKey: .canInviteUsers)
         )
     case "chatEventSignMessagesToggled":
       let caseContainer = try decoder.container(keyedBy: ChatEventSignMessagesToggledKeys.self)
@@ -684,6 +834,11 @@ extension ChatEventAction {
                 let message):
                try container.encode("chatEventMessageDeleted", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: ChatEventMessageDeletedKeys.self)
+                      try caseContainer.encode(message, forKey: .message)
+            case .chatEventPollStopped(
+                let message):
+               try container.encode("chatEventPollStopped", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: ChatEventPollStoppedKeys.self)
                       try caseContainer.encode(message, forKey: .message)
             case .chatEventMessagePinned(
                 let message):
@@ -728,6 +883,13 @@ extension ChatEventAction {
                 var caseContainer = encoder.container(keyedBy: ChatEventTitleChangedKeys.self)
                       try caseContainer.encode(oldTitle, forKey: .oldTitle)
                       try caseContainer.encode(newTitle, forKey: .newTitle)
+            case .chatEventPermissionsChanged(
+                let oldPermissions,
+                let newPermissions):
+               try container.encode("chatEventPermissionsChanged", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: ChatEventPermissionsChangedKeys.self)
+                      try caseContainer.encode(oldPermissions, forKey: .oldPermissions)
+                      try caseContainer.encode(newPermissions, forKey: .newPermissions)
             case .chatEventDescriptionChanged(
                 let oldDescription,
                 let newDescription):
@@ -750,10 +912,10 @@ extension ChatEventAction {
                       try caseContainer.encodeIfPresent(oldPhoto, forKey: .oldPhoto)
                       try caseContainer.encodeIfPresent(newPhoto, forKey: .newPhoto)
             case .chatEventInvitesToggled(
-                let anyoneCanInvite):
+                let canInviteUsers):
                try container.encode("chatEventInvitesToggled", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: ChatEventInvitesToggledKeys.self)
-                      try caseContainer.encode(anyoneCanInvite, forKey: .anyoneCanInvite)
+                      try caseContainer.encode(canInviteUsers, forKey: .canInviteUsers)
             case .chatEventSignMessagesToggled(
                 let signMessages):
                try container.encode("chatEventSignMessagesToggled", forKey: .type)
@@ -799,10 +961,7 @@ extension ChatMemberStatus {
   enum RestrictedKeys: String, CodingKey {
           case isMember
           case restrictedUntilDate
-          case canSendMessages
-          case canSendMediaMessages
-          case canSendOtherMessages
-          case canAddWebPagePreviews
+          case permissions
   }
   enum BannedKeys: String, CodingKey {
           case bannedUntilDate
@@ -837,10 +996,7 @@ extension ChatMemberStatus {
       self = .restricted(
             isMember: try caseContainer.decode(Bool.self, forKey: .isMember),
             restrictedUntilDate: try caseContainer.decode(Int32.self, forKey: .restrictedUntilDate),
-            canSendMessages: try caseContainer.decode(Bool.self, forKey: .canSendMessages),
-            canSendMediaMessages: try caseContainer.decode(Bool.self, forKey: .canSendMediaMessages),
-            canSendOtherMessages: try caseContainer.decode(Bool.self, forKey: .canSendOtherMessages),
-            canAddWebPagePreviews: try caseContainer.decode(Bool.self, forKey: .canAddWebPagePreviews)
+            permissions: try caseContainer.decode(ChatPermissions.self, forKey: .permissions)
         )
     case "chatMemberStatusLeft":
       self = .left
@@ -888,18 +1044,12 @@ extension ChatMemberStatus {
             case .restricted(
                 let isMember,
                 let restrictedUntilDate,
-                let canSendMessages,
-                let canSendMediaMessages,
-                let canSendOtherMessages,
-                let canAddWebPagePreviews):
+                let permissions):
                try container.encode("chatMemberStatusRestricted", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: RestrictedKeys.self)
                       try caseContainer.encode(isMember, forKey: .isMember)
                       try caseContainer.encode(restrictedUntilDate, forKey: .restrictedUntilDate)
-                      try caseContainer.encode(canSendMessages, forKey: .canSendMessages)
-                      try caseContainer.encode(canSendMediaMessages, forKey: .canSendMediaMessages)
-                      try caseContainer.encode(canSendOtherMessages, forKey: .canSendOtherMessages)
-                      try caseContainer.encode(canAddWebPagePreviews, forKey: .canAddWebPagePreviews)
+                      try caseContainer.encode(permissions, forKey: .permissions)
             case .left:
                try container.encode("chatMemberStatusLeft", forKey: .type)
             case .banned(
@@ -923,6 +1073,8 @@ extension ChatMembersFilter {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let type = try container.decode(String.self, forKey: .type)
         switch type {
+    case "chatMembersFilterContacts":
+      self = .contacts
     case "chatMembersFilterAdministrators":
       self = .administrators
     case "chatMembersFilterMembers":
@@ -941,6 +1093,8 @@ extension ChatMembersFilter {
   public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
+            case .contacts:
+               try container.encode("chatMembersFilterContacts", forKey: .type)
             case .administrators:
                try container.encode("chatMembersFilterAdministrators", forKey: .type)
             case .members:
@@ -1473,6 +1627,11 @@ extension InlineKeyboardButtonType {
   enum UrlKeys: String, CodingKey {
           case url
   }
+  enum LoginUrlKeys: String, CodingKey {
+          case url
+          case id
+          case forwardText
+  }
   enum CallbackKeys: String, CodingKey {
           case data
   }
@@ -1489,6 +1648,13 @@ extension InlineKeyboardButtonType {
       let caseContainer = try decoder.container(keyedBy: UrlKeys.self)
       self = .url(
             url: try caseContainer.decode(String.self, forKey: .url)
+        )
+    case "inlineKeyboardButtonTypeLoginUrl":
+      let caseContainer = try decoder.container(keyedBy: LoginUrlKeys.self)
+      self = .loginUrl(
+            url: try caseContainer.decode(String.self, forKey: .url),
+            id: try caseContainer.decode(Int32.self, forKey: .id),
+            forwardText: try caseContainer.decode(String.self, forKey: .forwardText)
         )
     case "inlineKeyboardButtonTypeCallback":
       let caseContainer = try decoder.container(keyedBy: CallbackKeys.self)
@@ -1518,6 +1684,15 @@ extension InlineKeyboardButtonType {
                try container.encode("inlineKeyboardButtonTypeUrl", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: UrlKeys.self)
                       try caseContainer.encode(url, forKey: .url)
+            case .loginUrl(
+                let url,
+                let id,
+                let forwardText):
+               try container.encode("inlineKeyboardButtonTypeLoginUrl", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: LoginUrlKeys.self)
+                      try caseContainer.encode(url, forKey: .url)
+                      try caseContainer.encode(id, forKey: .id)
+                      try caseContainer.encode(forwardText, forKey: .forwardText)
             case .callback(
                 let data):
                try container.encode("inlineKeyboardButtonTypeCallback", forKey: .type)
@@ -1826,6 +2001,56 @@ extension InlineQueryResult {
                       try caseContainer.encode(id, forKey: .id)
                       try caseContainer.encode(voiceNote, forKey: .voiceNote)
                       try caseContainer.encode(title, forKey: .title)
+        }
+  }
+}
+
+extension InputBackground {
+  enum CodingKeys: String, CodingKey {
+        case type = "@type"
+  }
+  enum TDError: Swift.Error {
+        case unknownState(String)
+  }
+  enum LocalKeys: String, CodingKey {
+          case background
+  }
+  enum RemoteKeys: String, CodingKey {
+          case backgroundId
+  }
+
+  public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let type = try container.decode(String.self, forKey: .type)
+        switch type {
+    case "inputBackgroundLocal":
+      let caseContainer = try decoder.container(keyedBy: LocalKeys.self)
+      self = .local(
+            background: try caseContainer.decode(InputFile.self, forKey: .background)
+        )
+    case "inputBackgroundRemote":
+      let caseContainer = try decoder.container(keyedBy: RemoteKeys.self)
+      self = .remote(
+            backgroundId: try caseContainer.decode(TDInt64.self, forKey: .backgroundId)
+        )
+    default:
+       throw TDError.unknownState(type)
+        }
+    }
+
+  public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case .local(
+                let background):
+               try container.encode("inputBackgroundLocal", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: LocalKeys.self)
+                      try caseContainer.encode(background, forKey: .background)
+            case .remote(
+                let backgroundId):
+               try container.encode("inputBackgroundRemote", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: RemoteKeys.self)
+                      try caseContainer.encode(backgroundId, forKey: .backgroundId)
         }
   }
 }
@@ -2657,6 +2882,8 @@ extension InputMessageContent {
           case fromChatId
           case messageId
           case inGameShare
+          case sendCopy
+          case removeCaption
   }
 
   public init(from decoder: Decoder) throws {
@@ -2793,7 +3020,9 @@ extension InputMessageContent {
       self = .inputMessageForwarded(
             fromChatId: try caseContainer.decode(Int53.self, forKey: .fromChatId),
             messageId: try caseContainer.decode(Int53.self, forKey: .messageId),
-            inGameShare: try caseContainer.decode(Bool.self, forKey: .inGameShare)
+            inGameShare: try caseContainer.decode(Bool.self, forKey: .inGameShare),
+            sendCopy: try caseContainer.decode(Bool.self, forKey: .sendCopy),
+            removeCaption: try caseContainer.decode(Bool.self, forKey: .removeCaption)
         )
     default:
        throw TDError.unknownState(type)
@@ -2981,12 +3210,16 @@ extension InputMessageContent {
             case .inputMessageForwarded(
                 let fromChatId,
                 let messageId,
-                let inGameShare):
+                let inGameShare,
+                let sendCopy,
+                let removeCaption):
                try container.encode("inputMessageForwarded", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: InputMessageForwardedKeys.self)
                       try caseContainer.encode(fromChatId, forKey: .fromChatId)
                       try caseContainer.encode(messageId, forKey: .messageId)
                       try caseContainer.encode(inGameShare, forKey: .inGameShare)
+                      try caseContainer.encode(sendCopy, forKey: .sendCopy)
+                      try caseContainer.encode(removeCaption, forKey: .removeCaption)
         }
   }
 }
@@ -4368,6 +4601,12 @@ extension MessageSendingState {
   enum TDError: Swift.Error {
         case unknownState(String)
   }
+  enum FailedKeys: String, CodingKey {
+          case errorCode
+          case errorMessage
+          case canRetry
+          case retryAfter
+  }
 
   public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -4376,7 +4615,13 @@ extension MessageSendingState {
     case "messageSendingStatePending":
       self = .pending
     case "messageSendingStateFailed":
-      self = .failed
+      let caseContainer = try decoder.container(keyedBy: FailedKeys.self)
+      self = .failed(
+            errorCode: try caseContainer.decode(Int32.self, forKey: .errorCode),
+            errorMessage: try caseContainer.decode(String.self, forKey: .errorMessage),
+            canRetry: try caseContainer.decode(Bool.self, forKey: .canRetry),
+            retryAfter: try caseContainer.decode(Double.self, forKey: .retryAfter)
+        )
     default:
        throw TDError.unknownState(type)
         }
@@ -4387,8 +4632,17 @@ extension MessageSendingState {
         switch self {
             case .pending:
                try container.encode("messageSendingStatePending", forKey: .type)
-            case .failed:
+            case .failed(
+                let errorCode,
+                let errorMessage,
+                let canRetry,
+                let retryAfter):
                try container.encode("messageSendingStateFailed", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: FailedKeys.self)
+                      try caseContainer.encode(errorCode, forKey: .errorCode)
+                      try caseContainer.encode(errorMessage, forKey: .errorMessage)
+                      try caseContainer.encode(canRetry, forKey: .canRetry)
+                      try caseContainer.encode(retryAfter, forKey: .retryAfter)
         }
   }
 }
@@ -4981,7 +5235,7 @@ extension PageBlock {
       self = .embeddedPost(
             url: try caseContainer.decode(String.self, forKey: .url),
             author: try caseContainer.decode(String.self, forKey: .author),
-            authorPhoto: try caseContainer.decode(Photo.self, forKey: .authorPhoto),
+              authorPhoto: try caseContainer.decodeIfPresent(Photo.self, forKey: .authorPhoto),
             date: try caseContainer.decode(Int32.self, forKey: .date),
             pageBlocks: try caseContainer.decode([PageBlock].self, forKey: .pageBlocks),
             caption: try caseContainer.decode(PageBlockCaption.self, forKey: .caption)
@@ -5189,7 +5443,7 @@ extension PageBlock {
                 var caseContainer = encoder.container(keyedBy: EmbeddedPostKeys.self)
                       try caseContainer.encode(url, forKey: .url)
                       try caseContainer.encode(author, forKey: .author)
-                      try caseContainer.encode(authorPhoto, forKey: .authorPhoto)
+                      try caseContainer.encodeIfPresent(authorPhoto, forKey: .authorPhoto)
                       try caseContainer.encode(date, forKey: .date)
                       try caseContainer.encode(pageBlocks, forKey: .pageBlocks)
                       try caseContainer.encode(caption, forKey: .caption)
@@ -6654,6 +6908,9 @@ extension SupergroupMembersFilter {
   enum TDError: Swift.Error {
         case unknownState(String)
   }
+  enum ContactsKeys: String, CodingKey {
+          case query
+  }
   enum SearchKeys: String, CodingKey {
           case query
   }
@@ -6670,6 +6927,11 @@ extension SupergroupMembersFilter {
         switch type {
     case "supergroupMembersFilterRecent":
       self = .recent
+    case "supergroupMembersFilterContacts":
+      let caseContainer = try decoder.container(keyedBy: ContactsKeys.self)
+      self = .contacts(
+            query: try caseContainer.decode(String.self, forKey: .query)
+        )
     case "supergroupMembersFilterAdministrators":
       self = .administrators
     case "supergroupMembersFilterSearch":
@@ -6699,6 +6961,11 @@ extension SupergroupMembersFilter {
         switch self {
             case .recent:
                try container.encode("supergroupMembersFilterRecent", forKey: .type)
+            case .contacts(
+                let query):
+               try container.encode("supergroupMembersFilterContacts", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: ContactsKeys.self)
+                      try caseContainer.encode(query, forKey: .query)
             case .administrators:
                try container.encode("supergroupMembersFilterAdministrators", forKey: .type)
             case .search(
@@ -7048,6 +7315,10 @@ extension Update {
           case chatId
           case photo
   }
+  enum ChatPermissionsKeys: String, CodingKey {
+          case chatId
+          case permissions
+  }
   enum ChatLastMessageKeys: String, CodingKey {
           case chatId
           case lastMessage
@@ -7227,6 +7498,10 @@ extension Update {
   enum SavedAnimationsKeys: String, CodingKey {
           case animationIds
   }
+  enum SelectedBackgroundKeys: String, CodingKey {
+          case forDarkTheme
+          case background
+  }
   enum LanguagePackStringsKeys: String, CodingKey {
           case localizationTarget
           case languagePackId
@@ -7380,6 +7655,12 @@ extension Update {
       self = .chatPhoto(
             chatId: try caseContainer.decode(Int53.self, forKey: .chatId),
               photo: try caseContainer.decodeIfPresent(ChatPhoto.self, forKey: .photo)
+        )
+    case "updateChatPermissions":
+      let caseContainer = try decoder.container(keyedBy: ChatPermissionsKeys.self)
+      self = .chatPermissions(
+            chatId: try caseContainer.decode(Int53.self, forKey: .chatId),
+            permissions: try caseContainer.decode(ChatPermissions.self, forKey: .permissions)
         )
     case "updateChatLastMessage":
       let caseContainer = try decoder.container(keyedBy: ChatLastMessageKeys.self)
@@ -7646,6 +7927,12 @@ extension Update {
       self = .savedAnimations(
             animationIds: try caseContainer.decode([Int32].self, forKey: .animationIds)
         )
+    case "updateSelectedBackground":
+      let caseContainer = try decoder.container(keyedBy: SelectedBackgroundKeys.self)
+      self = .selectedBackground(
+            forDarkTheme: try caseContainer.decode(Bool.self, forKey: .forDarkTheme),
+              background: try caseContainer.decodeIfPresent(Background.self, forKey: .background)
+        )
     case "updateLanguagePackStrings":
       let caseContainer = try decoder.container(keyedBy: LanguagePackStringsKeys.self)
       self = .languagePackStrings(
@@ -7844,6 +8131,13 @@ extension Update {
                 var caseContainer = encoder.container(keyedBy: ChatPhotoKeys.self)
                       try caseContainer.encode(chatId, forKey: .chatId)
                       try caseContainer.encodeIfPresent(photo, forKey: .photo)
+            case .chatPermissions(
+                let chatId,
+                let permissions):
+               try container.encode("updateChatPermissions", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: ChatPermissionsKeys.self)
+                      try caseContainer.encode(chatId, forKey: .chatId)
+                      try caseContainer.encode(permissions, forKey: .permissions)
             case .chatLastMessage(
                 let chatId,
                 let lastMessage,
@@ -8159,6 +8453,13 @@ extension Update {
                try container.encode("updateSavedAnimations", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: SavedAnimationsKeys.self)
                       try caseContainer.encode(animationIds, forKey: .animationIds)
+            case .selectedBackground(
+                let forDarkTheme,
+                let background):
+               try container.encode("updateSelectedBackground", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: SelectedBackgroundKeys.self)
+                      try caseContainer.encode(forDarkTheme, forKey: .forDarkTheme)
+                      try caseContainer.encodeIfPresent(background, forKey: .background)
             case .languagePackStrings(
                 let localizationTarget,
                 let languagePackId,
@@ -8299,6 +8600,10 @@ extension UserPrivacySetting {
         switch type {
     case "userPrivacySettingShowStatus":
       self = .showStatus
+    case "userPrivacySettingShowProfilePhoto":
+      self = .showProfilePhoto
+    case "userPrivacySettingShowLinkInForwardedMessages":
+      self = .showLinkInForwardedMessages
     case "userPrivacySettingAllowChatInvites":
       self = .allowChatInvites
     case "userPrivacySettingAllowCalls":
@@ -8315,6 +8620,10 @@ extension UserPrivacySetting {
         switch self {
             case .showStatus:
                try container.encode("userPrivacySettingShowStatus", forKey: .type)
+            case .showProfilePhoto:
+               try container.encode("userPrivacySettingShowProfilePhoto", forKey: .type)
+            case .showLinkInForwardedMessages:
+               try container.encode("userPrivacySettingShowLinkInForwardedMessages", forKey: .type)
             case .allowChatInvites:
                try container.encode("userPrivacySettingAllowChatInvites", forKey: .type)
             case .allowCalls:
