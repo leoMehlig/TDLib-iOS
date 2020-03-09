@@ -92,6 +92,9 @@ extension AuthorizationState {
   enum WaitCodeKeys: String, CodingKey {
           case codeInfo
   }
+  enum WaitOtherDeviceConfirmationKeys: String, CodingKey {
+          case link
+  }
   enum WaitRegistrationKeys: String, CodingKey {
           case termsOfService
   }
@@ -118,6 +121,11 @@ extension AuthorizationState {
       let caseContainer = try decoder.container(keyedBy: WaitCodeKeys.self)
       self = .waitCode(
             codeInfo: try caseContainer.decode(AuthenticationCodeInfo.self, forKey: .codeInfo)
+        )
+    case "authorizationStateWaitOtherDeviceConfirmation":
+      let caseContainer = try decoder.container(keyedBy: WaitOtherDeviceConfirmationKeys.self)
+      self = .waitOtherDeviceConfirmation(
+            link: try caseContainer.decode(String.self, forKey: .link)
         )
     case "authorizationStateWaitRegistration":
       let caseContainer = try decoder.container(keyedBy: WaitRegistrationKeys.self)
@@ -161,6 +169,11 @@ extension AuthorizationState {
                try container.encode("authorizationStateWaitCode", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: WaitCodeKeys.self)
                       try caseContainer.encode(codeInfo, forKey: .codeInfo)
+            case .waitOtherDeviceConfirmation(
+                let link):
+               try container.encode("authorizationStateWaitOtherDeviceConfirmation", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: WaitOtherDeviceConfirmationKeys.self)
+                      try caseContainer.encode(link, forKey: .link)
             case .waitRegistration(
                 let termsOfService):
                try container.encode("authorizationStateWaitRegistration", forKey: .type)
@@ -187,6 +200,64 @@ extension AuthorizationState {
   }
 }
 
+extension BackgroundFill {
+  enum CodingKeys: String, CodingKey {
+        case type = "@type"
+  }
+  enum TDError: Swift.Error {
+        case unknownState(String)
+  }
+  enum SolidKeys: String, CodingKey {
+          case color
+  }
+  enum GradientKeys: String, CodingKey {
+          case topColor
+          case bottomColor
+          case rotationAngle
+  }
+
+  public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let type = try container.decode(String.self, forKey: .type)
+        switch type {
+    case "backgroundFillSolid":
+      let caseContainer = try decoder.container(keyedBy: SolidKeys.self)
+      self = .solid(
+            color: try caseContainer.decode(Int32.self, forKey: .color)
+        )
+    case "backgroundFillGradient":
+      let caseContainer = try decoder.container(keyedBy: GradientKeys.self)
+      self = .gradient(
+            topColor: try caseContainer.decode(Int32.self, forKey: .topColor),
+            bottomColor: try caseContainer.decode(Int32.self, forKey: .bottomColor),
+            rotationAngle: try caseContainer.decode(Int32.self, forKey: .rotationAngle)
+        )
+    default:
+       throw TDError.unknownState(type)
+        }
+    }
+
+  public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case .solid(
+                let color):
+               try container.encode("backgroundFillSolid", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: SolidKeys.self)
+                      try caseContainer.encode(color, forKey: .color)
+            case .gradient(
+                let topColor,
+                let bottomColor,
+                let rotationAngle):
+               try container.encode("backgroundFillGradient", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: GradientKeys.self)
+                      try caseContainer.encode(topColor, forKey: .topColor)
+                      try caseContainer.encode(bottomColor, forKey: .bottomColor)
+                      try caseContainer.encode(rotationAngle, forKey: .rotationAngle)
+        }
+  }
+}
+
 extension BackgroundType {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
@@ -199,12 +270,12 @@ extension BackgroundType {
           case isMoving
   }
   enum PatternKeys: String, CodingKey {
-          case isMoving
-          case color
+          case fill
           case intensity
+          case isMoving
   }
-  enum SolidKeys: String, CodingKey {
-          case color
+  enum FillKeys: String, CodingKey {
+          case fill
   }
 
   public init(from decoder: Decoder) throws {
@@ -220,14 +291,14 @@ extension BackgroundType {
     case "backgroundTypePattern":
       let caseContainer = try decoder.container(keyedBy: PatternKeys.self)
       self = .pattern(
-            isMoving: try caseContainer.decode(Bool.self, forKey: .isMoving),
-            color: try caseContainer.decode(Int32.self, forKey: .color),
-            intensity: try caseContainer.decode(Int32.self, forKey: .intensity)
+            fill: try caseContainer.decode(BackgroundFill.self, forKey: .fill),
+            intensity: try caseContainer.decode(Int32.self, forKey: .intensity),
+            isMoving: try caseContainer.decode(Bool.self, forKey: .isMoving)
         )
-    case "backgroundTypeSolid":
-      let caseContainer = try decoder.container(keyedBy: SolidKeys.self)
-      self = .solid(
-            color: try caseContainer.decode(Int32.self, forKey: .color)
+    case "backgroundTypeFill":
+      let caseContainer = try decoder.container(keyedBy: FillKeys.self)
+      self = .fill(
+            fill: try caseContainer.decode(BackgroundFill.self, forKey: .fill)
         )
     default:
        throw TDError.unknownState(type)
@@ -245,19 +316,19 @@ extension BackgroundType {
                       try caseContainer.encode(isBlurred, forKey: .isBlurred)
                       try caseContainer.encode(isMoving, forKey: .isMoving)
             case .pattern(
-                let isMoving,
-                let color,
-                let intensity):
+                let fill,
+                let intensity,
+                let isMoving):
                try container.encode("backgroundTypePattern", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: PatternKeys.self)
-                      try caseContainer.encode(isMoving, forKey: .isMoving)
-                      try caseContainer.encode(color, forKey: .color)
+                      try caseContainer.encode(fill, forKey: .fill)
                       try caseContainer.encode(intensity, forKey: .intensity)
-            case .solid(
-                let color):
-               try container.encode("backgroundTypeSolid", forKey: .type)
-                var caseContainer = encoder.container(keyedBy: SolidKeys.self)
-                      try caseContainer.encode(color, forKey: .color)
+                      try caseContainer.encode(isMoving, forKey: .isMoving)
+            case .fill(
+                let fill):
+               try container.encode("backgroundTypeFill", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: FillKeys.self)
+                      try caseContainer.encode(fill, forKey: .fill)
         }
   }
 }
@@ -524,6 +595,64 @@ extension CallbackQueryPayload {
   }
 }
 
+extension CanTransferOwnershipResult {
+  enum CodingKeys: String, CodingKey {
+        case type = "@type"
+  }
+  enum TDError: Swift.Error {
+        case unknownState(String)
+  }
+  enum PasswordTooFreshKeys: String, CodingKey {
+          case retryAfter
+  }
+  enum SessionTooFreshKeys: String, CodingKey {
+          case retryAfter
+  }
+
+  public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let type = try container.decode(String.self, forKey: .type)
+        switch type {
+    case "canTransferOwnershipResultOk":
+      self = .ok
+    case "canTransferOwnershipResultPasswordNeeded":
+      self = .passwordNeeded
+    case "canTransferOwnershipResultPasswordTooFresh":
+      let caseContainer = try decoder.container(keyedBy: PasswordTooFreshKeys.self)
+      self = .passwordTooFresh(
+            retryAfter: try caseContainer.decode(Int32.self, forKey: .retryAfter)
+        )
+    case "canTransferOwnershipResultSessionTooFresh":
+      let caseContainer = try decoder.container(keyedBy: SessionTooFreshKeys.self)
+      self = .sessionTooFresh(
+            retryAfter: try caseContainer.decode(Int32.self, forKey: .retryAfter)
+        )
+    default:
+       throw TDError.unknownState(type)
+        }
+    }
+
+  public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case .ok:
+               try container.encode("canTransferOwnershipResultOk", forKey: .type)
+            case .passwordNeeded:
+               try container.encode("canTransferOwnershipResultPasswordNeeded", forKey: .type)
+            case .passwordTooFresh(
+                let retryAfter):
+               try container.encode("canTransferOwnershipResultPasswordTooFresh", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: PasswordTooFreshKeys.self)
+                      try caseContainer.encode(retryAfter, forKey: .retryAfter)
+            case .sessionTooFresh(
+                let retryAfter):
+               try container.encode("canTransferOwnershipResultSessionTooFresh", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: SessionTooFreshKeys.self)
+                      try caseContainer.encode(retryAfter, forKey: .retryAfter)
+        }
+  }
+}
+
 extension ChatAction {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
@@ -645,6 +774,50 @@ extension ChatAction {
   }
 }
 
+extension ChatActionBar {
+  enum CodingKeys: String, CodingKey {
+        case type = "@type"
+  }
+  enum TDError: Swift.Error {
+        case unknownState(String)
+  }
+
+  public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let type = try container.decode(String.self, forKey: .type)
+        switch type {
+    case "chatActionBarReportSpam":
+      self = .reportSpam
+    case "chatActionBarReportUnrelatedLocation":
+      self = .reportUnrelatedLocation
+    case "chatActionBarReportAddBlock":
+      self = .reportAddBlock
+    case "chatActionBarAddContact":
+      self = .addContact
+    case "chatActionBarSharePhoneNumber":
+      self = .sharePhoneNumber
+    default:
+       throw TDError.unknownState(type)
+        }
+    }
+
+  public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case .reportSpam:
+               try container.encode("chatActionBarReportSpam", forKey: .type)
+            case .reportUnrelatedLocation:
+               try container.encode("chatActionBarReportUnrelatedLocation", forKey: .type)
+            case .reportAddBlock:
+               try container.encode("chatActionBarReportAddBlock", forKey: .type)
+            case .addContact:
+               try container.encode("chatActionBarAddContact", forKey: .type)
+            case .sharePhoneNumber:
+               try container.encode("chatActionBarSharePhoneNumber", forKey: .type)
+        }
+  }
+}
+
 extension ChatEventAction {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
@@ -702,12 +875,24 @@ extension ChatEventAction {
   enum ChatEventInvitesToggledKeys: String, CodingKey {
           case canInviteUsers
   }
+  enum ChatEventLinkedChatChangedKeys: String, CodingKey {
+          case oldLinkedChatId
+          case newLinkedChatId
+  }
+  enum ChatEventSlowModeDelayChangedKeys: String, CodingKey {
+          case oldSlowModeDelay
+          case newSlowModeDelay
+  }
   enum ChatEventSignMessagesToggledKeys: String, CodingKey {
           case signMessages
   }
   enum ChatEventStickerSetChangedKeys: String, CodingKey {
           case oldStickerSetId
           case newStickerSetId
+  }
+  enum ChatEventLocationChangedKeys: String, CodingKey {
+          case oldLocation
+          case newLocation
   }
   enum ChatEventIsAllHistoryAvailableToggledKeys: String, CodingKey {
           case isAllHistoryAvailable
@@ -799,6 +984,18 @@ extension ChatEventAction {
       self = .chatEventInvitesToggled(
             canInviteUsers: try caseContainer.decode(Bool.self, forKey: .canInviteUsers)
         )
+    case "chatEventLinkedChatChanged":
+      let caseContainer = try decoder.container(keyedBy: ChatEventLinkedChatChangedKeys.self)
+      self = .chatEventLinkedChatChanged(
+            oldLinkedChatId: try caseContainer.decode(Int53.self, forKey: .oldLinkedChatId),
+            newLinkedChatId: try caseContainer.decode(Int53.self, forKey: .newLinkedChatId)
+        )
+    case "chatEventSlowModeDelayChanged":
+      let caseContainer = try decoder.container(keyedBy: ChatEventSlowModeDelayChangedKeys.self)
+      self = .chatEventSlowModeDelayChanged(
+            oldSlowModeDelay: try caseContainer.decode(Int32.self, forKey: .oldSlowModeDelay),
+            newSlowModeDelay: try caseContainer.decode(Int32.self, forKey: .newSlowModeDelay)
+        )
     case "chatEventSignMessagesToggled":
       let caseContainer = try decoder.container(keyedBy: ChatEventSignMessagesToggledKeys.self)
       self = .chatEventSignMessagesToggled(
@@ -809,6 +1006,12 @@ extension ChatEventAction {
       self = .chatEventStickerSetChanged(
             oldStickerSetId: try caseContainer.decode(TDInt64.self, forKey: .oldStickerSetId),
             newStickerSetId: try caseContainer.decode(TDInt64.self, forKey: .newStickerSetId)
+        )
+    case "chatEventLocationChanged":
+      let caseContainer = try decoder.container(keyedBy: ChatEventLocationChangedKeys.self)
+      self = .chatEventLocationChanged(
+              oldLocation: try caseContainer.decodeIfPresent(ChatLocation.self, forKey: .oldLocation),
+              newLocation: try caseContainer.decodeIfPresent(ChatLocation.self, forKey: .newLocation)
         )
     case "chatEventIsAllHistoryAvailableToggled":
       let caseContainer = try decoder.container(keyedBy: ChatEventIsAllHistoryAvailableToggledKeys.self)
@@ -916,6 +1119,20 @@ extension ChatEventAction {
                try container.encode("chatEventInvitesToggled", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: ChatEventInvitesToggledKeys.self)
                       try caseContainer.encode(canInviteUsers, forKey: .canInviteUsers)
+            case .chatEventLinkedChatChanged(
+                let oldLinkedChatId,
+                let newLinkedChatId):
+               try container.encode("chatEventLinkedChatChanged", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: ChatEventLinkedChatChangedKeys.self)
+                      try caseContainer.encode(oldLinkedChatId, forKey: .oldLinkedChatId)
+                      try caseContainer.encode(newLinkedChatId, forKey: .newLinkedChatId)
+            case .chatEventSlowModeDelayChanged(
+                let oldSlowModeDelay,
+                let newSlowModeDelay):
+               try container.encode("chatEventSlowModeDelayChanged", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: ChatEventSlowModeDelayChangedKeys.self)
+                      try caseContainer.encode(oldSlowModeDelay, forKey: .oldSlowModeDelay)
+                      try caseContainer.encode(newSlowModeDelay, forKey: .newSlowModeDelay)
             case .chatEventSignMessagesToggled(
                 let signMessages):
                try container.encode("chatEventSignMessagesToggled", forKey: .type)
@@ -928,11 +1145,50 @@ extension ChatEventAction {
                 var caseContainer = encoder.container(keyedBy: ChatEventStickerSetChangedKeys.self)
                       try caseContainer.encode(oldStickerSetId, forKey: .oldStickerSetId)
                       try caseContainer.encode(newStickerSetId, forKey: .newStickerSetId)
+            case .chatEventLocationChanged(
+                let oldLocation,
+                let newLocation):
+               try container.encode("chatEventLocationChanged", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: ChatEventLocationChangedKeys.self)
+                      try caseContainer.encodeIfPresent(oldLocation, forKey: .oldLocation)
+                      try caseContainer.encodeIfPresent(newLocation, forKey: .newLocation)
             case .chatEventIsAllHistoryAvailableToggled(
                 let isAllHistoryAvailable):
                try container.encode("chatEventIsAllHistoryAvailableToggled", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: ChatEventIsAllHistoryAvailableToggledKeys.self)
                       try caseContainer.encode(isAllHistoryAvailable, forKey: .isAllHistoryAvailable)
+        }
+  }
+}
+
+extension ChatList {
+  enum CodingKeys: String, CodingKey {
+        case type = "@type"
+  }
+  enum TDError: Swift.Error {
+        case unknownState(String)
+  }
+
+  public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let type = try container.decode(String.self, forKey: .type)
+        switch type {
+    case "chatListMain":
+      self = .main
+    case "chatListArchive":
+      self = .archive
+    default:
+       throw TDError.unknownState(type)
+        }
+    }
+
+  public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case .main:
+               try container.encode("chatListMain", forKey: .type)
+            case .archive:
+               try container.encode("chatListArchive", forKey: .type)
         }
   }
 }
@@ -945,9 +1201,11 @@ extension ChatMemberStatus {
         case unknownState(String)
   }
   enum CreatorKeys: String, CodingKey {
+          case customTitle
           case isMember
   }
   enum AdministratorKeys: String, CodingKey {
+          case customTitle
           case canBeEdited
           case canChangeInfo
           case canPostMessages
@@ -974,11 +1232,13 @@ extension ChatMemberStatus {
     case "chatMemberStatusCreator":
       let caseContainer = try decoder.container(keyedBy: CreatorKeys.self)
       self = .creator(
+            customTitle: try caseContainer.decode(String.self, forKey: .customTitle),
             isMember: try caseContainer.decode(Bool.self, forKey: .isMember)
         )
     case "chatMemberStatusAdministrator":
       let caseContainer = try decoder.container(keyedBy: AdministratorKeys.self)
       self = .administrator(
+            customTitle: try caseContainer.decode(String.self, forKey: .customTitle),
             canBeEdited: try caseContainer.decode(Bool.self, forKey: .canBeEdited),
             canChangeInfo: try caseContainer.decode(Bool.self, forKey: .canChangeInfo),
             canPostMessages: try caseContainer.decode(Bool.self, forKey: .canPostMessages),
@@ -1014,11 +1274,14 @@ extension ChatMemberStatus {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
             case .creator(
+                let customTitle,
                 let isMember):
                try container.encode("chatMemberStatusCreator", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: CreatorKeys.self)
+                      try caseContainer.encode(customTitle, forKey: .customTitle)
                       try caseContainer.encode(isMember, forKey: .isMember)
             case .administrator(
+                let customTitle,
                 let canBeEdited,
                 let canChangeInfo,
                 let canPostMessages,
@@ -1030,6 +1293,7 @@ extension ChatMemberStatus {
                 let canPromoteMembers):
                try container.encode("chatMemberStatusAdministrator", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: AdministratorKeys.self)
+                      try caseContainer.encode(customTitle, forKey: .customTitle)
                       try caseContainer.encode(canBeEdited, forKey: .canBeEdited)
                       try caseContainer.encode(canChangeInfo, forKey: .canChangeInfo)
                       try caseContainer.encode(canPostMessages, forKey: .canPostMessages)
@@ -1134,6 +1398,8 @@ extension ChatReportReason {
       self = .childAbuse
     case "chatReportReasonCopyright":
       self = .copyright
+    case "chatReportReasonUnrelatedLocation":
+      self = .unrelatedLocation
     case "chatReportReasonCustom":
       let caseContainer = try decoder.container(keyedBy: CustomKeys.self)
       self = .custom(
@@ -1157,6 +1423,8 @@ extension ChatReportReason {
                try container.encode("chatReportReasonChildAbuse", forKey: .type)
             case .copyright:
                try container.encode("chatReportReasonCopyright", forKey: .type)
+            case .unrelatedLocation:
+               try container.encode("chatReportReasonUnrelatedLocation", forKey: .type)
             case .custom(
                 let text):
                try container.encode("chatReportReasonCustom", forKey: .type)
@@ -2877,6 +3145,9 @@ extension InputMessageContent {
   enum InputMessagePollKeys: String, CodingKey {
           case question
           case options
+          case isAnonymous
+          case type
+          case isClosed
   }
   enum InputMessageForwardedKeys: String, CodingKey {
           case fromChatId
@@ -3013,7 +3284,10 @@ extension InputMessageContent {
       let caseContainer = try decoder.container(keyedBy: InputMessagePollKeys.self)
       self = .inputMessagePoll(
             question: try caseContainer.decode(String.self, forKey: .question),
-            options: try caseContainer.decode([String].self, forKey: .options)
+            options: try caseContainer.decode([String].self, forKey: .options),
+            isAnonymous: try caseContainer.decode(Bool.self, forKey: .isAnonymous),
+            type: try caseContainer.decode(PollType.self, forKey: .type),
+              isClosed: try caseContainer.decodeIfPresent(Bool.self, forKey: .isClosed)
         )
     case "inputMessageForwarded":
       let caseContainer = try decoder.container(keyedBy: InputMessageForwardedKeys.self)
@@ -3202,11 +3476,17 @@ extension InputMessageContent {
                       try caseContainer.encode(startParameter, forKey: .startParameter)
             case .inputMessagePoll(
                 let question,
-                let options):
+                let options,
+                let isAnonymous,
+                let type,
+                let isClosed):
                try container.encode("inputMessagePoll", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: InputMessagePollKeys.self)
                       try caseContainer.encode(question, forKey: .question)
                       try caseContainer.encode(options, forKey: .options)
+                      try caseContainer.encode(isAnonymous, forKey: .isAnonymous)
+                      try caseContainer.encode(type, forKey: .type)
+                      try caseContainer.encodeIfPresent(isClosed, forKey: .isClosed)
             case .inputMessageForwarded(
                 let fromChatId,
                 let messageId,
@@ -3662,6 +3942,10 @@ extension KeyboardButtonType {
   enum TDError: Swift.Error {
         case unknownState(String)
   }
+  enum RequestPollKeys: String, CodingKey {
+          case forceRegular
+          case forceQuiz
+  }
 
   public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -3673,6 +3957,12 @@ extension KeyboardButtonType {
       self = .requestPhoneNumber
     case "keyboardButtonTypeRequestLocation":
       self = .requestLocation
+    case "keyboardButtonTypeRequestPoll":
+      let caseContainer = try decoder.container(keyedBy: RequestPollKeys.self)
+      self = .requestPoll(
+            forceRegular: try caseContainer.decode(Bool.self, forKey: .forceRegular),
+            forceQuiz: try caseContainer.decode(Bool.self, forKey: .forceQuiz)
+        )
     default:
        throw TDError.unknownState(type)
         }
@@ -3687,6 +3977,13 @@ extension KeyboardButtonType {
                try container.encode("keyboardButtonTypeRequestPhoneNumber", forKey: .type)
             case .requestLocation:
                try container.encode("keyboardButtonTypeRequestLocation", forKey: .type)
+            case .requestPoll(
+                let forceRegular,
+                let forceQuiz):
+               try container.encode("keyboardButtonTypeRequestPoll", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: RequestPollKeys.self)
+                      try caseContainer.encode(forceRegular, forKey: .forceRegular)
+                      try caseContainer.encode(forceQuiz, forKey: .forceQuiz)
         }
   }
 }
@@ -3765,42 +4062,6 @@ extension LanguagePackStringValue {
   }
 }
 
-extension LinkState {
-  enum CodingKeys: String, CodingKey {
-        case type = "@type"
-  }
-  enum TDError: Swift.Error {
-        case unknownState(String)
-  }
-
-  public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        let type = try container.decode(String.self, forKey: .type)
-        switch type {
-    case "linkStateNone":
-      self = .none
-    case "linkStateKnowsPhoneNumber":
-      self = .knowsPhoneNumber
-    case "linkStateIsContact":
-      self = .isContact
-    default:
-       throw TDError.unknownState(type)
-        }
-    }
-
-  public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        switch self {
-            case .none:
-               try container.encode("linkStateNone", forKey: .type)
-            case .knowsPhoneNumber:
-               try container.encode("linkStateKnowsPhoneNumber", forKey: .type)
-            case .isContact:
-               try container.encode("linkStateIsContact", forKey: .type)
-        }
-  }
-}
-
 extension LogStream {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
@@ -3846,6 +4107,72 @@ extension LogStream {
                       try caseContainer.encode(maxFileSize, forKey: .maxFileSize)
             case .empty:
                try container.encode("logStreamEmpty", forKey: .type)
+        }
+  }
+}
+
+extension LoginUrlInfo {
+  enum CodingKeys: String, CodingKey {
+        case type = "@type"
+  }
+  enum TDError: Swift.Error {
+        case unknownState(String)
+  }
+  enum OpenKeys: String, CodingKey {
+          case url
+          case skipConfirm
+  }
+  enum RequestConfirmationKeys: String, CodingKey {
+          case url
+          case domain
+          case botUserId
+          case requestWriteAccess
+  }
+
+  public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let type = try container.decode(String.self, forKey: .type)
+        switch type {
+    case "loginUrlInfoOpen":
+      let caseContainer = try decoder.container(keyedBy: OpenKeys.self)
+      self = .open(
+            url: try caseContainer.decode(String.self, forKey: .url),
+            skipConfirm: try caseContainer.decode(Bool.self, forKey: .skipConfirm)
+        )
+    case "loginUrlInfoRequestConfirmation":
+      let caseContainer = try decoder.container(keyedBy: RequestConfirmationKeys.self)
+      self = .requestConfirmation(
+            url: try caseContainer.decode(String.self, forKey: .url),
+            domain: try caseContainer.decode(String.self, forKey: .domain),
+            botUserId: try caseContainer.decode(Int32.self, forKey: .botUserId),
+            requestWriteAccess: try caseContainer.decode(Bool.self, forKey: .requestWriteAccess)
+        )
+    default:
+       throw TDError.unknownState(type)
+        }
+    }
+
+  public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case .open(
+                let url,
+                let skipConfirm):
+               try container.encode("loginUrlInfoOpen", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: OpenKeys.self)
+                      try caseContainer.encode(url, forKey: .url)
+                      try caseContainer.encode(skipConfirm, forKey: .skipConfirm)
+            case .requestConfirmation(
+                let url,
+                let domain,
+                let botUserId,
+                let requestWriteAccess):
+               try container.encode("loginUrlInfoRequestConfirmation", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: RequestConfirmationKeys.self)
+                      try caseContainer.encode(url, forKey: .url)
+                      try caseContainer.encode(domain, forKey: .domain)
+                      try caseContainer.encode(botUserId, forKey: .botUserId)
+                      try caseContainer.encode(requestWriteAccess, forKey: .requestWriteAccess)
         }
   }
 }
@@ -4594,6 +4921,47 @@ extension MessageForwardOrigin {
   }
 }
 
+extension MessageSchedulingState {
+  enum CodingKeys: String, CodingKey {
+        case type = "@type"
+  }
+  enum TDError: Swift.Error {
+        case unknownState(String)
+  }
+  enum SendAtDateKeys: String, CodingKey {
+          case sendDate
+  }
+
+  public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let type = try container.decode(String.self, forKey: .type)
+        switch type {
+    case "messageSchedulingStateSendAtDate":
+      let caseContainer = try decoder.container(keyedBy: SendAtDateKeys.self)
+      self = .sendAtDate(
+            sendDate: try caseContainer.decode(Int32.self, forKey: .sendDate)
+        )
+    case "messageSchedulingStateSendWhenOnline":
+      self = .sendWhenOnline
+    default:
+       throw TDError.unknownState(type)
+        }
+    }
+
+  public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case .sendAtDate(
+                let sendDate):
+               try container.encode("messageSchedulingStateSendAtDate", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: SendAtDateKeys.self)
+                      try caseContainer.encode(sendDate, forKey: .sendDate)
+            case .sendWhenOnline:
+               try container.encode("messageSchedulingStateSendWhenOnline", forKey: .type)
+        }
+  }
+}
+
 extension MessageSendingState {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
@@ -5053,6 +5421,10 @@ extension PageBlock {
           case needAutoplay
           case isLooped
   }
+  enum VoiceNoteKeys: String, CodingKey {
+          case voiceNote
+          case caption
+  }
   enum CoverKeys: String, CodingKey {
           case cover
   }
@@ -5212,6 +5584,12 @@ extension PageBlock {
             caption: try caseContainer.decode(PageBlockCaption.self, forKey: .caption),
             needAutoplay: try caseContainer.decode(Bool.self, forKey: .needAutoplay),
             isLooped: try caseContainer.decode(Bool.self, forKey: .isLooped)
+        )
+    case "pageBlockVoiceNote":
+      let caseContainer = try decoder.container(keyedBy: VoiceNoteKeys.self)
+      self = .voiceNote(
+              voiceNote: try caseContainer.decodeIfPresent(VoiceNote.self, forKey: .voiceNote),
+            caption: try caseContainer.decode(PageBlockCaption.self, forKey: .caption)
         )
     case "pageBlockCover":
       let caseContainer = try decoder.container(keyedBy: CoverKeys.self)
@@ -5408,6 +5786,13 @@ extension PageBlock {
                       try caseContainer.encode(caption, forKey: .caption)
                       try caseContainer.encode(needAutoplay, forKey: .needAutoplay)
                       try caseContainer.encode(isLooped, forKey: .isLooped)
+            case .voiceNote(
+                let voiceNote,
+                let caption):
+               try container.encode("pageBlockVoiceNote", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: VoiceNoteKeys.self)
+                      try caseContainer.encodeIfPresent(voiceNote, forKey: .voiceNote)
+                      try caseContainer.encode(caption, forKey: .caption)
             case .cover(
                 let cover):
                try container.encode("pageBlockCover", forKey: .type)
@@ -5942,6 +6327,56 @@ extension PassportElementType {
   }
 }
 
+extension PollType {
+  enum CodingKeys: String, CodingKey {
+        case type = "@type"
+  }
+  enum TDError: Swift.Error {
+        case unknownState(String)
+  }
+  enum RegularKeys: String, CodingKey {
+          case allowMultipleAnswers
+  }
+  enum QuizKeys: String, CodingKey {
+          case correctOptionId
+  }
+
+  public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let type = try container.decode(String.self, forKey: .type)
+        switch type {
+    case "pollTypeRegular":
+      let caseContainer = try decoder.container(keyedBy: RegularKeys.self)
+      self = .regular(
+            allowMultipleAnswers: try caseContainer.decode(Bool.self, forKey: .allowMultipleAnswers)
+        )
+    case "pollTypeQuiz":
+      let caseContainer = try decoder.container(keyedBy: QuizKeys.self)
+      self = .quiz(
+            correctOptionId: try caseContainer.decode(Int32.self, forKey: .correctOptionId)
+        )
+    default:
+       throw TDError.unknownState(type)
+        }
+    }
+
+  public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case .regular(
+                let allowMultipleAnswers):
+               try container.encode("pollTypeRegular", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: RegularKeys.self)
+                      try caseContainer.encode(allowMultipleAnswers, forKey: .allowMultipleAnswers)
+            case .quiz(
+                let correctOptionId):
+               try container.encode("pollTypeQuiz", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: QuizKeys.self)
+                      try caseContainer.encode(correctOptionId, forKey: .correctOptionId)
+        }
+  }
+}
+
 extension ProxyType {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
@@ -6017,6 +6452,38 @@ extension ProxyType {
   }
 }
 
+extension PublicChatType {
+  enum CodingKeys: String, CodingKey {
+        case type = "@type"
+  }
+  enum TDError: Swift.Error {
+        case unknownState(String)
+  }
+
+  public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let type = try container.decode(String.self, forKey: .type)
+        switch type {
+    case "publicChatTypeHasUsername":
+      self = .hasUsername
+    case "publicChatTypeIsLocationBased":
+      self = .isLocationBased
+    default:
+       throw TDError.unknownState(type)
+        }
+    }
+
+  public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case .hasUsername:
+               try container.encode("publicChatTypeHasUsername", forKey: .type)
+            case .isLocationBased:
+               try container.encode("publicChatTypeIsLocationBased", forKey: .type)
+        }
+  }
+}
+
 extension PushMessageContent {
   enum CodingKeys: String, CodingKey {
         case type = "@type"
@@ -6069,6 +6536,7 @@ extension PushMessageContent {
   }
   enum PollKeys: String, CodingKey {
           case question
+          case isRegular
           case isPinned
   }
   enum StickerKeys: String, CodingKey {
@@ -6189,6 +6657,7 @@ extension PushMessageContent {
       let caseContainer = try decoder.container(keyedBy: PollKeys.self)
       self = .poll(
             question: try caseContainer.decode(String.self, forKey: .question),
+            isRegular: try caseContainer.decode(Bool.self, forKey: .isRegular),
             isPinned: try caseContainer.decode(Bool.self, forKey: .isPinned)
         )
     case "pushMessageContentScreenshotTaken":
@@ -6351,10 +6820,12 @@ extension PushMessageContent {
                       try caseContainer.encode(isPinned, forKey: .isPinned)
             case .poll(
                 let question,
+                let isRegular,
                 let isPinned):
                try container.encode("pushMessageContentPoll", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: PollKeys.self)
                       try caseContainer.encode(question, forKey: .question)
+                      try caseContainer.encode(isRegular, forKey: .isRegular)
                       try caseContainer.encode(isPinned, forKey: .isPinned)
             case .screenshotTaken:
                try container.encode("pushMessageContentScreenshotTaken", forKey: .type)
@@ -6562,6 +7033,7 @@ extension RichText {
   enum UrlKeys: String, CodingKey {
           case text
           case url
+          case isCached
   }
   enum EmailAddressKeys: String, CodingKey {
           case text
@@ -6631,7 +7103,8 @@ extension RichText {
       let caseContainer = try decoder.container(keyedBy: UrlKeys.self)
       self = .url(
             text: try caseContainer.decode(RichText.self, forKey: .text),
-            url: try caseContainer.decode(String.self, forKey: .url)
+            url: try caseContainer.decode(String.self, forKey: .url),
+            isCached: try caseContainer.decode(Bool.self, forKey: .isCached)
         )
     case "richTextEmailAddress":
       let caseContainer = try decoder.container(keyedBy: EmailAddressKeys.self)
@@ -6718,11 +7191,13 @@ extension RichText {
                       try caseContainer.encode(text, forKey: .text)
             case .url(
                 let text,
-                let url):
+                let url,
+                let isCached):
                try container.encode("richTextUrl", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: UrlKeys.self)
                       try caseContainer.encode(text, forKey: .text)
                       try caseContainer.encode(url, forKey: .url)
+                      try caseContainer.encode(isCached, forKey: .isCached)
             case .emailAddress(
                 let text,
                 let emailAddress):
@@ -7098,10 +7573,16 @@ extension TextEntityType {
       self = .url
     case "textEntityTypeEmailAddress":
       self = .emailAddress
+    case "textEntityTypePhoneNumber":
+      self = .phoneNumber
     case "textEntityTypeBold":
       self = .bold
     case "textEntityTypeItalic":
       self = .italic
+    case "textEntityTypeUnderline":
+      self = .underline
+    case "textEntityTypeStrikethrough":
+      self = .strikethrough
     case "textEntityTypeCode":
       self = .code
     case "textEntityTypePre":
@@ -7121,8 +7602,6 @@ extension TextEntityType {
       self = .mentionName(
             userId: try caseContainer.decode(Int32.self, forKey: .userId)
         )
-    case "textEntityTypePhoneNumber":
-      self = .phoneNumber
     default:
        throw TDError.unknownState(type)
         }
@@ -7143,10 +7622,16 @@ extension TextEntityType {
                try container.encode("textEntityTypeUrl", forKey: .type)
             case .emailAddress:
                try container.encode("textEntityTypeEmailAddress", forKey: .type)
+            case .phoneNumber:
+               try container.encode("textEntityTypePhoneNumber", forKey: .type)
             case .bold:
                try container.encode("textEntityTypeBold", forKey: .type)
             case .italic:
                try container.encode("textEntityTypeItalic", forKey: .type)
+            case .underline:
+               try container.encode("textEntityTypeUnderline", forKey: .type)
+            case .strikethrough:
+               try container.encode("textEntityTypeStrikethrough", forKey: .type)
             case .code:
                try container.encode("textEntityTypeCode", forKey: .type)
             case .pre:
@@ -7166,8 +7651,6 @@ extension TextEntityType {
                try container.encode("textEntityTypeMentionName", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: MentionNameKeys.self)
                       try caseContainer.encode(userId, forKey: .userId)
-            case .phoneNumber:
-               try container.encode("textEntityTypePhoneNumber", forKey: .type)
         }
   }
 }
@@ -7179,13 +7662,19 @@ extension TextParseMode {
   enum TDError: Swift.Error {
         case unknownState(String)
   }
+  enum MarkdownKeys: String, CodingKey {
+          case version
+  }
 
   public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let type = try container.decode(String.self, forKey: .type)
         switch type {
     case "textParseModeMarkdown":
-      self = .markdown
+      let caseContainer = try decoder.container(keyedBy: MarkdownKeys.self)
+      self = .markdown(
+            version: try caseContainer.decode(Int32.self, forKey: .version)
+        )
     case "textParseModeHTML":
       self = .hTML
     default:
@@ -7196,8 +7685,11 @@ extension TextParseMode {
   public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
-            case .markdown:
+            case .markdown(
+                let version):
                try container.encode("textParseModeMarkdown", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: MarkdownKeys.self)
+                      try caseContainer.encode(version, forKey: .version)
             case .hTML:
                try container.encode("textParseModeHTML", forKey: .type)
         }
@@ -7228,6 +7720,8 @@ extension TopChatCategory {
       self = .inlineBots
     case "topChatCategoryCalls":
       self = .calls
+    case "topChatCategoryForwardChats":
+      self = .forwardChats
     default:
        throw TDError.unknownState(type)
         }
@@ -7248,6 +7742,8 @@ extension TopChatCategory {
                try container.encode("topChatCategoryInlineBots", forKey: .type)
             case .calls:
                try container.encode("topChatCategoryCalls", forKey: .type)
+            case .forwardChats:
+               try container.encode("topChatCategoryForwardChats", forKey: .type)
         }
   }
 }
@@ -7304,8 +7800,16 @@ extension Update {
           case messageId
           case unreadMentionCount
   }
+  enum MessageLiveLocationViewedKeys: String, CodingKey {
+          case chatId
+          case messageId
+  }
   enum NewChatKeys: String, CodingKey {
           case chat
+  }
+  enum ChatChatListKeys: String, CodingKey {
+          case chatId
+          case chatList
   }
   enum ChatTitleKeys: String, CodingKey {
           case chatId
@@ -7342,6 +7846,10 @@ extension Update {
           case isSponsored
           case order
   }
+  enum ChatHasScheduledMessagesKeys: String, CodingKey {
+          case chatId
+          case hasScheduledMessages
+  }
   enum ChatDefaultDisableNotificationKeys: String, CodingKey {
           case chatId
           case defaultDisableNotification
@@ -7366,6 +7874,10 @@ extension Update {
   enum ScopeNotificationSettingsKeys: String, CodingKey {
           case scope
           case notificationSettings
+  }
+  enum ChatActionBarKeys: String, CodingKey {
+          case chatId
+          case actionBar
   }
   enum ChatPinnedMessageKeys: String, CodingKey {
           case chatId
@@ -7468,10 +7980,13 @@ extension Update {
           case rules
   }
   enum UnreadMessageCountKeys: String, CodingKey {
+          case chatList
           case unreadCount
           case unreadUnmutedCount
   }
   enum UnreadChatCountKeys: String, CodingKey {
+          case chatList
+          case totalCount
           case unreadCount
           case unreadUnmutedCount
           case markedAsUnreadCount
@@ -7513,6 +8028,9 @@ extension Update {
   enum TermsOfServiceKeys: String, CodingKey {
           case termsOfServiceId
           case termsOfService
+  }
+  enum UsersNearbyKeys: String, CodingKey {
+          case usersNearby
   }
   enum NewInlineQueryKeys: String, CodingKey {
           case id
@@ -7568,6 +8086,11 @@ extension Update {
   }
   enum PollKeys: String, CodingKey {
           case poll
+  }
+  enum PollAnswerKeys: String, CodingKey {
+          case pollId
+          case userId
+          case optionIds
   }
 
   public init(from decoder: Decoder) throws {
@@ -7639,10 +8162,22 @@ extension Update {
             messageId: try caseContainer.decode(Int53.self, forKey: .messageId),
             unreadMentionCount: try caseContainer.decode(Int32.self, forKey: .unreadMentionCount)
         )
+    case "updateMessageLiveLocationViewed":
+      let caseContainer = try decoder.container(keyedBy: MessageLiveLocationViewedKeys.self)
+      self = .messageLiveLocationViewed(
+            chatId: try caseContainer.decode(Int53.self, forKey: .chatId),
+            messageId: try caseContainer.decode(Int53.self, forKey: .messageId)
+        )
     case "updateNewChat":
       let caseContainer = try decoder.container(keyedBy: NewChatKeys.self)
       self = .newChat(
             chat: try caseContainer.decode(Chat.self, forKey: .chat)
+        )
+    case "updateChatChatList":
+      let caseContainer = try decoder.container(keyedBy: ChatChatListKeys.self)
+      self = .chatChatList(
+            chatId: try caseContainer.decode(Int53.self, forKey: .chatId),
+              chatList: try caseContainer.decodeIfPresent(ChatList.self, forKey: .chatList)
         )
     case "updateChatTitle":
       let caseContainer = try decoder.container(keyedBy: ChatTitleKeys.self)
@@ -7695,6 +8230,12 @@ extension Update {
             isSponsored: try caseContainer.decode(Bool.self, forKey: .isSponsored),
             order: try caseContainer.decode(TDInt64.self, forKey: .order)
         )
+    case "updateChatHasScheduledMessages":
+      let caseContainer = try decoder.container(keyedBy: ChatHasScheduledMessagesKeys.self)
+      self = .chatHasScheduledMessages(
+            chatId: try caseContainer.decode(Int53.self, forKey: .chatId),
+            hasScheduledMessages: try caseContainer.decode(Bool.self, forKey: .hasScheduledMessages)
+        )
     case "updateChatDefaultDisableNotification":
       let caseContainer = try decoder.container(keyedBy: ChatDefaultDisableNotificationKeys.self)
       self = .chatDefaultDisableNotification(
@@ -7731,6 +8272,12 @@ extension Update {
       self = .scopeNotificationSettings(
             scope: try caseContainer.decode(NotificationSettingsScope.self, forKey: .scope),
             notificationSettings: try caseContainer.decode(ScopeNotificationSettings.self, forKey: .notificationSettings)
+        )
+    case "updateChatActionBar":
+      let caseContainer = try decoder.container(keyedBy: ChatActionBarKeys.self)
+      self = .chatActionBar(
+            chatId: try caseContainer.decode(Int53.self, forKey: .chatId),
+              actionBar: try caseContainer.decodeIfPresent(ChatActionBar.self, forKey: .actionBar)
         )
     case "updateChatPinnedMessage":
       let caseContainer = try decoder.container(keyedBy: ChatPinnedMessageKeys.self)
@@ -7883,12 +8430,15 @@ extension Update {
     case "updateUnreadMessageCount":
       let caseContainer = try decoder.container(keyedBy: UnreadMessageCountKeys.self)
       self = .unreadMessageCount(
+            chatList: try caseContainer.decode(ChatList.self, forKey: .chatList),
             unreadCount: try caseContainer.decode(Int32.self, forKey: .unreadCount),
             unreadUnmutedCount: try caseContainer.decode(Int32.self, forKey: .unreadUnmutedCount)
         )
     case "updateUnreadChatCount":
       let caseContainer = try decoder.container(keyedBy: UnreadChatCountKeys.self)
       self = .unreadChatCount(
+            chatList: try caseContainer.decode(ChatList.self, forKey: .chatList),
+            totalCount: try caseContainer.decode(Int32.self, forKey: .totalCount),
             unreadCount: try caseContainer.decode(Int32.self, forKey: .unreadCount),
             unreadUnmutedCount: try caseContainer.decode(Int32.self, forKey: .unreadUnmutedCount),
             markedAsUnreadCount: try caseContainer.decode(Int32.self, forKey: .markedAsUnreadCount),
@@ -7950,6 +8500,11 @@ extension Update {
       self = .termsOfService(
             termsOfServiceId: try caseContainer.decode(String.self, forKey: .termsOfServiceId),
             termsOfService: try caseContainer.decode(TermsOfService.self, forKey: .termsOfService)
+        )
+    case "updateUsersNearby":
+      let caseContainer = try decoder.container(keyedBy: UsersNearbyKeys.self)
+      self = .usersNearby(
+            usersNearby: try caseContainer.decode([ChatNearby].self, forKey: .usersNearby)
         )
     case "updateNewInlineQuery":
       let caseContainer = try decoder.container(keyedBy: NewInlineQueryKeys.self)
@@ -8023,6 +8578,13 @@ extension Update {
       let caseContainer = try decoder.container(keyedBy: PollKeys.self)
       self = .poll(
             poll: try caseContainer.decode(Poll.self, forKey: .poll)
+        )
+    case "updatePollAnswer":
+      let caseContainer = try decoder.container(keyedBy: PollAnswerKeys.self)
+      self = .pollAnswer(
+            pollId: try caseContainer.decode(TDInt64.self, forKey: .pollId),
+            userId: try caseContainer.decode(Int32.self, forKey: .userId),
+            optionIds: try caseContainer.decode([Int32].self, forKey: .optionIds)
         )
     default:
        throw TDError.unknownState(type)
@@ -8112,11 +8674,25 @@ extension Update {
                       try caseContainer.encode(chatId, forKey: .chatId)
                       try caseContainer.encode(messageId, forKey: .messageId)
                       try caseContainer.encode(unreadMentionCount, forKey: .unreadMentionCount)
+            case .messageLiveLocationViewed(
+                let chatId,
+                let messageId):
+               try container.encode("updateMessageLiveLocationViewed", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: MessageLiveLocationViewedKeys.self)
+                      try caseContainer.encode(chatId, forKey: .chatId)
+                      try caseContainer.encode(messageId, forKey: .messageId)
             case .newChat(
                 let chat):
                try container.encode("updateNewChat", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: NewChatKeys.self)
                       try caseContainer.encode(chat, forKey: .chat)
+            case .chatChatList(
+                let chatId,
+                let chatList):
+               try container.encode("updateChatChatList", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: ChatChatListKeys.self)
+                      try caseContainer.encode(chatId, forKey: .chatId)
+                      try caseContainer.encodeIfPresent(chatList, forKey: .chatList)
             case .chatTitle(
                 let chatId,
                 let title):
@@ -8179,6 +8755,13 @@ extension Update {
                       try caseContainer.encode(chatId, forKey: .chatId)
                       try caseContainer.encode(isSponsored, forKey: .isSponsored)
                       try caseContainer.encode(order, forKey: .order)
+            case .chatHasScheduledMessages(
+                let chatId,
+                let hasScheduledMessages):
+               try container.encode("updateChatHasScheduledMessages", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: ChatHasScheduledMessagesKeys.self)
+                      try caseContainer.encode(chatId, forKey: .chatId)
+                      try caseContainer.encode(hasScheduledMessages, forKey: .hasScheduledMessages)
             case .chatDefaultDisableNotification(
                 let chatId,
                 let defaultDisableNotification):
@@ -8223,6 +8806,13 @@ extension Update {
                 var caseContainer = encoder.container(keyedBy: ScopeNotificationSettingsKeys.self)
                       try caseContainer.encode(scope, forKey: .scope)
                       try caseContainer.encode(notificationSettings, forKey: .notificationSettings)
+            case .chatActionBar(
+                let chatId,
+                let actionBar):
+               try container.encode("updateChatActionBar", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: ChatActionBarKeys.self)
+                      try caseContainer.encode(chatId, forKey: .chatId)
+                      try caseContainer.encodeIfPresent(actionBar, forKey: .actionBar)
             case .chatPinnedMessage(
                 let chatId,
                 let pinnedMessageId):
@@ -8400,19 +8990,25 @@ extension Update {
                       try caseContainer.encode(setting, forKey: .setting)
                       try caseContainer.encode(rules, forKey: .rules)
             case .unreadMessageCount(
+                let chatList,
                 let unreadCount,
                 let unreadUnmutedCount):
                try container.encode("updateUnreadMessageCount", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: UnreadMessageCountKeys.self)
+                      try caseContainer.encode(chatList, forKey: .chatList)
                       try caseContainer.encode(unreadCount, forKey: .unreadCount)
                       try caseContainer.encode(unreadUnmutedCount, forKey: .unreadUnmutedCount)
             case .unreadChatCount(
+                let chatList,
+                let totalCount,
                 let unreadCount,
                 let unreadUnmutedCount,
                 let markedAsUnreadCount,
                 let markedAsUnreadUnmutedCount):
                try container.encode("updateUnreadChatCount", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: UnreadChatCountKeys.self)
+                      try caseContainer.encode(chatList, forKey: .chatList)
+                      try caseContainer.encode(totalCount, forKey: .totalCount)
                       try caseContainer.encode(unreadCount, forKey: .unreadCount)
                       try caseContainer.encode(unreadUnmutedCount, forKey: .unreadUnmutedCount)
                       try caseContainer.encode(markedAsUnreadCount, forKey: .markedAsUnreadCount)
@@ -8481,6 +9077,11 @@ extension Update {
                 var caseContainer = encoder.container(keyedBy: TermsOfServiceKeys.self)
                       try caseContainer.encode(termsOfServiceId, forKey: .termsOfServiceId)
                       try caseContainer.encode(termsOfService, forKey: .termsOfService)
+            case .usersNearby(
+                let usersNearby):
+               try container.encode("updateUsersNearby", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: UsersNearbyKeys.self)
+                      try caseContainer.encode(usersNearby, forKey: .usersNearby)
             case .newInlineQuery(
                 let id,
                 let senderUserId,
@@ -8582,6 +9183,15 @@ extension Update {
                try container.encode("updatePoll", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: PollKeys.self)
                       try caseContainer.encode(poll, forKey: .poll)
+            case .pollAnswer(
+                let pollId,
+                let userId,
+                let optionIds):
+               try container.encode("updatePollAnswer", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: PollAnswerKeys.self)
+                      try caseContainer.encode(pollId, forKey: .pollId)
+                      try caseContainer.encode(userId, forKey: .userId)
+                      try caseContainer.encode(optionIds, forKey: .optionIds)
         }
   }
 }
@@ -8604,12 +9214,16 @@ extension UserPrivacySetting {
       self = .showProfilePhoto
     case "userPrivacySettingShowLinkInForwardedMessages":
       self = .showLinkInForwardedMessages
+    case "userPrivacySettingShowPhoneNumber":
+      self = .showPhoneNumber
     case "userPrivacySettingAllowChatInvites":
       self = .allowChatInvites
     case "userPrivacySettingAllowCalls":
       self = .allowCalls
     case "userPrivacySettingAllowPeerToPeerCalls":
       self = .allowPeerToPeerCalls
+    case "userPrivacySettingAllowFindingByPhoneNumber":
+      self = .allowFindingByPhoneNumber
     default:
        throw TDError.unknownState(type)
         }
@@ -8624,12 +9238,16 @@ extension UserPrivacySetting {
                try container.encode("userPrivacySettingShowProfilePhoto", forKey: .type)
             case .showLinkInForwardedMessages:
                try container.encode("userPrivacySettingShowLinkInForwardedMessages", forKey: .type)
+            case .showPhoneNumber:
+               try container.encode("userPrivacySettingShowPhoneNumber", forKey: .type)
             case .allowChatInvites:
                try container.encode("userPrivacySettingAllowChatInvites", forKey: .type)
             case .allowCalls:
                try container.encode("userPrivacySettingAllowCalls", forKey: .type)
             case .allowPeerToPeerCalls:
                try container.encode("userPrivacySettingAllowPeerToPeerCalls", forKey: .type)
+            case .allowFindingByPhoneNumber:
+               try container.encode("userPrivacySettingAllowFindingByPhoneNumber", forKey: .type)
         }
   }
 }
@@ -8644,8 +9262,14 @@ extension UserPrivacySettingRule {
   enum AllowUsersKeys: String, CodingKey {
           case userIds
   }
+  enum AllowChatMembersKeys: String, CodingKey {
+          case chatIds
+  }
   enum RestrictUsersKeys: String, CodingKey {
           case userIds
+  }
+  enum RestrictChatMembersKeys: String, CodingKey {
+          case chatIds
   }
 
   public init(from decoder: Decoder) throws {
@@ -8661,6 +9285,11 @@ extension UserPrivacySettingRule {
       self = .allowUsers(
             userIds: try caseContainer.decode([Int32].self, forKey: .userIds)
         )
+    case "userPrivacySettingRuleAllowChatMembers":
+      let caseContainer = try decoder.container(keyedBy: AllowChatMembersKeys.self)
+      self = .allowChatMembers(
+            chatIds: try caseContainer.decode([Int53].self, forKey: .chatIds)
+        )
     case "userPrivacySettingRuleRestrictAll":
       self = .restrictAll
     case "userPrivacySettingRuleRestrictContacts":
@@ -8669,6 +9298,11 @@ extension UserPrivacySettingRule {
       let caseContainer = try decoder.container(keyedBy: RestrictUsersKeys.self)
       self = .restrictUsers(
             userIds: try caseContainer.decode([Int32].self, forKey: .userIds)
+        )
+    case "userPrivacySettingRuleRestrictChatMembers":
+      let caseContainer = try decoder.container(keyedBy: RestrictChatMembersKeys.self)
+      self = .restrictChatMembers(
+            chatIds: try caseContainer.decode([Int53].self, forKey: .chatIds)
         )
     default:
        throw TDError.unknownState(type)
@@ -8687,6 +9321,11 @@ extension UserPrivacySettingRule {
                try container.encode("userPrivacySettingRuleAllowUsers", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: AllowUsersKeys.self)
                       try caseContainer.encode(userIds, forKey: .userIds)
+            case .allowChatMembers(
+                let chatIds):
+               try container.encode("userPrivacySettingRuleAllowChatMembers", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: AllowChatMembersKeys.self)
+                      try caseContainer.encode(chatIds, forKey: .chatIds)
             case .restrictAll:
                try container.encode("userPrivacySettingRuleRestrictAll", forKey: .type)
             case .restrictContacts:
@@ -8696,6 +9335,11 @@ extension UserPrivacySettingRule {
                try container.encode("userPrivacySettingRuleRestrictUsers", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: RestrictUsersKeys.self)
                       try caseContainer.encode(userIds, forKey: .userIds)
+            case .restrictChatMembers(
+                let chatIds):
+               try container.encode("userPrivacySettingRuleRestrictChatMembers", forKey: .type)
+                var caseContainer = encoder.container(keyedBy: RestrictChatMembersKeys.self)
+                      try caseContainer.encode(chatIds, forKey: .chatIds)
         }
   }
 }

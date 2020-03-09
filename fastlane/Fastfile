@@ -39,7 +39,7 @@ platform :ios do
   end
 
   lane :archive do
-    carthage(command: 'bootstrap', use_ssh: true, platform: 'iOS', use_binaries: false)
+    carthage(command: 'bootstrap', use_ssh: true, platform: 'iOS', use_binaries: true)
     carthage(command: 'build', no_skip_current: true, platform: 'iOS', cache_builds: true)
     carthage(command: 'archive', frameworks: ['TDLib'])
   end

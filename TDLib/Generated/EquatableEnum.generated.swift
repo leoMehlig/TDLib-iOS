@@ -55,6 +55,12 @@ extension AuthorizationState {
                 let rhscodeInfo)):
               return 
                 lhscodeInfo == rhscodeInfo
+            case (.waitOtherDeviceConfirmation(
+                let lhslink),
+              .waitOtherDeviceConfirmation(
+                let rhslink)):
+              return 
+                lhslink == rhslink
             case (.waitRegistration(
                 let lhstermsOfService),
               .waitRegistration(
@@ -87,6 +93,33 @@ extension AuthorizationState {
     }
 }
 
+extension BackgroundFill {
+   public static func == (lhs: BackgroundFill, rhs: BackgroundFill) -> Bool {
+        switch (lhs, rhs) {
+            case (.solid(
+                let lhscolor),
+              .solid(
+                let rhscolor)):
+              return 
+                lhscolor == rhscolor
+            case (.gradient(
+                let lhstopColor,
+                let lhsbottomColor,
+                let lhsrotationAngle),
+              .gradient(
+                let rhstopColor,
+                let rhsbottomColor,
+                let rhsrotationAngle)):
+              return 
+                lhstopColor == rhstopColor &&
+                lhsbottomColor == rhsbottomColor &&
+                lhsrotationAngle == rhsrotationAngle
+        default:
+            return false
+        }
+    }
+}
+
 extension BackgroundType {
    public static func == (lhs: BackgroundType, rhs: BackgroundType) -> Bool {
         switch (lhs, rhs) {
@@ -100,23 +133,23 @@ extension BackgroundType {
                 lhsisBlurred == rhsisBlurred &&
                 lhsisMoving == rhsisMoving
             case (.pattern(
-                let lhsisMoving,
-                let lhscolor,
-                let lhsintensity),
+                let lhsfill,
+                let lhsintensity,
+                let lhsisMoving),
               .pattern(
-                let rhsisMoving,
-                let rhscolor,
-                let rhsintensity)):
+                let rhsfill,
+                let rhsintensity,
+                let rhsisMoving)):
               return 
-                lhsisMoving == rhsisMoving &&
-                lhscolor == rhscolor &&
-                lhsintensity == rhsintensity
-            case (.solid(
-                let lhscolor),
-              .solid(
-                let rhscolor)):
+                lhsfill == rhsfill &&
+                lhsintensity == rhsintensity &&
+                lhsisMoving == rhsisMoving
+            case (.fill(
+                let lhsfill),
+              .fill(
+                let rhsfill)):
               return 
-                lhscolor == rhscolor
+                lhsfill == rhsfill
         default:
             return false
         }
@@ -247,6 +280,31 @@ extension CallbackQueryPayload {
     }
 }
 
+extension CanTransferOwnershipResult {
+   public static func == (lhs: CanTransferOwnershipResult, rhs: CanTransferOwnershipResult) -> Bool {
+        switch (lhs, rhs) {
+            case (.ok, .ok):
+                return true
+            case (.passwordNeeded, .passwordNeeded):
+                return true
+            case (.passwordTooFresh(
+                let lhsretryAfter),
+              .passwordTooFresh(
+                let rhsretryAfter)):
+              return 
+                lhsretryAfter == rhsretryAfter
+            case (.sessionTooFresh(
+                let lhsretryAfter),
+              .sessionTooFresh(
+                let rhsretryAfter)):
+              return 
+                lhsretryAfter == rhsretryAfter
+        default:
+            return false
+        }
+    }
+}
+
 extension ChatAction {
    public static func == (lhs: ChatAction, rhs: ChatAction) -> Bool {
         switch (lhs, rhs) {
@@ -295,6 +353,25 @@ extension ChatAction {
               return 
                 lhsprogress == rhsprogress
             case (.cancel, .cancel):
+                return true
+        default:
+            return false
+        }
+    }
+}
+
+extension ChatActionBar {
+   public static func == (lhs: ChatActionBar, rhs: ChatActionBar) -> Bool {
+        switch (lhs, rhs) {
+            case (.reportSpam, .reportSpam):
+                return true
+            case (.reportUnrelatedLocation, .reportUnrelatedLocation):
+                return true
+            case (.reportAddBlock, .reportAddBlock):
+                return true
+            case (.addContact, .addContact):
+                return true
+            case (.sharePhoneNumber, .sharePhoneNumber):
                 return true
         default:
             return false
@@ -422,6 +499,24 @@ extension ChatEventAction {
                 let rhscanInviteUsers)):
               return 
                 lhscanInviteUsers == rhscanInviteUsers
+            case (.chatEventLinkedChatChanged(
+                let lhsoldLinkedChatId,
+                let lhsnewLinkedChatId),
+              .chatEventLinkedChatChanged(
+                let rhsoldLinkedChatId,
+                let rhsnewLinkedChatId)):
+              return 
+                lhsoldLinkedChatId == rhsoldLinkedChatId &&
+                lhsnewLinkedChatId == rhsnewLinkedChatId
+            case (.chatEventSlowModeDelayChanged(
+                let lhsoldSlowModeDelay,
+                let lhsnewSlowModeDelay),
+              .chatEventSlowModeDelayChanged(
+                let rhsoldSlowModeDelay,
+                let rhsnewSlowModeDelay)):
+              return 
+                lhsoldSlowModeDelay == rhsoldSlowModeDelay &&
+                lhsnewSlowModeDelay == rhsnewSlowModeDelay
             case (.chatEventSignMessagesToggled(
                 let lhssignMessages),
               .chatEventSignMessagesToggled(
@@ -437,6 +532,15 @@ extension ChatEventAction {
               return 
                 lhsoldStickerSetId == rhsoldStickerSetId &&
                 lhsnewStickerSetId == rhsnewStickerSetId
+            case (.chatEventLocationChanged(
+                let lhsoldLocation,
+                let lhsnewLocation),
+              .chatEventLocationChanged(
+                let rhsoldLocation,
+                let rhsnewLocation)):
+              return 
+                lhsoldLocation == rhsoldLocation &&
+                lhsnewLocation == rhsnewLocation
             case (.chatEventIsAllHistoryAvailableToggled(
                 let lhsisAllHistoryAvailable),
               .chatEventIsAllHistoryAvailableToggled(
@@ -449,16 +553,33 @@ extension ChatEventAction {
     }
 }
 
+extension ChatList {
+   public static func == (lhs: ChatList, rhs: ChatList) -> Bool {
+        switch (lhs, rhs) {
+            case (.main, .main):
+                return true
+            case (.archive, .archive):
+                return true
+        default:
+            return false
+        }
+    }
+}
+
 extension ChatMemberStatus {
    public static func == (lhs: ChatMemberStatus, rhs: ChatMemberStatus) -> Bool {
         switch (lhs, rhs) {
             case (.creator(
+                let lhscustomTitle,
                 let lhsisMember),
               .creator(
+                let rhscustomTitle,
                 let rhsisMember)):
               return 
+                lhscustomTitle == rhscustomTitle &&
                 lhsisMember == rhsisMember
             case (.administrator(
+                let lhscustomTitle,
                 let lhscanBeEdited,
                 let lhscanChangeInfo,
                 let lhscanPostMessages,
@@ -469,6 +590,7 @@ extension ChatMemberStatus {
                 let lhscanPinMessages,
                 let lhscanPromoteMembers),
               .administrator(
+                let rhscustomTitle,
                 let rhscanBeEdited,
                 let rhscanChangeInfo,
                 let rhscanPostMessages,
@@ -479,6 +601,7 @@ extension ChatMemberStatus {
                 let rhscanPinMessages,
                 let rhscanPromoteMembers)):
               return 
+                lhscustomTitle == rhscustomTitle &&
                 lhscanBeEdited == rhscanBeEdited &&
                 lhscanChangeInfo == rhscanChangeInfo &&
                 lhscanPostMessages == rhscanPostMessages &&
@@ -549,6 +672,8 @@ extension ChatReportReason {
             case (.childAbuse, .childAbuse):
                 return true
             case (.copyright, .copyright):
+                return true
+            case (.unrelatedLocation, .unrelatedLocation):
                 return true
             case (.custom(
                 let lhstext),
@@ -1676,13 +1801,22 @@ extension InputMessageContent {
                 lhsstartParameter == rhsstartParameter
             case (.inputMessagePoll(
                 let lhsquestion,
-                let lhsoptions),
+                let lhsoptions,
+                let lhsisAnonymous,
+                let lhstype,
+                let lhsisClosed),
               .inputMessagePoll(
                 let rhsquestion,
-                let rhsoptions)):
+                let rhsoptions,
+                let rhsisAnonymous,
+                let rhstype,
+                let rhsisClosed)):
               return 
                 lhsquestion == rhsquestion &&
-                lhsoptions == rhsoptions
+                lhsoptions == rhsoptions &&
+                lhsisAnonymous == rhsisAnonymous &&
+                lhstype == rhstype &&
+                lhsisClosed == rhsisClosed
             case (.inputMessageForwarded(
                 let lhsfromChatId,
                 let lhsmessageId,
@@ -1910,6 +2044,15 @@ extension KeyboardButtonType {
                 return true
             case (.requestLocation, .requestLocation):
                 return true
+            case (.requestPoll(
+                let lhsforceRegular,
+                let lhsforceQuiz),
+              .requestPoll(
+                let rhsforceRegular,
+                let rhsforceQuiz)):
+              return 
+                lhsforceRegular == rhsforceRegular &&
+                lhsforceQuiz == rhsforceQuiz
         default:
             return false
         }
@@ -1954,21 +2097,6 @@ extension LanguagePackStringValue {
     }
 }
 
-extension LinkState {
-   public static func == (lhs: LinkState, rhs: LinkState) -> Bool {
-        switch (lhs, rhs) {
-            case (.none, .none):
-                return true
-            case (.knowsPhoneNumber, .knowsPhoneNumber):
-                return true
-            case (.isContact, .isContact):
-                return true
-        default:
-            return false
-        }
-    }
-}
-
 extension LogStream {
    public static func == (lhs: LogStream, rhs: LogStream) -> Bool {
         switch (lhs, rhs) {
@@ -1985,6 +2113,39 @@ extension LogStream {
                 lhsmaxFileSize == rhsmaxFileSize
             case (.empty, .empty):
                 return true
+        default:
+            return false
+        }
+    }
+}
+
+extension LoginUrlInfo {
+   public static func == (lhs: LoginUrlInfo, rhs: LoginUrlInfo) -> Bool {
+        switch (lhs, rhs) {
+            case (.open(
+                let lhsurl,
+                let lhsskipConfirm),
+              .open(
+                let rhsurl,
+                let rhsskipConfirm)):
+              return 
+                lhsurl == rhsurl &&
+                lhsskipConfirm == rhsskipConfirm
+            case (.requestConfirmation(
+                let lhsurl,
+                let lhsdomain,
+                let lhsbotUserId,
+                let lhsrequestWriteAccess),
+              .requestConfirmation(
+                let rhsurl,
+                let rhsdomain,
+                let rhsbotUserId,
+                let rhsrequestWriteAccess)):
+              return 
+                lhsurl == rhsurl &&
+                lhsdomain == rhsdomain &&
+                lhsbotUserId == rhsbotUserId &&
+                lhsrequestWriteAccess == rhsrequestWriteAccess
         default:
             return false
         }
@@ -2376,6 +2537,23 @@ extension MessageForwardOrigin {
     }
 }
 
+extension MessageSchedulingState {
+   public static func == (lhs: MessageSchedulingState, rhs: MessageSchedulingState) -> Bool {
+        switch (lhs, rhs) {
+            case (.sendAtDate(
+                let lhssendDate),
+              .sendAtDate(
+                let rhssendDate)):
+              return 
+                lhssendDate == rhssendDate
+            case (.sendWhenOnline, .sendWhenOnline):
+                return true
+        default:
+            return false
+        }
+    }
+}
+
 extension MessageSendingState {
    public static func == (lhs: MessageSendingState, rhs: MessageSendingState) -> Bool {
         switch (lhs, rhs) {
@@ -2699,6 +2877,15 @@ extension PageBlock {
                 lhscaption == rhscaption &&
                 lhsneedAutoplay == rhsneedAutoplay &&
                 lhsisLooped == rhsisLooped
+            case (.voiceNote(
+                let lhsvoiceNote,
+                let lhscaption),
+              .voiceNote(
+                let rhsvoiceNote,
+                let rhscaption)):
+              return 
+                lhsvoiceNote == rhsvoiceNote &&
+                lhscaption == rhscaption
             case (.cover(
                 let lhscover),
               .cover(
@@ -3034,6 +3221,27 @@ extension PassportElementType {
     }
 }
 
+extension PollType {
+   public static func == (lhs: PollType, rhs: PollType) -> Bool {
+        switch (lhs, rhs) {
+            case (.regular(
+                let lhsallowMultipleAnswers),
+              .regular(
+                let rhsallowMultipleAnswers)):
+              return 
+                lhsallowMultipleAnswers == rhsallowMultipleAnswers
+            case (.quiz(
+                let lhscorrectOptionId),
+              .quiz(
+                let rhscorrectOptionId)):
+              return 
+                lhscorrectOptionId == rhscorrectOptionId
+        default:
+            return false
+        }
+    }
+}
+
 extension ProxyType {
    public static func == (lhs: ProxyType, rhs: ProxyType) -> Bool {
         switch (lhs, rhs) {
@@ -3064,6 +3272,19 @@ extension ProxyType {
                 let rhssecret)):
               return 
                 lhssecret == rhssecret
+        default:
+            return false
+        }
+    }
+}
+
+extension PublicChatType {
+   public static func == (lhs: PublicChatType, rhs: PublicChatType) -> Bool {
+        switch (lhs, rhs) {
+            case (.hasUsername, .hasUsername):
+                return true
+            case (.isLocationBased, .isLocationBased):
+                return true
         default:
             return false
         }
@@ -3176,12 +3397,15 @@ extension PushMessageContent {
                 lhsisPinned == rhsisPinned
             case (.poll(
                 let lhsquestion,
+                let lhsisRegular,
                 let lhsisPinned),
               .poll(
                 let rhsquestion,
+                let rhsisRegular,
                 let rhsisPinned)):
               return 
                 lhsquestion == rhsquestion &&
+                lhsisRegular == rhsisRegular &&
                 lhsisPinned == rhsisPinned
             case (.screenshotTaken, .screenshotTaken):
                 return true
@@ -3382,13 +3606,16 @@ extension RichText {
                 lhstext == rhstext
             case (.url(
                 let lhstext,
-                let lhsurl),
+                let lhsurl,
+                let lhsisCached),
               .url(
                 let rhstext,
-                let rhsurl)):
+                let rhsurl,
+                let rhsisCached)):
               return 
                 lhstext == rhstext &&
-                lhsurl == rhsurl
+                lhsurl == rhsurl &&
+                lhsisCached == rhsisCached
             case (.emailAddress(
                 let lhstext,
                 let lhsemailAddress),
@@ -3601,9 +3828,15 @@ extension TextEntityType {
                 return true
             case (.emailAddress, .emailAddress):
                 return true
+            case (.phoneNumber, .phoneNumber):
+                return true
             case (.bold, .bold):
                 return true
             case (.italic, .italic):
+                return true
+            case (.underline, .underline):
+                return true
+            case (.strikethrough, .strikethrough):
                 return true
             case (.code, .code):
                 return true
@@ -3627,8 +3860,6 @@ extension TextEntityType {
                 let rhsuserId)):
               return 
                 lhsuserId == rhsuserId
-            case (.phoneNumber, .phoneNumber):
-                return true
         default:
             return false
         }
@@ -3638,8 +3869,12 @@ extension TextEntityType {
 extension TextParseMode {
    public static func == (lhs: TextParseMode, rhs: TextParseMode) -> Bool {
         switch (lhs, rhs) {
-            case (.markdown, .markdown):
-                return true
+            case (.markdown(
+                let lhsversion),
+              .markdown(
+                let rhsversion)):
+              return 
+                lhsversion == rhsversion
             case (.hTML, .hTML):
                 return true
         default:
@@ -3662,6 +3897,8 @@ extension TopChatCategory {
             case (.inlineBots, .inlineBots):
                 return true
             case (.calls, .calls):
+                return true
+            case (.forwardChats, .forwardChats):
                 return true
         default:
             return false
@@ -3777,12 +4014,30 @@ extension Update {
                 lhschatId == rhschatId &&
                 lhsmessageId == rhsmessageId &&
                 lhsunreadMentionCount == rhsunreadMentionCount
+            case (.messageLiveLocationViewed(
+                let lhschatId,
+                let lhsmessageId),
+              .messageLiveLocationViewed(
+                let rhschatId,
+                let rhsmessageId)):
+              return 
+                lhschatId == rhschatId &&
+                lhsmessageId == rhsmessageId
             case (.newChat(
                 let lhschat),
               .newChat(
                 let rhschat)):
               return 
                 lhschat == rhschat
+            case (.chatChatList(
+                let lhschatId,
+                let lhschatList),
+              .chatChatList(
+                let rhschatId,
+                let rhschatList)):
+              return 
+                lhschatId == rhschatId &&
+                lhschatList == rhschatList
             case (.chatTitle(
                 let lhschatId,
                 let lhstitle),
@@ -3864,6 +4119,15 @@ extension Update {
                 lhschatId == rhschatId &&
                 lhsisSponsored == rhsisSponsored &&
                 lhsorder == rhsorder
+            case (.chatHasScheduledMessages(
+                let lhschatId,
+                let lhshasScheduledMessages),
+              .chatHasScheduledMessages(
+                let rhschatId,
+                let rhshasScheduledMessages)):
+              return 
+                lhschatId == rhschatId &&
+                lhshasScheduledMessages == rhshasScheduledMessages
             case (.chatDefaultDisableNotification(
                 let lhschatId,
                 let lhsdefaultDisableNotification),
@@ -3921,6 +4185,15 @@ extension Update {
               return 
                 lhsscope == rhsscope &&
                 lhsnotificationSettings == rhsnotificationSettings
+            case (.chatActionBar(
+                let lhschatId,
+                let lhsactionBar),
+              .chatActionBar(
+                let rhschatId,
+                let rhsactionBar)):
+              return 
+                lhschatId == rhschatId &&
+                lhsactionBar == rhsactionBar
             case (.chatPinnedMessage(
                 let lhschatId,
                 let lhspinnedMessageId),
@@ -4150,25 +4423,34 @@ extension Update {
                 lhssetting == rhssetting &&
                 lhsrules == rhsrules
             case (.unreadMessageCount(
+                let lhschatList,
                 let lhsunreadCount,
                 let lhsunreadUnmutedCount),
               .unreadMessageCount(
+                let rhschatList,
                 let rhsunreadCount,
                 let rhsunreadUnmutedCount)):
               return 
+                lhschatList == rhschatList &&
                 lhsunreadCount == rhsunreadCount &&
                 lhsunreadUnmutedCount == rhsunreadUnmutedCount
             case (.unreadChatCount(
+                let lhschatList,
+                let lhstotalCount,
                 let lhsunreadCount,
                 let lhsunreadUnmutedCount,
                 let lhsmarkedAsUnreadCount,
                 let lhsmarkedAsUnreadUnmutedCount),
               .unreadChatCount(
+                let rhschatList,
+                let rhstotalCount,
                 let rhsunreadCount,
                 let rhsunreadUnmutedCount,
                 let rhsmarkedAsUnreadCount,
                 let rhsmarkedAsUnreadUnmutedCount)):
               return 
+                lhschatList == rhschatList &&
+                lhstotalCount == rhstotalCount &&
                 lhsunreadCount == rhsunreadCount &&
                 lhsunreadUnmutedCount == rhsunreadUnmutedCount &&
                 lhsmarkedAsUnreadCount == rhsmarkedAsUnreadCount &&
@@ -4254,6 +4536,12 @@ extension Update {
               return 
                 lhstermsOfServiceId == rhstermsOfServiceId &&
                 lhstermsOfService == rhstermsOfService
+            case (.usersNearby(
+                let lhsusersNearby),
+              .usersNearby(
+                let rhsusersNearby)):
+              return 
+                lhsusersNearby == rhsusersNearby
             case (.newInlineQuery(
                 let lhsid,
                 let lhssenderUserId,
@@ -4392,6 +4680,18 @@ extension Update {
                 let rhspoll)):
               return 
                 lhspoll == rhspoll
+            case (.pollAnswer(
+                let lhspollId,
+                let lhsuserId,
+                let lhsoptionIds),
+              .pollAnswer(
+                let rhspollId,
+                let rhsuserId,
+                let rhsoptionIds)):
+              return 
+                lhspollId == rhspollId &&
+                lhsuserId == rhsuserId &&
+                lhsoptionIds == rhsoptionIds
         default:
             return false
         }
@@ -4407,11 +4707,15 @@ extension UserPrivacySetting {
                 return true
             case (.showLinkInForwardedMessages, .showLinkInForwardedMessages):
                 return true
+            case (.showPhoneNumber, .showPhoneNumber):
+                return true
             case (.allowChatInvites, .allowChatInvites):
                 return true
             case (.allowCalls, .allowCalls):
                 return true
             case (.allowPeerToPeerCalls, .allowPeerToPeerCalls):
+                return true
+            case (.allowFindingByPhoneNumber, .allowFindingByPhoneNumber):
                 return true
         default:
             return false
@@ -4432,6 +4736,12 @@ extension UserPrivacySettingRule {
                 let rhsuserIds)):
               return 
                 lhsuserIds == rhsuserIds
+            case (.allowChatMembers(
+                let lhschatIds),
+              .allowChatMembers(
+                let rhschatIds)):
+              return 
+                lhschatIds == rhschatIds
             case (.restrictAll, .restrictAll):
                 return true
             case (.restrictContacts, .restrictContacts):
@@ -4442,6 +4752,12 @@ extension UserPrivacySettingRule {
                 let rhsuserIds)):
               return 
                 lhsuserIds == rhsuserIds
+            case (.restrictChatMembers(
+                let lhschatIds),
+              .restrictChatMembers(
+                let rhschatIds)):
+              return 
+                lhschatIds == rhschatIds
         default:
             return false
         }
