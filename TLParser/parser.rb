@@ -8,9 +8,11 @@ class TDType
 
   def gen
     string = "///  #{@description}\n"
+    is_request = false
     if name.casecmp(result).zero?
       string += "public struct #{result}: Codable, Equatable, FunctionResult {\n"
     else
+      is_request = true
       letters = @name.split('')
       letters.first.upcase!
       @name = letters.join
@@ -18,6 +20,7 @@ class TDType
       string += "\tpublic typealias Result = #{result}\n"
     end
     for field in fields.each_value do
+      field.is_in_function = is_request 
       string += "\t///  #{field.description}\n"
       name = field.escaped_name.camel_case
       string += "\tpublic let #{name}: #{field.cased_type}\n"
@@ -78,7 +81,7 @@ class TDEnum
 end
 
 class Field
-  attr_accessor :description, :name, :type
+  attr_accessor :description, :name, :type, :is_in_function
   def formattedName
     @name.camel_case
  end
@@ -94,7 +97,7 @@ class Field
     @type = @type.un_vector
     letters = @type.split('')
     letters.first.upcase!
-    return letters.join + '?' if @description.include?('may be null') || @description.include?('for bots only')
+    return letters.join + '?' if @description.include?('may be null') || @description.include?('for bots only') || @is_in_function
     letters.join
   end
 end
