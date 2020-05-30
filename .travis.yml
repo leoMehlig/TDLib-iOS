@@ -1,5 +1,5 @@
 language: objective-c
-osx_image: xcode10.2
+osx_image: xcode10.4
 script:
   - bundle exec fastlane release
 notifications:
