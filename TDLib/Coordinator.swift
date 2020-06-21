@@ -41,7 +41,7 @@ public class Coordinator {
     ///   - encryptionKey: The encryption key for the local database.
     public init(client: TDJsonClient = TDJsonClient(), parameters: TdlibParameters, encryptionKey: Data = Data(repeating: 123, count: 64)) {
         self.client = client
-        self.logPath = parameters.filesDirectory + "/tdlogs.log"
+        self.logPath = (parameters.filesDirectory ?? "") + "/tdlogs.log"
         FileManager.default.createFile(atPath: self.logPath, contents: nil, attributes: [:])
         self.floodStream = FloodStream(logPath: self.logPath)
 

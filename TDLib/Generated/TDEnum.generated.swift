@@ -223,14 +223,14 @@ extension BackgroundFill {
     case "backgroundFillSolid":
       let caseContainer = try decoder.container(keyedBy: SolidKeys.self)
       self = .solid(
-            color: try caseContainer.decode(Int32.self, forKey: .color)
+              color: try caseContainer.decodeIfPresent(Int32.self, forKey: .color)
         )
     case "backgroundFillGradient":
       let caseContainer = try decoder.container(keyedBy: GradientKeys.self)
       self = .gradient(
-            topColor: try caseContainer.decode(Int32.self, forKey: .topColor),
-            bottomColor: try caseContainer.decode(Int32.self, forKey: .bottomColor),
-            rotationAngle: try caseContainer.decode(Int32.self, forKey: .rotationAngle)
+              topColor: try caseContainer.decodeIfPresent(Int32.self, forKey: .topColor),
+              bottomColor: try caseContainer.decodeIfPresent(Int32.self, forKey: .bottomColor),
+              rotationAngle: try caseContainer.decodeIfPresent(Int32.self, forKey: .rotationAngle)
         )
     default:
        throw TDError.unknownState(type)
@@ -244,16 +244,16 @@ extension BackgroundFill {
                 let color):
                try container.encode("backgroundFillSolid", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: SolidKeys.self)
-                      try caseContainer.encode(color, forKey: .color)
+                      try caseContainer.encodeIfPresent(color, forKey: .color)
             case .gradient(
                 let topColor,
                 let bottomColor,
                 let rotationAngle):
                try container.encode("backgroundFillGradient", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: GradientKeys.self)
-                      try caseContainer.encode(topColor, forKey: .topColor)
-                      try caseContainer.encode(bottomColor, forKey: .bottomColor)
-                      try caseContainer.encode(rotationAngle, forKey: .rotationAngle)
+                      try caseContainer.encodeIfPresent(topColor, forKey: .topColor)
+                      try caseContainer.encodeIfPresent(bottomColor, forKey: .bottomColor)
+                      try caseContainer.encodeIfPresent(rotationAngle, forKey: .rotationAngle)
         }
   }
 }
@@ -285,20 +285,20 @@ extension BackgroundType {
     case "backgroundTypeWallpaper":
       let caseContainer = try decoder.container(keyedBy: WallpaperKeys.self)
       self = .wallpaper(
-            isBlurred: try caseContainer.decode(Bool.self, forKey: .isBlurred),
+              isBlurred: try caseContainer.decodeIfPresent(Bool.self, forKey: .isBlurred),
             isMoving: try caseContainer.decode(Bool.self, forKey: .isMoving)
         )
     case "backgroundTypePattern":
       let caseContainer = try decoder.container(keyedBy: PatternKeys.self)
       self = .pattern(
             fill: try caseContainer.decode(BackgroundFill.self, forKey: .fill),
-            intensity: try caseContainer.decode(Int32.self, forKey: .intensity),
-            isMoving: try caseContainer.decode(Bool.self, forKey: .isMoving)
+              intensity: try caseContainer.decodeIfPresent(Int32.self, forKey: .intensity),
+              isMoving: try caseContainer.decodeIfPresent(Bool.self, forKey: .isMoving)
         )
     case "backgroundTypeFill":
       let caseContainer = try decoder.container(keyedBy: FillKeys.self)
       self = .fill(
-            fill: try caseContainer.decode(BackgroundFill.self, forKey: .fill)
+              fill: try caseContainer.decodeIfPresent(BackgroundFill.self, forKey: .fill)
         )
     default:
        throw TDError.unknownState(type)
@@ -313,7 +313,7 @@ extension BackgroundType {
                 let isMoving):
                try container.encode("backgroundTypeWallpaper", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: WallpaperKeys.self)
-                      try caseContainer.encode(isBlurred, forKey: .isBlurred)
+                      try caseContainer.encodeIfPresent(isBlurred, forKey: .isBlurred)
                       try caseContainer.encode(isMoving, forKey: .isMoving)
             case .pattern(
                 let fill,
@@ -322,13 +322,13 @@ extension BackgroundType {
                try container.encode("backgroundTypePattern", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: PatternKeys.self)
                       try caseContainer.encode(fill, forKey: .fill)
-                      try caseContainer.encode(intensity, forKey: .intensity)
-                      try caseContainer.encode(isMoving, forKey: .isMoving)
+                      try caseContainer.encodeIfPresent(intensity, forKey: .intensity)
+                      try caseContainer.encodeIfPresent(isMoving, forKey: .isMoving)
             case .fill(
                 let fill):
                try container.encode("backgroundTypeFill", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: FillKeys.self)
-                      try caseContainer.encode(fill, forKey: .fill)
+                      try caseContainer.encodeIfPresent(fill, forKey: .fill)
         }
   }
 }
@@ -566,12 +566,12 @@ extension CallbackQueryPayload {
     case "callbackQueryPayloadData":
       let caseContainer = try decoder.container(keyedBy: DataKeys.self)
       self = .data(
-            data: try caseContainer.decode(Bytes.self, forKey: .data)
+              data: try caseContainer.decodeIfPresent(Bytes.self, forKey: .data)
         )
     case "callbackQueryPayloadGame":
       let caseContainer = try decoder.container(keyedBy: GameKeys.self)
       self = .game(
-            gameShortName: try caseContainer.decode(String.self, forKey: .gameShortName)
+              gameShortName: try caseContainer.decodeIfPresent(String.self, forKey: .gameShortName)
         )
     default:
        throw TDError.unknownState(type)
@@ -585,12 +585,12 @@ extension CallbackQueryPayload {
                 let data):
                try container.encode("callbackQueryPayloadData", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: DataKeys.self)
-                      try caseContainer.encode(data, forKey: .data)
+                      try caseContainer.encodeIfPresent(data, forKey: .data)
             case .game(
                 let gameShortName):
                try container.encode("callbackQueryPayloadGame", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: GameKeys.self)
-                      try caseContainer.encode(gameShortName, forKey: .gameShortName)
+                      try caseContainer.encodeIfPresent(gameShortName, forKey: .gameShortName)
         }
   }
 }
@@ -717,7 +717,7 @@ extension ChatAction {
     case "chatActionUploadingVideoNote":
       let caseContainer = try decoder.container(keyedBy: UploadingVideoNoteKeys.self)
       self = .uploadingVideoNote(
-            progress: try caseContainer.decode(Int32.self, forKey: .progress)
+              progress: try caseContainer.decodeIfPresent(Int32.self, forKey: .progress)
         )
     case "chatActionCancel":
       self = .cancel
@@ -767,7 +767,7 @@ extension ChatAction {
                 let progress):
                try container.encode("chatActionUploadingVideoNote", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: UploadingVideoNoteKeys.self)
-                      try caseContainer.encode(progress, forKey: .progress)
+                      try caseContainer.encodeIfPresent(progress, forKey: .progress)
             case .cancel:
                try container.encode("chatActionCancel", forKey: .type)
         }
@@ -1237,33 +1237,43 @@ extension ChatMemberStatus {
         )
     case "chatMemberStatusAdministrator":
       let caseContainer = try decoder.container(keyedBy: AdministratorKeys.self)
+      let customTitle = try caseContainer.decodeIfPresent(String.self, forKey: .customTitle)
+      let canBeEdited = try caseContainer.decodeIfPresent(Bool.self, forKey: .canBeEdited)
+      let canChangeInfo = try caseContainer.decodeIfPresent(Bool.self, forKey: .canChangeInfo)
+      let canPostMessages = try caseContainer.decodeIfPresent(Bool.self, forKey: .canPostMessages)
+      let canEditMessages = try caseContainer.decodeIfPresent(Bool.self, forKey: .canEditMessages)
+      let canDeleteMessages = try caseContainer.decodeIfPresent(Bool.self, forKey: .canDeleteMessages)
+      let canInviteUsers = try caseContainer.decodeIfPresent(Bool.self, forKey: .canInviteUsers)
+      let canRestrictMembers = try caseContainer.decodeIfPresent(Bool.self, forKey: .canRestrictMembers)
+      let canPinMessages = try caseContainer.decodeIfPresent(Bool.self, forKey: .canPinMessages)
+      let canPromoteMembers = try caseContainer.decodeIfPresent(Bool.self, forKey: .canPromoteMembers)
       self = .administrator(
-            customTitle: try caseContainer.decode(String.self, forKey: .customTitle),
-            canBeEdited: try caseContainer.decode(Bool.self, forKey: .canBeEdited),
-            canChangeInfo: try caseContainer.decode(Bool.self, forKey: .canChangeInfo),
-            canPostMessages: try caseContainer.decode(Bool.self, forKey: .canPostMessages),
-            canEditMessages: try caseContainer.decode(Bool.self, forKey: .canEditMessages),
-            canDeleteMessages: try caseContainer.decode(Bool.self, forKey: .canDeleteMessages),
-            canInviteUsers: try caseContainer.decode(Bool.self, forKey: .canInviteUsers),
-            canRestrictMembers: try caseContainer.decode(Bool.self, forKey: .canRestrictMembers),
-            canPinMessages: try caseContainer.decode(Bool.self, forKey: .canPinMessages),
-            canPromoteMembers: try caseContainer.decode(Bool.self, forKey: .canPromoteMembers)
+              customTitle: customTitle,
+              canBeEdited: canBeEdited,
+              canChangeInfo: canChangeInfo,
+              canPostMessages: canPostMessages,
+              canEditMessages: canEditMessages,
+              canDeleteMessages: canDeleteMessages,
+              canInviteUsers: canInviteUsers,
+              canRestrictMembers: canRestrictMembers,
+              canPinMessages: canPinMessages,
+              canPromoteMembers: canPromoteMembers
         )
     case "chatMemberStatusMember":
       self = .member
     case "chatMemberStatusRestricted":
       let caseContainer = try decoder.container(keyedBy: RestrictedKeys.self)
       self = .restricted(
-            isMember: try caseContainer.decode(Bool.self, forKey: .isMember),
-            restrictedUntilDate: try caseContainer.decode(Int32.self, forKey: .restrictedUntilDate),
-            permissions: try caseContainer.decode(ChatPermissions.self, forKey: .permissions)
+              isMember: try caseContainer.decodeIfPresent(Bool.self, forKey: .isMember),
+              restrictedUntilDate: try caseContainer.decodeIfPresent(Int32.self, forKey: .restrictedUntilDate),
+              permissions: try caseContainer.decodeIfPresent(ChatPermissions.self, forKey: .permissions)
         )
     case "chatMemberStatusLeft":
       self = .left
     case "chatMemberStatusBanned":
       let caseContainer = try decoder.container(keyedBy: BannedKeys.self)
       self = .banned(
-            bannedUntilDate: try caseContainer.decode(Int32.self, forKey: .bannedUntilDate)
+              bannedUntilDate: try caseContainer.decodeIfPresent(Int32.self, forKey: .bannedUntilDate)
         )
     default:
        throw TDError.unknownState(type)
@@ -1293,16 +1303,16 @@ extension ChatMemberStatus {
                 let canPromoteMembers):
                try container.encode("chatMemberStatusAdministrator", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: AdministratorKeys.self)
-                      try caseContainer.encode(customTitle, forKey: .customTitle)
-                      try caseContainer.encode(canBeEdited, forKey: .canBeEdited)
-                      try caseContainer.encode(canChangeInfo, forKey: .canChangeInfo)
-                      try caseContainer.encode(canPostMessages, forKey: .canPostMessages)
-                      try caseContainer.encode(canEditMessages, forKey: .canEditMessages)
-                      try caseContainer.encode(canDeleteMessages, forKey: .canDeleteMessages)
-                      try caseContainer.encode(canInviteUsers, forKey: .canInviteUsers)
-                      try caseContainer.encode(canRestrictMembers, forKey: .canRestrictMembers)
-                      try caseContainer.encode(canPinMessages, forKey: .canPinMessages)
-                      try caseContainer.encode(canPromoteMembers, forKey: .canPromoteMembers)
+                      try caseContainer.encodeIfPresent(customTitle, forKey: .customTitle)
+                      try caseContainer.encodeIfPresent(canBeEdited, forKey: .canBeEdited)
+                      try caseContainer.encodeIfPresent(canChangeInfo, forKey: .canChangeInfo)
+                      try caseContainer.encodeIfPresent(canPostMessages, forKey: .canPostMessages)
+                      try caseContainer.encodeIfPresent(canEditMessages, forKey: .canEditMessages)
+                      try caseContainer.encodeIfPresent(canDeleteMessages, forKey: .canDeleteMessages)
+                      try caseContainer.encodeIfPresent(canInviteUsers, forKey: .canInviteUsers)
+                      try caseContainer.encodeIfPresent(canRestrictMembers, forKey: .canRestrictMembers)
+                      try caseContainer.encodeIfPresent(canPinMessages, forKey: .canPinMessages)
+                      try caseContainer.encodeIfPresent(canPromoteMembers, forKey: .canPromoteMembers)
             case .member:
                try container.encode("chatMemberStatusMember", forKey: .type)
             case .restricted(
@@ -1311,16 +1321,16 @@ extension ChatMemberStatus {
                 let permissions):
                try container.encode("chatMemberStatusRestricted", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: RestrictedKeys.self)
-                      try caseContainer.encode(isMember, forKey: .isMember)
-                      try caseContainer.encode(restrictedUntilDate, forKey: .restrictedUntilDate)
-                      try caseContainer.encode(permissions, forKey: .permissions)
+                      try caseContainer.encodeIfPresent(isMember, forKey: .isMember)
+                      try caseContainer.encodeIfPresent(restrictedUntilDate, forKey: .restrictedUntilDate)
+                      try caseContainer.encodeIfPresent(permissions, forKey: .permissions)
             case .left:
                try container.encode("chatMemberStatusLeft", forKey: .type)
             case .banned(
                 let bannedUntilDate):
                try container.encode("chatMemberStatusBanned", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: BannedKeys.self)
-                      try caseContainer.encode(bannedUntilDate, forKey: .bannedUntilDate)
+                      try caseContainer.encodeIfPresent(bannedUntilDate, forKey: .bannedUntilDate)
         }
   }
 }
@@ -1403,7 +1413,7 @@ extension ChatReportReason {
     case "chatReportReasonCustom":
       let caseContainer = try decoder.container(keyedBy: CustomKeys.self)
       self = .custom(
-            text: try caseContainer.decode(String.self, forKey: .text)
+              text: try caseContainer.decodeIfPresent(String.self, forKey: .text)
         )
     default:
        throw TDError.unknownState(type)
@@ -1429,7 +1439,7 @@ extension ChatReportReason {
                 let text):
                try container.encode("chatReportReasonCustom", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: CustomKeys.self)
-                      try caseContainer.encode(text, forKey: .text)
+                      try caseContainer.encodeIfPresent(text, forKey: .text)
         }
   }
 }
@@ -1672,14 +1682,14 @@ extension DeviceToken {
     case "deviceTokenApplePushVoIP":
       let caseContainer = try decoder.container(keyedBy: ApplePushVoIPKeys.self)
       self = .applePushVoIP(
-            deviceToken: try caseContainer.decode(String.self, forKey: .deviceToken),
-            isAppSandbox: try caseContainer.decode(Bool.self, forKey: .isAppSandbox),
-            encrypt: try caseContainer.decode(Bool.self, forKey: .encrypt)
+              deviceToken: try caseContainer.decodeIfPresent(String.self, forKey: .deviceToken),
+              isAppSandbox: try caseContainer.decodeIfPresent(Bool.self, forKey: .isAppSandbox),
+              encrypt: try caseContainer.decodeIfPresent(Bool.self, forKey: .encrypt)
         )
     case "deviceTokenWindowsPush":
       let caseContainer = try decoder.container(keyedBy: WindowsPushKeys.self)
       self = .windowsPush(
-            accessToken: try caseContainer.decode(String.self, forKey: .accessToken)
+              accessToken: try caseContainer.decodeIfPresent(String.self, forKey: .accessToken)
         )
     case "deviceTokenMicrosoftPush":
       let caseContainer = try decoder.container(keyedBy: MicrosoftPushKeys.self)
@@ -1689,19 +1699,19 @@ extension DeviceToken {
     case "deviceTokenMicrosoftPushVoIP":
       let caseContainer = try decoder.container(keyedBy: MicrosoftPushVoIPKeys.self)
       self = .microsoftPushVoIP(
-            channelUri: try caseContainer.decode(String.self, forKey: .channelUri)
+              channelUri: try caseContainer.decodeIfPresent(String.self, forKey: .channelUri)
         )
     case "deviceTokenWebPush":
       let caseContainer = try decoder.container(keyedBy: WebPushKeys.self)
       self = .webPush(
             endpoint: try caseContainer.decode(String.self, forKey: .endpoint),
-            p256dhBase64url: try caseContainer.decode(String.self, forKey: .p256dhBase64url),
-            authBase64url: try caseContainer.decode(String.self, forKey: .authBase64url)
+              p256dhBase64url: try caseContainer.decodeIfPresent(String.self, forKey: .p256dhBase64url),
+              authBase64url: try caseContainer.decodeIfPresent(String.self, forKey: .authBase64url)
         )
     case "deviceTokenSimplePush":
       let caseContainer = try decoder.container(keyedBy: SimplePushKeys.self)
       self = .simplePush(
-            endpoint: try caseContainer.decode(String.self, forKey: .endpoint)
+              endpoint: try caseContainer.decodeIfPresent(String.self, forKey: .endpoint)
         )
     case "deviceTokenUbuntuPush":
       let caseContainer = try decoder.container(keyedBy: UbuntuPushKeys.self)
@@ -1711,12 +1721,12 @@ extension DeviceToken {
     case "deviceTokenBlackBerryPush":
       let caseContainer = try decoder.container(keyedBy: BlackBerryPushKeys.self)
       self = .blackBerryPush(
-            token: try caseContainer.decode(String.self, forKey: .token)
+              token: try caseContainer.decodeIfPresent(String.self, forKey: .token)
         )
     case "deviceTokenTizenPush":
       let caseContainer = try decoder.container(keyedBy: TizenPushKeys.self)
       self = .tizenPush(
-            regId: try caseContainer.decode(String.self, forKey: .regId)
+              regId: try caseContainer.decodeIfPresent(String.self, forKey: .regId)
         )
     default:
        throw TDError.unknownState(type)
@@ -1746,14 +1756,14 @@ extension DeviceToken {
                 let encrypt):
                try container.encode("deviceTokenApplePushVoIP", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: ApplePushVoIPKeys.self)
-                      try caseContainer.encode(deviceToken, forKey: .deviceToken)
-                      try caseContainer.encode(isAppSandbox, forKey: .isAppSandbox)
-                      try caseContainer.encode(encrypt, forKey: .encrypt)
+                      try caseContainer.encodeIfPresent(deviceToken, forKey: .deviceToken)
+                      try caseContainer.encodeIfPresent(isAppSandbox, forKey: .isAppSandbox)
+                      try caseContainer.encodeIfPresent(encrypt, forKey: .encrypt)
             case .windowsPush(
                 let accessToken):
                try container.encode("deviceTokenWindowsPush", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: WindowsPushKeys.self)
-                      try caseContainer.encode(accessToken, forKey: .accessToken)
+                      try caseContainer.encodeIfPresent(accessToken, forKey: .accessToken)
             case .microsoftPush(
                 let channelUri):
                try container.encode("deviceTokenMicrosoftPush", forKey: .type)
@@ -1763,7 +1773,7 @@ extension DeviceToken {
                 let channelUri):
                try container.encode("deviceTokenMicrosoftPushVoIP", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: MicrosoftPushVoIPKeys.self)
-                      try caseContainer.encode(channelUri, forKey: .channelUri)
+                      try caseContainer.encodeIfPresent(channelUri, forKey: .channelUri)
             case .webPush(
                 let endpoint,
                 let p256dhBase64url,
@@ -1771,13 +1781,13 @@ extension DeviceToken {
                try container.encode("deviceTokenWebPush", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: WebPushKeys.self)
                       try caseContainer.encode(endpoint, forKey: .endpoint)
-                      try caseContainer.encode(p256dhBase64url, forKey: .p256dhBase64url)
-                      try caseContainer.encode(authBase64url, forKey: .authBase64url)
+                      try caseContainer.encodeIfPresent(p256dhBase64url, forKey: .p256dhBase64url)
+                      try caseContainer.encodeIfPresent(authBase64url, forKey: .authBase64url)
             case .simplePush(
                 let endpoint):
                try container.encode("deviceTokenSimplePush", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: SimplePushKeys.self)
-                      try caseContainer.encode(endpoint, forKey: .endpoint)
+                      try caseContainer.encodeIfPresent(endpoint, forKey: .endpoint)
             case .ubuntuPush(
                 let token):
                try container.encode("deviceTokenUbuntuPush", forKey: .type)
@@ -1787,12 +1797,12 @@ extension DeviceToken {
                 let token):
                try container.encode("deviceTokenBlackBerryPush", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: BlackBerryPushKeys.self)
-                      try caseContainer.encode(token, forKey: .token)
+                      try caseContainer.encodeIfPresent(token, forKey: .token)
             case .tizenPush(
                 let regId):
                try container.encode("deviceTokenTizenPush", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: TizenPushKeys.self)
-                      try caseContainer.encode(regId, forKey: .regId)
+                      try caseContainer.encodeIfPresent(regId, forKey: .regId)
         }
   }
 }
@@ -2294,12 +2304,12 @@ extension InputBackground {
     case "inputBackgroundLocal":
       let caseContainer = try decoder.container(keyedBy: LocalKeys.self)
       self = .local(
-            background: try caseContainer.decode(InputFile.self, forKey: .background)
+              background: try caseContainer.decodeIfPresent(InputFile.self, forKey: .background)
         )
     case "inputBackgroundRemote":
       let caseContainer = try decoder.container(keyedBy: RemoteKeys.self)
       self = .remote(
-            backgroundId: try caseContainer.decode(TDInt64.self, forKey: .backgroundId)
+              backgroundId: try caseContainer.decodeIfPresent(TDInt64.self, forKey: .backgroundId)
         )
     default:
        throw TDError.unknownState(type)
@@ -2313,12 +2323,12 @@ extension InputBackground {
                 let background):
                try container.encode("inputBackgroundLocal", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: LocalKeys.self)
-                      try caseContainer.encode(background, forKey: .background)
+                      try caseContainer.encodeIfPresent(background, forKey: .background)
             case .remote(
                 let backgroundId):
                try container.encode("inputBackgroundRemote", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: RemoteKeys.self)
-                      try caseContainer.encode(backgroundId, forKey: .backgroundId)
+                      try caseContainer.encodeIfPresent(backgroundId, forKey: .backgroundId)
         }
   }
 }
@@ -2351,13 +2361,13 @@ extension InputCredentials {
     case "inputCredentialsSaved":
       let caseContainer = try decoder.container(keyedBy: SavedKeys.self)
       self = .saved(
-            savedCredentialsId: try caseContainer.decode(String.self, forKey: .savedCredentialsId)
+              savedCredentialsId: try caseContainer.decodeIfPresent(String.self, forKey: .savedCredentialsId)
         )
     case "inputCredentialsNew":
       let caseContainer = try decoder.container(keyedBy: NewKeys.self)
       self = .new(
             data: try caseContainer.decode(String.self, forKey: .data),
-            allowSave: try caseContainer.decode(Bool.self, forKey: .allowSave)
+              allowSave: try caseContainer.decodeIfPresent(Bool.self, forKey: .allowSave)
         )
     case "inputCredentialsAndroidPay":
       let caseContainer = try decoder.container(keyedBy: AndroidPayKeys.self)
@@ -2367,7 +2377,7 @@ extension InputCredentials {
     case "inputCredentialsApplePay":
       let caseContainer = try decoder.container(keyedBy: ApplePayKeys.self)
       self = .applePay(
-            data: try caseContainer.decode(String.self, forKey: .data)
+              data: try caseContainer.decodeIfPresent(String.self, forKey: .data)
         )
     default:
        throw TDError.unknownState(type)
@@ -2381,14 +2391,14 @@ extension InputCredentials {
                 let savedCredentialsId):
                try container.encode("inputCredentialsSaved", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: SavedKeys.self)
-                      try caseContainer.encode(savedCredentialsId, forKey: .savedCredentialsId)
+                      try caseContainer.encodeIfPresent(savedCredentialsId, forKey: .savedCredentialsId)
             case .new(
                 let data,
                 let allowSave):
                try container.encode("inputCredentialsNew", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: NewKeys.self)
                       try caseContainer.encode(data, forKey: .data)
-                      try caseContainer.encode(allowSave, forKey: .allowSave)
+                      try caseContainer.encodeIfPresent(allowSave, forKey: .allowSave)
             case .androidPay(
                 let data):
                try container.encode("inputCredentialsAndroidPay", forKey: .type)
@@ -2398,7 +2408,7 @@ extension InputCredentials {
                 let data):
                try container.encode("inputCredentialsApplePay", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: ApplePayKeys.self)
-                      try caseContainer.encode(data, forKey: .data)
+                      try caseContainer.encodeIfPresent(data, forKey: .data)
         }
   }
 }
@@ -2437,19 +2447,19 @@ extension InputFile {
     case "inputFileRemote":
       let caseContainer = try decoder.container(keyedBy: RemoteKeys.self)
       self = .remote(
-            id: try caseContainer.decode(String.self, forKey: .id)
+              id: try caseContainer.decodeIfPresent(String.self, forKey: .id)
         )
     case "inputFileLocal":
       let caseContainer = try decoder.container(keyedBy: LocalKeys.self)
       self = .local(
-            path: try caseContainer.decode(String.self, forKey: .path)
+              path: try caseContainer.decodeIfPresent(String.self, forKey: .path)
         )
     case "inputFileGenerated":
       let caseContainer = try decoder.container(keyedBy: GeneratedKeys.self)
       self = .generated(
-            originalPath: try caseContainer.decode(String.self, forKey: .originalPath),
-            conversion: try caseContainer.decode(String.self, forKey: .conversion),
-            expectedSize: try caseContainer.decode(Int32.self, forKey: .expectedSize)
+              originalPath: try caseContainer.decodeIfPresent(String.self, forKey: .originalPath),
+              conversion: try caseContainer.decodeIfPresent(String.self, forKey: .conversion),
+              expectedSize: try caseContainer.decodeIfPresent(Int32.self, forKey: .expectedSize)
         )
     default:
        throw TDError.unknownState(type)
@@ -2468,21 +2478,21 @@ extension InputFile {
                 let id):
                try container.encode("inputFileRemote", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: RemoteKeys.self)
-                      try caseContainer.encode(id, forKey: .id)
+                      try caseContainer.encodeIfPresent(id, forKey: .id)
             case .local(
                 let path):
                try container.encode("inputFileLocal", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: LocalKeys.self)
-                      try caseContainer.encode(path, forKey: .path)
+                      try caseContainer.encodeIfPresent(path, forKey: .path)
             case .generated(
                 let originalPath,
                 let conversion,
                 let expectedSize):
                try container.encode("inputFileGenerated", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: GeneratedKeys.self)
-                      try caseContainer.encode(originalPath, forKey: .originalPath)
-                      try caseContainer.encode(conversion, forKey: .conversion)
-                      try caseContainer.encode(expectedSize, forKey: .expectedSize)
+                      try caseContainer.encodeIfPresent(originalPath, forKey: .originalPath)
+                      try caseContainer.encodeIfPresent(conversion, forKey: .conversion)
+                      try caseContainer.encodeIfPresent(expectedSize, forKey: .expectedSize)
         }
   }
 }
@@ -3164,14 +3174,14 @@ extension InputMessageContent {
     case "inputMessageText":
       let caseContainer = try decoder.container(keyedBy: InputMessageTextKeys.self)
       self = .inputMessageText(
-            text: try caseContainer.decode(FormattedText.self, forKey: .text),
-            disableWebPagePreview: try caseContainer.decode(Bool.self, forKey: .disableWebPagePreview),
-            clearDraft: try caseContainer.decode(Bool.self, forKey: .clearDraft)
+              text: try caseContainer.decodeIfPresent(FormattedText.self, forKey: .text),
+              disableWebPagePreview: try caseContainer.decodeIfPresent(Bool.self, forKey: .disableWebPagePreview),
+              clearDraft: try caseContainer.decodeIfPresent(Bool.self, forKey: .clearDraft)
         )
     case "inputMessageAnimation":
       let caseContainer = try decoder.container(keyedBy: InputMessageAnimationKeys.self)
       self = .inputMessageAnimation(
-            animation: try caseContainer.decode(InputFile.self, forKey: .animation),
+              animation: try caseContainer.decodeIfPresent(InputFile.self, forKey: .animation),
             thumbnail: try caseContainer.decode(InputThumbnail.self, forKey: .thumbnail),
             duration: try caseContainer.decode(Int32.self, forKey: .duration),
             width: try caseContainer.decode(Int32.self, forKey: .width),
@@ -3181,24 +3191,24 @@ extension InputMessageContent {
     case "inputMessageAudio":
       let caseContainer = try decoder.container(keyedBy: InputMessageAudioKeys.self)
       self = .inputMessageAudio(
-            audio: try caseContainer.decode(InputFile.self, forKey: .audio),
-            albumCoverThumbnail: try caseContainer.decode(InputThumbnail.self, forKey: .albumCoverThumbnail),
+              audio: try caseContainer.decodeIfPresent(InputFile.self, forKey: .audio),
+              albumCoverThumbnail: try caseContainer.decodeIfPresent(InputThumbnail.self, forKey: .albumCoverThumbnail),
             duration: try caseContainer.decode(Int32.self, forKey: .duration),
             title: try caseContainer.decode(String.self, forKey: .title),
-            performer: try caseContainer.decode(String.self, forKey: .performer),
+              performer: try caseContainer.decodeIfPresent(String.self, forKey: .performer),
             caption: try caseContainer.decode(FormattedText.self, forKey: .caption)
         )
     case "inputMessageDocument":
       let caseContainer = try decoder.container(keyedBy: InputMessageDocumentKeys.self)
       self = .inputMessageDocument(
-            document: try caseContainer.decode(InputFile.self, forKey: .document),
+              document: try caseContainer.decodeIfPresent(InputFile.self, forKey: .document),
             thumbnail: try caseContainer.decode(InputThumbnail.self, forKey: .thumbnail),
             caption: try caseContainer.decode(FormattedText.self, forKey: .caption)
         )
     case "inputMessagePhoto":
       let caseContainer = try decoder.container(keyedBy: InputMessagePhotoKeys.self)
       self = .inputMessagePhoto(
-            photo: try caseContainer.decode(InputFile.self, forKey: .photo),
+              photo: try caseContainer.decodeIfPresent(InputFile.self, forKey: .photo),
             thumbnail: try caseContainer.decode(InputThumbnail.self, forKey: .thumbnail),
             addedStickerFileIds: try caseContainer.decode([Int32].self, forKey: .addedStickerFileIds),
             width: try caseContainer.decode(Int32.self, forKey: .width),
@@ -3209,7 +3219,7 @@ extension InputMessageContent {
     case "inputMessageSticker":
       let caseContainer = try decoder.container(keyedBy: InputMessageStickerKeys.self)
       self = .inputMessageSticker(
-            sticker: try caseContainer.decode(InputFile.self, forKey: .sticker),
+              sticker: try caseContainer.decodeIfPresent(InputFile.self, forKey: .sticker),
             thumbnail: try caseContainer.decode(InputThumbnail.self, forKey: .thumbnail),
             width: try caseContainer.decode(Int32.self, forKey: .width),
             height: try caseContainer.decode(Int32.self, forKey: .height)
@@ -3217,86 +3227,97 @@ extension InputMessageContent {
     case "inputMessageVideo":
       let caseContainer = try decoder.container(keyedBy: InputMessageVideoKeys.self)
       self = .inputMessageVideo(
-            video: try caseContainer.decode(InputFile.self, forKey: .video),
+              video: try caseContainer.decodeIfPresent(InputFile.self, forKey: .video),
             thumbnail: try caseContainer.decode(InputThumbnail.self, forKey: .thumbnail),
-            addedStickerFileIds: try caseContainer.decode([Int32].self, forKey: .addedStickerFileIds),
+              addedStickerFileIds: try caseContainer.decodeIfPresent([Int32].self, forKey: .addedStickerFileIds),
             duration: try caseContainer.decode(Int32.self, forKey: .duration),
-            width: try caseContainer.decode(Int32.self, forKey: .width),
-            height: try caseContainer.decode(Int32.self, forKey: .height),
-            supportsStreaming: try caseContainer.decode(Bool.self, forKey: .supportsStreaming),
+              width: try caseContainer.decodeIfPresent(Int32.self, forKey: .width),
+              height: try caseContainer.decodeIfPresent(Int32.self, forKey: .height),
+              supportsStreaming: try caseContainer.decodeIfPresent(Bool.self, forKey: .supportsStreaming),
             caption: try caseContainer.decode(FormattedText.self, forKey: .caption),
-            ttl: try caseContainer.decode(Int32.self, forKey: .ttl)
+              ttl: try caseContainer.decodeIfPresent(Int32.self, forKey: .ttl)
         )
     case "inputMessageVideoNote":
       let caseContainer = try decoder.container(keyedBy: InputMessageVideoNoteKeys.self)
       self = .inputMessageVideoNote(
-            videoNote: try caseContainer.decode(InputFile.self, forKey: .videoNote),
-            thumbnail: try caseContainer.decode(InputThumbnail.self, forKey: .thumbnail),
+              videoNote: try caseContainer.decodeIfPresent(InputFile.self, forKey: .videoNote),
+              thumbnail: try caseContainer.decodeIfPresent(InputThumbnail.self, forKey: .thumbnail),
             duration: try caseContainer.decode(Int32.self, forKey: .duration),
-            length: try caseContainer.decode(Int32.self, forKey: .length)
+              length: try caseContainer.decodeIfPresent(Int32.self, forKey: .length)
         )
     case "inputMessageVoiceNote":
       let caseContainer = try decoder.container(keyedBy: InputMessageVoiceNoteKeys.self)
       self = .inputMessageVoiceNote(
-            voiceNote: try caseContainer.decode(InputFile.self, forKey: .voiceNote),
-            duration: try caseContainer.decode(Int32.self, forKey: .duration),
-            waveform: try caseContainer.decode(Bytes.self, forKey: .waveform),
-            caption: try caseContainer.decode(FormattedText.self, forKey: .caption)
+              voiceNote: try caseContainer.decodeIfPresent(InputFile.self, forKey: .voiceNote),
+              duration: try caseContainer.decodeIfPresent(Int32.self, forKey: .duration),
+              waveform: try caseContainer.decodeIfPresent(Bytes.self, forKey: .waveform),
+              caption: try caseContainer.decodeIfPresent(FormattedText.self, forKey: .caption)
         )
     case "inputMessageLocation":
       let caseContainer = try decoder.container(keyedBy: InputMessageLocationKeys.self)
       self = .inputMessageLocation(
-            location: try caseContainer.decode(Location.self, forKey: .location),
-            livePeriod: try caseContainer.decode(Int32.self, forKey: .livePeriod)
+              location: try caseContainer.decodeIfPresent(Location.self, forKey: .location),
+              livePeriod: try caseContainer.decodeIfPresent(Int32.self, forKey: .livePeriod)
         )
     case "inputMessageVenue":
       let caseContainer = try decoder.container(keyedBy: InputMessageVenueKeys.self)
       self = .inputMessageVenue(
-            venue: try caseContainer.decode(Venue.self, forKey: .venue)
+              venue: try caseContainer.decodeIfPresent(Venue.self, forKey: .venue)
         )
     case "inputMessageContact":
       let caseContainer = try decoder.container(keyedBy: InputMessageContactKeys.self)
       self = .inputMessageContact(
-            contact: try caseContainer.decode(Contact.self, forKey: .contact)
+              contact: try caseContainer.decodeIfPresent(Contact.self, forKey: .contact)
         )
     case "inputMessageGame":
       let caseContainer = try decoder.container(keyedBy: InputMessageGameKeys.self)
       self = .inputMessageGame(
-            botUserId: try caseContainer.decode(Int32.self, forKey: .botUserId),
-            gameShortName: try caseContainer.decode(String.self, forKey: .gameShortName)
+              botUserId: try caseContainer.decodeIfPresent(Int32.self, forKey: .botUserId),
+              gameShortName: try caseContainer.decodeIfPresent(String.self, forKey: .gameShortName)
         )
     case "inputMessageInvoice":
       let caseContainer = try decoder.container(keyedBy: InputMessageInvoiceKeys.self)
+      let invoice = try caseContainer.decodeIfPresent(Invoice.self, forKey: .invoice)
+      let title = try caseContainer.decodeIfPresent(String.self, forKey: .title)
+      let description = try caseContainer.decodeIfPresent(String.self, forKey: .description)
+      let photoUrl = try caseContainer.decodeIfPresent(String.self, forKey: .photoUrl)
+      let photoSize = try caseContainer.decodeIfPresent(Int32.self, forKey: .photoSize)
+      let photoWidth = try caseContainer.decodeIfPresent(Int32.self, forKey: .photoWidth)
+      let photoHeight = try caseContainer.decodeIfPresent(Int32.self, forKey: .photoHeight)
+      let payload = try caseContainer.decodeIfPresent(Bytes.self, forKey: .payload)
+      let providerToken = try caseContainer.decodeIfPresent(String.self, forKey: .providerToken)
+      let providerData = try caseContainer.decodeIfPresent(String.self, forKey: .providerData)
+      let startParameter = try caseContainer.decodeIfPresent(String.self, forKey: .startParameter)
       self = .inputMessageInvoice(
-            invoice: try caseContainer.decode(Invoice.self, forKey: .invoice),
-            title: try caseContainer.decode(String.self, forKey: .title),
-            description: try caseContainer.decode(String.self, forKey: .description),
-            photoUrl: try caseContainer.decode(String.self, forKey: .photoUrl),
-            photoSize: try caseContainer.decode(Int32.self, forKey: .photoSize),
-            photoWidth: try caseContainer.decode(Int32.self, forKey: .photoWidth),
-            photoHeight: try caseContainer.decode(Int32.self, forKey: .photoHeight),
-            payload: try caseContainer.decode(Bytes.self, forKey: .payload),
-            providerToken: try caseContainer.decode(String.self, forKey: .providerToken),
-            providerData: try caseContainer.decode(String.self, forKey: .providerData),
-            startParameter: try caseContainer.decode(String.self, forKey: .startParameter)
+              invoice: invoice,
+              title: title,
+              description: description,
+              photoUrl: photoUrl,
+              photoSize: photoSize,
+              photoWidth: photoWidth,
+              photoHeight: photoHeight,
+              payload: payload,
+              providerToken: providerToken,
+              providerData: providerData,
+              startParameter: startParameter
         )
     case "inputMessagePoll":
       let caseContainer = try decoder.container(keyedBy: InputMessagePollKeys.self)
       self = .inputMessagePoll(
-            question: try caseContainer.decode(String.self, forKey: .question),
-            options: try caseContainer.decode([String].self, forKey: .options),
-            isAnonymous: try caseContainer.decode(Bool.self, forKey: .isAnonymous),
-            type: try caseContainer.decode(PollType.self, forKey: .type),
+              question: try caseContainer.decodeIfPresent(String.self, forKey: .question),
+              options: try caseContainer.decodeIfPresent([String].self, forKey: .options),
+              isAnonymous: try caseContainer.decodeIfPresent(Bool.self, forKey: .isAnonymous),
+              type: try caseContainer.decodeIfPresent(PollType.self, forKey: .type),
               isClosed: try caseContainer.decodeIfPresent(Bool.self, forKey: .isClosed)
         )
     case "inputMessageForwarded":
       let caseContainer = try decoder.container(keyedBy: InputMessageForwardedKeys.self)
       self = .inputMessageForwarded(
-            fromChatId: try caseContainer.decode(Int53.self, forKey: .fromChatId),
-            messageId: try caseContainer.decode(Int53.self, forKey: .messageId),
-            inGameShare: try caseContainer.decode(Bool.self, forKey: .inGameShare),
-            sendCopy: try caseContainer.decode(Bool.self, forKey: .sendCopy),
-            removeCaption: try caseContainer.decode(Bool.self, forKey: .removeCaption)
+              fromChatId: try caseContainer.decodeIfPresent(Int53.self, forKey: .fromChatId),
+              messageId: try caseContainer.decodeIfPresent(Int53.self, forKey: .messageId),
+              inGameShare: try caseContainer.decodeIfPresent(Bool.self, forKey: .inGameShare),
+              sendCopy: try caseContainer.decodeIfPresent(Bool.self, forKey: .sendCopy),
+              removeCaption: try caseContainer.decodeIfPresent(Bool.self, forKey: .removeCaption)
         )
     default:
        throw TDError.unknownState(type)
@@ -3312,9 +3333,9 @@ extension InputMessageContent {
                 let clearDraft):
                try container.encode("inputMessageText", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: InputMessageTextKeys.self)
-                      try caseContainer.encode(text, forKey: .text)
-                      try caseContainer.encode(disableWebPagePreview, forKey: .disableWebPagePreview)
-                      try caseContainer.encode(clearDraft, forKey: .clearDraft)
+                      try caseContainer.encodeIfPresent(text, forKey: .text)
+                      try caseContainer.encodeIfPresent(disableWebPagePreview, forKey: .disableWebPagePreview)
+                      try caseContainer.encodeIfPresent(clearDraft, forKey: .clearDraft)
             case .inputMessageAnimation(
                 let animation,
                 let thumbnail,
@@ -3324,7 +3345,7 @@ extension InputMessageContent {
                 let caption):
                try container.encode("inputMessageAnimation", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: InputMessageAnimationKeys.self)
-                      try caseContainer.encode(animation, forKey: .animation)
+                      try caseContainer.encodeIfPresent(animation, forKey: .animation)
                       try caseContainer.encode(thumbnail, forKey: .thumbnail)
                       try caseContainer.encode(duration, forKey: .duration)
                       try caseContainer.encode(width, forKey: .width)
@@ -3339,11 +3360,11 @@ extension InputMessageContent {
                 let caption):
                try container.encode("inputMessageAudio", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: InputMessageAudioKeys.self)
-                      try caseContainer.encode(audio, forKey: .audio)
-                      try caseContainer.encode(albumCoverThumbnail, forKey: .albumCoverThumbnail)
+                      try caseContainer.encodeIfPresent(audio, forKey: .audio)
+                      try caseContainer.encodeIfPresent(albumCoverThumbnail, forKey: .albumCoverThumbnail)
                       try caseContainer.encode(duration, forKey: .duration)
                       try caseContainer.encode(title, forKey: .title)
-                      try caseContainer.encode(performer, forKey: .performer)
+                      try caseContainer.encodeIfPresent(performer, forKey: .performer)
                       try caseContainer.encode(caption, forKey: .caption)
             case .inputMessageDocument(
                 let document,
@@ -3351,7 +3372,7 @@ extension InputMessageContent {
                 let caption):
                try container.encode("inputMessageDocument", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: InputMessageDocumentKeys.self)
-                      try caseContainer.encode(document, forKey: .document)
+                      try caseContainer.encodeIfPresent(document, forKey: .document)
                       try caseContainer.encode(thumbnail, forKey: .thumbnail)
                       try caseContainer.encode(caption, forKey: .caption)
             case .inputMessagePhoto(
@@ -3364,7 +3385,7 @@ extension InputMessageContent {
                 let ttl):
                try container.encode("inputMessagePhoto", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: InputMessagePhotoKeys.self)
-                      try caseContainer.encode(photo, forKey: .photo)
+                      try caseContainer.encodeIfPresent(photo, forKey: .photo)
                       try caseContainer.encode(thumbnail, forKey: .thumbnail)
                       try caseContainer.encode(addedStickerFileIds, forKey: .addedStickerFileIds)
                       try caseContainer.encode(width, forKey: .width)
@@ -3378,7 +3399,7 @@ extension InputMessageContent {
                 let height):
                try container.encode("inputMessageSticker", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: InputMessageStickerKeys.self)
-                      try caseContainer.encode(sticker, forKey: .sticker)
+                      try caseContainer.encodeIfPresent(sticker, forKey: .sticker)
                       try caseContainer.encode(thumbnail, forKey: .thumbnail)
                       try caseContainer.encode(width, forKey: .width)
                       try caseContainer.encode(height, forKey: .height)
@@ -3394,15 +3415,15 @@ extension InputMessageContent {
                 let ttl):
                try container.encode("inputMessageVideo", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: InputMessageVideoKeys.self)
-                      try caseContainer.encode(video, forKey: .video)
+                      try caseContainer.encodeIfPresent(video, forKey: .video)
                       try caseContainer.encode(thumbnail, forKey: .thumbnail)
-                      try caseContainer.encode(addedStickerFileIds, forKey: .addedStickerFileIds)
+                      try caseContainer.encodeIfPresent(addedStickerFileIds, forKey: .addedStickerFileIds)
                       try caseContainer.encode(duration, forKey: .duration)
-                      try caseContainer.encode(width, forKey: .width)
-                      try caseContainer.encode(height, forKey: .height)
-                      try caseContainer.encode(supportsStreaming, forKey: .supportsStreaming)
+                      try caseContainer.encodeIfPresent(width, forKey: .width)
+                      try caseContainer.encodeIfPresent(height, forKey: .height)
+                      try caseContainer.encodeIfPresent(supportsStreaming, forKey: .supportsStreaming)
                       try caseContainer.encode(caption, forKey: .caption)
-                      try caseContainer.encode(ttl, forKey: .ttl)
+                      try caseContainer.encodeIfPresent(ttl, forKey: .ttl)
             case .inputMessageVideoNote(
                 let videoNote,
                 let thumbnail,
@@ -3410,10 +3431,10 @@ extension InputMessageContent {
                 let length):
                try container.encode("inputMessageVideoNote", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: InputMessageVideoNoteKeys.self)
-                      try caseContainer.encode(videoNote, forKey: .videoNote)
-                      try caseContainer.encode(thumbnail, forKey: .thumbnail)
+                      try caseContainer.encodeIfPresent(videoNote, forKey: .videoNote)
+                      try caseContainer.encodeIfPresent(thumbnail, forKey: .thumbnail)
                       try caseContainer.encode(duration, forKey: .duration)
-                      try caseContainer.encode(length, forKey: .length)
+                      try caseContainer.encodeIfPresent(length, forKey: .length)
             case .inputMessageVoiceNote(
                 let voiceNote,
                 let duration,
@@ -3421,34 +3442,34 @@ extension InputMessageContent {
                 let caption):
                try container.encode("inputMessageVoiceNote", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: InputMessageVoiceNoteKeys.self)
-                      try caseContainer.encode(voiceNote, forKey: .voiceNote)
-                      try caseContainer.encode(duration, forKey: .duration)
-                      try caseContainer.encode(waveform, forKey: .waveform)
-                      try caseContainer.encode(caption, forKey: .caption)
+                      try caseContainer.encodeIfPresent(voiceNote, forKey: .voiceNote)
+                      try caseContainer.encodeIfPresent(duration, forKey: .duration)
+                      try caseContainer.encodeIfPresent(waveform, forKey: .waveform)
+                      try caseContainer.encodeIfPresent(caption, forKey: .caption)
             case .inputMessageLocation(
                 let location,
                 let livePeriod):
                try container.encode("inputMessageLocation", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: InputMessageLocationKeys.self)
-                      try caseContainer.encode(location, forKey: .location)
-                      try caseContainer.encode(livePeriod, forKey: .livePeriod)
+                      try caseContainer.encodeIfPresent(location, forKey: .location)
+                      try caseContainer.encodeIfPresent(livePeriod, forKey: .livePeriod)
             case .inputMessageVenue(
                 let venue):
                try container.encode("inputMessageVenue", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: InputMessageVenueKeys.self)
-                      try caseContainer.encode(venue, forKey: .venue)
+                      try caseContainer.encodeIfPresent(venue, forKey: .venue)
             case .inputMessageContact(
                 let contact):
                try container.encode("inputMessageContact", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: InputMessageContactKeys.self)
-                      try caseContainer.encode(contact, forKey: .contact)
+                      try caseContainer.encodeIfPresent(contact, forKey: .contact)
             case .inputMessageGame(
                 let botUserId,
                 let gameShortName):
                try container.encode("inputMessageGame", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: InputMessageGameKeys.self)
-                      try caseContainer.encode(botUserId, forKey: .botUserId)
-                      try caseContainer.encode(gameShortName, forKey: .gameShortName)
+                      try caseContainer.encodeIfPresent(botUserId, forKey: .botUserId)
+                      try caseContainer.encodeIfPresent(gameShortName, forKey: .gameShortName)
             case .inputMessageInvoice(
                 let invoice,
                 let title,
@@ -3463,17 +3484,17 @@ extension InputMessageContent {
                 let startParameter):
                try container.encode("inputMessageInvoice", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: InputMessageInvoiceKeys.self)
-                      try caseContainer.encode(invoice, forKey: .invoice)
-                      try caseContainer.encode(title, forKey: .title)
-                      try caseContainer.encode(description, forKey: .description)
-                      try caseContainer.encode(photoUrl, forKey: .photoUrl)
-                      try caseContainer.encode(photoSize, forKey: .photoSize)
-                      try caseContainer.encode(photoWidth, forKey: .photoWidth)
-                      try caseContainer.encode(photoHeight, forKey: .photoHeight)
-                      try caseContainer.encode(payload, forKey: .payload)
-                      try caseContainer.encode(providerToken, forKey: .providerToken)
-                      try caseContainer.encode(providerData, forKey: .providerData)
-                      try caseContainer.encode(startParameter, forKey: .startParameter)
+                      try caseContainer.encodeIfPresent(invoice, forKey: .invoice)
+                      try caseContainer.encodeIfPresent(title, forKey: .title)
+                      try caseContainer.encodeIfPresent(description, forKey: .description)
+                      try caseContainer.encodeIfPresent(photoUrl, forKey: .photoUrl)
+                      try caseContainer.encodeIfPresent(photoSize, forKey: .photoSize)
+                      try caseContainer.encodeIfPresent(photoWidth, forKey: .photoWidth)
+                      try caseContainer.encodeIfPresent(photoHeight, forKey: .photoHeight)
+                      try caseContainer.encodeIfPresent(payload, forKey: .payload)
+                      try caseContainer.encodeIfPresent(providerToken, forKey: .providerToken)
+                      try caseContainer.encodeIfPresent(providerData, forKey: .providerData)
+                      try caseContainer.encodeIfPresent(startParameter, forKey: .startParameter)
             case .inputMessagePoll(
                 let question,
                 let options,
@@ -3482,10 +3503,10 @@ extension InputMessageContent {
                 let isClosed):
                try container.encode("inputMessagePoll", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: InputMessagePollKeys.self)
-                      try caseContainer.encode(question, forKey: .question)
-                      try caseContainer.encode(options, forKey: .options)
-                      try caseContainer.encode(isAnonymous, forKey: .isAnonymous)
-                      try caseContainer.encode(type, forKey: .type)
+                      try caseContainer.encodeIfPresent(question, forKey: .question)
+                      try caseContainer.encodeIfPresent(options, forKey: .options)
+                      try caseContainer.encodeIfPresent(isAnonymous, forKey: .isAnonymous)
+                      try caseContainer.encodeIfPresent(type, forKey: .type)
                       try caseContainer.encodeIfPresent(isClosed, forKey: .isClosed)
             case .inputMessageForwarded(
                 let fromChatId,
@@ -3495,11 +3516,11 @@ extension InputMessageContent {
                 let removeCaption):
                try container.encode("inputMessageForwarded", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: InputMessageForwardedKeys.self)
-                      try caseContainer.encode(fromChatId, forKey: .fromChatId)
-                      try caseContainer.encode(messageId, forKey: .messageId)
-                      try caseContainer.encode(inGameShare, forKey: .inGameShare)
-                      try caseContainer.encode(sendCopy, forKey: .sendCopy)
-                      try caseContainer.encode(removeCaption, forKey: .removeCaption)
+                      try caseContainer.encodeIfPresent(fromChatId, forKey: .fromChatId)
+                      try caseContainer.encodeIfPresent(messageId, forKey: .messageId)
+                      try caseContainer.encodeIfPresent(inGameShare, forKey: .inGameShare)
+                      try caseContainer.encodeIfPresent(sendCopy, forKey: .sendCopy)
+                      try caseContainer.encodeIfPresent(removeCaption, forKey: .removeCaption)
         }
   }
 }
@@ -3558,67 +3579,67 @@ extension InputPassportElement {
     case "inputPassportElementPersonalDetails":
       let caseContainer = try decoder.container(keyedBy: PersonalDetailsKeys.self)
       self = .personalDetails(
-            personalDetails: try caseContainer.decode(PersonalDetails.self, forKey: .personalDetails)
+              personalDetails: try caseContainer.decodeIfPresent(PersonalDetails.self, forKey: .personalDetails)
         )
     case "inputPassportElementPassport":
       let caseContainer = try decoder.container(keyedBy: PassportKeys.self)
       self = .passport(
-            passport: try caseContainer.decode(InputIdentityDocument.self, forKey: .passport)
+              passport: try caseContainer.decodeIfPresent(InputIdentityDocument.self, forKey: .passport)
         )
     case "inputPassportElementDriverLicense":
       let caseContainer = try decoder.container(keyedBy: DriverLicenseKeys.self)
       self = .driverLicense(
-            driverLicense: try caseContainer.decode(InputIdentityDocument.self, forKey: .driverLicense)
+              driverLicense: try caseContainer.decodeIfPresent(InputIdentityDocument.self, forKey: .driverLicense)
         )
     case "inputPassportElementIdentityCard":
       let caseContainer = try decoder.container(keyedBy: IdentityCardKeys.self)
       self = .identityCard(
-            identityCard: try caseContainer.decode(InputIdentityDocument.self, forKey: .identityCard)
+              identityCard: try caseContainer.decodeIfPresent(InputIdentityDocument.self, forKey: .identityCard)
         )
     case "inputPassportElementInternalPassport":
       let caseContainer = try decoder.container(keyedBy: InternalPassportKeys.self)
       self = .internalPassport(
-            internalPassport: try caseContainer.decode(InputIdentityDocument.self, forKey: .internalPassport)
+              internalPassport: try caseContainer.decodeIfPresent(InputIdentityDocument.self, forKey: .internalPassport)
         )
     case "inputPassportElementAddress":
       let caseContainer = try decoder.container(keyedBy: AddressKeys.self)
       self = .address(
-            address: try caseContainer.decode(Address.self, forKey: .address)
+              address: try caseContainer.decodeIfPresent(Address.self, forKey: .address)
         )
     case "inputPassportElementUtilityBill":
       let caseContainer = try decoder.container(keyedBy: UtilityBillKeys.self)
       self = .utilityBill(
-            utilityBill: try caseContainer.decode(InputPersonalDocument.self, forKey: .utilityBill)
+              utilityBill: try caseContainer.decodeIfPresent(InputPersonalDocument.self, forKey: .utilityBill)
         )
     case "inputPassportElementBankStatement":
       let caseContainer = try decoder.container(keyedBy: BankStatementKeys.self)
       self = .bankStatement(
-            bankStatement: try caseContainer.decode(InputPersonalDocument.self, forKey: .bankStatement)
+              bankStatement: try caseContainer.decodeIfPresent(InputPersonalDocument.self, forKey: .bankStatement)
         )
     case "inputPassportElementRentalAgreement":
       let caseContainer = try decoder.container(keyedBy: RentalAgreementKeys.self)
       self = .rentalAgreement(
-            rentalAgreement: try caseContainer.decode(InputPersonalDocument.self, forKey: .rentalAgreement)
+              rentalAgreement: try caseContainer.decodeIfPresent(InputPersonalDocument.self, forKey: .rentalAgreement)
         )
     case "inputPassportElementPassportRegistration":
       let caseContainer = try decoder.container(keyedBy: PassportRegistrationKeys.self)
       self = .passportRegistration(
-            passportRegistration: try caseContainer.decode(InputPersonalDocument.self, forKey: .passportRegistration)
+              passportRegistration: try caseContainer.decodeIfPresent(InputPersonalDocument.self, forKey: .passportRegistration)
         )
     case "inputPassportElementTemporaryRegistration":
       let caseContainer = try decoder.container(keyedBy: TemporaryRegistrationKeys.self)
       self = .temporaryRegistration(
-            temporaryRegistration: try caseContainer.decode(InputPersonalDocument.self, forKey: .temporaryRegistration)
+              temporaryRegistration: try caseContainer.decodeIfPresent(InputPersonalDocument.self, forKey: .temporaryRegistration)
         )
     case "inputPassportElementPhoneNumber":
       let caseContainer = try decoder.container(keyedBy: PhoneNumberKeys.self)
       self = .phoneNumber(
-            phoneNumber: try caseContainer.decode(String.self, forKey: .phoneNumber)
+              phoneNumber: try caseContainer.decodeIfPresent(String.self, forKey: .phoneNumber)
         )
     case "inputPassportElementEmailAddress":
       let caseContainer = try decoder.container(keyedBy: EmailAddressKeys.self)
       self = .emailAddress(
-            emailAddress: try caseContainer.decode(String.self, forKey: .emailAddress)
+              emailAddress: try caseContainer.decodeIfPresent(String.self, forKey: .emailAddress)
         )
     default:
        throw TDError.unknownState(type)
@@ -3632,67 +3653,67 @@ extension InputPassportElement {
                 let personalDetails):
                try container.encode("inputPassportElementPersonalDetails", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: PersonalDetailsKeys.self)
-                      try caseContainer.encode(personalDetails, forKey: .personalDetails)
+                      try caseContainer.encodeIfPresent(personalDetails, forKey: .personalDetails)
             case .passport(
                 let passport):
                try container.encode("inputPassportElementPassport", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: PassportKeys.self)
-                      try caseContainer.encode(passport, forKey: .passport)
+                      try caseContainer.encodeIfPresent(passport, forKey: .passport)
             case .driverLicense(
                 let driverLicense):
                try container.encode("inputPassportElementDriverLicense", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: DriverLicenseKeys.self)
-                      try caseContainer.encode(driverLicense, forKey: .driverLicense)
+                      try caseContainer.encodeIfPresent(driverLicense, forKey: .driverLicense)
             case .identityCard(
                 let identityCard):
                try container.encode("inputPassportElementIdentityCard", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: IdentityCardKeys.self)
-                      try caseContainer.encode(identityCard, forKey: .identityCard)
+                      try caseContainer.encodeIfPresent(identityCard, forKey: .identityCard)
             case .internalPassport(
                 let internalPassport):
                try container.encode("inputPassportElementInternalPassport", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: InternalPassportKeys.self)
-                      try caseContainer.encode(internalPassport, forKey: .internalPassport)
+                      try caseContainer.encodeIfPresent(internalPassport, forKey: .internalPassport)
             case .address(
                 let address):
                try container.encode("inputPassportElementAddress", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: AddressKeys.self)
-                      try caseContainer.encode(address, forKey: .address)
+                      try caseContainer.encodeIfPresent(address, forKey: .address)
             case .utilityBill(
                 let utilityBill):
                try container.encode("inputPassportElementUtilityBill", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: UtilityBillKeys.self)
-                      try caseContainer.encode(utilityBill, forKey: .utilityBill)
+                      try caseContainer.encodeIfPresent(utilityBill, forKey: .utilityBill)
             case .bankStatement(
                 let bankStatement):
                try container.encode("inputPassportElementBankStatement", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: BankStatementKeys.self)
-                      try caseContainer.encode(bankStatement, forKey: .bankStatement)
+                      try caseContainer.encodeIfPresent(bankStatement, forKey: .bankStatement)
             case .rentalAgreement(
                 let rentalAgreement):
                try container.encode("inputPassportElementRentalAgreement", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: RentalAgreementKeys.self)
-                      try caseContainer.encode(rentalAgreement, forKey: .rentalAgreement)
+                      try caseContainer.encodeIfPresent(rentalAgreement, forKey: .rentalAgreement)
             case .passportRegistration(
                 let passportRegistration):
                try container.encode("inputPassportElementPassportRegistration", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: PassportRegistrationKeys.self)
-                      try caseContainer.encode(passportRegistration, forKey: .passportRegistration)
+                      try caseContainer.encodeIfPresent(passportRegistration, forKey: .passportRegistration)
             case .temporaryRegistration(
                 let temporaryRegistration):
                try container.encode("inputPassportElementTemporaryRegistration", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: TemporaryRegistrationKeys.self)
-                      try caseContainer.encode(temporaryRegistration, forKey: .temporaryRegistration)
+                      try caseContainer.encodeIfPresent(temporaryRegistration, forKey: .temporaryRegistration)
             case .phoneNumber(
                 let phoneNumber):
                try container.encode("inputPassportElementPhoneNumber", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: PhoneNumberKeys.self)
-                      try caseContainer.encode(phoneNumber, forKey: .phoneNumber)
+                      try caseContainer.encodeIfPresent(phoneNumber, forKey: .phoneNumber)
             case .emailAddress(
                 let emailAddress):
                try container.encode("inputPassportElementEmailAddress", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: EmailAddressKeys.self)
-                      try caseContainer.encode(emailAddress, forKey: .emailAddress)
+                      try caseContainer.encodeIfPresent(emailAddress, forKey: .emailAddress)
         }
   }
 }
@@ -3884,17 +3905,17 @@ extension JsonValue {
     case "jsonValueString":
       let caseContainer = try decoder.container(keyedBy: StringKeys.self)
       self = .string(
-            value: try caseContainer.decode(String.self, forKey: .value)
+              value: try caseContainer.decodeIfPresent(String.self, forKey: .value)
         )
     case "jsonValueArray":
       let caseContainer = try decoder.container(keyedBy: ArrayKeys.self)
       self = .array(
-            values: try caseContainer.decode([JsonValue].self, forKey: .values)
+              values: try caseContainer.decodeIfPresent([JsonValue].self, forKey: .values)
         )
     case "jsonValueObject":
       let caseContainer = try decoder.container(keyedBy: ObjectKeys.self)
       self = .object(
-            members: try caseContainer.decode([JsonObjectMember].self, forKey: .members)
+              members: try caseContainer.decodeIfPresent([JsonObjectMember].self, forKey: .members)
         )
     default:
        throw TDError.unknownState(type)
@@ -3920,17 +3941,17 @@ extension JsonValue {
                 let value):
                try container.encode("jsonValueString", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: StringKeys.self)
-                      try caseContainer.encode(value, forKey: .value)
+                      try caseContainer.encodeIfPresent(value, forKey: .value)
             case .array(
                 let values):
                try container.encode("jsonValueArray", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: ArrayKeys.self)
-                      try caseContainer.encode(values, forKey: .values)
+                      try caseContainer.encodeIfPresent(values, forKey: .values)
             case .object(
                 let members):
                try container.encode("jsonValueObject", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: ObjectKeys.self)
-                      try caseContainer.encode(members, forKey: .members)
+                      try caseContainer.encodeIfPresent(members, forKey: .members)
         }
   }
 }
@@ -4014,17 +4035,17 @@ extension LanguagePackStringValue {
     case "languagePackStringValueOrdinary":
       let caseContainer = try decoder.container(keyedBy: OrdinaryKeys.self)
       self = .ordinary(
-            value: try caseContainer.decode(String.self, forKey: .value)
+              value: try caseContainer.decodeIfPresent(String.self, forKey: .value)
         )
     case "languagePackStringValuePluralized":
       let caseContainer = try decoder.container(keyedBy: PluralizedKeys.self)
       self = .pluralized(
-            zeroValue: try caseContainer.decode(String.self, forKey: .zeroValue),
-            oneValue: try caseContainer.decode(String.self, forKey: .oneValue),
-            twoValue: try caseContainer.decode(String.self, forKey: .twoValue),
-            fewValue: try caseContainer.decode(String.self, forKey: .fewValue),
-            manyValue: try caseContainer.decode(String.self, forKey: .manyValue),
-            otherValue: try caseContainer.decode(String.self, forKey: .otherValue)
+              zeroValue: try caseContainer.decodeIfPresent(String.self, forKey: .zeroValue),
+              oneValue: try caseContainer.decodeIfPresent(String.self, forKey: .oneValue),
+              twoValue: try caseContainer.decodeIfPresent(String.self, forKey: .twoValue),
+              fewValue: try caseContainer.decodeIfPresent(String.self, forKey: .fewValue),
+              manyValue: try caseContainer.decodeIfPresent(String.self, forKey: .manyValue),
+              otherValue: try caseContainer.decodeIfPresent(String.self, forKey: .otherValue)
         )
     case "languagePackStringValueDeleted":
       self = .deleted
@@ -4040,7 +4061,7 @@ extension LanguagePackStringValue {
                 let value):
                try container.encode("languagePackStringValueOrdinary", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: OrdinaryKeys.self)
-                      try caseContainer.encode(value, forKey: .value)
+                      try caseContainer.encodeIfPresent(value, forKey: .value)
             case .pluralized(
                 let zeroValue,
                 let oneValue,
@@ -4050,12 +4071,12 @@ extension LanguagePackStringValue {
                 let otherValue):
                try container.encode("languagePackStringValuePluralized", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: PluralizedKeys.self)
-                      try caseContainer.encode(zeroValue, forKey: .zeroValue)
-                      try caseContainer.encode(oneValue, forKey: .oneValue)
-                      try caseContainer.encode(twoValue, forKey: .twoValue)
-                      try caseContainer.encode(fewValue, forKey: .fewValue)
-                      try caseContainer.encode(manyValue, forKey: .manyValue)
-                      try caseContainer.encode(otherValue, forKey: .otherValue)
+                      try caseContainer.encodeIfPresent(zeroValue, forKey: .zeroValue)
+                      try caseContainer.encodeIfPresent(oneValue, forKey: .oneValue)
+                      try caseContainer.encodeIfPresent(twoValue, forKey: .twoValue)
+                      try caseContainer.encodeIfPresent(fewValue, forKey: .fewValue)
+                      try caseContainer.encodeIfPresent(manyValue, forKey: .manyValue)
+                      try caseContainer.encodeIfPresent(otherValue, forKey: .otherValue)
             case .deleted:
                try container.encode("languagePackStringValueDeleted", forKey: .type)
         }
@@ -4083,8 +4104,8 @@ extension LogStream {
     case "logStreamFile":
       let caseContainer = try decoder.container(keyedBy: FileKeys.self)
       self = .file(
-            path: try caseContainer.decode(String.self, forKey: .path),
-            maxFileSize: try caseContainer.decode(Int53.self, forKey: .maxFileSize)
+              path: try caseContainer.decodeIfPresent(String.self, forKey: .path),
+              maxFileSize: try caseContainer.decodeIfPresent(Int53.self, forKey: .maxFileSize)
         )
     case "logStreamEmpty":
       self = .empty
@@ -4103,8 +4124,8 @@ extension LogStream {
                 let maxFileSize):
                try container.encode("logStreamFile", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: FileKeys.self)
-                      try caseContainer.encode(path, forKey: .path)
-                      try caseContainer.encode(maxFileSize, forKey: .maxFileSize)
+                      try caseContainer.encodeIfPresent(path, forKey: .path)
+                      try caseContainer.encodeIfPresent(maxFileSize, forKey: .maxFileSize)
             case .empty:
                try container.encode("logStreamEmpty", forKey: .type)
         }
@@ -4939,7 +4960,7 @@ extension MessageSchedulingState {
     case "messageSchedulingStateSendAtDate":
       let caseContainer = try decoder.container(keyedBy: SendAtDateKeys.self)
       self = .sendAtDate(
-            sendDate: try caseContainer.decode(Int32.self, forKey: .sendDate)
+              sendDate: try caseContainer.decodeIfPresent(Int32.self, forKey: .sendDate)
         )
     case "messageSchedulingStateSendWhenOnline":
       self = .sendWhenOnline
@@ -4955,7 +4976,7 @@ extension MessageSchedulingState {
                 let sendDate):
                try container.encode("messageSchedulingStateSendAtDate", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: SendAtDateKeys.self)
-                      try caseContainer.encode(sendDate, forKey: .sendDate)
+                      try caseContainer.encodeIfPresent(sendDate, forKey: .sendDate)
             case .sendWhenOnline:
                try container.encode("messageSchedulingStateSendWhenOnline", forKey: .type)
         }
@@ -5042,7 +5063,7 @@ extension NetworkStatisticsEntry {
     case "networkStatisticsEntryFile":
       let caseContainer = try decoder.container(keyedBy: FileKeys.self)
       self = .file(
-            fileType: try caseContainer.decode(FileType.self, forKey: .fileType),
+              fileType: try caseContainer.decodeIfPresent(FileType.self, forKey: .fileType),
             networkType: try caseContainer.decode(NetworkType.self, forKey: .networkType),
             sentBytes: try caseContainer.decode(Int53.self, forKey: .sentBytes),
             receivedBytes: try caseContainer.decode(Int53.self, forKey: .receivedBytes)
@@ -5050,10 +5071,10 @@ extension NetworkStatisticsEntry {
     case "networkStatisticsEntryCall":
       let caseContainer = try decoder.container(keyedBy: CallKeys.self)
       self = .call(
-            networkType: try caseContainer.decode(NetworkType.self, forKey: .networkType),
-            sentBytes: try caseContainer.decode(Int53.self, forKey: .sentBytes),
-            receivedBytes: try caseContainer.decode(Int53.self, forKey: .receivedBytes),
-            duration: try caseContainer.decode(Double.self, forKey: .duration)
+              networkType: try caseContainer.decodeIfPresent(NetworkType.self, forKey: .networkType),
+              sentBytes: try caseContainer.decodeIfPresent(Int53.self, forKey: .sentBytes),
+              receivedBytes: try caseContainer.decodeIfPresent(Int53.self, forKey: .receivedBytes),
+              duration: try caseContainer.decodeIfPresent(Double.self, forKey: .duration)
         )
     default:
        throw TDError.unknownState(type)
@@ -5070,7 +5091,7 @@ extension NetworkStatisticsEntry {
                 let receivedBytes):
                try container.encode("networkStatisticsEntryFile", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: FileKeys.self)
-                      try caseContainer.encode(fileType, forKey: .fileType)
+                      try caseContainer.encodeIfPresent(fileType, forKey: .fileType)
                       try caseContainer.encode(networkType, forKey: .networkType)
                       try caseContainer.encode(sentBytes, forKey: .sentBytes)
                       try caseContainer.encode(receivedBytes, forKey: .receivedBytes)
@@ -5081,10 +5102,10 @@ extension NetworkStatisticsEntry {
                 let duration):
                try container.encode("networkStatisticsEntryCall", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: CallKeys.self)
-                      try caseContainer.encode(networkType, forKey: .networkType)
-                      try caseContainer.encode(sentBytes, forKey: .sentBytes)
-                      try caseContainer.encode(receivedBytes, forKey: .receivedBytes)
-                      try caseContainer.encode(duration, forKey: .duration)
+                      try caseContainer.encodeIfPresent(networkType, forKey: .networkType)
+                      try caseContainer.encodeIfPresent(sentBytes, forKey: .sentBytes)
+                      try caseContainer.encodeIfPresent(receivedBytes, forKey: .receivedBytes)
+                      try caseContainer.encodeIfPresent(duration, forKey: .duration)
         }
   }
 }
@@ -5320,7 +5341,7 @@ extension OptionValue {
     case "optionValueString":
       let caseContainer = try decoder.container(keyedBy: StringKeys.self)
       self = .string(
-            value: try caseContainer.decode(String.self, forKey: .value)
+              value: try caseContainer.decodeIfPresent(String.self, forKey: .value)
         )
     default:
        throw TDError.unknownState(type)
@@ -5346,7 +5367,7 @@ extension OptionValue {
                 let value):
                try container.encode("optionValueString", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: StringKeys.self)
-                      try caseContainer.encode(value, forKey: .value)
+                      try caseContainer.encodeIfPresent(value, forKey: .value)
         }
   }
 }
@@ -6348,12 +6369,12 @@ extension PollType {
     case "pollTypeRegular":
       let caseContainer = try decoder.container(keyedBy: RegularKeys.self)
       self = .regular(
-            allowMultipleAnswers: try caseContainer.decode(Bool.self, forKey: .allowMultipleAnswers)
+              allowMultipleAnswers: try caseContainer.decodeIfPresent(Bool.self, forKey: .allowMultipleAnswers)
         )
     case "pollTypeQuiz":
       let caseContainer = try decoder.container(keyedBy: QuizKeys.self)
       self = .quiz(
-            correctOptionId: try caseContainer.decode(Int32.self, forKey: .correctOptionId)
+              correctOptionId: try caseContainer.decodeIfPresent(Int32.self, forKey: .correctOptionId)
         )
     default:
        throw TDError.unknownState(type)
@@ -6367,12 +6388,12 @@ extension PollType {
                 let allowMultipleAnswers):
                try container.encode("pollTypeRegular", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: RegularKeys.self)
-                      try caseContainer.encode(allowMultipleAnswers, forKey: .allowMultipleAnswers)
+                      try caseContainer.encodeIfPresent(allowMultipleAnswers, forKey: .allowMultipleAnswers)
             case .quiz(
                 let correctOptionId):
                try container.encode("pollTypeQuiz", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: QuizKeys.self)
-                      try caseContainer.encode(correctOptionId, forKey: .correctOptionId)
+                      try caseContainer.encodeIfPresent(correctOptionId, forKey: .correctOptionId)
         }
   }
 }
@@ -6410,14 +6431,14 @@ extension ProxyType {
     case "proxyTypeHttp":
       let caseContainer = try decoder.container(keyedBy: HttpKeys.self)
       self = .http(
-            username: try caseContainer.decode(String.self, forKey: .username),
-            password: try caseContainer.decode(String.self, forKey: .password),
-            httpOnly: try caseContainer.decode(Bool.self, forKey: .httpOnly)
+              username: try caseContainer.decodeIfPresent(String.self, forKey: .username),
+              password: try caseContainer.decodeIfPresent(String.self, forKey: .password),
+              httpOnly: try caseContainer.decodeIfPresent(Bool.self, forKey: .httpOnly)
         )
     case "proxyTypeMtproto":
       let caseContainer = try decoder.container(keyedBy: MtprotoKeys.self)
       self = .mtproto(
-            secret: try caseContainer.decode(String.self, forKey: .secret)
+              secret: try caseContainer.decodeIfPresent(String.self, forKey: .secret)
         )
     default:
        throw TDError.unknownState(type)
@@ -6440,14 +6461,14 @@ extension ProxyType {
                 let httpOnly):
                try container.encode("proxyTypeHttp", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: HttpKeys.self)
-                      try caseContainer.encode(username, forKey: .username)
-                      try caseContainer.encode(password, forKey: .password)
-                      try caseContainer.encode(httpOnly, forKey: .httpOnly)
+                      try caseContainer.encodeIfPresent(username, forKey: .username)
+                      try caseContainer.encodeIfPresent(password, forKey: .password)
+                      try caseContainer.encodeIfPresent(httpOnly, forKey: .httpOnly)
             case .mtproto(
                 let secret):
                try container.encode("proxyTypeMtproto", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: MtprotoKeys.self)
-                      try caseContainer.encode(secret, forKey: .secret)
+                      try caseContainer.encodeIfPresent(secret, forKey: .secret)
         }
   }
 }
@@ -6958,14 +6979,14 @@ extension ReplyMarkup {
       let caseContainer = try decoder.container(keyedBy: ShowKeyboardKeys.self)
       self = .showKeyboard(
             rows: try caseContainer.decode([[KeyboardButton]].self, forKey: .rows),
-            resizeKeyboard: try caseContainer.decode(Bool.self, forKey: .resizeKeyboard),
-            oneTime: try caseContainer.decode(Bool.self, forKey: .oneTime),
-            isPersonal: try caseContainer.decode(Bool.self, forKey: .isPersonal)
+              resizeKeyboard: try caseContainer.decodeIfPresent(Bool.self, forKey: .resizeKeyboard),
+              oneTime: try caseContainer.decodeIfPresent(Bool.self, forKey: .oneTime),
+              isPersonal: try caseContainer.decodeIfPresent(Bool.self, forKey: .isPersonal)
         )
     case "replyMarkupInlineKeyboard":
       let caseContainer = try decoder.container(keyedBy: InlineKeyboardKeys.self)
       self = .inlineKeyboard(
-            rows: try caseContainer.decode([[InlineKeyboardButton]].self, forKey: .rows)
+              rows: try caseContainer.decodeIfPresent([[InlineKeyboardButton]].self, forKey: .rows)
         )
     default:
        throw TDError.unknownState(type)
@@ -6993,14 +7014,14 @@ extension ReplyMarkup {
                try container.encode("replyMarkupShowKeyboard", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: ShowKeyboardKeys.self)
                       try caseContainer.encode(rows, forKey: .rows)
-                      try caseContainer.encode(resizeKeyboard, forKey: .resizeKeyboard)
-                      try caseContainer.encode(oneTime, forKey: .oneTime)
-                      try caseContainer.encode(isPersonal, forKey: .isPersonal)
+                      try caseContainer.encodeIfPresent(resizeKeyboard, forKey: .resizeKeyboard)
+                      try caseContainer.encodeIfPresent(oneTime, forKey: .oneTime)
+                      try caseContainer.encodeIfPresent(isPersonal, forKey: .isPersonal)
             case .inlineKeyboard(
                 let rows):
                try container.encode("replyMarkupInlineKeyboard", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: InlineKeyboardKeys.self)
-                      try caseContainer.encode(rows, forKey: .rows)
+                      try caseContainer.encodeIfPresent(rows, forKey: .rows)
         }
   }
 }
@@ -7422,7 +7443,7 @@ extension SupergroupMembersFilter {
     case "supergroupMembersFilterBanned":
       let caseContainer = try decoder.container(keyedBy: BannedKeys.self)
       self = .banned(
-            query: try caseContainer.decode(String.self, forKey: .query)
+              query: try caseContainer.decodeIfPresent(String.self, forKey: .query)
         )
     case "supergroupMembersFilterBots":
       self = .bots
@@ -7457,7 +7478,7 @@ extension SupergroupMembersFilter {
                 let query):
                try container.encode("supergroupMembersFilterBanned", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: BannedKeys.self)
-                      try caseContainer.encode(query, forKey: .query)
+                      try caseContainer.encodeIfPresent(query, forKey: .query)
             case .bots:
                try container.encode("supergroupMembersFilterBots", forKey: .type)
         }
@@ -7673,7 +7694,7 @@ extension TextParseMode {
     case "textParseModeMarkdown":
       let caseContainer = try decoder.container(keyedBy: MarkdownKeys.self)
       self = .markdown(
-            version: try caseContainer.decode(Int32.self, forKey: .version)
+              version: try caseContainer.decodeIfPresent(Int32.self, forKey: .version)
         )
     case "textParseModeHTML":
       self = .hTML
@@ -7689,7 +7710,7 @@ extension TextParseMode {
                 let version):
                try container.encode("textParseModeMarkdown", forKey: .type)
                 var caseContainer = encoder.container(keyedBy: MarkdownKeys.self)
-                      try caseContainer.encode(version, forKey: .version)
+                      try caseContainer.encodeIfPresent(version, forKey: .version)
             case .hTML:
                try container.encode("textParseModeHTML", forKey: .type)
         }

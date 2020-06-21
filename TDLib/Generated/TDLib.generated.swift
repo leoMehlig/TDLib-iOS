@@ -4,14 +4,14 @@ public typealias Bytes = Data
 ///  An object of this type can be returned on every function call, in case of an error 
 public struct Error: Codable, Equatable, FunctionResult {
 	///  Error code; subject to future changes. If the error code is 406, the error message must not be processed in any way and must not be displayed to the user 
-	public let code: Int32
+	public let code: Int32?
 	///  Error message; subject to future changes
-	public let message: String
+	public let message: String?
 	/// An object of this type can be returned on every function call, in case of an error 
 	/// - Parameters:
 	///   - code: Error code; subject to future changes. If the error code is 406, the error message must not be processed in any way and must not be displayed to the user 
 	///   - message: Error message; subject to future changes
-	public init(code: Int32, message: String) {
+	public init(code: Int32?, message: String?) {
 		self.code = code
 		self.message = message
 	}
@@ -27,35 +27,35 @@ public struct Ok: Codable, Equatable, FunctionResult {
 ///  Contains parameters for TDLib initialization 
 public struct TdlibParameters: Codable, Equatable, FunctionResult {
 	///  If set to true, the Telegram test environment will be used instead of the production environment 
-	public let useTestDc: Bool
+	public let useTestDc: Bool?
 	///  The path to the directory for the persistent database; if empty, the current working directory will be used 
-	public let databaseDirectory: String
+	public let databaseDirectory: String?
 	///  The path to the directory for storing files; if empty, database_directory will be used 
-	public let filesDirectory: String
+	public let filesDirectory: String?
 	///  If set to true, information about downloaded and uploaded files will be saved between application restarts 
-	public let useFileDatabase: Bool
+	public let useFileDatabase: Bool?
 	///  If set to true, the library will maintain a cache of users, basic groups, supergroups, channels and secret chats. Implies use_file_database 
-	public let useChatInfoDatabase: Bool
+	public let useChatInfoDatabase: Bool?
 	///  If set to true, the library will maintain a cache of chats and messages. Implies use_chat_info_database 
-	public let useMessageDatabase: Bool
+	public let useMessageDatabase: Bool?
 	///  If set to true, support for secret chats will be enabled 
-	public let useSecretChats: Bool
+	public let useSecretChats: Bool?
 	///  Application identifier for Telegram API access, which can be obtained at https://my.telegram.org 
-	public let apiId: Int32
+	public let apiId: Int32?
 	///  Application identifier hash for Telegram API access, which can be obtained at https://my.telegram.org 
-	public let apiHash: String
+	public let apiHash: String?
 	///  IETF language tag of the user's operating system language; must be non-empty 
-	public let systemLanguageCode: String
+	public let systemLanguageCode: String?
 	///  Model of the device the application is being run on; must be non-empty 
-	public let deviceModel: String
+	public let deviceModel: String?
 	///  Version of the operating system the application is being run on; must be non-empty 
-	public let systemVersion: String
+	public let systemVersion: String?
 	///  Application version; must be non-empty 
-	public let applicationVersion: String
+	public let applicationVersion: String?
 	///  If set to true, old files will automatically be deleted 
-	public let enableStorageOptimizer: Bool
+	public let enableStorageOptimizer: Bool?
 	///  If set to true, original file names will be ignored. Otherwise, downloaded files will be saved under names as close as possible to the original name
-	public let ignoreFileNames: Bool
+	public let ignoreFileNames: Bool?
 	/// Contains parameters for TDLib initialization 
 	/// - Parameters:
 	///   - useTestDc: If set to true, the Telegram test environment will be used instead of the production environment 
@@ -73,7 +73,7 @@ public struct TdlibParameters: Codable, Equatable, FunctionResult {
 	///   - applicationVersion: Application version; must be non-empty 
 	///   - enableStorageOptimizer: If set to true, old files will automatically be deleted 
 	///   - ignoreFileNames: If set to true, original file names will be ignored. Otherwise, downloaded files will be saved under names as close as possible to the original name
-	public init(useTestDc: Bool, databaseDirectory: String, filesDirectory: String, useFileDatabase: Bool, useChatInfoDatabase: Bool, useMessageDatabase: Bool, useSecretChats: Bool, apiId: Int32, apiHash: String, systemLanguageCode: String, deviceModel: String, systemVersion: String, applicationVersion: String, enableStorageOptimizer: Bool, ignoreFileNames: Bool) {
+	public init(useTestDc: Bool?, databaseDirectory: String?, filesDirectory: String?, useFileDatabase: Bool?, useChatInfoDatabase: Bool?, useMessageDatabase: Bool?, useSecretChats: Bool?, apiId: Int32?, apiHash: String?, systemLanguageCode: String?, deviceModel: String?, systemVersion: String?, applicationVersion: String?, enableStorageOptimizer: Bool?, ignoreFileNames: Bool?) {
 		self.useTestDc = useTestDc
 		self.databaseDirectory = databaseDirectory
 		self.filesDirectory = filesDirectory
@@ -183,14 +183,14 @@ public struct TextEntities: Codable, Equatable, FunctionResult {
 ///  A text with some entities 
 public struct FormattedText: Codable, Equatable, FunctionResult {
 	///  The text 
-	public let text: String
+	public let text: String?
 	///  Entities contained in the text. Entities can be nested, but must not mutually intersect with each other. -Pre, Code and PreCode entities can't contain other entities. Bold, Italic, Underline and Strikethrough entities can contain and to be contained in all other entities. All other entities can't contain each other
-	public let entities: [TextEntity]
+	public let entities: [TextEntity]?
 	/// A text with some entities 
 	/// - Parameters:
 	///   - text: The text 
 	///   - entities: Entities contained in the text. Entities can be nested, but must not mutually intersect with each other. -Pre, Code and PreCode entities can't contain other entities. Bold, Italic, Underline and Strikethrough entities can contain and to be contained in all other entities. All other entities can't contain each other
-	public init(text: String, entities: [TextEntity]) {
+	public init(text: String?, entities: [TextEntity]?) {
 		self.text = text
 		self.entities = entities
 	}
@@ -408,15 +408,15 @@ public indirect enum InputFile: Codable, Equatable, FunctionResult, TDEnum, Equa
 	case id(id: Int32)
 	///  A file defined by its remote ID. The remote ID is guaranteed to be usable only if the corresponding file is still accessible to the user and known to TDLib. -For example, if the file is from a message, then the message must be not deleted and accessible to the user. If the file database is disabled, then the corresponding object with the file must be preloaded by the client 
 	/// - id: Remote file identifier
-	case remote(id: String)
+	case remote(id: String?)
 	///  A file defined by a local path 
 	/// - path: Local path to the file
-	case local(path: String)
+	case local(path: String?)
 	///  A file generated by the client 
 	/// - originalPath: Local path to a file from which the file is generated; may be empty if there is no such file 
 	/// - conversion: String specifying the conversion applied to the original file; should be persistent across application restarts. Conversions beginning with '#' are reserved for internal TDLib usage 
 	/// - expectedSize: Expected size of the generated file; 0 if unknown
-	case generated(originalPath: String, conversion: String, expectedSize: Int32)
+	case generated(originalPath: String?, conversion: String?, expectedSize: Int32?)
 }
 
 ///  Photo description 
@@ -478,20 +478,20 @@ public indirect enum MaskPoint: Codable, Equatable, FunctionResult, TDEnum, Equa
 ///  Position on a photo where a mask should be placed 
 public struct MaskPosition: Codable, Equatable, FunctionResult {
 	///  Part of the face, relative to which the mask should be placed 
-	public let point: MaskPoint
+	public let point: MaskPoint?
 	///  Shift by X-axis measured in widths of the mask scaled to the face size, from left to right. (For example, -1.0 will place the mask just to the left of the default mask position) 
-	public let xShift: Double
+	public let xShift: Double?
 	///  Shift by Y-axis measured in heights of the mask scaled to the face size, from top to bottom. (For example, 1.0 will place the mask just below the default mask position) 
-	public let yShift: Double
+	public let yShift: Double?
 	///  Mask scaling coefficient. (For example, 2.0 means a doubled size)
-	public let scale: Double
+	public let scale: Double?
 	/// Position on a photo where a mask should be placed 
 	/// - Parameters:
 	///   - point: Part of the face, relative to which the mask should be placed 
 	///   - xShift: Shift by X-axis measured in widths of the mask scaled to the face size, from left to right. (For example, -1.0 will place the mask just to the left of the default mask position) 
 	///   - yShift: Shift by Y-axis measured in heights of the mask scaled to the face size, from top to bottom. (For example, 1.0 will place the mask just below the default mask position) 
 	///   - scale: Mask scaling coefficient. (For example, 2.0 means a doubled size)
-	public init(point: MaskPoint, xShift: Double, yShift: Double, scale: Double) {
+	public init(point: MaskPoint?, xShift: Double?, yShift: Double?, scale: Double?) {
 		self.point = point
 		self.xShift = xShift
 		self.yShift = yShift
@@ -531,10 +531,10 @@ public struct PollOption: Codable, Equatable, FunctionResult {
 public indirect enum PollType: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  A regular poll 
 	/// - allowMultipleAnswers: True, if multiple answer options can be chosen simultaneously
-	case regular(allowMultipleAnswers: Bool)
+	case regular(allowMultipleAnswers: Bool?)
 	///  A poll in quiz mode, which has exactly one correct answer option and can be answered only once 
 	/// - correctOptionId: 0-based identifier of the correct answer option; -1 for a yet unanswered poll
-	case quiz(correctOptionId: Int32)
+	case quiz(correctOptionId: Int32?)
 }
 
 ///  Describes an animation file. The animation must be encoded in GIF or MPEG4 format 
@@ -812,15 +812,15 @@ public struct VoiceNote: Codable, Equatable, FunctionResult {
 ///  Describes a user contact 
 public struct Contact: Codable, Equatable, FunctionResult {
 	///  Phone number of the user 
-	public let phoneNumber: String
+	public let phoneNumber: String?
 	///  First name of the user; 1-255 characters in length 
-	public let firstName: String
+	public let firstName: String?
 	///  Last name of the user 
-	public let lastName: String
+	public let lastName: String?
 	///  Additional data about the user in a form of vCard; 0-2048 bytes in length 
-	public let vcard: String
+	public let vcard: String?
 	///  Identifier of the user, if known; otherwise 0
-	public let userId: Int32
+	public let userId: Int32?
 	/// Describes a user contact 
 	/// - Parameters:
 	///   - phoneNumber: Phone number of the user 
@@ -828,7 +828,7 @@ public struct Contact: Codable, Equatable, FunctionResult {
 	///   - lastName: Last name of the user 
 	///   - vcard: Additional data about the user in a form of vCard; 0-2048 bytes in length 
 	///   - userId: Identifier of the user, if known; otherwise 0
-	public init(phoneNumber: String, firstName: String, lastName: String, vcard: String, userId: Int32) {
+	public init(phoneNumber: String?, firstName: String?, lastName: String?, vcard: String?, userId: Int32?) {
 		self.phoneNumber = phoneNumber
 		self.firstName = firstName
 		self.lastName = lastName
@@ -840,14 +840,14 @@ public struct Contact: Codable, Equatable, FunctionResult {
 ///  Describes a location on planet Earth 
 public struct Location: Codable, Equatable, FunctionResult {
 	///  Latitude of the location in degrees; as defined by the sender 
-	public let latitude: Double
+	public let latitude: Double?
 	///  Longitude of the location, in degrees; as defined by the sender
-	public let longitude: Double
+	public let longitude: Double?
 	/// Describes a location on planet Earth 
 	/// - Parameters:
 	///   - latitude: Latitude of the location in degrees; as defined by the sender 
 	///   - longitude: Longitude of the location, in degrees; as defined by the sender
-	public init(latitude: Double, longitude: Double) {
+	public init(latitude: Double?, longitude: Double?) {
 		self.latitude = latitude
 		self.longitude = longitude
 	}
@@ -856,17 +856,17 @@ public struct Location: Codable, Equatable, FunctionResult {
 ///  Describes a venue 
 public struct Venue: Codable, Equatable, FunctionResult {
 	///  Venue location; as defined by the sender 
-	public let location: Location
+	public let location: Location?
 	///  Venue name; as defined by the sender 
-	public let title: String
+	public let title: String?
 	///  Venue address; as defined by the sender 
-	public let address: String
+	public let address: String?
 	///  Provider of the venue database; as defined by the sender. Currently only "foursquare" needs to be supported 
-	public let provider: String
+	public let provider: String?
 	///  Identifier of the venue in the provider database; as defined by the sender 
-	public let id: String
+	public let id: String?
 	///  Type of the venue in the provider database; as defined by the sender
-	public let type: String
+	public let type: String?
 	/// Describes a venue 
 	/// - Parameters:
 	///   - location: Venue location; as defined by the sender 
@@ -875,7 +875,7 @@ public struct Venue: Codable, Equatable, FunctionResult {
 	///   - provider: Provider of the venue database; as defined by the sender. Currently only "foursquare" needs to be supported 
 	///   - id: Identifier of the venue in the provider database; as defined by the sender 
 	///   - type: Type of the venue in the provider database; as defined by the sender
-	public init(location: Location, title: String, address: String, provider: String, id: String, type: String) {
+	public init(location: Location?, title: String?, address: String?, provider: String?, id: String?, type: String?) {
 		self.location = location
 		self.title = title
 		self.address = address
@@ -1049,14 +1049,14 @@ public struct BotInfo: Codable, Equatable, FunctionResult {
 ///  Represents a location to which a chat is connected 
 public struct ChatLocation: Codable, Equatable, FunctionResult {
 	///  The location 
-	public let location: Location
+	public let location: Location?
 	///  Location address; 1-64 characters, as defined by the chat owner
-	public let address: String
+	public let address: String?
 	/// Represents a location to which a chat is connected 
 	/// - Parameters:
 	///   - location: The location 
 	///   - address: Location address; 1-64 characters, as defined by the chat owner
-	public init(location: Location, address: String) {
+	public init(location: Location?, address: String?) {
 		self.location = location
 		self.address = address
 	}
@@ -1261,21 +1261,21 @@ public struct ChatAdministrators: Codable, Equatable, FunctionResult {
 ///  Describes actions that a user is allowed to take in a chat 
 public struct ChatPermissions: Codable, Equatable, FunctionResult {
 	///  True, if the user can send text messages, contacts, locations, and venues 
-	public let canSendMessages: Bool
+	public let canSendMessages: Bool?
 	///  True, if the user can send audio files, documents, photos, videos, video notes, and voice notes. Implies can_send_messages permissions 
-	public let canSendMediaMessages: Bool
+	public let canSendMediaMessages: Bool?
 	///  True, if the user can send polls. Implies can_send_messages permissions 
-	public let canSendPolls: Bool
+	public let canSendPolls: Bool?
 	///  True, if the user can send animations, games, and stickers and use inline bots. Implies can_send_messages permissions 
-	public let canSendOtherMessages: Bool
+	public let canSendOtherMessages: Bool?
 	///  True, if the user may add a web page preview to their messages. Implies can_send_messages permissions 
-	public let canAddWebPagePreviews: Bool
+	public let canAddWebPagePreviews: Bool?
 	///  True, if the user can change the chat title, photo, and other settings 
-	public let canChangeInfo: Bool
+	public let canChangeInfo: Bool?
 	///  True, if the user can invite new users to the chat 
-	public let canInviteUsers: Bool
+	public let canInviteUsers: Bool?
 	///  True, if the user can pin messages
-	public let canPinMessages: Bool
+	public let canPinMessages: Bool?
 	/// Describes actions that a user is allowed to take in a chat 
 	/// - Parameters:
 	///   - canSendMessages: True, if the user can send text messages, contacts, locations, and venues 
@@ -1286,7 +1286,7 @@ public struct ChatPermissions: Codable, Equatable, FunctionResult {
 	///   - canChangeInfo: True, if the user can change the chat title, photo, and other settings 
 	///   - canInviteUsers: True, if the user can invite new users to the chat 
 	///   - canPinMessages: True, if the user can pin messages
-	public init(canSendMessages: Bool, canSendMediaMessages: Bool, canSendPolls: Bool, canSendOtherMessages: Bool, canAddWebPagePreviews: Bool, canChangeInfo: Bool, canInviteUsers: Bool, canPinMessages: Bool) {
+	public init(canSendMessages: Bool?, canSendMediaMessages: Bool?, canSendPolls: Bool?, canSendOtherMessages: Bool?, canAddWebPagePreviews: Bool?, canChangeInfo: Bool?, canInviteUsers: Bool?, canPinMessages: Bool?) {
 		self.canSendMessages = canSendMessages
 		self.canSendMediaMessages = canSendMediaMessages
 		self.canSendPolls = canSendPolls
@@ -1315,19 +1315,19 @@ public indirect enum ChatMemberStatus: Codable, Equatable, FunctionResult, TDEnu
 	/// - canRestrictMembers: True, if the administrator can restrict, ban, or unban chat members 
 	/// - canPinMessages: True, if the administrator can pin messages; applicable to groups only 
 	/// - canPromoteMembers: True, if the administrator can add new administrators with a subset of their own privileges or demote administrators that were directly or indirectly promoted by them
-	case administrator(customTitle: String, canBeEdited: Bool, canChangeInfo: Bool, canPostMessages: Bool, canEditMessages: Bool, canDeleteMessages: Bool, canInviteUsers: Bool, canRestrictMembers: Bool, canPinMessages: Bool, canPromoteMembers: Bool)
+	case administrator(customTitle: String?, canBeEdited: Bool?, canChangeInfo: Bool?, canPostMessages: Bool?, canEditMessages: Bool?, canDeleteMessages: Bool?, canInviteUsers: Bool?, canRestrictMembers: Bool?, canPinMessages: Bool?, canPromoteMembers: Bool?)
 	///  The user is a member of a chat, without any additional privileges or restrictions
 	case member
 	///  The user is under certain restrictions in the chat. Not supported in basic groups and channels 
 	/// - isMember: True, if the user is a member of the chat 
 	/// - restrictedUntilDate: Point in time (Unix timestamp) when restrictions will be lifted from the user; 0 if never. If the user is restricted for more than 366 days or for less than 30 seconds from the current time, the user is considered to be restricted forever 
 	/// - permissions: User permissions in the chat
-	case restricted(isMember: Bool, restrictedUntilDate: Int32, permissions: ChatPermissions)
+	case restricted(isMember: Bool?, restrictedUntilDate: Int32?, permissions: ChatPermissions?)
 	///  The user is not a chat member
 	case left
 	///  The user was banned (and hence is not a member of the chat). Implies the user can't return to the chat or view messages 
 	/// - bannedUntilDate: Point in time (Unix timestamp) when the user will be unbanned; 0 if never. If the user is banned for more than 366 days or for less than 30 seconds from the current time, the user is considered to be banned forever
-	case banned(bannedUntilDate: Int32)
+	case banned(bannedUntilDate: Int32?)
 }
 
 ///  A user with information about joining/leaving a chat 
@@ -1407,7 +1407,7 @@ public indirect enum SupergroupMembersFilter: Codable, Equatable, FunctionResult
 	case restricted(query: String)
 	///  Returns users banned from the supergroup or channel; can be used only by administrators 
 	/// - query: Query to search for
-	case banned(query: String)
+	case banned(query: String?)
 	///  Returns bot members of the supergroup or channel
 	case bots
 }
@@ -1858,25 +1858,25 @@ public indirect enum NotificationSettingsScope: Codable, Equatable, FunctionResu
 ///  Contains information about notification settings for a chat 
 public struct ChatNotificationSettings: Codable, Equatable, FunctionResult {
 	///  If true, mute_for is ignored and the value for the relevant type of chat is used instead 
-	public let useDefaultMuteFor: Bool
+	public let useDefaultMuteFor: Bool?
 	///  Time left before notifications will be unmuted, in seconds 
-	public let muteFor: Int32
+	public let muteFor: Int32?
 	///  If true, sound is ignored and the value for the relevant type of chat is used instead 
-	public let useDefaultSound: Bool
+	public let useDefaultSound: Bool?
 	///  The name of an audio file to be used for notification sounds; only applies to iOS applications 
-	public let sound: String
+	public let sound: String?
 	///  If true, show_preview is ignored and the value for the relevant type of chat is used instead 
-	public let useDefaultShowPreview: Bool
+	public let useDefaultShowPreview: Bool?
 	///  True, if message content should be displayed in notifications 
-	public let showPreview: Bool
+	public let showPreview: Bool?
 	///  If true, disable_pinned_message_notifications is ignored and the value for the relevant type of chat is used instead 
-	public let useDefaultDisablePinnedMessageNotifications: Bool
+	public let useDefaultDisablePinnedMessageNotifications: Bool?
 	///  If true, notifications for incoming pinned messages will be created as for an ordinary unread message 
-	public let disablePinnedMessageNotifications: Bool
+	public let disablePinnedMessageNotifications: Bool?
 	///  If true, disable_mention_notifications is ignored and the value for the relevant type of chat is used instead 
-	public let useDefaultDisableMentionNotifications: Bool
+	public let useDefaultDisableMentionNotifications: Bool?
 	///  If true, notifications for messages with mentions will be created as for an ordinary unread message
-	public let disableMentionNotifications: Bool
+	public let disableMentionNotifications: Bool?
 	/// Contains information about notification settings for a chat 
 	/// - Parameters:
 	///   - useDefaultMuteFor: If true, mute_for is ignored and the value for the relevant type of chat is used instead 
@@ -1889,7 +1889,7 @@ public struct ChatNotificationSettings: Codable, Equatable, FunctionResult {
 	///   - disablePinnedMessageNotifications: If true, notifications for incoming pinned messages will be created as for an ordinary unread message 
 	///   - useDefaultDisableMentionNotifications: If true, disable_mention_notifications is ignored and the value for the relevant type of chat is used instead 
 	///   - disableMentionNotifications: If true, notifications for messages with mentions will be created as for an ordinary unread message
-	public init(useDefaultMuteFor: Bool, muteFor: Int32, useDefaultSound: Bool, sound: String, useDefaultShowPreview: Bool, showPreview: Bool, useDefaultDisablePinnedMessageNotifications: Bool, disablePinnedMessageNotifications: Bool, useDefaultDisableMentionNotifications: Bool, disableMentionNotifications: Bool) {
+	public init(useDefaultMuteFor: Bool?, muteFor: Int32?, useDefaultSound: Bool?, sound: String?, useDefaultShowPreview: Bool?, showPreview: Bool?, useDefaultDisablePinnedMessageNotifications: Bool?, disablePinnedMessageNotifications: Bool?, useDefaultDisableMentionNotifications: Bool?, disableMentionNotifications: Bool?) {
 		self.useDefaultMuteFor = useDefaultMuteFor
 		self.muteFor = muteFor
 		self.useDefaultSound = useDefaultSound
@@ -1906,15 +1906,15 @@ public struct ChatNotificationSettings: Codable, Equatable, FunctionResult {
 ///  Contains information about notification settings for several chats 
 public struct ScopeNotificationSettings: Codable, Equatable, FunctionResult {
 	///  Time left before notifications will be unmuted, in seconds 
-	public let muteFor: Int32
+	public let muteFor: Int32?
 	///  The name of an audio file to be used for notification sounds; only applies to iOS applications 
-	public let sound: String
+	public let sound: String?
 	///  True, if message content should be displayed in notifications 
-	public let showPreview: Bool
+	public let showPreview: Bool?
 	///  True, if notifications for incoming pinned messages will be created as for an ordinary unread message 
-	public let disablePinnedMessageNotifications: Bool
+	public let disablePinnedMessageNotifications: Bool?
 	///  True, if notifications for messages with mentions will be created as for an ordinary unread message
-	public let disableMentionNotifications: Bool
+	public let disableMentionNotifications: Bool?
 	/// Contains information about notification settings for several chats 
 	/// - Parameters:
 	///   - muteFor: Time left before notifications will be unmuted, in seconds 
@@ -1922,7 +1922,7 @@ public struct ScopeNotificationSettings: Codable, Equatable, FunctionResult {
 	///   - showPreview: True, if message content should be displayed in notifications 
 	///   - disablePinnedMessageNotifications: True, if notifications for incoming pinned messages will be created as for an ordinary unread message 
 	///   - disableMentionNotifications: True, if notifications for messages with mentions will be created as for an ordinary unread message
-	public init(muteFor: Int32, sound: String, showPreview: Bool, disablePinnedMessageNotifications: Bool, disableMentionNotifications: Bool) {
+	public init(muteFor: Int32?, sound: String?, showPreview: Bool?, disablePinnedMessageNotifications: Bool?, disableMentionNotifications: Bool?) {
 		self.muteFor = muteFor
 		self.sound = sound
 		self.showPreview = showPreview
@@ -1934,14 +1934,14 @@ public struct ScopeNotificationSettings: Codable, Equatable, FunctionResult {
 ///  Contains information about a message draft 
 public struct DraftMessage: Codable, Equatable, FunctionResult {
 	///  Identifier of the message to reply to; 0 if none 
-	public let replyToMessageId: Int53
+	public let replyToMessageId: Int53?
 	///  Content of the message draft; this should always be of type inputMessageText
-	public let inputMessageText: InputMessageContent
+	public let inputMessageText: InputMessageContent?
 	/// Contains information about a message draft 
 	/// - Parameters:
 	///   - replyToMessageId: Identifier of the message to reply to; 0 if none 
 	///   - inputMessageText: Content of the message draft; this should always be of type inputMessageText
-	public init(replyToMessageId: Int53, inputMessageText: InputMessageContent) {
+	public init(replyToMessageId: Int53?, inputMessageText: InputMessageContent?) {
 		self.replyToMessageId = replyToMessageId
 		self.inputMessageText = inputMessageText
 	}
@@ -2281,10 +2281,10 @@ public indirect enum ReplyMarkup: Codable, Equatable, FunctionResult, TDEnum, Eq
 	/// - resizeKeyboard: True, if the client needs to resize the keyboard vertically 
 	/// - oneTime: True, if the client needs to hide the keyboard after use 
 	/// - isPersonal: True, if the keyboard must automatically be shown to the current user. For outgoing messages, specify true to show the keyboard only for the mentioned users and for the target user of a reply
-	case showKeyboard(rows: [[KeyboardButton]], resizeKeyboard: Bool, oneTime: Bool, isPersonal: Bool)
+	case showKeyboard(rows: [[KeyboardButton]], resizeKeyboard: Bool?, oneTime: Bool?, isPersonal: Bool?)
 	///  Contains an inline keyboard layout 
 	/// - rows: A list of rows of inline keyboard buttons
-	case inlineKeyboard(rows: [[InlineKeyboardButton]])
+	case inlineKeyboard(rows: [[InlineKeyboardButton]]?)
 }
 
 ///  Contains information about an inline button of type inlineKeyboardButtonTypeLoginUrl 
@@ -2725,17 +2725,17 @@ public struct WebPage: Codable, Equatable, FunctionResult {
 ///  Describes an address 
 public struct Address: Codable, Equatable, FunctionResult {
 	///  A two-letter ISO 3166-1 alpha-2 country code 
-	public let countryCode: String
+	public let countryCode: String?
 	///  State, if applicable 
-	public let state: String
+	public let state: String?
 	///  City 
-	public let city: String
+	public let city: String?
 	///  First line of the address 
-	public let streetLine1: String
+	public let streetLine1: String?
 	///  Second line of the address 
-	public let streetLine2: String
+	public let streetLine2: String?
 	///  Address postal code
-	public let postalCode: String
+	public let postalCode: String?
 	/// Describes an address 
 	/// - Parameters:
 	///   - countryCode: A two-letter ISO 3166-1 alpha-2 country code 
@@ -2744,7 +2744,7 @@ public struct Address: Codable, Equatable, FunctionResult {
 	///   - streetLine1: First line of the address 
 	///   - streetLine2: Second line of the address 
 	///   - postalCode: Address postal code
-	public init(countryCode: String, state: String, city: String, streetLine1: String, streetLine2: String, postalCode: String) {
+	public init(countryCode: String?, state: String?, city: String?, streetLine1: String?, streetLine2: String?, postalCode: String?) {
 		self.countryCode = countryCode
 		self.state = state
 		self.city = city
@@ -2773,25 +2773,25 @@ public struct LabeledPricePart: Codable, Equatable, FunctionResult {
 ///  Product invoice 
 public struct Invoice: Codable, Equatable, FunctionResult {
 	///  ISO 4217 currency code 
-	public let currency: String
+	public let currency: String?
 	///  A list of objects used to calculate the total price of the product 
-	public let priceParts: [LabeledPricePart]
+	public let priceParts: [LabeledPricePart]?
 	///  True, if the payment is a test payment 
-	public let isTest: Bool
+	public let isTest: Bool?
 	///  True, if the user's name is needed for payment 
-	public let needName: Bool
+	public let needName: Bool?
 	///  True, if the user's phone number is needed for payment 
-	public let needPhoneNumber: Bool
+	public let needPhoneNumber: Bool?
 	///  True, if the user's email address is needed for payment 
-	public let needEmailAddress: Bool
+	public let needEmailAddress: Bool?
 	///  True, if the user's shipping address is needed for payment 
-	public let needShippingAddress: Bool
+	public let needShippingAddress: Bool?
 	///  True, if the user's phone number will be sent to the provider 
-	public let sendPhoneNumberToProvider: Bool
+	public let sendPhoneNumberToProvider: Bool?
 	///  True, if the user's email address will be sent to the provider 
-	public let sendEmailAddressToProvider: Bool
+	public let sendEmailAddressToProvider: Bool?
 	///  True, if the total price depends on the shipping method
-	public let isFlexible: Bool
+	public let isFlexible: Bool?
 	/// Product invoice 
 	/// - Parameters:
 	///   - currency: ISO 4217 currency code 
@@ -2804,7 +2804,7 @@ public struct Invoice: Codable, Equatable, FunctionResult {
 	///   - sendPhoneNumberToProvider: True, if the user's phone number will be sent to the provider 
 	///   - sendEmailAddressToProvider: True, if the user's email address will be sent to the provider 
 	///   - isFlexible: True, if the total price depends on the shipping method
-	public init(currency: String, priceParts: [LabeledPricePart], isTest: Bool, needName: Bool, needPhoneNumber: Bool, needEmailAddress: Bool, needShippingAddress: Bool, sendPhoneNumberToProvider: Bool, sendEmailAddressToProvider: Bool, isFlexible: Bool) {
+	public init(currency: String?, priceParts: [LabeledPricePart]?, isTest: Bool?, needName: Bool?, needPhoneNumber: Bool?, needEmailAddress: Bool?, needShippingAddress: Bool?, sendPhoneNumberToProvider: Bool?, sendEmailAddressToProvider: Bool?, isFlexible: Bool?) {
 		self.currency = currency
 		self.priceParts = priceParts
 		self.isTest = isTest
@@ -2821,11 +2821,11 @@ public struct Invoice: Codable, Equatable, FunctionResult {
 ///  Order information 
 public struct OrderInfo: Codable, Equatable, FunctionResult {
 	///  Name of the user 
-	public let name: String
+	public let name: String?
 	///  Phone number of the user 
-	public let phoneNumber: String
+	public let phoneNumber: String?
 	///  Email address of the user 
-	public let emailAddress: String
+	public let emailAddress: String?
 	///  Shipping address for this order; may be null
 	public let shippingAddress: Address?
 	/// Order information 
@@ -2834,7 +2834,7 @@ public struct OrderInfo: Codable, Equatable, FunctionResult {
 	///   - phoneNumber: Phone number of the user 
 	///   - emailAddress: Email address of the user 
 	///   - shippingAddress: Shipping address for this order; may be null
-	public init(name: String, phoneNumber: String, emailAddress: String, shippingAddress: Address?) {
+	public init(name: String?, phoneNumber: String?, emailAddress: String?, shippingAddress: Address?) {
 		self.name = name
 		self.phoneNumber = phoneNumber
 		self.emailAddress = emailAddress
@@ -2882,17 +2882,17 @@ public struct SavedCredentials: Codable, Equatable, FunctionResult {
 public indirect enum InputCredentials: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  Applies if a user chooses some previously saved payment credentials. To use their previously saved credentials, the user must have a valid temporary password 
 	/// - savedCredentialsId: Identifier of the saved credentials
-	case saved(savedCredentialsId: String)
+	case saved(savedCredentialsId: String?)
 	///  Applies if a user enters new credentials on a payment provider website 
 	/// - data: Contains JSON-encoded data with a credential identifier from the payment provider 
 	/// - allowSave: True, if the credential identifier can be saved on the server side
-	case new(data: String, allowSave: Bool)
+	case new(data: String, allowSave: Bool?)
 	///  Applies if a user enters new credentials using Android Pay 
 	/// - data: JSON-encoded data with the credential identifier
 	case androidPay(data: String)
 	///  Applies if a user enters new credentials using Apple Pay 
 	/// - data: JSON-encoded data with the credential identifier
-	case applePay(data: String)
+	case applePay(data: String?)
 }
 
 ///  Stripe payment provider 
@@ -3068,17 +3068,17 @@ public indirect enum PassportElementType: Codable, Equatable, FunctionResult, TD
 ///  Represents a date according to the Gregorian calendar 
 public struct Date: Codable, Equatable, FunctionResult {
 	///  Day of the month, 1-31 
-	public let day: Int32
+	public let day: Int32?
 	///  Month, 1-12 
-	public let month: Int32
+	public let month: Int32?
 	///  Year, 1-9999
-	public let year: Int32
+	public let year: Int32?
 	/// Represents a date according to the Gregorian calendar 
 	/// - Parameters:
 	///   - day: Day of the month, 1-31 
 	///   - month: Month, 1-12 
 	///   - year: Year, 1-9999
-	public init(day: Int32, month: Int32, year: Int32) {
+	public init(day: Int32?, month: Int32?, year: Int32?) {
 		self.day = day
 		self.month = month
 		self.year = year
@@ -3088,25 +3088,25 @@ public struct Date: Codable, Equatable, FunctionResult {
 ///  Contains the user's personal details 
 public struct PersonalDetails: Codable, Equatable, FunctionResult {
 	///  First name of the user written in English; 1-255 characters 
-	public let firstName: String
+	public let firstName: String?
 	///  Middle name of the user written in English; 0-255 characters 
-	public let middleName: String
+	public let middleName: String?
 	///  Last name of the user written in English; 1-255 characters 
-	public let lastName: String
+	public let lastName: String?
 	///  Native first name of the user; 1-255 characters 
-	public let nativeFirstName: String
+	public let nativeFirstName: String?
 	///  Native middle name of the user; 0-255 characters 
-	public let nativeMiddleName: String
+	public let nativeMiddleName: String?
 	///  Native last name of the user; 1-255 characters 
-	public let nativeLastName: String
+	public let nativeLastName: String?
 	///  Birthdate of the user 
-	public let birthdate: Date
+	public let birthdate: Date?
 	///  Gender of the user, "male" or "female" 
-	public let gender: String
+	public let gender: String?
 	///  A two-letter ISO 3166-1 alpha-2 country code of the user's country 
-	public let countryCode: String
+	public let countryCode: String?
 	///  A two-letter ISO 3166-1 alpha-2 country code of the user's residence country
-	public let residenceCountryCode: String
+	public let residenceCountryCode: String?
 	/// Contains the user's personal details 
 	/// - Parameters:
 	///   - firstName: First name of the user written in English; 1-255 characters 
@@ -3119,7 +3119,7 @@ public struct PersonalDetails: Codable, Equatable, FunctionResult {
 	///   - gender: Gender of the user, "male" or "female" 
 	///   - countryCode: A two-letter ISO 3166-1 alpha-2 country code of the user's country 
 	///   - residenceCountryCode: A two-letter ISO 3166-1 alpha-2 country code of the user's residence country
-	public init(firstName: String, middleName: String, lastName: String, nativeFirstName: String, nativeMiddleName: String, nativeLastName: String, birthdate: Date, gender: String, countryCode: String, residenceCountryCode: String) {
+	public init(firstName: String?, middleName: String?, lastName: String?, nativeFirstName: String?, nativeMiddleName: String?, nativeLastName: String?, birthdate: Date?, gender: String?, countryCode: String?, residenceCountryCode: String?) {
 		self.firstName = firstName
 		self.middleName = middleName
 		self.lastName = lastName
@@ -3168,17 +3168,17 @@ public struct IdentityDocument: Codable, Equatable, FunctionResult {
 ///  An identity document to be saved to Telegram Passport 
 public struct InputIdentityDocument: Codable, Equatable, FunctionResult {
 	///  Document number; 1-24 characters 
-	public let number: String
+	public let number: String?
 	///  Document expiry date, if available 
-	public let expiryDate: Date
+	public let expiryDate: Date?
 	///  Front side of the document 
-	public let frontSide: InputFile
+	public let frontSide: InputFile?
 	///  Reverse side of the document; only for driver license and identity card 
-	public let reverseSide: InputFile
+	public let reverseSide: InputFile?
 	///  Selfie with the document, if available 
-	public let selfie: InputFile
+	public let selfie: InputFile?
 	///  List of files containing a certified English translation of the document
-	public let translation: [InputFile]
+	public let translation: [InputFile]?
 	/// An identity document to be saved to Telegram Passport 
 	/// - Parameters:
 	///   - number: Document number; 1-24 characters 
@@ -3187,7 +3187,7 @@ public struct InputIdentityDocument: Codable, Equatable, FunctionResult {
 	///   - reverseSide: Reverse side of the document; only for driver license and identity card 
 	///   - selfie: Selfie with the document, if available 
 	///   - translation: List of files containing a certified English translation of the document
-	public init(number: String, expiryDate: Date, frontSide: InputFile, reverseSide: InputFile, selfie: InputFile, translation: [InputFile]) {
+	public init(number: String?, expiryDate: Date?, frontSide: InputFile?, reverseSide: InputFile?, selfie: InputFile?, translation: [InputFile]?) {
 		self.number = number
 		self.expiryDate = expiryDate
 		self.frontSide = frontSide
@@ -3216,14 +3216,14 @@ public struct PersonalDocument: Codable, Equatable, FunctionResult {
 ///  A personal document to be saved to Telegram Passport 
 public struct InputPersonalDocument: Codable, Equatable, FunctionResult {
 	///  List of files containing the pages of the document 
-	public let files: [InputFile]
+	public let files: [InputFile]?
 	///  List of files containing a certified English translation of the document
-	public let translation: [InputFile]
+	public let translation: [InputFile]?
 	/// A personal document to be saved to Telegram Passport 
 	/// - Parameters:
 	///   - files: List of files containing the pages of the document 
 	///   - translation: List of files containing a certified English translation of the document
-	public init(files: [InputFile], translation: [InputFile]) {
+	public init(files: [InputFile]?, translation: [InputFile]?) {
 		self.files = files
 		self.translation = translation
 	}
@@ -3276,43 +3276,43 @@ public indirect enum PassportElement: Codable, Equatable, FunctionResult, TDEnum
 public indirect enum InputPassportElement: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  A Telegram Passport element to be saved containing the user's personal details 
 	/// - personalDetails: Personal details of the user
-	case personalDetails(personalDetails: PersonalDetails)
+	case personalDetails(personalDetails: PersonalDetails?)
 	///  A Telegram Passport element to be saved containing the user's passport 
 	/// - passport: The passport to be saved
-	case passport(passport: InputIdentityDocument)
+	case passport(passport: InputIdentityDocument?)
 	///  A Telegram Passport element to be saved containing the user's driver license 
 	/// - driverLicense: The driver license to be saved
-	case driverLicense(driverLicense: InputIdentityDocument)
+	case driverLicense(driverLicense: InputIdentityDocument?)
 	///  A Telegram Passport element to be saved containing the user's identity card 
 	/// - identityCard: The identity card to be saved
-	case identityCard(identityCard: InputIdentityDocument)
+	case identityCard(identityCard: InputIdentityDocument?)
 	///  A Telegram Passport element to be saved containing the user's internal passport 
 	/// - internalPassport: The internal passport to be saved
-	case internalPassport(internalPassport: InputIdentityDocument)
+	case internalPassport(internalPassport: InputIdentityDocument?)
 	///  A Telegram Passport element to be saved containing the user's address 
 	/// - address: The address to be saved
-	case address(address: Address)
+	case address(address: Address?)
 	///  A Telegram Passport element to be saved containing the user's utility bill 
 	/// - utilityBill: The utility bill to be saved
-	case utilityBill(utilityBill: InputPersonalDocument)
+	case utilityBill(utilityBill: InputPersonalDocument?)
 	///  A Telegram Passport element to be saved containing the user's bank statement 
 	/// - bankStatement: The bank statement to be saved
-	case bankStatement(bankStatement: InputPersonalDocument)
+	case bankStatement(bankStatement: InputPersonalDocument?)
 	///  A Telegram Passport element to be saved containing the user's rental agreement 
 	/// - rentalAgreement: The rental agreement to be saved
-	case rentalAgreement(rentalAgreement: InputPersonalDocument)
+	case rentalAgreement(rentalAgreement: InputPersonalDocument?)
 	///  A Telegram Passport element to be saved containing the user's passport registration 
 	/// - passportRegistration: The passport registration page to be saved
-	case passportRegistration(passportRegistration: InputPersonalDocument)
+	case passportRegistration(passportRegistration: InputPersonalDocument?)
 	///  A Telegram Passport element to be saved containing the user's temporary registration 
 	/// - temporaryRegistration: The temporary registration document to be saved
-	case temporaryRegistration(temporaryRegistration: InputPersonalDocument)
+	case temporaryRegistration(temporaryRegistration: InputPersonalDocument?)
 	///  A Telegram Passport element to be saved containing the user's phone number 
 	/// - phoneNumber: The phone number to be saved
-	case phoneNumber(phoneNumber: String)
+	case phoneNumber(phoneNumber: String?)
 	///  A Telegram Passport element to be saved containing the user's email address 
 	/// - emailAddress: The email address to be saved
-	case emailAddress(emailAddress: String)
+	case emailAddress(emailAddress: String?)
 }
 
 ///  Contains information about saved Telegram Passport elements 
@@ -3758,17 +3758,17 @@ public indirect enum TextEntityType: Codable, Equatable, FunctionResult, TDEnum,
 ///  A thumbnail to be sent along with a file; should be in JPEG or WEBP format for stickers, and less than 200 kB in size 
 public struct InputThumbnail: Codable, Equatable, FunctionResult {
 	///  Thumbnail file to send. Sending thumbnails by file_id is currently not supported 
-	public let thumbnail: InputFile
+	public let thumbnail: InputFile?
 	///  Thumbnail width, usually shouldn't exceed 320. Use 0 if unknown 
-	public let width: Int32
+	public let width: Int32?
 	///  Thumbnail height, usually shouldn't exceed 320. Use 0 if unknown
-	public let height: Int32
+	public let height: Int32?
 	/// A thumbnail to be sent along with a file; should be in JPEG or WEBP format for stickers, and less than 200 kB in size 
 	/// - Parameters:
 	///   - thumbnail: Thumbnail file to send. Sending thumbnails by file_id is currently not supported 
 	///   - width: Thumbnail width, usually shouldn't exceed 320. Use 0 if unknown 
 	///   - height: Thumbnail height, usually shouldn't exceed 320. Use 0 if unknown
-	public init(thumbnail: InputFile, width: Int32, height: Int32) {
+	public init(thumbnail: InputFile?, width: Int32?, height: Int32?) {
 		self.thumbnail = thumbnail
 		self.width = width
 		self.height = height
@@ -3779,7 +3779,7 @@ public struct InputThumbnail: Codable, Equatable, FunctionResult {
 public indirect enum MessageSchedulingState: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  The message will be sent at the specified date 
 	/// - sendDate: Date the message will be sent. The date must be within 367 days in the future
-	case sendAtDate(sendDate: Int32)
+	case sendAtDate(sendDate: Int32?)
 	///  The message will be sent when the peer will be online. Applicable to private chats only and when the exact online status of the peer is known
 	case sendWhenOnline
 }
@@ -3787,17 +3787,17 @@ public indirect enum MessageSchedulingState: Codable, Equatable, FunctionResult,
 ///  Options to be used when a message is send 
 public struct SendMessageOptions: Codable, Equatable, FunctionResult {
 	///  Pass true to disable notification for the message. Must be false if the message is sent to a secret chat 
-	public let disableNotification: Bool
+	public let disableNotification: Bool?
 	///  Pass true if the message is sent from the background 
-	public let fromBackground: Bool
+	public let fromBackground: Bool?
 	///  Message scheduling state. Messages sent to a secret chat, live location messages and self-destructing messages can't be scheduled
-	public let schedulingState: MessageSchedulingState
+	public let schedulingState: MessageSchedulingState?
 	/// Options to be used when a message is send 
 	/// - Parameters:
 	///   - disableNotification: Pass true to disable notification for the message. Must be false if the message is sent to a secret chat 
 	///   - fromBackground: Pass true if the message is sent from the background 
 	///   - schedulingState: Message scheduling state. Messages sent to a secret chat, live location messages and self-destructing messages can't be scheduled
-	public init(disableNotification: Bool, fromBackground: Bool, schedulingState: MessageSchedulingState) {
+	public init(disableNotification: Bool?, fromBackground: Bool?, schedulingState: MessageSchedulingState?) {
 		self.disableNotification = disableNotification
 		self.fromBackground = fromBackground
 		self.schedulingState = schedulingState
@@ -3811,7 +3811,7 @@ public indirect enum InputMessageContent: Codable, Equatable, FunctionResult, TD
 	/// - text: Formatted text to be sent; 1-GetOption("message_text_length_max") characters. Only Bold, Italic, Underline, Strikethrough, Code, Pre, PreCode, TextUrl and MentionName entities are allowed to be specified manually 
 	/// - disableWebPagePreview: True, if rich web page previews for URLs in the message text should be disabled 
 	/// - clearDraft: True, if a chat message draft should be deleted
-	case inputMessageText(text: FormattedText, disableWebPagePreview: Bool, clearDraft: Bool)
+	case inputMessageText(text: FormattedText?, disableWebPagePreview: Bool?, clearDraft: Bool?)
 	///  An animation message (GIF-style). 
 	/// - animation: Animation file to be sent 
 	/// - thumbnail: Animation thumbnail, if available 
@@ -3819,7 +3819,7 @@ public indirect enum InputMessageContent: Codable, Equatable, FunctionResult, TD
 	/// - width: Width of the animation; may be replaced by the server 
 	/// - height: Height of the animation; may be replaced by the server 
 	/// - caption: Animation caption; 0-GetOption("message_caption_length_max") characters
-	case inputMessageAnimation(animation: InputFile, thumbnail: InputThumbnail, duration: Int32, width: Int32, height: Int32, caption: FormattedText)
+	case inputMessageAnimation(animation: InputFile?, thumbnail: InputThumbnail, duration: Int32, width: Int32, height: Int32, caption: FormattedText)
 	///  An audio message 
 	/// - audio: Audio file to be sent 
 	/// - albumCoverThumbnail: Thumbnail of the cover for the album, if available 
@@ -3827,12 +3827,12 @@ public indirect enum InputMessageContent: Codable, Equatable, FunctionResult, TD
 	/// - title: Title of the audio; 0-64 characters; may be replaced by the server 
 	/// - performer: Performer of the audio; 0-64 characters, may be replaced by the server 
 	/// - caption: Audio caption; 0-GetOption("message_caption_length_max") characters
-	case inputMessageAudio(audio: InputFile, albumCoverThumbnail: InputThumbnail, duration: Int32, title: String, performer: String, caption: FormattedText)
+	case inputMessageAudio(audio: InputFile?, albumCoverThumbnail: InputThumbnail?, duration: Int32, title: String, performer: String?, caption: FormattedText)
 	///  A document message (general file) 
 	/// - document: Document to be sent 
 	/// - thumbnail: Document thumbnail, if available 
 	/// - caption: Document caption; 0-GetOption("message_caption_length_max") characters
-	case inputMessageDocument(document: InputFile, thumbnail: InputThumbnail, caption: FormattedText)
+	case inputMessageDocument(document: InputFile?, thumbnail: InputThumbnail, caption: FormattedText)
 	///  A photo message 
 	/// - photo: Photo to send 
 	/// - thumbnail: Photo thumbnail to be sent, this is sent to the other party in secret chats only 
@@ -3841,13 +3841,13 @@ public indirect enum InputMessageContent: Codable, Equatable, FunctionResult, TD
 	/// - height: Photo height 
 	/// - caption: Photo caption; 0-GetOption("message_caption_length_max") characters 
 	/// - ttl: Photo TTL (Time To Live), in seconds (0-60). A non-zero TTL can be specified only in private chats
-	case inputMessagePhoto(photo: InputFile, thumbnail: InputThumbnail, addedStickerFileIds: [Int32], width: Int32, height: Int32, caption: FormattedText, ttl: Int32)
+	case inputMessagePhoto(photo: InputFile?, thumbnail: InputThumbnail, addedStickerFileIds: [Int32], width: Int32, height: Int32, caption: FormattedText, ttl: Int32)
 	///  A sticker message 
 	/// - sticker: Sticker to be sent 
 	/// - thumbnail: Sticker thumbnail, if available 
 	/// - width: Sticker width 
 	/// - height: Sticker height
-	case inputMessageSticker(sticker: InputFile, thumbnail: InputThumbnail, width: Int32, height: Int32)
+	case inputMessageSticker(sticker: InputFile?, thumbnail: InputThumbnail, width: Int32, height: Int32)
 	///  A video message 
 	/// - video: Video to be sent 
 	/// - thumbnail: Video thumbnail, if available 
@@ -3858,33 +3858,33 @@ public indirect enum InputMessageContent: Codable, Equatable, FunctionResult, TD
 	/// - supportsStreaming: True, if the video should be tried to be streamed 
 	/// - caption: Video caption; 0-GetOption("message_caption_length_max") characters 
 	/// - ttl: Video TTL (Time To Live), in seconds (0-60). A non-zero TTL can be specified only in private chats
-	case inputMessageVideo(video: InputFile, thumbnail: InputThumbnail, addedStickerFileIds: [Int32], duration: Int32, width: Int32, height: Int32, supportsStreaming: Bool, caption: FormattedText, ttl: Int32)
+	case inputMessageVideo(video: InputFile?, thumbnail: InputThumbnail, addedStickerFileIds: [Int32]?, duration: Int32, width: Int32?, height: Int32?, supportsStreaming: Bool?, caption: FormattedText, ttl: Int32?)
 	///  A video note message 
 	/// - videoNote: Video note to be sent 
 	/// - thumbnail: Video thumbnail, if available 
 	/// - duration: Duration of the video, in seconds 
 	/// - length: Video width and height; must be positive and not greater than 640
-	case inputMessageVideoNote(videoNote: InputFile, thumbnail: InputThumbnail, duration: Int32, length: Int32)
+	case inputMessageVideoNote(videoNote: InputFile?, thumbnail: InputThumbnail?, duration: Int32, length: Int32?)
 	///  A voice note message 
 	/// - voiceNote: Voice note to be sent 
 	/// - duration: Duration of the voice note, in seconds 
 	/// - waveform: Waveform representation of the voice note, in 5-bit format 
 	/// - caption: Voice note caption; 0-GetOption("message_caption_length_max") characters
-	case inputMessageVoiceNote(voiceNote: InputFile, duration: Int32, waveform: Bytes, caption: FormattedText)
+	case inputMessageVoiceNote(voiceNote: InputFile?, duration: Int32?, waveform: Bytes?, caption: FormattedText?)
 	///  A message with a location 
 	/// - location: Location to be sent 
 	/// - livePeriod: Period for which the location can be updated, in seconds; should be between 60 and 86400 for a live location and 0 otherwise
-	case inputMessageLocation(location: Location, livePeriod: Int32)
+	case inputMessageLocation(location: Location?, livePeriod: Int32?)
 	///  A message with information about a venue 
 	/// - venue: Venue to send
-	case inputMessageVenue(venue: Venue)
+	case inputMessageVenue(venue: Venue?)
 	///  A message containing a user contact 
 	/// - contact: Contact to send
-	case inputMessageContact(contact: Contact)
+	case inputMessageContact(contact: Contact?)
 	///  A message with a game; not supported for channels or secret chats 
 	/// - botUserId: User identifier of the bot that owns the game 
 	/// - gameShortName: Short name of the game
-	case inputMessageGame(botUserId: Int32, gameShortName: String)
+	case inputMessageGame(botUserId: Int32?, gameShortName: String?)
 	///  A message with an invoice; can be used only by bots and only in private chats 
 	/// - invoice: Invoice 
 	/// - title: Product title; 1-32 characters 
@@ -3897,21 +3897,21 @@ public indirect enum InputMessageContent: Codable, Equatable, FunctionResult, TD
 	/// - providerToken: Payment provider token 
 	/// - providerData: JSON-encoded data about the invoice, which will be shared with the payment provider 
 	/// - startParameter: Unique invoice bot start_parameter for the generation of this invoice
-	case inputMessageInvoice(invoice: Invoice, title: String, description: String, photoUrl: String, photoSize: Int32, photoWidth: Int32, photoHeight: Int32, payload: Bytes, providerToken: String, providerData: String, startParameter: String)
+	case inputMessageInvoice(invoice: Invoice?, title: String?, description: String?, photoUrl: String?, photoSize: Int32?, photoWidth: Int32?, photoHeight: Int32?, payload: Bytes?, providerToken: String?, providerData: String?, startParameter: String?)
 	///  A message with a poll. Polls can't be sent to secret chats. Polls can be sent only to a private chat with a bot 
 	/// - question: Poll question, 1-255 characters 
 	/// - options: List of poll answer options, 2-10 strings 1-100 characters each 
 	/// - isAnonymous: True, if the poll voters are anonymous. Non-anonymous polls can't be sent or forwarded to channels 
 	/// - type: Type of the poll 
 	/// - isClosed: True, if the poll needs to be sent already closed; for bots only
-	case inputMessagePoll(question: String, options: [String], isAnonymous: Bool, type: PollType, isClosed: Bool?)
+	case inputMessagePoll(question: String?, options: [String]?, isAnonymous: Bool?, type: PollType?, isClosed: Bool?)
 	///  A forwarded message 
 	/// - fromChatId: Identifier for the chat this forwarded message came from 
 	/// - messageId: Identifier of the message to forward 
 	/// - inGameShare: True, if a game message should be shared within a launched game; applies only to game messages 
 	/// - sendCopy: True, if content of the message needs to be copied without a link to the original message. Always true if the message is forwarded to a secret chat 
 	/// - removeCaption: True, if media caption of the message copy needs to be removed. Ignored if send_copy is false
-	case inputMessageForwarded(fromChatId: Int53, messageId: Int53, inGameShare: Bool, sendCopy: Bool, removeCaption: Bool)
+	case inputMessageForwarded(fromChatId: Int53?, messageId: Int53?, inGameShare: Bool?, sendCopy: Bool?, removeCaption: Bool?)
 }
 
 ///  Represents a filter for message search results 
@@ -3980,7 +3980,7 @@ public indirect enum ChatAction: Codable, Equatable, FunctionResult, TDEnum, Equ
 	case recordingVideoNote
 	///  The user is uploading a video note 
 	/// - progress: Upload progress, as a percentage
-	case uploadingVideoNote(progress: Int32)
+	case uploadingVideoNote(progress: Int32?)
 	///  The user has cancelled the previous action
 	case cancel
 }
@@ -4172,20 +4172,20 @@ public indirect enum CallDiscardReason: Codable, Equatable, FunctionResult, TDEn
 ///  Specifies the supported call protocols 
 public struct CallProtocol: Codable, Equatable, FunctionResult {
 	///  True, if UDP peer-to-peer connections are supported 
-	public let udpP2p: Bool
+	public let udpP2p: Bool?
 	///  True, if connection through UDP reflectors is supported 
-	public let udpReflector: Bool
+	public let udpReflector: Bool?
 	///  The minimum supported API layer; use 65 
-	public let minLayer: Int32
+	public let minLayer: Int32?
 	///  The maximum supported API layer; use 65
-	public let maxLayer: Int32
+	public let maxLayer: Int32?
 	/// Specifies the supported call protocols 
 	/// - Parameters:
 	///   - udpP2p: True, if UDP peer-to-peer connections are supported 
 	///   - udpReflector: True, if connection through UDP reflectors is supported 
 	///   - minLayer: The minimum supported API layer; use 65 
 	///   - maxLayer: The maximum supported API layer; use 65
-	public init(udpP2p: Bool, udpReflector: Bool, minLayer: Int32, maxLayer: Int32) {
+	public init(udpP2p: Bool?, udpReflector: Bool?, minLayer: Int32?, maxLayer: Int32?) {
 		self.udpP2p = udpP2p
 		self.udpReflector = udpReflector
 		self.minLayer = minLayer
@@ -4306,17 +4306,17 @@ public struct Call: Codable, Equatable, FunctionResult {
 ///  Contains settings for the authentication of the user's phone number 
 public struct PhoneNumberAuthenticationSettings: Codable, Equatable, FunctionResult {
 	///  Pass true if the authentication code may be sent via flash call to the specified phone number 
-	public let allowFlashCall: Bool
+	public let allowFlashCall: Bool?
 	///  Pass true if the authenticated phone number is used on the current device 
-	public let isCurrentPhoneNumber: Bool
+	public let isCurrentPhoneNumber: Bool?
 	///  For official applications only. True, if the app can use Android SMS Retriever API (requires Google Play Services >= 10.2) to automatically receive the authentication code from the SMS. See https://developers.google.com/identity/sms-retriever/ for more details
-	public let allowSmsRetrieverApi: Bool
+	public let allowSmsRetrieverApi: Bool?
 	/// Contains settings for the authentication of the user's phone number 
 	/// - Parameters:
 	///   - allowFlashCall: Pass true if the authentication code may be sent via flash call to the specified phone number 
 	///   - isCurrentPhoneNumber: Pass true if the authenticated phone number is used on the current device 
 	///   - allowSmsRetrieverApi: For official applications only. True, if the app can use Android SMS Retriever API (requires Google Play Services >= 10.2) to automatically receive the authentication code from the SMS. See https://developers.google.com/identity/sms-retriever/ for more details
-	public init(allowFlashCall: Bool, isCurrentPhoneNumber: Bool, allowSmsRetrieverApi: Bool) {
+	public init(allowFlashCall: Bool?, isCurrentPhoneNumber: Bool?, allowSmsRetrieverApi: Bool?) {
 		self.allowFlashCall = allowFlashCall
 		self.isCurrentPhoneNumber = isCurrentPhoneNumber
 		self.allowSmsRetrieverApi = allowSmsRetrieverApi
@@ -4597,10 +4597,10 @@ public struct InlineQueryResults: Codable, Equatable, FunctionResult {
 public indirect enum CallbackQueryPayload: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  The payload from a general callback button 
 	/// - data: Data that was attached to the callback button
-	case data(data: Bytes)
+	case data(data: Bytes?)
 	///  The payload from a game callback button 
 	/// - gameShortName: A short name of the game that was attached to the callback button
-	case game(gameShortName: String)
+	case game(gameShortName: String?)
 }
 
 ///  Contains a bot's answer to a callback query 
@@ -4789,25 +4789,25 @@ public struct ChatEvents: Codable, Equatable, FunctionResult {
 ///  Represents a set of filters used to obtain a chat event log 
 public struct ChatEventLogFilters: Codable, Equatable, FunctionResult {
 	///  True, if message edits should be returned 
-	public let messageEdits: Bool
+	public let messageEdits: Bool?
 	///  True, if message deletions should be returned 
-	public let messageDeletions: Bool
+	public let messageDeletions: Bool?
 	///  True, if pin/unpin events should be returned 
-	public let messagePins: Bool
+	public let messagePins: Bool?
 	///  True, if members joining events should be returned 
-	public let memberJoins: Bool
+	public let memberJoins: Bool?
 	///  True, if members leaving events should be returned 
-	public let memberLeaves: Bool
+	public let memberLeaves: Bool?
 	///  True, if invited member events should be returned 
-	public let memberInvites: Bool
+	public let memberInvites: Bool?
 	///  True, if member promotion/demotion events should be returned 
-	public let memberPromotions: Bool
+	public let memberPromotions: Bool?
 	///  True, if member restricted/unrestricted/banned/unbanned events should be returned 
-	public let memberRestrictions: Bool
+	public let memberRestrictions: Bool?
 	///  True, if changes in chat information should be returned 
-	public let infoChanges: Bool
+	public let infoChanges: Bool?
 	///  True, if changes in chat settings should be returned
-	public let settingChanges: Bool
+	public let settingChanges: Bool?
 	/// Represents a set of filters used to obtain a chat event log 
 	/// - Parameters:
 	///   - messageEdits: True, if message edits should be returned 
@@ -4820,7 +4820,7 @@ public struct ChatEventLogFilters: Codable, Equatable, FunctionResult {
 	///   - memberRestrictions: True, if member restricted/unrestricted/banned/unbanned events should be returned 
 	///   - infoChanges: True, if changes in chat information should be returned 
 	///   - settingChanges: True, if changes in chat settings should be returned
-	public init(messageEdits: Bool, messageDeletions: Bool, messagePins: Bool, memberJoins: Bool, memberLeaves: Bool, memberInvites: Bool, memberPromotions: Bool, memberRestrictions: Bool, infoChanges: Bool, settingChanges: Bool) {
+	public init(messageEdits: Bool?, messageDeletions: Bool?, messagePins: Bool?, memberJoins: Bool?, memberLeaves: Bool?, memberInvites: Bool?, memberPromotions: Bool?, memberRestrictions: Bool?, infoChanges: Bool?, settingChanges: Bool?) {
 		self.messageEdits = messageEdits
 		self.messageDeletions = messageDeletions
 		self.messagePins = messagePins
@@ -4838,7 +4838,7 @@ public struct ChatEventLogFilters: Codable, Equatable, FunctionResult {
 public indirect enum LanguagePackStringValue: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  An ordinary language pack string 
 	/// - value: String value
-	case ordinary(value: String)
+	case ordinary(value: String?)
 	///  A language pack string which has different forms based on the number of some object it mentions. See https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html for more info 
 	/// - zeroValue: Value for zero objects 
 	/// - oneValue: Value for one object 
@@ -4846,7 +4846,7 @@ public indirect enum LanguagePackStringValue: Codable, Equatable, FunctionResult
 	/// - fewValue: Value for few objects 
 	/// - manyValue: Value for many objects 
 	/// - otherValue: Default value
-	case pluralized(zeroValue: String, oneValue: String, twoValue: String, fewValue: String, manyValue: String, otherValue: String)
+	case pluralized(zeroValue: String?, oneValue: String?, twoValue: String?, fewValue: String?, manyValue: String?, otherValue: String?)
 	///  A deleted language pack string, the value should be taken from the built-in english language pack
 	case deleted
 }
@@ -4854,14 +4854,14 @@ public indirect enum LanguagePackStringValue: Codable, Equatable, FunctionResult
 ///  Represents one language pack string 
 public struct LanguagePackString: Codable, Equatable, FunctionResult {
 	///  String key 
-	public let key: String
+	public let key: String?
 	///  String value
-	public let value: LanguagePackStringValue
+	public let value: LanguagePackStringValue?
 	/// Represents one language pack string 
 	/// - Parameters:
 	///   - key: String key 
 	///   - value: String value
-	public init(key: String, value: LanguagePackStringValue) {
+	public init(key: String?, value: LanguagePackStringValue?) {
 		self.key = key
 		self.value = value
 	}
@@ -4882,31 +4882,31 @@ public struct LanguagePackStrings: Codable, Equatable, FunctionResult {
 ///  Contains information about a language pack 
 public struct LanguagePackInfo: Codable, Equatable, FunctionResult {
 	///  Unique language pack identifier 
-	public let id: String
+	public let id: String?
 	///  Identifier of a base language pack; may be empty. If a string is missed in the language pack, then it should be fetched from base language pack. Unsupported in custom language packs 
-	public let baseLanguagePackId: String
+	public let baseLanguagePackId: String?
 	///  Language name 
-	public let name: String
+	public let name: String?
 	///  Name of the language in that language 
-	public let nativeName: String
+	public let nativeName: String?
 	///  A language code to be used to apply plural forms. See https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html for more info 
-	public let pluralCode: String
+	public let pluralCode: String?
 	///  True, if the language pack is official 
-	public let isOfficial: Bool
+	public let isOfficial: Bool?
 	///  True, if the language pack strings are RTL 
-	public let isRtl: Bool
+	public let isRtl: Bool?
 	///  True, if the language pack is a beta language pack 
-	public let isBeta: Bool
+	public let isBeta: Bool?
 	///  True, if the language pack is installed by the current user 
-	public let isInstalled: Bool
+	public let isInstalled: Bool?
 	///  Total number of non-deleted strings from the language pack 
-	public let totalStringCount: Int32
+	public let totalStringCount: Int32?
 	///  Total number of translated strings from the language pack 
-	public let translatedStringCount: Int32
+	public let translatedStringCount: Int32?
 	///  Total number of non-deleted strings from the language pack available locally 
-	public let localStringCount: Int32
+	public let localStringCount: Int32?
 	///  Link to language translation interface; empty for custom local language packs
-	public let translationUrl: String
+	public let translationUrl: String?
 	/// Contains information about a language pack 
 	/// - Parameters:
 	///   - id: Unique language pack identifier 
@@ -4922,7 +4922,7 @@ public struct LanguagePackInfo: Codable, Equatable, FunctionResult {
 	///   - translatedStringCount: Total number of translated strings from the language pack 
 	///   - localStringCount: Total number of non-deleted strings from the language pack available locally 
 	///   - translationUrl: Link to language translation interface; empty for custom local language packs
-	public init(id: String, baseLanguagePackId: String, name: String, nativeName: String, pluralCode: String, isOfficial: Bool, isRtl: Bool, isBeta: Bool, isInstalled: Bool, totalStringCount: Int32, translatedStringCount: Int32, localStringCount: Int32, translationUrl: String) {
+	public init(id: String?, baseLanguagePackId: String?, name: String?, nativeName: String?, pluralCode: String?, isOfficial: Bool?, isRtl: Bool?, isBeta: Bool?, isInstalled: Bool?, totalStringCount: Int32?, translatedStringCount: Int32?, localStringCount: Int32?, translationUrl: String?) {
 		self.id = id
 		self.baseLanguagePackId = baseLanguagePackId
 		self.name = name
@@ -4965,33 +4965,33 @@ public indirect enum DeviceToken: Codable, Equatable, FunctionResult, TDEnum, Eq
 	/// - deviceToken: Device token; may be empty to de-register a device 
 	/// - isAppSandbox: True, if App Sandbox is enabled 
 	/// - encrypt: True, if push notifications should be additionally encrypted
-	case applePushVoIP(deviceToken: String, isAppSandbox: Bool, encrypt: Bool)
+	case applePushVoIP(deviceToken: String?, isAppSandbox: Bool?, encrypt: Bool?)
 	///  A token for Windows Push Notification Services 
 	/// - accessToken: The access token that will be used to send notifications; may be empty to de-register a device
-	case windowsPush(accessToken: String)
+	case windowsPush(accessToken: String?)
 	///  A token for Microsoft Push Notification Service 
 	/// - channelUri: Push notification channel URI; may be empty to de-register a device
 	case microsoftPush(channelUri: String)
 	///  A token for Microsoft Push Notification Service VoIP channel 
 	/// - channelUri: Push notification channel URI; may be empty to de-register a device
-	case microsoftPushVoIP(channelUri: String)
+	case microsoftPushVoIP(channelUri: String?)
 	///  A token for web Push API 
 	/// - endpoint: Absolute URL exposed by the push service where the application server can send push messages; may be empty to de-register a device 
 	/// - p256dhBase64url: Base64url-encoded P-256 elliptic curve Diffie-Hellman public key 
 	/// - authBase64url: Base64url-encoded authentication secret
-	case webPush(endpoint: String, p256dhBase64url: String, authBase64url: String)
+	case webPush(endpoint: String, p256dhBase64url: String?, authBase64url: String?)
 	///  A token for Simple Push API for Firefox OS 
 	/// - endpoint: Absolute URL exposed by the push service where the application server can send push messages; may be empty to de-register a device
-	case simplePush(endpoint: String)
+	case simplePush(endpoint: String?)
 	///  A token for Ubuntu Push Client service 
 	/// - token: Token; may be empty to de-register a device
 	case ubuntuPush(token: String)
 	///  A token for BlackBerry Push Service 
 	/// - token: Token; may be empty to de-register a device
-	case blackBerryPush(token: String)
+	case blackBerryPush(token: String?)
 	///  A token for Tizen Push Service 
 	/// - regId: Push service registration identifier; may be empty to de-register a device
-	case tizenPush(regId: String)
+	case tizenPush(regId: String?)
 }
 
 ///  Contains a globally unique push receiver identifier, which can be used to identify which account has received a push notification 
@@ -5010,12 +5010,12 @@ public struct PushReceiverId: Codable, Equatable, FunctionResult {
 public indirect enum BackgroundFill: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  Describes a solid fill of a background 
 	/// - color: A color of the background in the RGB24 format
-	case solid(color: Int32)
+	case solid(color: Int32?)
 	///  Describes a gradient fill of a background 
 	/// - topColor: A top color of the background in the RGB24 format 
 	/// - bottomColor: A bottom color of the background in the RGB24 format 
 	/// - rotationAngle: Clockwise rotation angle of the gradient, in degrees; 0-359. Should be always divisible by 45
-	case gradient(topColor: Int32, bottomColor: Int32, rotationAngle: Int32)
+	case gradient(topColor: Int32?, bottomColor: Int32?, rotationAngle: Int32?)
 }
 
 ///  Describes the type of a background 
@@ -5023,15 +5023,15 @@ public indirect enum BackgroundType: Codable, Equatable, FunctionResult, TDEnum,
 	///  A wallpaper in JPEG format 
 	/// - isBlurred: True, if the wallpaper must be downscaled to fit in 450x450 square and then box-blurred with radius 12 
 	/// - isMoving: True, if the background needs to be slightly moved when device is tilted
-	case wallpaper(isBlurred: Bool, isMoving: Bool)
+	case wallpaper(isBlurred: Bool?, isMoving: Bool)
 	///  A PNG or TGV (gzipped subset of SVG with MIME type "application/x-tgwallpattern") pattern to be combined with the background fill chosen by the user 
 	/// - fill: Description of the background fill 
 	/// - intensity: Intensity of the pattern when it is shown above the filled background, 0-100 
 	/// - isMoving: True, if the background needs to be slightly moved when device is tilted
-	case pattern(fill: BackgroundFill, intensity: Int32, isMoving: Bool)
+	case pattern(fill: BackgroundFill, intensity: Int32?, isMoving: Bool?)
 	///  A filled background 
 	/// - fill: Description of the background fill
-	case fill(fill: BackgroundFill)
+	case fill(fill: BackgroundFill?)
 }
 
 ///  Describes a chat background 
@@ -5082,10 +5082,10 @@ public struct Backgrounds: Codable, Equatable, FunctionResult {
 public indirect enum InputBackground: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  A background from a local file 
 	/// - background: Background file to use. Only inputFileLocal and inputFileGenerated are supported. The file must be in JPEG format for wallpapers and in PNG format for patterns
-	case local(background: InputFile)
+	case local(background: InputFile?)
 	///  A background from the server 
 	/// - backgroundId: The background identifier
-	case remote(backgroundId: TDInt64)
+	case remote(backgroundId: TDInt64?)
 }
 
 ///  Contains a list of hashtags 
@@ -5327,7 +5327,7 @@ public indirect enum OptionValue: Codable, Equatable, FunctionResult, TDEnum, Eq
 	case integer(value: Int32)
 	///  Represents a string option 
 	/// - value: The value of the option
-	case string(value: String)
+	case string(value: String?)
 }
 
 ///  Represents one member of a JSON object 
@@ -5358,13 +5358,13 @@ public indirect enum JsonValue: Codable, Equatable, FunctionResult, TDEnum, Equa
 	case number(value: Double)
 	///  Represents a string JSON value 
 	/// - value: The value
-	case string(value: String)
+	case string(value: String?)
 	///  Represents a JSON array 
 	/// - values: The list of array elements
-	case array(values: [JsonValue])
+	case array(values: [JsonValue]?)
 	///  Represents a JSON object 
 	/// - members: The list of object members
-	case object(members: [JsonObjectMember])
+	case object(members: [JsonObjectMember]?)
 }
 
 ///  Represents a single rule for managing privacy settings 
@@ -5394,11 +5394,11 @@ public indirect enum UserPrivacySettingRule: Codable, Equatable, FunctionResult,
 ///  A list of privacy rules. Rules are matched in the specified order. The first matched rule defines the privacy setting for a given user. If no rule matches, the action is not allowed 
 public struct UserPrivacySettingRules: Codable, Equatable, FunctionResult {
 	///  A list of rules
-	public let rules: [UserPrivacySettingRule]
+	public let rules: [UserPrivacySettingRule]?
 	/// A list of privacy rules. Rules are matched in the specified order. The first matched rule defines the privacy setting for a given user. If no rule matches, the action is not allowed 
 	/// - Parameters:
 	///   - rules: A list of rules
-	public init(rules: [UserPrivacySettingRule]) {
+	public init(rules: [UserPrivacySettingRule]?) {
 		self.rules = rules
 	}
 }
@@ -5426,11 +5426,11 @@ public indirect enum UserPrivacySetting: Codable, Equatable, FunctionResult, TDE
 ///  Contains information about the period of inactivity after which the current user's account will automatically be deleted 
 public struct AccountTtl: Codable, Equatable, FunctionResult {
 	///  Number of days of inactivity before the account will be flagged for deletion; should range from 30-366 days
-	public let days: Int32
+	public let days: Int32?
 	/// Contains information about the period of inactivity after which the current user's account will automatically be deleted 
 	/// - Parameters:
 	///   - days: Number of days of inactivity before the account will be flagged for deletion; should range from 30-366 days
-	public init(days: Int32) {
+	public init(days: Int32?) {
 		self.days = days
 	}
 }
@@ -5587,7 +5587,7 @@ public indirect enum ChatReportReason: Codable, Equatable, FunctionResult, TDEnu
 	case unrelatedLocation
 	///  A custom reason provided by the user 
 	/// - text: Report text
-	case custom(text: String)
+	case custom(text: String?)
 }
 
 ///  Contains a public HTTPS link to a message in a supergroup or channel with a username 
@@ -5803,13 +5803,13 @@ public indirect enum NetworkStatisticsEntry: Codable, Equatable, FunctionResult,
 	/// - networkType: Type of the network the data was sent through. Call setNetworkType to maintain the actual network type 
 	/// - sentBytes: Total number of bytes sent 
 	/// - receivedBytes: Total number of bytes received
-	case file(fileType: FileType, networkType: NetworkType, sentBytes: Int53, receivedBytes: Int53)
+	case file(fileType: FileType?, networkType: NetworkType, sentBytes: Int53, receivedBytes: Int53)
 	///  Contains information about the total amount of data that was used for calls 
 	/// - networkType: Type of the network the data was sent through. Call setNetworkType to maintain the actual network type 
 	/// - sentBytes: Total number of bytes sent 
 	/// - receivedBytes: Total number of bytes received 
 	/// - duration: Total call duration, in seconds
-	case call(networkType: NetworkType, sentBytes: Int53, receivedBytes: Int53, duration: Double)
+	case call(networkType: NetworkType?, sentBytes: Int53?, receivedBytes: Int53?, duration: Double?)
 }
 
 ///  A full list of available network statistic entries 
@@ -5831,21 +5831,21 @@ public struct NetworkStatistics: Codable, Equatable, FunctionResult {
 ///  Contains auto-download settings 
 public struct AutoDownloadSettings: Codable, Equatable, FunctionResult {
 	///  True, if the auto-download is enabled 
-	public let isAutoDownloadEnabled: Bool
+	public let isAutoDownloadEnabled: Bool?
 	///  The maximum size of a photo file to be auto-downloaded 
-	public let maxPhotoFileSize: Int32
+	public let maxPhotoFileSize: Int32?
 	///  The maximum size of a video file to be auto-downloaded 
-	public let maxVideoFileSize: Int32
+	public let maxVideoFileSize: Int32?
 	///  The maximum size of other file types to be auto-downloaded 
-	public let maxOtherFileSize: Int32
+	public let maxOtherFileSize: Int32?
 	///  The maximum suggested bitrate for uploaded videos 
-	public let videoUploadBitrate: Int32
+	public let videoUploadBitrate: Int32?
 	///  True, if the beginning of videos needs to be preloaded for instant playback 
-	public let preloadLargeVideos: Bool
+	public let preloadLargeVideos: Bool?
 	///  True, if the next audio track needs to be preloaded while the user is listening to an audio file 
-	public let preloadNextAudio: Bool
+	public let preloadNextAudio: Bool?
 	///  True, if "use less data for calls" option needs to be enabled
-	public let useLessDataForCalls: Bool
+	public let useLessDataForCalls: Bool?
 	/// Contains auto-download settings 
 	/// - Parameters:
 	///   - isAutoDownloadEnabled: True, if the auto-download is enabled 
@@ -5856,7 +5856,7 @@ public struct AutoDownloadSettings: Codable, Equatable, FunctionResult {
 	///   - preloadLargeVideos: True, if the beginning of videos needs to be preloaded for instant playback 
 	///   - preloadNextAudio: True, if the next audio track needs to be preloaded while the user is listening to an audio file 
 	///   - useLessDataForCalls: True, if "use less data for calls" option needs to be enabled
-	public init(isAutoDownloadEnabled: Bool, maxPhotoFileSize: Int32, maxVideoFileSize: Int32, maxOtherFileSize: Int32, videoUploadBitrate: Int32, preloadLargeVideos: Bool, preloadNextAudio: Bool, useLessDataForCalls: Bool) {
+	public init(isAutoDownloadEnabled: Bool?, maxPhotoFileSize: Int32?, maxVideoFileSize: Int32?, maxOtherFileSize: Int32?, videoUploadBitrate: Int32?, preloadLargeVideos: Bool?, preloadNextAudio: Bool?, useLessDataForCalls: Bool?) {
 		self.isAutoDownloadEnabled = isAutoDownloadEnabled
 		self.maxPhotoFileSize = maxPhotoFileSize
 		self.maxVideoFileSize = maxVideoFileSize
@@ -6020,7 +6020,7 @@ public struct DeepLinkInfo: Codable, Equatable, FunctionResult {
 public indirect enum TextParseMode: Codable, Equatable, FunctionResult, TDEnum, EquatableEnum {
 	///  The text should be parsed in markdown-style 
 	/// - version: Version of the parser: 0 or 1 - Bot API Markdown parse mode, 2 - Bot API MarkdownV2 parse mode
-	case markdown(version: Int32)
+	case markdown(version: Int32?)
 	///  The text should be parsed in HTML-style
 	case hTML
 }
@@ -6035,10 +6035,10 @@ public indirect enum ProxyType: Codable, Equatable, FunctionResult, TDEnum, Equa
 	/// - username: Username for logging in; may be empty 
 	/// - password: Password for logging in; may be empty 
 	/// - httpOnly: Pass true, if the proxy supports only HTTP requests and doesn't support transparent TCP connections via HTTP CONNECT method
-	case http(username: String, password: String, httpOnly: Bool)
+	case http(username: String?, password: String?, httpOnly: Bool?)
 	///  An MTProto proxy server 
 	/// - secret: The proxy's secret in hexadecimal encoding
-	case mtproto(secret: String)
+	case mtproto(secret: String?)
 }
 
 ///  Contains information about a proxy server 
@@ -6088,9 +6088,9 @@ public struct Proxies: Codable, Equatable, FunctionResult {
 ///  Describes a sticker that should be added to a sticker set 
 public struct InputSticker: Codable, Equatable, FunctionResult {
 	///  PNG image with the sticker; must be up to 512 kB in size and fit in a 512x512 square 
-	public let pngSticker: InputFile
+	public let pngSticker: InputFile?
 	///  Emoji corresponding to the sticker 
-	public let emojis: String
+	public let emojis: String?
 	///  For masks, position where the mask should be placed; may be null
 	public let maskPosition: MaskPosition?
 	/// Describes a sticker that should be added to a sticker set 
@@ -6098,7 +6098,7 @@ public struct InputSticker: Codable, Equatable, FunctionResult {
 	///   - pngSticker: PNG image with the sticker; must be up to 512 kB in size and fit in a 512x512 square 
 	///   - emojis: Emoji corresponding to the sticker 
 	///   - maskPosition: For masks, position where the mask should be placed; may be null
-	public init(pngSticker: InputFile, emojis: String, maskPosition: MaskPosition?) {
+	public init(pngSticker: InputFile?, emojis: String?, maskPosition: MaskPosition?) {
 		self.pngSticker = pngSticker
 		self.emojis = emojis
 		self.maskPosition = maskPosition
@@ -6465,7 +6465,7 @@ public indirect enum LogStream: Codable, Equatable, FunctionResult, TDEnum, Equa
 	///  The log is written to a file 
 	/// - path: Path to the file to where the internal TDLib log will be written 
 	/// - maxFileSize: The maximum size of the file to where the internal TDLib log is written before the file will be auto-rotated
-	case file(path: String, maxFileSize: Int53)
+	case file(path: String?, maxFileSize: Int53?)
 	///  The log is written nowhere
 	case empty
 }

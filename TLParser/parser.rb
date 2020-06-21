@@ -6,13 +6,19 @@ class TDType
     @fields = {}
   end
 
+  def is_function
+    if name.casecmp(result).zero?
+      return false
+    else
+      return true
+    end
+  end
+
   def gen
     string = "///  #{@description}\n"
-    is_request = false
     if name.casecmp(result).zero?
       string += "public struct #{result}: Codable, Equatable, FunctionResult {\n"
     else
-      is_request = true
       letters = @name.split('')
       letters.first.upcase!
       @name = letters.join
@@ -20,7 +26,6 @@ class TDType
       string += "\tpublic typealias Result = #{result}\n"
     end
     for field in fields.each_value do
-      field.is_in_function = is_request 
       string += "\t///  #{field.description}\n"
       name = field.escaped_name.camel_case
       string += "\tpublic let #{name}: #{field.cased_type}\n"
@@ -77,6 +82,14 @@ class TDEnum
     end
     string += '}'
     string
+  end
+
+  def fields
+    f = {}
+    for c in cases do
+      f = f.merge(c.fields)
+    end
+    return f
   end
 end
 
@@ -201,6 +214,24 @@ File.readlines('../Carthage/Checkouts/TDJSON/td_api.tl').each do |line|
 end
 all.push(current) if current
 current = nil
+
+for ele in all do
+  if ele.instance_of? TDType and ele.is_function
+      children = ele.fields.map { |key, value| value }
+      while children.length > 0 do
+        field = children.shift
+        if not field.is_in_function
+          field.is_in_function = true
+          type = all.find { |t| t.name == field.type }
+          unless type.nil?
+            children += type.fields.map { |key, value| value }
+          end
+        end
+      end
+  end
+end
+
+
 
 File.open('../TDLib/Generated/TDLib.generated.swift', 'w') do |file|
   file.write("public typealias Int53 = Int64\n")
