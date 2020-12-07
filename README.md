@@ -1,8 +1,8 @@
-# TBLib-iOS
-
-> **TeleStats**
+> **Anyone wants to take over**
 >
->If this library makes developing your next Telegram App easier, please download my app [TeleStats](telestats.app). The app shows you fun and interesting statistics about your Telegram Message. All the anlysis and communication with Telegram happens on device using this library!
+> I'm no longer using this library myself and currently don't have the time to maintain it. If anyone wants to take over, please let me know.
+
+# TBLib-iOS
 
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![Documentation](https://leomehlig.github.io/TDLib-iOS/badge.svg)](https://leomehlig.github.io/TDLib-iOS) [![Build Status](https://travis-ci.com/leoMehlig/TDLib-iOS.svg?token=tNqSosPiNs9ko83zWqJm&branch=master)](https://travis-ci.com/leoMehlig/TDLib-iOS)
 
